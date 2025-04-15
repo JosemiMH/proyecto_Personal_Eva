@@ -12,7 +12,7 @@ const Hero = () => {
   const heroImage = language === 'es' ? heroImageEs : heroImageEn;
 
   return (
-    <div className="relative pt-10 pb-8 md:pb-24 md:pt-32 lg:pt-40 lg:pb-32 overflow-hidden min-h-[97vh] sm:min-h-0">
+    <div className="relative pt-10 pb-20 md:pb-24 md:pt-32 lg:pt-40 lg:pb-32 overflow-hidden min-h-[100vh] sm:min-h-0">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 to-charcoal/30 mix-blend-multiply z-10"></div>
         <img 
@@ -20,7 +20,7 @@ const Hero = () => {
           alt={language === 'es' 
             ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
             : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
-          className="w-full h-full object-cover object-[45%_10%] sm:object-center"
+          className="w-full h-full object-cover object-[48%_center] sm:object-center"
         />
       </div>
       
@@ -34,17 +34,17 @@ const Hero = () => {
           {/* Para móviles: contenido mínimo con máxima visibilidad */}
           {isMobile ? (
             <>
-              <div className="mt-[70vh]"></div>
-              <div className="bg-charcoal/80 p-4 rounded-lg backdrop-blur-sm">
+              <div className="mt-[85vh]"></div>
+              <div className="bg-charcoal/90 py-4 px-5 rounded-lg backdrop-blur-md">
                 <h1 className="font-playfair text-lg font-bold text-white leading-tight text-shadow mb-1">
                   Eva Pérez
                 </h1>
-                <p className="text-white text-xs uppercase tracking-wider font-semibold mb-4">
+                <p className="text-white text-xs uppercase tracking-wider font-semibold mb-5">
                   {language === 'es'
                     ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo"
                     : "Expert in Luxury Hospitality & Wellness Strategy"}
                 </p>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   <a href="#services" className="bg-turquoise hover:bg-turquoise-dark text-white font-medium px-6 py-2 rounded transition-colors inline-block text-center text-sm">
                     {language === 'es' ? "Mis servicios" : "My services"}
                   </a>
