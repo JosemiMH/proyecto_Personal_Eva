@@ -7,7 +7,7 @@ import AnimatedCounter from './AnimatedCounter';
 import { ArrowRight } from 'lucide-react';
 
 const About = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <section id="about" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,12 +28,24 @@ const About = () => {
                 >
                   <OptimizedImage 
                     src={evaProfileImage} 
-                    alt="Eva Pérez, Spa Manager y Consultora" 
+                    alt="Eva Pérez, Expert in Luxury Hospitality & Wellness Strategy" 
                     className="w-full h-auto rounded-lg"
                     objectFit="cover"
                     priority={true}
                   />
                 </motion.div>
+                <div className="bg-white p-4 shadow-md rounded-lg -mt-2 mx-2 relative z-10 border-t-4 border-turquoise">
+                  <p className="text-sm text-center font-medium text-charcoal mb-1">
+                    {language === 'es' 
+                      ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
+                      : "Expert in Luxury Hospitality & Wellness Strategy"}
+                  </p>
+                  <p className="text-xs text-center text-charcoal-light">
+                    {language === 'es' 
+                      ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos" 
+                      : "SPA & Wellness Project Manager – Revenue Optimization Specialist"}
+                  </p>
+                </div>
               </div>
               <div className="md:col-span-2 mt-4">
                 <motion.div 

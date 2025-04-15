@@ -27,18 +27,30 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight text-shadow mb-6">
-            {language === 'es' 
-              ? "Impulso la rentabilidad hotelera" 
-              : "Boosting hotel profitability"}
+          <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight text-shadow mb-6">
+            {language === 'es'
+              ? "Asesoro a hoteles en la transformación de su área de Wellness"
+              : "I advise hotels on transforming their Wellness area"}
           </h1>
-          <p className="text-white text-lg md:text-xl opacity-90 mb-8 max-w-xl font-medium border-l-4 border-white/70 pl-4">
-            {language === 'es' 
-              ? "Convirtiendo el área de Wellness en una unidad estratégica clave para maximizar ingresos y fidelizar clientes."
-              : "Transforming the Wellness area into a key strategic unit to maximize revenue and build customer loyalty."}
+          <p className="text-white text-lg md:text-xl opacity-90 mb-4 max-w-xl font-medium border-l-4 border-white/70 pl-4">
+            {language === 'es'
+              ? "En un motor de crecimiento estratégico, rentable y alineado con la experiencia de lujo."
+              : "Into a strategic growth engine, profitable and aligned with the luxury experience."}
           </p>
-          <p className="text-white text-base md:text-lg opacity-80 mb-8 max-w-xl">
-            {language === 'es' 
+          <div className="mb-6">
+            <p className="text-white text-sm md:text-base uppercase tracking-wider font-semibold mb-1">
+              {language === 'es'
+                ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo"
+                : "Expert in Luxury Hospitality & Wellness Strategy"}
+            </p>
+            <p className="text-white/80 text-sm md:text-base">
+              {language === 'es'
+                ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos"
+                : "SPA & Wellness Project Manager – Revenue Optimization Specialist"}
+            </p>
+          </div>
+          <p className="text-white text-base opacity-80 mb-8 max-w-xl">
+            {language === 'es'
               ? "Más de 20 años de experiencia optimizando operaciones, formando equipos excepcionales y elevando la satisfacción del cliente."
               : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction."}
           </p>
