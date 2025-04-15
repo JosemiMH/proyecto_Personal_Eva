@@ -41,10 +41,7 @@ export const contactSchema = z.object({
 });
 
 export type InsertContact = z.infer<typeof contactSchema>;
-export type Contact = InsertContact & {
-  id: number;
-  createdAt: Date;
-};
+export type Contact = typeof contacts.$inferSelect;
 
 // Newsletter subscription table
 export const newsletters = pgTable("newsletters", {
@@ -58,7 +55,4 @@ export const newsletterSchema = z.object({
 });
 
 export type InsertNewsletter = z.infer<typeof newsletterSchema>;
-export type Newsletter = InsertNewsletter & {
-  id: number;
-  createdAt: Date;
-};
+export type Newsletter = typeof newsletters.$inferSelect;

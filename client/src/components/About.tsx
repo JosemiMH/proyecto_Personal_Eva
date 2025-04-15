@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import evaProfileImage from '../assets/eva-perez-profile.png';
 
 const About = () => {
   return (
@@ -13,7 +14,7 @@ const About = () => {
             transition={{ duration: 0.6 }}
           >
             <img 
-              src="https://images.unsplash.com/photo-1595475038784-bbe439ff41e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={evaProfileImage} 
               alt="Eva Pérez, Spa Manager y Consultora" 
               className="rounded-lg shadow-xl max-w-full h-auto hover-scale"
             />

@@ -1,6 +1,8 @@
 import { users, type User, type InsertUser } from "@shared/schema";
-import { type Contact, type InsertContact } from "@shared/schema";
-import { type Newsletter, type InsertNewsletter } from "@shared/schema";
+import { contacts, type Contact, type InsertContact } from "@shared/schema";
+import { newsletters, type Newsletter, type InsertNewsletter } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // Define storage interface for CRUD operations
 export interface IStorage {
@@ -15,79 +17,64 @@ export interface IStorage {
   getAllNewsletterSubscriptions(): Promise<Newsletter[]>;
 }
 
-// In-memory storage implementation
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private contacts: Map<number, Contact>;
-  private newsletterSubscriptions: Map<number, Newsletter>;
-  
-  private currentUserId: number;
-  private currentContactId: number;
-  private currentNewsletterId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.contacts = new Map();
-    this.newsletterSubscriptions = new Map();
-    
-    this.currentUserId = 1;
-    this.currentContactId = 1;
-    this.currentNewsletterId = 1;
-  }
-
+// Database storage implementation
+export class DatabaseStorage implements IStorage {
   // User methods
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
   
   // Contact methods
   async createContact(insertContact: InsertContact): Promise<Contact> {
-    const id = this.currentContactId++;
-    const createdAt = new Date();
-    const contact: Contact = { ...insertContact, id, createdAt };
-    this.contacts.set(id, contact);
+    const [contact] = await db.insert(contacts).values({
+      name: insertContact.name,
+      email: insertContact.email,
+      company: insertContact.company || null,
+      service: insertContact.service,
+      message: insertContact.message,
+      privacy: insertContact.privacy,
+    }).returning();
+    
     return contact;
   }
   
   async getAllContacts(): Promise<Contact[]> {
-    return Array.from(this.contacts.values());
+    return await db.select().from(contacts);
   }
   
   // Newsletter methods
   async createNewsletterSubscription(insertNewsletter: InsertNewsletter): Promise<Newsletter> {
     // Check if email already exists
-    const existingSubscription = Array.from(this.newsletterSubscriptions.values()).find(
-      sub => sub.email === insertNewsletter.email
-    );
+    const [existingSubscription] = await db.select()
+      .from(newsletters)
+      .where(eq(newsletters.email, insertNewsletter.email));
     
     if (existingSubscription) {
       return existingSubscription;
     }
     
-    const id = this.currentNewsletterId++;
-    const createdAt = new Date();
-    const subscription: Newsletter = { ...insertNewsletter, id, createdAt };
-    this.newsletterSubscriptions.set(id, subscription);
+    const [subscription] = await db.insert(newsletters)
+      .values(insertNewsletter)
+      .returning();
+      
     return subscription;
   }
   
   async getAllNewsletterSubscriptions(): Promise<Newsletter[]> {
-    return Array.from(this.newsletterSubscriptions.values());
+    return await db.select().from(newsletters);
   }
 }
 
 // Export a singleton instance of the storage
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
