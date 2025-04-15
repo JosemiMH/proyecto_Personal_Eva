@@ -11,23 +11,43 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-
-const formSchema = z.object({
-  name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),
-  email: z.string().email({ message: 'Por favor introduce un email válido' }),
-  company: z.string().optional(),
-  service: z.string({ required_error: 'Por favor selecciona un servicio' }),
-  message: z.string().min(10, { message: 'Tu mensaje debe tener al menos 10 caracteres' }),
-  privacy: z.boolean().refine(val => val === true, {
-    message: 'Debes aceptar la política de privacidad',
-  }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { language, t } = useLanguage();
+  
+  const formSchema = z.object({
+    name: z.string().min(2, { 
+      message: language === 'es' 
+        ? 'El nombre debe tener al menos 2 caracteres' 
+        : 'Name must have at least 2 characters' 
+    }),
+    email: z.string().email({ 
+      message: language === 'es' 
+        ? 'Por favor introduce un email válido' 
+        : 'Please enter a valid email address' 
+    }),
+    company: z.string().optional(),
+    service: z.string({ 
+      required_error: language === 'es' 
+        ? 'Por favor selecciona un servicio' 
+        : 'Please select a service' 
+    }),
+    message: z.string().min(10, { 
+      message: language === 'es' 
+        ? 'Tu mensaje debe tener al menos 10 caracteres' 
+        : 'Your message must have at least 10 characters' 
+    }),
+    privacy: z.boolean().refine(val => val === true, {
+      message: language === 'es' 
+        ? 'Debes aceptar la política de privacidad'
+        : 'You must accept the privacy policy'
+    }),
+  });
+
+  type FormValues = z.infer<typeof formSchema>;
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -48,15 +68,19 @@ const Contact = () => {
       await apiRequest('POST', '/api/contact', data);
       
       toast({
-        title: "Mensaje enviado",
-        description: "Gracias por contactar. Te responderé a la brevedad.",
+        title: language === 'es' ? "Mensaje enviado" : "Message sent",
+        description: language === 'es' 
+          ? "Gracias por contactar. Te responderé a la brevedad." 
+          : "Thank you for contacting me. I will respond shortly.",
       });
       
       form.reset();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Hubo un problema al enviar el mensaje. Inténtalo nuevamente.",
+        description: language === 'es'
+          ? "Hubo un problema al enviar el mensaje. Inténtalo nuevamente."
+          : "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -75,12 +99,16 @@ const Contact = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">Contacto</h2>
+            <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">
+              {language === 'es' ? 'Contacto' : 'Contact'}
+            </h2>
             <h3 className="font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6">
-              ¿Hablamos sobre tu proyecto?
+              {language === 'es' ? '¿Hablamos sobre tu proyecto?' : 'Let\'s talk about your project'}
             </h3>
             <p className="text-charcoal-light mb-8">
-              Completa el formulario y me pondré en contacto contigo para programar una consulta inicial gratuita donde podremos hablar sobre tus necesidades específicas.
+              {language === 'es' 
+                ? 'Completa el formulario y me pondré en contacto contigo para programar una consulta inicial gratuita donde podremos hablar sobre tus necesidades específicas.'
+                : 'Fill out the form and I will contact you to schedule a free initial consultation where we can discuss your specific needs.'}
             </p>
             
             <div className="space-y-6 mb-8">
@@ -99,7 +127,7 @@ const Contact = () => {
                   <i className="fas fa-phone text-turquoise"></i>
                 </div>
                 <div>
-                  <h4 className="font-medium text-charcoal mb-1">Teléfono</h4>
+                  <h4 className="font-medium text-charcoal mb-1">{language === 'es' ? 'Teléfono' : 'Phone'}</h4>
                   <a href="tel:+34676462991" className="text-turquoise hover:text-turquoise-dark">+34 676 462 991</a>
                 </div>
               </div>
@@ -109,8 +137,12 @@ const Contact = () => {
                   <i className="fas fa-map-marker-alt text-turquoise"></i>
                 </div>
                 <div>
-                  <h4 className="font-medium text-charcoal mb-1">Ubicación</h4>
-                  <p className="text-charcoal-light">Barcelona, España (Disponible para proyectos internacionales)</p>
+                  <h4 className="font-medium text-charcoal mb-1">{language === 'es' ? 'Ubicación' : 'Location'}</h4>
+                  <p className="text-charcoal-light">
+                    {language === 'es' 
+                      ? 'Barcelona, España (Disponible para proyectos internacionales)'
+                      : 'Barcelona, Spain (Available for international projects)'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -146,10 +178,12 @@ const Contact = () => {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="block text-charcoal font-medium mb-2">Nombre</FormLabel>
+                        <FormLabel className="block text-charcoal font-medium mb-2">
+                          {language === 'es' ? 'Nombre' : 'Name'}
+                        </FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="Tu nombre" 
+                            placeholder={language === 'es' ? "Tu nombre" : "Your name"} 
                             className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors" 
                             {...field} 
                           />
@@ -168,7 +202,7 @@ const Contact = () => {
                         <FormControl>
                           <Input 
                             type="email" 
-                            placeholder="tu@email.com" 
+                            placeholder={language === 'es' ? "tu@email.com" : "your@email.com"}
                             className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors" 
                             {...field} 
                           />
@@ -184,10 +218,12 @@ const Contact = () => {
                   name="company"
                   render={({ field }) => (
                     <FormItem className="mb-6">
-                      <FormLabel className="block text-charcoal font-medium mb-2">Empresa/Organización</FormLabel>
+                      <FormLabel className="block text-charcoal font-medium mb-2">
+                        {language === 'es' ? 'Empresa/Organización' : 'Company/Organization'}
+                      </FormLabel>
                       <FormControl>
                         <Input 
-                          placeholder="Nombre de tu empresa" 
+                          placeholder={language === 'es' ? "Nombre de tu empresa" : "Your company name"} 
                           className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors" 
                           {...field} 
                         />
@@ -202,19 +238,31 @@ const Contact = () => {
                   name="service"
                   render={({ field }) => (
                     <FormItem className="mb-6">
-                      <FormLabel className="block text-charcoal font-medium mb-2">Servicio de interés</FormLabel>
+                      <FormLabel className="block text-charcoal font-medium mb-2">
+                        {language === 'es' ? 'Servicio de interés' : 'Service of interest'}
+                      </FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors">
-                            <SelectValue placeholder="Selecciona un servicio" />
+                            <SelectValue placeholder={language === 'es' ? "Selecciona un servicio" : "Select a service"} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="consultoria">Consultoría Estratégica</SelectItem>
-                          <SelectItem value="proyectos">Gestión de Proyectos</SelectItem>
-                          <SelectItem value="formacion">Formación y Desarrollo</SelectItem>
-                          <SelectItem value="interim">Interim Management</SelectItem>
-                          <SelectItem value="otro">Otro</SelectItem>
+                          <SelectItem value="consultoria">
+                            {language === 'es' ? 'Consultoría Estratégica' : 'Strategic Consulting'}
+                          </SelectItem>
+                          <SelectItem value="proyectos">
+                            {language === 'es' ? 'Gestión de Proyectos' : 'Project Management'}
+                          </SelectItem>
+                          <SelectItem value="formacion">
+                            {language === 'es' ? 'Formación y Desarrollo' : 'Training and Development'}
+                          </SelectItem>
+                          <SelectItem value="interim">
+                            {language === 'es' ? 'Interim Management' : 'Interim Management'}
+                          </SelectItem>
+                          <SelectItem value="otro">
+                            {language === 'es' ? 'Otro' : 'Other'}
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -227,10 +275,12 @@ const Contact = () => {
                   name="message"
                   render={({ field }) => (
                     <FormItem className="mb-6">
-                      <FormLabel className="block text-charcoal font-medium mb-2">Mensaje</FormLabel>
+                      <FormLabel className="block text-charcoal font-medium mb-2">
+                        {language === 'es' ? 'Mensaje' : 'Message'}
+                      </FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Cuéntame sobre tu proyecto o necesidad" 
+                          placeholder={language === 'es' ? "Cuéntame sobre tu proyecto o necesidad" : "Tell me about your project or need"} 
                           className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors" 
                           rows={4} 
                           {...field} 
@@ -255,7 +305,9 @@ const Contact = () => {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="text-sm text-charcoal-light">
-                          Acepto la política de privacidad y el tratamiento de mis datos para recibir comunicaciones.
+                          {language === 'es' 
+                            ? 'Acepto la política de privacidad y el tratamiento de mis datos para recibir comunicaciones.'
+                            : 'I accept the privacy policy and the processing of my data to receive communications.'}
                         </FormLabel>
                         <FormMessage />
                       </div>
@@ -268,7 +320,9 @@ const Contact = () => {
                   className="w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-3 rounded transition-colors"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Enviando...' : 'Enviar mensaje'}
+                  {isSubmitting 
+                    ? (language === 'es' ? 'Enviando...' : 'Sending...') 
+                    : (language === 'es' ? 'Enviar mensaje' : 'Send message')}
                 </Button>
               </form>
             </Form>
