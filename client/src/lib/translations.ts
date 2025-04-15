@@ -36,13 +36,16 @@ export type TranslationKey =
   | 'portfolio.title'
   | 'portfolio.subtitle'
   | 'portfolio.description'
+  | 'portfolio.viewCase'
+  | 'portfolio.viewMore'
+  | 'testimonials.title'
+  | 'testimonials.subtitle'
+  | 'testimonials.description'
   | 'portfolio.all'
   | 'portfolio.consulting'
   | 'portfolio.projects'
   | 'portfolio.training'
   | 'portfolio.interim'
-  | 'testimonials.title'
-  | 'testimonials.subtitle'
   | 'blog.title'
   | 'blog.subtitle'
   | 'blog.readMore'
@@ -110,6 +113,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'portfolio.title': 'Portfolio',
     'portfolio.subtitle': 'Proyectos y Colaboraciones Destacadas',
     'portfolio.description': 'Una selección de casos de éxito que demuestran mi enfoque para transformar espacios wellness y optimizar su funcionamiento.',
+    'portfolio.viewCase': 'Ver caso completo',
+    'portfolio.viewMore': 'Ver más proyectos',
     'portfolio.all': 'Todos',
     'portfolio.consulting': 'Consultoría',
     'portfolio.projects': 'Proyectos',
@@ -188,6 +193,8 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'portfolio.title': 'Portfolio',
     'portfolio.subtitle': 'Featured Projects and Collaborations',
     'portfolio.description': 'A selection of success cases that demonstrate my approach to transforming wellness spaces and optimizing their operation.',
+    'portfolio.viewCase': 'View full case',
+    'portfolio.viewMore': 'View more projects',
     'portfolio.all': 'All',
     'portfolio.consulting': 'Consulting',
     'portfolio.projects': 'Projects',

@@ -115,7 +115,7 @@ const Portfolio = () => {
                 <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">{item.title}</h4>
                 <p className="text-charcoal-light text-sm mb-4">{item.description}</p>
                 <a href="#" className="text-turquoise hover:text-turquoise-dark font-medium text-sm">
-                  Ver caso completo <i className="fas fa-arrow-right ml-1"></i>
+                  {t('portfolio.viewCase')} <i className="fas fa-arrow-right ml-1"></i>
                 </a>
               </div>
             </motion.div>
@@ -124,7 +124,7 @@ const Portfolio = () => {
         
         <div className="text-center mt-12">
           <a href="#" className="inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium">
-            Ver más proyectos
+            {t('portfolio.viewMore')}
           </a>
         </div>
       </div>
