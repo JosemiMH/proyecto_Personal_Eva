@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import evaProfileImage from '../assets/eva-perez-profile.png';
+import evaProfileImage from '../assets/eva-perez-profile.jpg';
 
 const About = () => {
   return (

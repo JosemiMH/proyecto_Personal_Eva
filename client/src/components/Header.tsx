@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import evaProfileImage from '../assets/eva-perez-profile.jpg';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -32,8 +33,15 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <a href="#" className="flex items-center">
-            <span className="font-playfair text-2xl font-bold text-turquoise">Eva Pérez</span>
-            <span className="hidden md:inline-block ml-2 text-sage-dark text-sm font-light">| Spa Manager & Consultant</span>
+            <img 
+              src={evaProfileImage} 
+              alt="Eva Pérez" 
+              className="h-10 w-10 rounded-full object-cover mr-3"
+            />
+            <div>
+              <span className="font-playfair text-2xl font-bold text-turquoise block leading-tight">Eva Pérez</span>
+              <span className="hidden md:inline-block text-sage-dark text-sm font-light">Spa Manager & Consultant</span>
+            </div>
           </a>
           
           <div className="hidden lg:flex space-x-8 items-center">
