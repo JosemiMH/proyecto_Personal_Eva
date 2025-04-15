@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import evaProfileImage from '../assets/eva-perez-profile.jpg';
+import evaSpeakingImage from '../assets/eva-perez-speaking.jpg';
 
 const About = () => {
   return (
@@ -13,11 +14,23 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <img 
-              src={evaProfileImage} 
-              alt="Eva Pérez, Spa Manager y Consultora" 
-              className="rounded-lg shadow-xl max-w-full h-auto hover-scale"
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <img 
+                  src={evaProfileImage} 
+                  alt="Eva Pérez, Spa Manager y Consultora" 
+                  className="rounded-lg shadow-xl max-w-full h-auto hover-scale"
+                />
+              </div>
+              <div className="md:col-span-2 mt-4">
+                <img 
+                  src={evaSpeakingImage} 
+                  alt="Eva Pérez dando una conferencia" 
+                  className="rounded-lg shadow-xl max-w-full h-auto hover-scale"
+                />
+                <p className="text-sm text-center mt-2 text-charcoal-light italic">Eva Pérez durante una conferencia sobre gestión de spas</p>
+              </div>
+            </div>
           </motion.div>
           
           <motion.div 
@@ -40,7 +53,11 @@ const About = () => {
               Mi enfoque integral abarca desde la optimización de operaciones y formación de equipos hasta el diseño de experiencias únicas para el cliente y la implementación de estrategias de rentabilidad.
             </p>
             
-            <div className="grid grid-cols-2 gap-6 mb-8">
+            <p className="text-charcoal-light mb-6">
+              Además, como ponente internacional, comparto regularmente mi conocimiento en conferencias y eventos del sector, donde transmito las mejores prácticas y tendencias en gestión de spas y bienestar.
+            </p>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
               <div>
                 <div className="text-turquoise text-3xl font-playfair font-bold">20+</div>
                 <p className="text-sm text-charcoal-light">Años de experiencia en el sector</p>
@@ -50,12 +67,20 @@ const About = () => {
                 <p className="text-sm text-charcoal-light">Proyectos exitosos completados</p>
               </div>
               <div>
+                <div className="text-turquoise text-3xl font-playfair font-bold">30+</div>
+                <p className="text-sm text-charcoal-light">Conferencias impartidas</p>
+              </div>
+              <div>
                 <div className="text-turquoise text-3xl font-playfair font-bold">200+</div>
                 <p className="text-sm text-charcoal-light">Profesionales formados</p>
               </div>
               <div>
                 <div className="text-turquoise text-3xl font-playfair font-bold">15+</div>
                 <p className="text-sm text-charcoal-light">Países donde he trabajado</p>
+              </div>
+              <div>
+                <div className="text-turquoise text-3xl font-playfair font-bold">5K+</div>
+                <p className="text-sm text-charcoal-light">Asistentes a conferencias</p>
               </div>
             </div>
             
