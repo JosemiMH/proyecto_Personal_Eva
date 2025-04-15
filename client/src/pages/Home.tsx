@@ -11,7 +11,7 @@ import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
-import AutoScroll from "@/components/AutoScroll";
+import ScrollToTop from "@/components/ScrollToTop";
 
 const Home = () => {
   // Handle smooth scrolling for anchor links
@@ -99,7 +99,7 @@ const Home = () => {
         <Newsletter />
       </section>
       <Footer />
-      <AutoScroll />
+      <ScrollToTop />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
-const AutoScroll = () => {
+const ScrollToTop = () => {
   const [showButton, setShowButton] = useState(false);
 
   // Función para volver arriba rápidamente
@@ -59,4 +59,4 @@ const AutoScroll = () => {
   );
 };
 
-export default AutoScroll;
+export default ScrollToTop;
