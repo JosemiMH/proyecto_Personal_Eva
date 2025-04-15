@@ -54,12 +54,12 @@ const Testimonials = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">Testimonios</h2>
+          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">{t('testimonials.title')}</h2>
           <h3 className="font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6">
-            Lo que dicen mis clientes
+            {t('testimonials.subtitle')}
           </h3>
           <p className="text-charcoal-light">
-            Descubre cómo mis servicios han transformado negocios wellness y equipos profesionales.
+            {t('testimonials.description')}
           </p>
         </motion.div>
         

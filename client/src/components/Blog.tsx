@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { blogPosts } from '@/lib/constants';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Blog = () => {
+  const { t } = useLanguage();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

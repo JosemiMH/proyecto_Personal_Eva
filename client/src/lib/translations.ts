@@ -41,14 +41,16 @@ export type TranslationKey =
   | 'testimonials.title'
   | 'testimonials.subtitle'
   | 'testimonials.description'
+  | 'blog.title'
+  | 'blog.subtitle'
+  | 'blog.description'
+  | 'blog.readArticle'
+  | 'blog.viewAll'
   | 'portfolio.all'
   | 'portfolio.consulting'
   | 'portfolio.projects'
   | 'portfolio.training'
   | 'portfolio.interim'
-  | 'blog.title'
-  | 'blog.subtitle'
-  | 'blog.readMore'
   | 'resources.title'
   | 'resources.subtitle'
   | 'resources.download'
@@ -123,9 +125,13 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     
     'testimonials.title': 'Testimonios',
     'testimonials.subtitle': 'Lo que dicen mis clientes',
+    'testimonials.description': 'Descubre cómo mis servicios han transformado negocios wellness y equipos profesionales.',
     
     'blog.title': 'Blog',
     'blog.subtitle': 'Últimos artículos y novedades',
+    'blog.description': 'Artículos especializados sobre gestión de spas, tendencias del sector wellness y estrategias de optimización.',
+    'blog.readArticle': 'Leer artículo',
+    'blog.viewAll': 'Ver todos los artículos',
     'blog.readMore': 'Leer más',
     
     'resources.title': 'Recursos',
@@ -203,9 +209,13 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     
     'testimonials.title': 'Testimonials',
     'testimonials.subtitle': 'What my clients say',
+    'testimonials.description': 'Discover how my services have transformed wellness businesses and professional teams.',
     
     'blog.title': 'Blog',
     'blog.subtitle': 'Latest articles and news',
+    'blog.description': 'Specialized articles on spa management, wellness industry trends, and optimization strategies.',
+    'blog.readArticle': 'Read article',
+    'blog.viewAll': 'View all articles',
     'blog.readMore': 'Read more',
     
     'resources.title': 'Resources',
