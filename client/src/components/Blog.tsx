@@ -33,12 +33,12 @@ const Blog = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">Blog</h2>
+          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">{t('blog.title')}</h2>
           <h3 className="font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6">
-            Últimas publicaciones
+            {t('blog.subtitle')}
           </h3>
           <p className="text-charcoal-light">
-            Artículos especializados sobre gestión de spas, tendencias del sector wellness y estrategias de optimización.
+            {t('blog.description')}
           </p>
         </motion.div>
         
@@ -69,7 +69,7 @@ const Blog = () => {
                 <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">{post.title}</h4>
                 <p className="text-charcoal-light text-sm mb-4">{post.excerpt}</p>
                 <a href="#" className="text-turquoise hover:text-turquoise-dark font-medium text-sm">
-                  Leer artículo <i className="fas fa-arrow-right ml-1"></i>
+                  {t('blog.readArticle')} <i className="fas fa-arrow-right ml-1"></i>
                 </a>
               </div>
             </motion.div>
@@ -78,7 +78,7 @@ const Blog = () => {
         
         <div className="text-center mt-12">
           <a href="#" className="inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium">
-            Ver todos los artículos
+            {t('blog.viewAll')}
           </a>
         </div>
       </div>

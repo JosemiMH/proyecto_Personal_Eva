@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { resources } from '@/lib/constants';
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Resources = () => {
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   
   const handleDownload = (resourceName: string) => {
     toast({
@@ -42,12 +44,14 @@ const Resources = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">Recursos</h2>
+          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">{t('resources.title')}</h2>
           <h3 className="font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6">
-            Contenido exclusivo para profesionales
+            {t('resources.subtitle')}
           </h3>
           <p className="text-charcoal-light">
-            Descarga guías y recursos gratuitos para mejorar la gestión de tu spa y la experiencia de tus clientes.
+            {language === 'es' 
+              ? 'Descarga guías y recursos gratuitos para mejorar la gestión de tu spa y la experiencia de tus clientes.'
+              : 'Download free guides and resources to improve your spa management and enhance your client experience.'}
           </p>
         </motion.div>
         
