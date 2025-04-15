@@ -45,11 +45,6 @@ const Hero = () => {
                 ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo"
                 : "Expert in Luxury Hospitality & Wellness Strategy"}
             </p>
-            <p className="text-white/80 text-xs md:text-sm">
-              {language === 'es'
-                ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos"
-                : "SPA & Wellness Project Manager – Revenue Optimization Specialist"}
-            </p>
           </div>
           <p className="text-white text-xs md:text-sm opacity-80 mb-6 max-w-sm">
             {language === 'es'
