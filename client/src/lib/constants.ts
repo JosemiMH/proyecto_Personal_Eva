@@ -29,43 +29,43 @@ export const services = [
 // Portfolio items
 export const portfolioItems = [
   {
-    title: 'Luxury Beach Resort Spa',
-    description: 'Reposicionamiento de spa en resort de lujo con incremento de ingresos del 45% en 6 meses.',
+    title: 'Spaxion Center Hotel Hesperia',
+    description: 'Consultoría estratégica para implementación de concepto Spaxion con incremento de ingresos del 45% en 6 meses.',
     image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'consultoria',
     categoryName: 'Consultoría'
   },
   {
-    title: 'Urban Day Spa Chain',
-    description: 'Desarrollo e implementación de concepto para cadena de 5 spas urbanos enfocados en terapias rápidas.',
+    title: 'Spaxion Jardines de Nivaria',
+    description: 'Desarrollo e implementación de spa multiservicio con tratamientos exclusivos y zona termal personalizada.',
     image: 'https://images.unsplash.com/photo-1519690889869-e705e59f72e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'proyectos',
     categoryName: 'Proyectos'
   },
   {
-    title: 'Wellness Hotel Renovation',
-    description: 'Gestión temporal durante renovación completa de spa con 30 empleados y más de 200 clientes diarios.',
+    title: 'Spaxion Victoria',
+    description: 'Gestión temporal durante renovación completa del centro wellness con modernización de instalaciones y formación de equipo.',
     image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'interim',
     categoryName: 'Interim'
   },
   {
-    title: 'Spa Staff Training Program',
-    description: 'Desarrollo e implementación de programa formativo integral para equipo de 45 terapeutas.',
+    title: 'Formación Equipo Spaxion',
+    description: 'Desarrollo e implementación de programa formativo integral para terapeutas de todos los centros Spaxion.',
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'formacion',
     categoryName: 'Formación'
   },
   {
-    title: 'Medical Spa Launch',
-    description: 'Consultoría estratégica para el lanzamiento de spa médico especializado en tratamientos antiedad.',
+    title: 'Spaxion Tulum Center',
+    description: 'Consultoría estratégica para el lanzamiento de nuevo centro wellness con enfoque en terapias ancestrales mexicanas.',
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'consultoria',
     categoryName: 'Consultoría'
   },
   {
-    title: 'Boutique Hotel Spa',
-    description: 'Diseño de concepto y operativa para spa boutique en hotel histórico con espacio limitado.',
+    title: 'Spaxion Las Terrazas',
+    description: 'Diseño de concepto y operativa para centro wellness integrado en espacio natural con tratamientos sostenibles.',
     image: 'https://images.unsplash.com/photo-1541480601022-2308c0f02487?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'proyectos',
     categoryName: 'Proyectos'
