@@ -140,8 +140,8 @@ const Contact = () => {
                   <h4 className="font-medium text-charcoal mb-1">{language === 'es' ? 'Ubicación' : 'Location'}</h4>
                   <p className="text-charcoal-light">
                     {language === 'es' 
-                      ? 'Barcelona, España (Disponible para proyectos internacionales)'
-                      : 'Barcelona, Spain (Available for international projects)'}
+                      ? 'Madrid, España (Disponible para proyectos internacionales)'
+                      : 'Madrid, Spain (Available for international projects)'}
                   </p>
                 </div>
               </div>
