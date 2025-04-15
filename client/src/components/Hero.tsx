@@ -15,7 +15,9 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-turquoise/50 to-sage/30 mix-blend-multiply z-10"></div>
         <img 
           src={heroImage} 
-          alt={language === 'es' ? "Eva Pérez - Spa Manager" : "Eva Pérez - Spa Manager"} 
+          alt={language === 'es' 
+            ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
+            : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
           className={`w-full h-full ${language === 'en' ? 'object-cover object-top' : 'object-cover'}`}
         />
       </div>
