@@ -9,8 +9,10 @@ const Resources = () => {
   
   const handleDownload = (resourceName: string) => {
     toast({
-      title: "Recurso solicitado",
-      description: `Se ha solicitado la descarga de: ${resourceName}`,
+      title: language === 'es' ? "Recurso solicitado" : "Resource requested",
+      description: language === 'es' 
+        ? `Se ha solicitado la descarga de: ${resourceName}`
+        : `Download requested for: ${resourceName}`,
     });
     // In a real implementation, this would trigger an actual download
   };
@@ -80,7 +82,7 @@ const Resources = () => {
                   className="block w-full bg-turquoise hover:bg-turquoise-dark text-white text-center font-medium py-2 rounded transition-colors"
                   onClick={() => handleDownload(resource.title)}
                 >
-                  {resource.buttonText}
+                  {t('resources.download')}
                 </button>
               </div>
             </motion.div>

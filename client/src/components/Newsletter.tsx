@@ -8,16 +8,22 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-
-const formSchema = z.object({
-  email: z.string().email({ message: 'Por favor introduce un email válido' }),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Newsletter = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { t, language } = useLanguage();
+  
+  const formSchema = z.object({
+    email: z.string().email({ 
+      message: language === 'es' 
+        ? 'Por favor introduce un email válido' 
+        : 'Please enter a valid email address' 
+    }),
+  });
+
+  type FormValues = z.infer<typeof formSchema>;
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -33,15 +39,19 @@ const Newsletter = () => {
       await apiRequest('POST', '/api/newsletter', data);
       
       toast({
-        title: "Suscripción exitosa",
-        description: "Te has suscrito correctamente a la newsletter.",
+        title: language === 'es' ? "Suscripción exitosa" : "Successful subscription",
+        description: language === 'es' 
+          ? "Te has suscrito correctamente a la newsletter." 
+          : "You have successfully subscribed to the newsletter.",
       });
       
       form.reset();
     } catch (error) {
       toast({
         title: "Error",
-        description: "Hubo un problema al suscribirte. Inténtalo nuevamente.",
+        description: language === 'es'
+          ? "Hubo un problema al suscribirte. Inténtalo nuevamente."
+          : "There was a problem with your subscription. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -61,10 +71,10 @@ const Newsletter = () => {
         >
           <div className="md:w-1/2">
             <h2 className="font-playfair text-2xl md:text-3xl font-bold mb-4">
-              Suscríbete a mi newsletter
+              {t('newsletter.title')}
             </h2>
             <p className="text-white/90">
-              Recibe mensualmente contenido exclusivo, consejos y las últimas tendencias en gestión de spas.
+              {t('newsletter.subtitle')}
             </p>
           </div>
           <div className="md:w-1/2">
@@ -77,7 +87,7 @@ const Newsletter = () => {
                     <FormItem className="flex-grow">
                       <FormControl>
                         <Input 
-                          placeholder="Tu email" 
+                          placeholder={language === 'es' ? "Tu email" : "Your email"}
                           className="flex-grow p-3 rounded border-0 focus:ring-2 focus:ring-white/50 outline-none" 
                           {...field} 
                         />
@@ -91,7 +101,7 @@ const Newsletter = () => {
                   className="bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-6 py-3 rounded whitespace-nowrap"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Enviando...' : 'Suscribirme'}
+                  {isSubmitting ? t('newsletter.sending') : t('newsletter.subscribe')}
                 </Button>
               </form>
             </Form>
