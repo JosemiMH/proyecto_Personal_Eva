@@ -48,12 +48,13 @@ const Header = () => {
           </a>
           
           <div className="hidden lg:flex space-x-8 items-center">
-            <a href="#about" className="text-charcoal hover:text-turquoise transition-colors">Sobre mí</a>
-            <a href="#services" className="text-charcoal hover:text-turquoise transition-colors">Servicios</a>
-            <a href="#portfolio" className="text-charcoal hover:text-turquoise transition-colors">Portfolio</a>
-            <a href="#testimonials" className="text-charcoal hover:text-turquoise transition-colors">Testimonios</a>
-            <a href="#blog" className="text-charcoal hover:text-turquoise transition-colors">Blog</a>
-            <a href="#contact" className="bg-turquoise text-white px-6 py-2 rounded hover:bg-turquoise-dark transition-colors">Contacto</a>
+            <a href="#about" className="text-charcoal hover:text-turquoise transition-colors">{t('header.about')}</a>
+            <a href="#services" className="text-charcoal hover:text-turquoise transition-colors">{t('header.services')}</a>
+            <a href="#portfolio" className="text-charcoal hover:text-turquoise transition-colors">{t('header.portfolio')}</a>
+            <a href="#testimonials" className="text-charcoal hover:text-turquoise transition-colors">{t('header.testimonials')}</a>
+            <a href="#blog" className="text-charcoal hover:text-turquoise transition-colors">{t('header.blog')}</a>
+            <a href="#contact" className="bg-turquoise text-white px-6 py-2 rounded hover:bg-turquoise-dark transition-colors">{t('header.contact')}</a>
+            <LanguageSwitcher />
           </div>
           
           <button 
@@ -69,12 +70,15 @@ const Header = () => {
       {/* Mobile menu */}
       <div className={`lg:hidden bg-white w-full border-t border-gray-100 ${mobileMenuOpen ? '' : 'hidden'}`}>
         <div className="container mx-auto px-4 py-3 space-y-3">
-          <a href="#about" className="block py-2 text-charcoal hover:text-turquoise">Sobre mí</a>
-          <a href="#services" className="block py-2 text-charcoal hover:text-turquoise">Servicios</a>
-          <a href="#portfolio" className="block py-2 text-charcoal hover:text-turquoise">Portfolio</a>
-          <a href="#testimonials" className="block py-2 text-charcoal hover:text-turquoise">Testimonios</a>
-          <a href="#blog" className="block py-2 text-charcoal hover:text-turquoise">Blog</a>
-          <a href="#contact" className="block py-2 text-turquoise font-medium">Contacto</a>
+          <a href="#about" className="block py-2 text-charcoal hover:text-turquoise">{t('header.about')}</a>
+          <a href="#services" className="block py-2 text-charcoal hover:text-turquoise">{t('header.services')}</a>
+          <a href="#portfolio" className="block py-2 text-charcoal hover:text-turquoise">{t('header.portfolio')}</a>
+          <a href="#testimonials" className="block py-2 text-charcoal hover:text-turquoise">{t('header.testimonials')}</a>
+          <a href="#blog" className="block py-2 text-charcoal hover:text-turquoise">{t('header.blog')}</a>
+          <a href="#contact" className="block py-2 text-turquoise font-medium">{t('header.contact')}</a>
+          <div className="py-2">
+            <LanguageSwitcher />
+          </div>
         </div>
       </div>
     </header>
