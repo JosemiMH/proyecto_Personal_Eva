@@ -10,7 +10,7 @@ const Hero = () => {
   const heroImage = language === 'es' ? heroImageEs : heroImageEn;
 
   return (
-    <section className="relative pt-24 pb-16 md:pb-24 md:pt-32 lg:pt-40 lg:pb-32 overflow-hidden">
+    <div className="relative pt-24 pb-16 md:pb-24 md:pt-32 lg:pt-40 lg:pb-32 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-turquoise/50 to-sage/30 mix-blend-multiply z-10"></div>
         <img 
@@ -47,7 +47,7 @@ const Hero = () => {
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 

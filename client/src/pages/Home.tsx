@@ -11,6 +11,7 @@ import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import AutoScroll from "@/components/AutoScroll";
 
 const Home = () => {
   // Handle smooth scrolling for anchor links
@@ -67,17 +68,38 @@ const Home = () => {
   return (
     <div className="font-poppins text-charcoal bg-white">
       <Header />
-      <Hero />
-      <About />
-      <Services />
-      <CallToAction />
-      <Portfolio />
-      <Testimonials />
-      <Resources />
-      <Blog />
-      <Contact />
-      <Newsletter />
+      <section id="home">
+        <Hero />
+      </section>
+      <section id="about">
+        <About />
+      </section>
+      <section id="services">
+        <Services />
+      </section>
+      <section id="cta">
+        <CallToAction />
+      </section>
+      <section id="portfolio">
+        <Portfolio />
+      </section>
+      <section id="testimonials">
+        <Testimonials />
+      </section>
+      <section id="resources">
+        <Resources />
+      </section>
+      <section id="blog">
+        <Blog />
+      </section>
+      <section id="contact">
+        <Contact />
+      </section>
+      <section id="newsletter">
+        <Newsletter />
+      </section>
       <Footer />
+      <AutoScroll />
     </div>
   );
 };
