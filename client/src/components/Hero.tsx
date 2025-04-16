@@ -10,16 +10,16 @@ const Hero = () => {
   const heroImage = language === 'es' ? heroImageEs : heroImageEn;
 
   return (
-    <div className="relative pt-40 pb-16 md:pb-24 md:pt-48 lg:pt-60 lg:pb-32 overflow-hidden">
+    <div className="relative pt-44 pb-16 md:pb-24 md:pt-56 lg:pt-64 lg:pb-32 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-turquoise/40 to-sage/20 mix-blend-multiply z-10"></div>
-        <div className="absolute inset-0 overflow-hidden" style={{ minHeight: '580px' }}>
+        <div className="absolute inset-0 overflow-hidden" style={{ minHeight: '650px' }}>
           <img 
             src={heroImage} 
             alt={language === 'es' 
               ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
               : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
-            className="w-full h-full object-cover object-center object-[50%_40%]"
+            className={`w-full h-full object-cover ${language === 'en' ? 'object-[50%_15%]' : 'object-[50%_40%]'}`}
           />
         </div>
       </div>
