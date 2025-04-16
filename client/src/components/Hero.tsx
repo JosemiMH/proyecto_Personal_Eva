@@ -19,14 +19,14 @@ const Hero = () => {
             alt={language === 'es' 
               ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
               : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
-            className={`w-full h-full object-cover ${language === 'en' ? 'object-[50%_0%]' : 'object-[50%_40%]'}`}
+            className="w-full h-full object-cover object-[50%_-10%]"
           />
         </div>
       </div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+      <div className="container mx-auto pl-4 pr-8 sm:pl-6 lg:pl-6 relative z-20">
         <motion.div 
-          className="max-w-xl"
+          className="max-w-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
