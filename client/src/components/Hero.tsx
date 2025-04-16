@@ -2,20 +2,32 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import heroImageEs from '@/assets/images/hero-es.png';
 import heroImageEn from '@/assets/images/hero-en.jpg';
+import { useDeviceDetect } from '@/hooks/useDeviceDetect';
 
 const Hero = () => {
   const { language, t } = useLanguage();
+  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
   
   // Seleccionar la imagen según el idioma
   const heroImage = language === 'es' ? heroImageEs : heroImageEn;
 
   return (
-    <div className="relative pt-36 pb-16 md:pb-24 md:pt-56 lg:pt-64 lg:pb-32 overflow-hidden">
+    <div className={`relative overflow-hidden ${
+      isMobile 
+        ? 'pt-36 pb-16' 
+        : isTablet 
+          ? 'pt-44 pb-24' 
+          : 'pt-56 pb-32'
+    }`}>
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-turquoise/60 to-sage/40 mix-blend-multiply z-10"></div>
+        <div className={`absolute inset-0 bg-gradient-to-r ${
+          isMobile 
+            ? 'from-turquoise/70 to-sage/50' 
+            : 'from-turquoise/60 to-sage/40'
+        } mix-blend-multiply z-10`}></div>
         <div className="absolute inset-0 overflow-hidden" 
           style={{ 
-            minHeight: '650px',
+            minHeight: isMobile ? '580px' : isTablet ? '620px' : '650px',
             height: '100%'
           }}>
           <img 
@@ -23,50 +35,100 @@ const Hero = () => {
             alt={language === 'es' 
               ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
               : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
-            className="w-full h-full object-cover object-[65%_-10%] sm:object-[50%_-10%]"
+            className={`w-full h-full object-cover ${
+              isMobile 
+                ? 'object-[65%_-10%]' 
+                : isTablet 
+                  ? 'object-[55%_-10%]' 
+                  : 'object-[50%_-10%]'
+            }`}
           />
         </div>
       </div>
       
-      <div className="container mx-auto pl-4 pr-4 sm:pl-6 sm:pr-8 lg:pl-6 relative z-20">
+      <div className={`container mx-auto relative z-20 ${
+        isMobile 
+          ? 'pl-4 pr-4' 
+          : isTablet 
+            ? 'pl-6 pr-6' 
+            : 'pl-8 pr-8'
+      }`}>
         <motion.div 
-          className="max-w-[90%] sm:max-w-md"
+          className={isMobile ? 'max-w-[90%]' : isTablet ? 'max-w-md' : 'max-w-xl'}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="font-playfair text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white leading-tight text-shadow mb-2 sm:mb-4">
+          <h1 className={`font-playfair font-bold text-white leading-tight text-shadow ${
+            isMobile 
+              ? 'text-xl mb-2' 
+              : isTablet 
+                ? 'text-2xl md:text-3xl mb-3' 
+                : 'text-3xl lg:text-4xl mb-4'
+          }`}>
             {language === 'es'
               ? "Asesoro a hoteles en la transformación de su área de Wellness"
               : "I advise hotels on transforming their Wellness area"}
           </h1>
-          <p className="text-white text-sm sm:text-base md:text-lg opacity-90 mb-2 sm:mb-3 border-l-4 border-white/70 pl-3 sm:pl-4 max-w-full sm:max-w-md">
+          <p className={`text-white opacity-90 border-l-4 border-white/70 ${
+            isMobile 
+              ? 'text-sm mb-2 pl-3 max-w-full' 
+              : isTablet 
+                ? 'text-base mb-3 pl-4 max-w-md' 
+                : 'text-lg mb-4 pl-5 max-w-lg'
+          }`}>
             {language === 'es'
               ? "En un motor de crecimiento estratégico, rentable y alineado con la experiencia de lujo."
               : "Into a strategic growth engine, profitable and aligned with the luxury experience."}
           </p>
-          <div className="mb-2 sm:mb-4">
-            <p className="text-white text-xs md:text-sm uppercase tracking-wider font-semibold">
+          <div className={isMobile ? 'mb-2' : isTablet ? 'mb-3' : 'mb-4'}>
+            <p className={`text-white uppercase tracking-wider font-semibold ${
+              isMobile ? 'text-xs' : 'text-sm'
+            }`}>
               {language === 'es'
                 ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo"
                 : "Expert in Luxury Hospitality & Wellness Strategy"}
             </p>
-            <p className="text-white/80 text-xs md:text-sm">
+            <p className={`text-white/80 ${isMobile ? 'text-xs' : 'text-sm'}`}>
               {language === 'es'
                 ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos"
                 : "SPA & Wellness Project Manager – Revenue Optimization Specialist"}
             </p>
           </div>
-          <p className="text-white text-xs md:text-sm opacity-80 mb-4 sm:mb-6 max-w-full sm:max-w-sm">
+          <p className={`text-white opacity-80 ${
+            isMobile 
+              ? 'text-xs mb-4 max-w-full' 
+              : isTablet 
+                ? 'text-sm mb-5 max-w-sm' 
+                : 'text-sm mb-6 max-w-md'
+          }`}>
             {language === 'es'
               ? "Más de 20 años de experiencia optimizando operaciones, formando equipos excepcionales y elevando la satisfacción del cliente."
               : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction."}
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 w-full">
-            <a href="#services" className="bg-turquoise hover:bg-turquoise-dark text-white font-medium px-6 sm:px-8 py-2.5 sm:py-3 rounded transition-colors inline-block text-center text-sm sm:text-base">
+          <div className={`gap-3 ${isMobile ? 'flex flex-col w-full' : 'flex flex-row'}`}>
+            <a 
+              href="#services" 
+              className={`bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center ${
+                isMobile 
+                  ? 'px-6 py-2.5 text-sm' 
+                  : isTablet 
+                    ? 'px-7 py-2.5 text-sm'
+                    : 'px-8 py-3 text-base'
+              }`}
+            >
               {language === 'es' ? "Descubre mis servicios" : "Discover my services"}
             </a>
-            <a href="#contact" className="bg-white hover:bg-gray-100 text-turquoise-dark font-medium px-6 sm:px-8 py-2.5 sm:py-3 rounded transition-colors inline-block text-center text-sm sm:text-base">
+            <a 
+              href="#contact" 
+              className={`bg-white hover:bg-gray-100 text-turquoise-dark font-medium rounded transition-colors inline-block text-center ${
+                isMobile 
+                  ? 'px-6 py-2.5 text-sm' 
+                  : isTablet 
+                    ? 'px-7 py-2.5 text-sm'
+                    : 'px-8 py-3 text-base'
+              }`}
+            >
               {language === 'es' ? "Contactar" : "Contact me"}
             </a>
           </div>
