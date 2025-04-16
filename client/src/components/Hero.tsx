@@ -13,13 +13,15 @@ const Hero = () => {
     <div className="relative pt-40 pb-16 md:pb-24 md:pt-48 lg:pt-60 lg:pb-32 overflow-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-turquoise/40 to-sage/20 mix-blend-multiply z-10"></div>
-        <img 
-          src={heroImage} 
-          alt={language === 'es' 
-            ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
-            : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
-          className="w-full h-full object-cover object-center object-[50%_40%]"
-        />
+        <div className="absolute inset-0 overflow-hidden" style={{ minHeight: '580px' }}>
+          <img 
+            src={heroImage} 
+            alt={language === 'es' 
+              ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" 
+              : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"} 
+            className="w-full h-full object-cover object-center object-[50%_40%]"
+          />
+        </div>
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">

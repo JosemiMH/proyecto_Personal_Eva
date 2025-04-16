@@ -51,14 +51,18 @@ const Header = () => {
             </div>
           </a>
           
-          <div className="hidden lg:flex space-x-8 items-center">
-            <a href="#about" className="text-charcoal hover:text-turquoise transition-colors">{t('header.about')}</a>
-            <a href="#services" className="text-charcoal hover:text-turquoise transition-colors">{t('header.services')}</a>
-            <a href="#portfolio" className="text-charcoal hover:text-turquoise transition-colors">{t('header.portfolio')}</a>
-            <a href="#testimonials" className="text-charcoal hover:text-turquoise transition-colors">{t('header.testimonials')}</a>
-            <a href="#blog" className="text-charcoal hover:text-turquoise transition-colors">{t('header.blog')}</a>
-            <a href="#contact" className="bg-turquoise text-white px-6 py-2 rounded hover:bg-turquoise-dark transition-colors">{t('header.contact')}</a>
-            <LanguageSwitcher />
+          <div className="hidden lg:flex items-center">
+            <nav className="flex items-center">
+              <a href="#about" className="text-charcoal hover:text-turquoise transition-colors text-sm px-3">{t('header.about')}</a>
+              <a href="#services" className="text-charcoal hover:text-turquoise transition-colors text-sm px-3">{t('header.services')}</a>
+              <a href="#portfolio" className="text-charcoal hover:text-turquoise transition-colors text-sm px-3">{t('header.portfolio')}</a>
+              <a href="#testimonials" className="text-charcoal hover:text-turquoise transition-colors text-sm px-3">{t('header.testimonials')}</a>
+              <a href="#blog" className="text-charcoal hover:text-turquoise transition-colors text-sm px-3">{t('header.blog')}</a>
+              <a href="#contact" className="bg-turquoise text-white px-4 py-2 rounded hover:bg-turquoise-dark transition-colors text-sm ml-2">{t('header.contact')}</a>
+            </nav>
+            <div className="ml-4">
+              <LanguageSwitcher />
+            </div>
           </div>
           
           <button 
