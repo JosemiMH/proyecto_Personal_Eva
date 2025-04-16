@@ -29,8 +29,8 @@ const Header = () => {
   return (
     <header 
       id="navbar"
-      className={`fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 transition-all duration-300 ${
-        scrolled ? 'py-2' : 'py-3'
+      className={`fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300 ${
+        scrolled ? 'py-2' : 'py-2 sm:py-3'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,14 +39,14 @@ const Header = () => {
             <img 
               src={evaProfileImage} 
               alt="Eva Pérez" 
-              className="h-10 w-10 rounded-full object-cover mr-3"
+              className="h-8 w-8 sm:h-10 sm:w-10 rounded-full object-cover mr-2 sm:mr-3 flex-shrink-0"
             />
             <div>
-              <span className="font-playfair text-2xl font-bold text-turquoise block leading-tight">Eva Pérez</span>
-              <span className="hidden md:inline-block text-sage-dark text-xs font-light max-w-xs">
+              <span className="font-playfair text-lg sm:text-2xl font-bold text-turquoise block leading-tight">Eva Pérez</span>
+              <span className="text-sage-dark text-[10px] sm:text-xs font-light max-w-xs line-clamp-1">
                 {language === 'es' 
-                  ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos" 
-                  : "SPA & Wellness Project Manager – Revenue Optimization Specialist"}
+                  ? "Gerente de Proyectos SPA & Wellness" 
+                  : "SPA & Wellness Project Manager"}
               </span>
             </div>
           </a>
@@ -66,25 +66,30 @@ const Header = () => {
           </div>
           
           <button 
-            className="lg:hidden focus:outline-none"
+            className="lg:hidden focus:outline-none p-2"
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
-            <i className="fas fa-bars text-xl text-charcoal"></i>
+            <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl text-charcoal`}></i>
           </button>
         </div>
       </div>
       
       {/* Mobile menu */}
-      <div className={`lg:hidden bg-white w-full border-t border-gray-100 ${mobileMenuOpen ? '' : 'hidden'}`}>
-        <div className="container mx-auto px-4 py-3 space-y-3">
-          <a href="#about" className="block py-2 text-charcoal hover:text-turquoise">{t('header.about')}</a>
-          <a href="#services" className="block py-2 text-charcoal hover:text-turquoise">{t('header.services')}</a>
-          <a href="#portfolio" className="block py-2 text-charcoal hover:text-turquoise">{t('header.portfolio')}</a>
-          <a href="#testimonials" className="block py-2 text-charcoal hover:text-turquoise">{t('header.testimonials')}</a>
-          <a href="#blog" className="block py-2 text-charcoal hover:text-turquoise">{t('header.blog')}</a>
-          <a href="#contact" className="block py-2 text-turquoise font-medium">{t('header.contact')}</a>
-          <div className="py-2">
+      <div 
+        className={`lg:hidden bg-white/95 backdrop-blur-md w-full border-t border-gray-100 absolute left-0 right-0 z-50 shadow-md transition-all duration-300 ease-in-out ${
+          mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+        }`}
+      >
+        <div className="container mx-auto px-4 py-4 space-y-3">
+          <a href="#about" className="block py-3 text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors" onClick={toggleMobileMenu}>{t('header.about')}</a>
+          <a href="#services" className="block py-3 text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors" onClick={toggleMobileMenu}>{t('header.services')}</a>
+          <a href="#portfolio" className="block py-3 text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors" onClick={toggleMobileMenu}>{t('header.portfolio')}</a>
+          <a href="#testimonials" className="block py-3 text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors" onClick={toggleMobileMenu}>{t('header.testimonials')}</a>
+          <a href="#blog" className="block py-3 text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors" onClick={toggleMobileMenu}>{t('header.blog')}</a>
+          <a href="#contact" className="block py-3 text-turquoise font-medium border-b border-gray-100 active:bg-gray-50 transition-colors" onClick={toggleMobileMenu}>{t('header.contact')}</a>
+          <div className="py-3 flex items-center justify-between">
+            <span className="text-sm text-gray-500">{language === 'es' ? 'Idioma' : 'Language'}</span>
             <LanguageSwitcher />
           </div>
         </div>
