@@ -56,3 +56,36 @@ export const newsletterSchema = z.object({
 
 export type InsertNewsletter = z.infer<typeof newsletterSchema>;
 export type Newsletter = typeof newsletters.$inferSelect;
+
+// Schema para las citas con Eva
+export const appointments = pgTable("appointments", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  company: text("company"),
+  date: timestamp("date").notNull(),
+  duration: integer("duration").notNull().default(60), // duración en minutos
+  service: text("service").notNull(), // tipo de servicio requerido
+  message: text("message"),
+  status: text("status").notNull().default("pending"), // pending, confirmed, cancelled
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const appointmentSchema = z.object({
+  name: z.string().min(2, { message: 'El nombre debe tener al menos 2 caracteres' }),
+  email: z.string().email({ message: 'Por favor introduce un email válido' }),
+  phone: z.string().optional(),
+  company: z.string().optional(),
+  date: z.date({ required_error: 'Por favor selecciona una fecha y hora' }),
+  duration: z.number().int().positive().default(60),
+  service: z.string({ required_error: 'Por favor selecciona un servicio' }),
+  message: z.string().optional(),
+  status: z.enum(["pending", "confirmed", "cancelled"]).default("pending"),
+  privacy: z.boolean().refine(val => val === true, {
+    message: 'Debes aceptar la política de privacidad',
+  }),
+});
+
+export type InsertAppointment = z.infer<typeof appointmentSchema>;
+export type Appointment = typeof appointments.$inferSelect;
