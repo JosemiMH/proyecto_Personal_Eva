@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import Cookies from "@/pages/Cookies";
+import Booking from "@/pages/Booking";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import CookieConsent from "@/components/CookieConsent";
 import ChatBot from "@/components/ChatBot";
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={Cookies} />
+      <Route path="/booking" component={Booking} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
