@@ -72,17 +72,17 @@ const Resources = () => {
             >
               <img 
                 src={resource.image} 
-                alt={resource.title} 
+                alt={resource.title[language]} 
                 className="w-full h-48 object-cover"
               />
               <div className="p-6">
-                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">{resource.title}</h4>
-                <p className="text-charcoal-light text-sm mb-4">{resource.description}</p>
+                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">{resource.title[language]}</h4>
+                <p className="text-charcoal-light text-sm mb-4">{resource.description[language]}</p>
                 <button 
                   className="block w-full bg-turquoise hover:bg-turquoise-dark text-white text-center font-medium py-2 rounded transition-colors"
-                  onClick={() => handleDownload(resource.title)}
+                  onClick={() => handleDownload(resource.title[language])}
                 >
-                  {t('resources.download')}
+                  {resource.buttonText[language]}
                 </button>
               </div>
             </motion.div>

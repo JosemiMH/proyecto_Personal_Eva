@@ -58,10 +58,10 @@ const Services = () => {
               <div className="w-16 h-16 bg-turquoise/10 rounded-full flex items-center justify-center mb-6">
                 <i className={`fas ${service.icon} text-turquoise text-2xl`}></i>
               </div>
-              <h4 className="font-playfair text-xl font-bold text-charcoal mb-4">{service.title}</h4>
-              <p className="text-charcoal-light mb-4">{service.description}</p>
+              <h4 className="font-playfair text-xl font-bold text-charcoal mb-4">{service.title[language]}</h4>
+              <p className="text-charcoal-light mb-4">{service.description[language]}</p>
               <ul className="space-y-2 mb-6">
-                {service.features.map((feature, featureIndex) => (
+                {service.features[language].map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start">
                     <i className="fas fa-check text-turquoise mt-1 mr-2"></i>
                     <span className="text-sm text-charcoal-light">{feature}</span>

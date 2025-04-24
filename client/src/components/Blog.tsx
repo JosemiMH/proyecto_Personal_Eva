@@ -6,7 +6,7 @@ import InteractiveCard from './InteractiveCard';
 import { ArrowRight } from 'lucide-react';
 
 const Blog = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -62,7 +62,7 @@ const Blog = () => {
               <div className="relative h-48 overflow-hidden">
                 <OptimizedImage 
                   src={post.image} 
-                  alt={post.title} 
+                  alt={post.title[language]} 
                   className="w-full h-full"
                   objectFit="cover"
                   priority={index < 3} // Cargar prioritariamente los primeros 3 posts
@@ -70,12 +70,12 @@ const Blog = () => {
               </div>
               <div className="p-6">
                 <div className="flex items-center mb-3">
-                  <span className="text-xs text-gray-500">{post.date}</span>
+                  <span className="text-xs text-gray-500">{post.date[language]}</span>
                   <span className="mx-2 text-gray-300">•</span>
-                  <span className="text-xs bg-turquoise/10 text-turquoise px-2 py-1 rounded">{post.category}</span>
+                  <span className="text-xs bg-turquoise/10 text-turquoise px-2 py-1 rounded">{post.category[language]}</span>
                 </div>
-                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2 group-hover:text-turquoise transition-colors">{post.title}</h4>
-                <p className="text-charcoal-light text-sm mb-4">{post.excerpt}</p>
+                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2 group-hover:text-turquoise transition-colors">{post.title[language]}</h4>
+                <p className="text-charcoal-light text-sm mb-4">{post.excerpt[language]}</p>
                 <a 
                   href="#" 
                   className="text-turquoise hover:text-turquoise-dark font-medium text-sm inline-flex items-center transition-all hover:translate-x-1"

@@ -4,7 +4,7 @@ import { testimonials } from '@/lib/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Testimonials = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(3);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -84,7 +84,7 @@ const Testimonials = () => {
                   
                   <blockquote className="mb-6">
                     <p className="font-cormorant text-lg italic text-charcoal">
-                      "{testimonial.quote}"
+                      "{testimonial.quote[language]}"
                     </p>
                   </blockquote>
                   
@@ -96,7 +96,7 @@ const Testimonials = () => {
                     />
                     <div>
                       <p className="font-medium text-charcoal">{testimonial.name}</p>
-                      <p className="text-sm text-charcoal-light">{testimonial.position}</p>
+                      <p className="text-sm text-charcoal-light">{testimonial.position[language]}</p>
                     </div>
                   </div>
                 </div>

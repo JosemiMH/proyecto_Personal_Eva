@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 type FilterCategory = 'all' | 'consultoria' | 'proyectos' | 'formacion' | 'interim';
 
 const Portfolio = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
 
   const filteredItems = activeFilter === 'all' 
@@ -107,13 +107,13 @@ const Portfolio = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
                   <div className="p-4">
-                    <span className="text-xs font-medium bg-turquoise text-white px-2 py-1 rounded">{item.categoryName}</span>
+                    <span className="text-xs font-medium bg-turquoise text-white px-2 py-1 rounded">{item.categoryName[language]}</span>
                   </div>
                 </div>
               </div>
               <div className="p-6 bg-white">
                 <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">{item.title}</h4>
-                <p className="text-charcoal-light text-sm mb-4">{item.description}</p>
+                <p className="text-charcoal-light text-sm mb-4">{item.description[language]}</p>
                 <a href="#" className="text-turquoise hover:text-turquoise-dark font-medium text-sm">
                   {t('portfolio.viewCase')} <i className="fas fa-arrow-right ml-1"></i>
                 </a>
