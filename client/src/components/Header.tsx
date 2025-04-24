@@ -52,16 +52,23 @@ const Header = () => {
                 isMobile ? 'h-7 w-7 mr-2' : isTablet ? 'h-9 w-9 mr-2.5' : 'h-11 w-11 mr-3'
               }`}
             />
-            <div>
+            <div className="flex flex-col">
               <span className={`font-playfair font-bold text-turquoise block leading-tight ${
                 isMobile ? 'text-base' : isTablet ? 'text-xl' : 'text-2xl'
               }`}>Eva Pérez</span>
-              <span className={`text-sage-dark font-light line-clamp-1 ${
-                isMobile ? 'text-[9px] max-w-[200px]' : 'text-xs max-w-xs'
+              <span className={`text-sage-dark font-light ${
+                isMobile ? 'text-[8px] whitespace-normal leading-tight max-w-[220px]' : isTablet ? 'text-xs max-w-[300px]' : 'text-xs max-w-xs'
               }`}>
                 {language === 'es' 
-                  ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos" 
-                  : "SPA & Wellness Project Manager – Revenue Optimization Specialist"}
+                  ? <div className="flex flex-col">
+                      <span>Gerente de Proyectos SPA & Wellness</span>
+                      <span>Especialista en Optimización de Ingresos</span>
+                    </div>
+                  : <div className="flex flex-col">
+                      <span>SPA & Wellness Project Manager</span>
+                      <span>Revenue Optimization Specialist</span>
+                    </div>
+                }
               </span>
             </div>
           </a>
