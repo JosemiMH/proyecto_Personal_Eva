@@ -62,13 +62,16 @@ export const services = [
   }
 ];
 
-// Portfolio items basados en https://spaxion.com/centros/
+// Portfolio items basados en los centros de Spaxion
 export const portfolioItems = [
   {
-    title: 'Spaxion Alameda',
+    title: {
+      es: 'Spaxion Alameda',
+      en: 'Spaxion Alameda'
+    },
     description: {
-      es: 'Centro de hidroterapia y masajes con enfoque en el bienestar integral, ubicado en el centro comercial Alameda.',
-      en: 'Hydrotherapy and massage center focused on comprehensive wellness, located in the Alameda shopping center.'
+      es: 'Proyecto de renovación completa del centro de hidroterapia y masajes en el CC Alameda, Madrid. Enfoque en bienestar integral con circuito termal y cabinas especializadas.',
+      en: 'Complete renovation project of the hydrotherapy and massage center at CC Alameda, Madrid. Focus on comprehensive wellness with thermal circuit and specialized cabins.'
     },
     image: 'https://images.unsplash.com/photo-1519690889869-e705e59f72e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'proyectos',
@@ -78,23 +81,26 @@ export const portfolioItems = [
     }
   },
   {
-    title: 'Spaxion Gran Plaza 2',
+    title: {
+      es: 'Spaxion Gran Plaza 2',
+      en: 'Spaxion Gran Plaza 2'
+    },
     description: {
-      es: 'Centro de spa con servicios personalizados de masaje y tratamientos corporales con productos de alta calidad.',
-      en: 'Spa center with personalized massage services and body treatments using high-quality products.'
+      es: 'Consultoría estratégica para el centro Spaxion Gran Plaza 2 en Majadahonda. Optimización de servicios y mejora de experiencia del cliente aumentando la rentabilidad en un 35%.',
+      en: 'Strategic consulting for the Spaxion Gran Plaza 2 center in Majadahonda. Service optimization and customer experience improvement resulting in a 35% increase in profitability.'
     },
     image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    category: 'proyectos',
+    category: 'consultoria',
     categoryName: {
-      es: 'Proyectos',
-      en: 'Projects'
+      es: 'Consultoría',
+      en: 'Consulting'
     }
   },
   {
     title: 'Spaxion La Vaguada',
     description: {
-      es: 'Centro especializado en tratamientos corporales y faciales con zona de relajación y circuito termal.',
-      en: 'Center specialized in body and facial treatments with relaxation area and thermal circuit.'
+      es: 'Gestión interina durante 6 meses del centro en La Vaguada, Madrid. Implementación de cambios estructurales y entrenamiento del nuevo equipo directivo.',
+      en: 'Interim management for 6 months at the center in La Vaguada, Madrid. Implementation of structural changes and training of the new management team.'
     },
     image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'interim',
@@ -106,8 +112,8 @@ export const portfolioItems = [
   {
     title: 'Spaxion Las Arenas',
     description: {
-      es: 'Centro de bienestar en Valencia con amplia gama de tratamientos de hidroterapia y masajes terapéuticos.',
-      en: 'Wellness center in Valencia with a wide range of hydrotherapy treatments and therapeutic massages.'
+      es: 'Consultoría en el centro de Valencia para optimizar protocolos de tratamiento y mejorar la eficiencia operativa, resultando en un aumento de ingresos del 28%.',
+      en: 'Consulting at the Valencia center to optimize treatment protocols and improve operational efficiency, resulting in a 28% revenue increase.'
     },
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'consultoria',
@@ -119,8 +125,8 @@ export const portfolioItems = [
   {
     title: 'Spaxion Islazul',
     description: {
-      es: 'Centro wellness que ofrece variedad de masajes y tratamientos corporales con atención personalizada.',
-      en: 'Wellness center offering a variety of massages and body treatments with personalized attention.'
+      es: 'Proyecto de remodelación y ampliación del centro en CC Islazul, Madrid. Diseño de nuevos espacios y selección de equipamiento wellness avanzado.',
+      en: 'Remodeling and expansion project of the center at CC Islazul, Madrid. Design of new spaces and selection of advanced wellness equipment.'
     },
     image: 'https://images.unsplash.com/photo-1541480601022-2308c0f02487?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'proyectos',
@@ -130,12 +136,38 @@ export const portfolioItems = [
     }
   },
   {
-    title: 'Formación Equipo Spaxion',
+    title: 'Programa de Formación Spaxion',
     description: {
-      es: 'Programa formativo integral para terapeutas de todos los centros Spaxion, enfocado en excelencia y calidad de servicio.',
-      en: 'Comprehensive training program for therapists from all Spaxion centers, focused on excellence and service quality.'
+      es: 'Desarrollo e implementación de programa formativo integral para terapeutas de todos los centros Spaxion, con énfasis en calidad de servicio y técnicas avanzadas.',
+      en: 'Development and implementation of comprehensive training program for therapists across all Spaxion centers, emphasizing service quality and advanced techniques.'
     },
     image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    category: 'formacion',
+    categoryName: {
+      es: 'Formación',
+      en: 'Training'
+    }
+  },
+  {
+    title: 'Spaxion Bonaire',
+    description: {
+      es: 'Proyecto de apertura del nuevo centro Spaxion en CC Bonaire, Valencia. Diseño del espacio, selección de equipamiento y formación del equipo inicial.',
+      en: 'Opening project for the new Spaxion center at CC Bonaire, Valencia. Space design, equipment selection and training of the initial team.'
+    },
+    image: 'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    category: 'proyectos',
+    categoryName: {
+      es: 'Proyectos',
+      en: 'Projects'
+    }
+  },
+  {
+    title: 'Formación de Directores Spaxion',
+    description: {
+      es: 'Programa especializado para directores de centros Spaxion, enfocado en liderazgo, gestión de equipos y optimización de recursos.',
+      en: 'Specialized program for Spaxion center directors, focused on leadership, team management and resource optimization.'
+    },
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'formacion',
     categoryName: {
       es: 'Formación',

@@ -9,9 +9,10 @@ const Portfolio = () => {
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
 
-  const filteredItems = activeFilter === 'all' 
-    ? portfolioItems 
-    : portfolioItems.filter(item => item.category === activeFilter);
+  // Asegurarnos de que se aplique el filtro correctamente
+  const filteredItems = portfolioItems.filter(item => 
+    activeFilter === 'all' || item.category === activeFilter
+  );
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -114,7 +115,9 @@ const Portfolio = () => {
                 </div>
               </div>
               <div className="p-6 bg-white">
-                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">{item.title}</h4>
+                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">
+                  {typeof item.title === 'object' ? item.title[language] : item.title}
+                </h4>
                 <p className="text-charcoal-light text-sm mb-4">
                   {typeof item.description === 'object' ? item.description[language] : item.description}
                 </p>
