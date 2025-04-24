@@ -120,6 +120,16 @@ const Header = () => {
                 >
                   {t('header.contact')}
                 </a>
+                
+                <button 
+                  onClick={() => document.getElementById('chatbot-container')?.scrollIntoView({ behavior: 'smooth' })}
+                  className={`flex items-center bg-sage text-white rounded hover:bg-sage-dark transition-colors ${
+                    isTablet ? 'text-xs px-3 py-1.5 ml-1' : 'text-sm px-4 py-2 ml-2'
+                  }`}
+                >
+                  <i className="fas fa-comments mr-1"></i>
+                  {language === 'es' ? '¿Necesitas ayuda con tu proyecto wellness? Chatea conmigo' : 'Need help with your wellness project? Chat with me'}
+                </button>
               </nav>
               <div className={isTablet ? 'ml-2' : 'ml-4'}>
                 <LanguageSwitcher />
@@ -200,6 +210,20 @@ const Header = () => {
           >
             {t('header.contact')}
           </a>
+          
+          <button 
+            onClick={() => {
+              document.getElementById('chatbot-container')?.scrollIntoView({ behavior: 'smooth' });
+              toggleMobileMenu();
+            }}
+            className={`flex items-center w-full text-left text-sage font-medium border-b border-gray-100 active:bg-gray-50 transition-colors ${
+              isMobile ? 'py-2 text-sm' : 'py-3'
+            }`}
+          >
+            <i className="fas fa-comments mr-1"></i>
+            {language === 'es' ? '¿Necesitas ayuda? Chatea conmigo' : 'Need help? Chat with me'}
+          </button>
+          
           <div className={`flex items-center justify-between ${isMobile ? 'py-2' : 'py-3'}`}>
             <span className={`text-gray-500 ${isMobile ? 'text-xs' : 'text-sm'}`}>
               {language === 'es' ? 'Idioma' : 'Language'}

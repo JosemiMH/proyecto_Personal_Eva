@@ -95,7 +95,7 @@ const ChatBot = () => {
   const loadingText = language === 'es' ? 'Escribiendo...' : 'Typing...';
 
   return (
-    <>
+    <div id="chatbot-container" className="relative">
       {/* Botón para abrir el chat */}
       <motion.div 
         className="fixed bottom-6 right-6 z-50 flex flex-col items-end"
@@ -278,7 +278,7 @@ const ChatBot = () => {
           </div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 
