@@ -131,8 +131,18 @@ const Header = () => {
                   {language === 'es' ? '¿Necesitas ayuda con tu proyecto wellness? Chatea conmigo' : 'Need help with your wellness project? Chat with me'}
                 </button>
               </nav>
-              <div className={isTablet ? 'ml-2' : 'ml-4'}>
-                <LanguageSwitcher />
+              <div className="flex items-center">
+                <div className="flex flex-col items-end mr-4 hidden md:block">
+                  <span className="font-medium text-turquoise-dark">
+                    {language === 'es' ? 'Asistente Virtual' : 'Virtual Assistant'}
+                  </span>
+                  <span className="text-xs text-charcoal-light">
+                    {language === 'es' ? 'Experta en estrategia wellness' : 'Wellness strategy expert'}
+                  </span>
+                </div>
+                <div className={isTablet ? 'ml-2' : 'ml-4'}>
+                  <LanguageSwitcher />
+                </div>
               </div>
             </div>
           )}
@@ -223,6 +233,17 @@ const Header = () => {
             <i className="fas fa-comments mr-1"></i>
             {language === 'es' ? '¿Necesitas ayuda? Chatea conmigo' : 'Need help? Chat with me'}
           </button>
+          
+          <div className="py-2 border-b border-gray-100">
+            <div className="flex flex-col">
+              <span className="font-medium text-turquoise-dark">
+                {language === 'es' ? 'Asistente Virtual' : 'Virtual Assistant'}
+              </span>
+              <span className="text-xs text-charcoal-light">
+                {language === 'es' ? 'Experta en estrategia wellness' : 'Wellness strategy expert'}
+              </span>
+            </div>
+          </div>
           
           <div className={`flex items-center justify-between ${isMobile ? 'py-2' : 'py-3'}`}>
             <span className={`text-gray-500 ${isMobile ? 'text-xs' : 'text-sm'}`}>
