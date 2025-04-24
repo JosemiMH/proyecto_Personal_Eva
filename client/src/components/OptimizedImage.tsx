@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface OptimizedImageProps {
   src: string;
-  alt: string;
+  alt: any; // Permitir que alt sea string u objeto
   className?: string;
   width?: number | string;
   height?: number | string;

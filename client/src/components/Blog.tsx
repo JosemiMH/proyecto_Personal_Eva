@@ -70,12 +70,20 @@ const Blog = () => {
               </div>
               <div className="p-6">
                 <div className="flex items-center mb-3">
-                  <span className="text-xs text-gray-500">{post.date[language]}</span>
+                  <span className="text-xs text-gray-500">
+                    {typeof post.date === 'object' ? post.date[language] : post.date}
+                  </span>
                   <span className="mx-2 text-gray-300">•</span>
-                  <span className="text-xs bg-turquoise/10 text-turquoise px-2 py-1 rounded">{post.category[language]}</span>
+                  <span className="text-xs bg-turquoise/10 text-turquoise px-2 py-1 rounded">
+                    {typeof post.category === 'object' ? post.category[language] : post.category}
+                  </span>
                 </div>
-                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2 group-hover:text-turquoise transition-colors">{post.title[language]}</h4>
-                <p className="text-charcoal-light text-sm mb-4">{post.excerpt[language]}</p>
+                <h4 className="font-playfair text-xl font-bold text-charcoal mb-2 group-hover:text-turquoise transition-colors">
+                  {typeof post.title === 'object' ? post.title[language] : post.title}
+                </h4>
+                <p className="text-charcoal-light text-sm mb-4">
+                  {typeof post.excerpt === 'object' ? post.excerpt[language] : post.excerpt}
+                </p>
                 <a 
                   href="#" 
                   className="text-turquoise hover:text-turquoise-dark font-medium text-sm inline-flex items-center transition-all hover:translate-x-1"

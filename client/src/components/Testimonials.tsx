@@ -84,7 +84,7 @@ const Testimonials = () => {
                   
                   <blockquote className="mb-6">
                     <p className="font-cormorant text-lg italic text-charcoal">
-                      "{testimonial.quote[language]}"
+                      "{typeof testimonial.quote === 'object' ? testimonial.quote[language] : testimonial.quote}"
                     </p>
                   </blockquote>
                   
@@ -96,7 +96,9 @@ const Testimonials = () => {
                     />
                     <div>
                       <p className="font-medium text-charcoal">{testimonial.name}</p>
-                      <p className="text-sm text-charcoal-light">{testimonial.position[language]}</p>
+                      <p className="text-sm text-charcoal-light">
+                        {typeof testimonial.position === 'object' ? testimonial.position[language] : testimonial.position}
+                      </p>
                     </div>
                   </div>
                 </div>
