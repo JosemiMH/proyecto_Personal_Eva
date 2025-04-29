@@ -128,7 +128,7 @@ const EbookPopup = () => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="relative bg-white w-full max-w-md rounded-lg shadow-xl overflow-hidden"
+            className="relative bg-white w-full max-w-md rounded-xl shadow-xl overflow-hidden font-poppins"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -136,18 +136,18 @@ const EbookPopup = () => {
           >
             <button
               onClick={closePopup}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
+              className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors z-10"
               aria-label="Close"
             >
               <X size={24} />
             </button>
 
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-charcoal mb-4">
+            <div className="p-8">
+              <h2 className="text-xl md:text-2xl font-playfair font-bold text-charcoal mb-4 leading-tight">
                 {popupTitle}
               </h2>
 
-              <p className="text-charcoal-light mb-6">
+              <p className="text-charcoal-light mb-6 text-base opacity-90">
                 {popupDescription}
               </p>
 
@@ -164,17 +164,17 @@ const EbookPopup = () => {
                               placeholder={emailPlaceholder}
                               type="email"
                               {...field}
-                              className="h-12"
+                              className="h-14 text-base rounded-md border border-gray-300 focus:border-turquoise focus:ring-1 focus:ring-turquoise px-4"
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="text-red-500 text-sm mt-1" />
                         </FormItem>
                       )}
                     />
 
                     <Button
                       type="submit"
-                      className="w-full bg-sage hover:bg-sage-dark text-white h-12 font-medium text-base"
+                      className="w-full bg-[#C8AD8D] hover:bg-[#BDA079] text-white h-14 font-medium text-base rounded-md transition-colors duration-300"
                       disabled={isSubmitting}
                     >
                       {buttonText}
@@ -182,7 +182,7 @@ const EbookPopup = () => {
                   </form>
                 </Form>
               ) : (
-                <div className="flex items-center justify-center p-4 bg-green-50 rounded-md">
+                <div className="flex items-center justify-center p-5 bg-green-50 rounded-md">
                   <p className="text-green-700 text-center">
                     {language === 'es'
                       ? '¡Gracias! Tu descarga debería comenzar automáticamente.'
