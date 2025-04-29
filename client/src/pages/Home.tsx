@@ -13,6 +13,7 @@ import Contact from "@/components/Contact";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import EbookPopup from "@/components/EbookPopup";
 
 const Home = () => {
   // Handle smooth scrolling for anchor links
@@ -104,6 +105,7 @@ const Home = () => {
       </section>
       <Footer />
       <ScrollToTop />
+      <EbookPopup />
     </div>
   );
 };
