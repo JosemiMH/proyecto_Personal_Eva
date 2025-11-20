@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
 
-// Inicializar la API de OpenAI
+// Inicializar la API de OpenAI de forma perezosa
 // Nota: Deberás añadir tu OPENAI_API_KEY como variable de entorno
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai: OpenAI | null = null;
+
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 // Información contextual sobre Eva Pérez y sus servicios
 const contextInfo = `
@@ -143,6 +147,14 @@ export async function handleChatRequest(req: Request, res: Response) {
                 - Responde siempre en el mismo idioma en que te preguntan (español o inglés).`
     };
 
+    // Verificar si OpenAI está configurado
+    if (!openai) {
+      return res.status(503).json({
+        error: 'El servicio de chat no está disponible en este momento (Falta configuración de OpenAI)',
+        details: 'OPENAI_API_KEY no está definida'
+      });
+    }
+
     // Obtener la respuesta de la API de OpenAI
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-4o", // El modelo más reciente de OpenAI
@@ -160,7 +172,7 @@ export async function handleChatRequest(req: Request, res: Response) {
   } catch (err) {
     const error = err as Error;
     console.error('Error en la API de chat:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       error: 'Error al procesar la solicitud del chat',
       details: error.message || 'Error desconocido'
     });
