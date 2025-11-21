@@ -62,34 +62,27 @@ export const services = [
   }
 ];
 
-// Portfolio items basados en los centros de Spaxion
+// Portfolio items - Proyectos reales de Eva Pérez
 export const portfolioItems = [
   {
     title: {
-      es: 'Spaxion Alameda',
-      en: 'Spaxion Alameda'
+      es: 'Cadena Paradores de España',
+      en: 'Paradores Chain Spain'
     },
     description: {
-      es: 'Proyecto de renovación completa del centro de hidroterapia y masajes en el CC Alameda, Madrid. Enfoque en bienestar integral con circuito termal y cabinas especializadas.',
-      en: 'Complete renovation project of the hydrotherapy and massage center at CC Alameda, Madrid. Focus on comprehensive wellness with thermal circuit and specialized cabins.'
+      es: 'Consultoría integral y conceptualización de marca de spa en la prestigiosa cadena Paradores. Desde 2008, supervisión de 13+ establecimientos históricos incluyendo La Granja, El Saler, Alcalá de Henares, Corias, Santo Estevo, Vielha, Cruz de Tejeda, Baiona, Cádiz, Lorca y Aiguablava. Implementación de estrategias personalizadas para cada centro, optimización de rentabilidad y Spa Revenue Per Room.',
+      en: 'Comprehensive consulting and spa brand conceptualization for the prestigious Paradores chain. Since 2008, supervision of 13+ historic establishments including La Granja, El Saler, Alcalá de Henares, Corias, Santo Estevo, Vielha, Cruz de Tejeda, Baiona, Cádiz, Lorca, and Aiguablava. Implementation of customized strategies for each center, profitability optimization, and Spa Revenue Per Room management.'
     },
-    image: 'https://images.unsplash.com/photo-1519690889869-e705e59f72e1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    category: 'proyectos',
-    categoryName: {
-      es: 'Proyectos',
-      en: 'Projects'
-    }
-  },
-  {
-    title: {
-      es: 'Spaxion Gran Plaza 2',
-      en: 'Spaxion Gran Plaza 2'
+    image: '/attached_assets/parador_aiguablava_spa.jpg',
+    chain: 'paradores',
+    chainName: {
+      es: 'Paradores',
+      en: 'Paradores'
     },
-    description: {
-      es: 'Consultoría estratégica para el centro Spaxion Gran Plaza 2 en Majadahonda. Optimización de servicios y mejora de experiencia del cliente aumentando la rentabilidad en un 35%.',
-      en: 'Strategic consulting for the Spaxion Gran Plaza 2 center in Majadahonda. Service optimization and customer experience improvement resulting in a 35% increase in profitability.'
+    highlights: {
+      es: ['13+ establecimientos históricos', 'Gestión desde 2008', 'Estándares de calidad únicos'],
+      en: ['13+ historic establishments', 'Management since 2008', 'Unique quality standards']
     },
-    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'consultoria',
     categoryName: {
       es: 'Consultoría',
@@ -98,14 +91,48 @@ export const portfolioItems = [
   },
   {
     title: {
-      es: 'Spaxion La Vaguada',
-      en: 'Spaxion La Vaguada'
+      es: 'Eurostars Hotels & Resorts',
+      en: 'Eurostars Hotels & Resorts'
     },
     description: {
-      es: 'Gestión interina durante 6 meses del centro en La Vaguada, Madrid. Implementación de cambios estructurales y entrenamiento del nuevo equipo directivo.',
-      en: 'Interim management for 6 months at the center in La Vaguada, Madrid. Implementation of structural changes and training of the new management team.'
+      es: 'Gestión integral de centros wellness de lujo en cadena Eurostars. Destacando el Hotel Aurea Convento Capuchinos en Segovia desde su inauguración en 2014. Logro excepcional: apertura del spa a la ciudad, convirtiéndolo en centro de referencia de bienestar y salud de Segovia. Gestión del Eurostars Mijas con enfoque en rentabilidad y satisfacción del cliente.',
+      en: 'Comprehensive management of luxury wellness centers in the Eurostars chain. Highlighting the Hotel Aurea Convento Capuchinos in Segovia since its inauguration in 2014. Exceptional achievement: opening the spa to the city, making it the reference wellness and health center of Segovia. Management of Eurostars Mijas with focus on profitability and customer satisfaction.'
     },
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    image: '/attached_assets/eurostars_madrid_spa.jpg',
+    chain: 'eurostars',
+    chainName: {
+      es: 'Eurostars',
+      en: 'Eurostars'
+    },
+    highlights: {
+      es: ['Spa de referencia en Segovia', 'Gestión desde 2014', 'Apertura a la ciudad'],
+      en: ['Reference spa in Segovia', 'Management since 2014', 'City opening strategy']
+    },
+    category: 'proyectos',
+    categoryName: {
+      es: 'Proyectos',
+      en: 'Projects'
+    }
+  },
+  {
+    title: {
+      es: 'Cadena HG Hoteles de Montaña',
+      en: 'HG Mountain Hotels Chain'
+    },
+    description: {
+      es: 'Gestión operativa completa de spas en destinos alpinos premium. Supervisión de HG Cerler, HG La Molina y HG Formigal. Diseño de servicios especializados para clientela de ski resorts, optimización de zonas de aguas termales y cabinas, estrategias de comercialización adaptadas a temporada alta de esquí. Formación de equipos multiculturales y negociación con proveedores especializados.',
+      en: 'Complete operational management of spas in premium alpine destinations. Supervision of HG Cerler, HG La Molina, and HG Formigal. Design of specialized services for ski resort clientele, optimization of thermal water areas and cabins, marketing strategies adapted to high ski season. Training of multicultural teams and negotiation with specialized suppliers.'
+    },
+    image: '/attached_assets/hg_alto_aragon_spa.jpg',
+    chain: 'hg',
+    chainName: {
+      es: 'HG Hotels',
+      en: 'HG Hotels'
+    },
+    highlights: {
+      es: ['3 resorts de montaña', 'Servicios especializados ski', 'Alta ocupación estacional'],
+      en: ['3 mountain resorts', 'Specialized ski services', 'High seasonal occupancy']
+    },
     category: 'interim',
     categoryName: {
       es: 'Interim',
@@ -114,14 +141,23 @@ export const portfolioItems = [
   },
   {
     title: {
-      es: 'Spaxion Las Arenas',
-      en: 'Spaxion Las Arenas'
+      es: 'Meliá Hotels International',
+      en: 'Meliá Hotels International'
     },
     description: {
-      es: 'Consultoría en el centro de Valencia para optimizar protocolos de tratamiento y mejorar la eficiencia operativa, resultando en un aumento de ingresos del 28%.',
-      en: 'Consulting at the Valencia center to optimize treatment protocols and improve operational efficiency, resulting in a 28% revenue increase.'
+      es: 'Dirección de wellness centers en resorts premium de Meliá. Gestión del Meliá Tanau (resort de montaña), Meliá Isla Canela (resort de playa) y Meliá Alto Aragón. Implementación de protocolos de calidad internacional, desarrollo de cartas de servicios exclusivos, y estrategias de maximización de ingresos. Enfoque en experiencias wellness de alto standing y fidelización de clientes.',
+      en: 'Management of wellness centers in premium Meliá resorts. Management of Meliá Tanau (mountain resort), Meliá Isla Canela (beach resort), and Meliá Alto Aragón. Implementation of international quality protocols, development of exclusive service menus, and revenue maximization strategies. Focus on high-end wellness experiences and customer loyalty.'
     },
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    image: '/attached_assets/melia_villaitana_spa.jpg',
+    chain: 'melia',
+    chainName: {
+      es: 'Meliá',
+      en: 'Meliá'
+    },
+    highlights: {
+      es: ['Resorts premium internacionales', 'Protocolos de lujo', 'Experiencias exclusivas'],
+      en: ['Premium international resorts', 'Luxury protocols', 'Exclusive experiences']
+    },
     category: 'consultoria',
     categoryName: {
       es: 'Consultoría',
@@ -130,14 +166,23 @@ export const portfolioItems = [
   },
   {
     title: {
-      es: 'Spaxion Islazul',
-      en: 'Spaxion Islazul'
+      es: 'AXEL Hotels - Wellness Urbano',
+      en: 'AXEL Hotels - Urban Wellness'
     },
     description: {
-      es: 'Proyecto de remodelación y ampliación del centro en CC Islazul, Madrid. Diseño de nuevos espacios y selección de equipamiento wellness avanzado.',
-      en: 'Remodeling and expansion project of the center at CC Islazul, Madrid. Design of new spaces and selection of advanced wellness equipment.'
+      es: 'Gestión de spas urbanos de vanguardia para AXEL Hotels en Madrid e Ibiza. Conceptualización de experiencias wellness innovadoras orientadas a público urbano cosmopolita. Diseño de servicios exclusivos, gestión de equipos especializados, y creación de estrategias de posicionamiento diferencial. Maximización de rentabilidad en entornos urbanos premium y destinos turísticos de alto nivel.',
+      en: 'Management of cutting-edge urban spas for AXEL Hotels in Madrid and Ibiza. Conceptualization of innovative wellness experiences oriented to cosmopolitan urban audiences. Design of exclusive services, management of specialized teams, and creation of differential positioning strategies. Profitability maximization in premium urban environments and high-end tourist destinations.'
     },
-    image: 'https://images.unsplash.com/photo-1541480601022-2308c0f02487?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    image: '/attached_assets/axel_hotel_barcelona_spa.jpg',
+    chain: 'axel',
+    chainName: {
+      es: 'AXEL',
+      en: 'AXEL'
+    },
+    highlights: {
+      es: ['Diseño vanguardista', 'Público cosmopolita', 'Ubicaciones premium'],
+      en: ['Avant-garde design', 'Cosmopolitan clientele', 'Premium locations']
+    },
     category: 'proyectos',
     categoryName: {
       es: 'Proyectos',
@@ -146,46 +191,23 @@ export const portfolioItems = [
   },
   {
     title: {
-      es: 'Programa de Formación Spaxion',
-      en: 'Spaxion Training Program'
+      es: 'Proyectos Independientes Premium',
+      en: 'Premium Independent Projects'
     },
     description: {
-      es: 'Desarrollo e implementación de programa formativo integral para terapeutas de todos los centros Spaxion, con énfasis en calidad de servicio y técnicas avanzadas.',
-      en: 'Development and implementation of comprehensive training program for therapists across all Spaxion centers, emphasizing service quality and advanced techniques.'
+      es: 'Consultoría y gestión para hoteles independientes de alto standing: Hotel Valencia Congress, Golf Resort Hacienda del Álamo (con exitoso programa de membresías locales), Hilton La Torre, Estepona Spa & Hotel, NH Collection Constanza (fidelización de clientes locales en menos de un año), Centro Wellness Aguas Vivas, Hotel Pazo Los Escudos (referente wellness en Vigo durante 5 años). Enfoque en crear identidades únicas y atraer clientela local.',
+      en: 'Consulting and management for high-end independent hotels: Hotel Valencia Congress, Golf Resort Hacienda del Álamo (with successful local membership program), Hilton La Torre, Estepona Spa & Hotel, NH Collection Constanza (local customer loyalty in less than a year), Centro Wellness Aguas Vivas, Hotel Pazo Los Escudos (wellness reference in Vigo for 5 years). Focus on creating unique identities and attracting local clientele.'
     },
-    image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    category: 'formacion',
-    categoryName: {
-      es: 'Formación',
-      en: 'Training'
-    }
-  },
-  {
-    title: {
-      es: 'Spaxion Bonaire',
-      en: 'Spaxion Bonaire'
+    image: '/attached_assets/boutique_wellness_spa_new.jpg',
+    chain: 'independientes',
+    chainName: {
+      es: 'Independientes',
+      en: 'Independent'
     },
-    description: {
-      es: 'Proyecto de apertura del nuevo centro Spaxion en CC Bonaire, Valencia. Diseño del espacio, selección de equipamiento y formación del equipo inicial.',
-      en: 'Opening project for the new Spaxion center at CC Bonaire, Valencia. Space design, equipment selection and training of the initial team.'
+    highlights: {
+      es: ['20+ proyectos boutique', 'Identidades únicas', 'Captación clientela local'],
+      en: ['20+ boutique projects', 'Unique identities', 'Local clientele attraction']
     },
-    image: 'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    category: 'proyectos',
-    categoryName: {
-      es: 'Proyectos',
-      en: 'Projects'
-    }
-  },
-  {
-    title: {
-      es: 'Formación de Directores Spaxion',
-      en: 'Spaxion Directors Training'
-    },
-    description: {
-      es: 'Programa especializado para directores de centros Spaxion, enfocado en liderazgo, gestión de equipos y optimización de recursos.',
-      en: 'Specialized program for Spaxion center directors, focused on leadership, team management and resource optimization.'
-    },
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
     category: 'formacion',
     categoryName: {
       es: 'Formación',
@@ -193,6 +215,7 @@ export const portfolioItems = [
     }
   }
 ];
+
 
 // Testimonials
 export const testimonials = [
@@ -261,7 +284,9 @@ export const resources = [
     buttonText: {
       es: "Descargar guía",
       en: "Download guide"
-    }
+    },
+    fileUrl: "/resources/guia-kpis.html",
+    resourceType: "kpi"
   },
   {
     title: {
@@ -276,7 +301,9 @@ export const resources = [
     buttonText: {
       es: "Descargar checklist",
       en: "Download checklist"
-    }
+    },
+    fileUrl: "/resources/checklist-experiencia.html",
+    resourceType: "checklist"
   },
   {
     title: {
@@ -291,7 +318,9 @@ export const resources = [
     buttonText: {
       es: "Descargar plantilla",
       en: "Download template"
-    }
+    },
+    fileUrl: "/resources/plantilla-formacion.html",
+    resourceType: "training"
   }
 ];
 
@@ -299,59 +328,177 @@ export const resources = [
 export const blogPosts = [
   {
     title: {
-      es: "10 tendencias en tratamientos wellness para 2023",
-      en: "10 trends in wellness treatments for 2023"
+      es: "IA y la Hiper-personalización en el Wellness",
+      en: "AI & Hyper-personalization in Wellness"
     },
     excerpt: {
-      es: "Descubre las innovaciones y tendencias que están transformando la industria del bienestar este año.",
-      en: "Discover the innovations and trends that are transforming the wellness industry this year."
+      es: "Cómo el Big Data y la IA están redefiniendo los tratamientos a medida, desde diagnósticos de piel hasta bio-ritmos.",
+      en: "How Big Data and AI are redefining bespoke treatments, from skin diagnostics to bio-rhythms."
     },
-    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     date: {
-      es: "10 Abril, 2023",
-      en: "April 10, 2023"
+      es: "15 Enero, 2025",
+      en: "January 15, 2025"
     },
     category: {
-      es: "Tendencias",
-      en: "Trends"
+      es: "Tecnología",
+      en: "Technology"
+    },
+    readTime: {
+      es: "5 min lectura",
+      en: "5 min read"
+    },
+    content: {
+      es: [
+        "La inteligencia artificial (IA) ha dejado de ser una promesa futurista para convertirse en una herramienta tangible en la gestión de spas. Mediante el análisis de grandes volúmenes de datos (Big Data), los centros wellness ahora pueden predecir las necesidades de sus clientes antes incluso de que ellos las manifiesten.",
+        "Imagina un sistema que analiza el historial de tratamientos, las preferencias de productos y hasta los biorritmos de un cliente para sugerir el masaje perfecto o la intensidad de luz ideal en la cabina. Esto es la hiper-personalización: adaptar cada detalle de la experiencia a la fisiología y estado emocional del individuo en tiempo real.",
+        "Además, los diagnósticos de piel impulsados por IA están permitiendo a los terapeutas diseñar regímenes de cuidado facial con una precisión clínica, aumentando no solo la satisfacción del cliente sino también la venta de productos retail. La tecnología no reemplaza el toque humano, sino que lo potencia, permitiendo a los profesionales centrarse en la conexión emocional mientras los datos aseguran la precisión técnica."
+      ],
+      en: [
+        "Artificial Intelligence (AI) has moved from a futuristic promise to a tangible tool in spa management. Through Big Data analysis, wellness centers can now predict their clients' needs even before they express them.",
+        "Imagine a system that analyzes a client's treatment history, product preferences, and even bio-rhythms to suggest the perfect massage or the ideal light intensity in the treatment room. This is hyper-personalization: adapting every detail of the experience to the individual's physiology and emotional state in real-time.",
+        "Furthermore, AI-driven skin diagnostics are allowing therapists to design facial care regimens with clinical precision, increasing not only customer satisfaction but also retail product sales. Technology does not replace the human touch; it enhances it, allowing professionals to focus on emotional connection while data ensures technical precision."
+      ]
     }
   },
   {
     title: {
-      es: "Cómo optimizar la rentabilidad de tu spa sin sacrificar calidad",
-      en: "How to optimize spa profitability without sacrificing quality"
+      es: "La Revolución de la Longevidad y el Biohacking",
+      en: "The Longevity Revolution & Biohacking"
     },
     excerpt: {
-      es: "Estrategias probadas para mejorar tus márgenes manteniendo la excelencia en el servicio.",
-      en: "Proven strategies to improve your margins while maintaining service excellence."
+      es: "Más allá de la relajación: cámaras hiperbáricas, crioterapia y sueros IV para optimizar la salud celular.",
+      en: "Beyond relaxation: hyperbaric chambers, cryotherapy, and IV drips to optimize cellular health."
     },
-    image: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     date: {
-      es: "28 Marzo, 2023",
-      en: "March 28, 2023"
+      es: "02 Febrero, 2025",
+      en: "February 02, 2025"
     },
     category: {
-      es: "Gestión",
-      en: "Management"
+      es: "Innovación",
+      en: "Innovation"
+    },
+    readTime: {
+      es: "7 min lectura",
+      en: "7 min read"
+    },
+    content: {
+      es: [
+        "El concepto de 'spa' se está expandiendo hacia la 'clínica de longevidad'. Los clientes ya no buscan solo relajación momentánea, sino intervenciones que optimicen su salud a largo plazo y retrasen el envejecimiento celular. Aquí es donde entra el Biohacking.",
+        "Tratamientos como la crioterapia de cuerpo entero, las cámaras hiperbáricas de oxígeno y las terapias de luz roja e infrarroja se están convirtiendo en el nuevo estándar. Estas tecnologías estimulan la regeneración celular, reducen la inflamación sistémica y mejoran el rendimiento cognitivo.",
+        "La integración de sueros intravenosos (IV Drips) personalizados con vitaminas y minerales es otra tendencia en auge. Los spas modernos están colaborando con personal médico para ofrecer estos servicios de manera segura, creando un híbrido entre hospitalidad de lujo y medicina preventiva. El objetivo es claro: no solo vivir más años, sino vivirlos con plena vitalidad."
+      ],
+      en: [
+        "The concept of 'spa' is expanding into the 'longevity clinic'. Clients are no longer seeking just momentary relaxation, but interventions that optimize their long-term health and delay cellular aging. This is where Biohacking comes in.",
+        "Treatments such as whole-body cryotherapy, hyperbaric oxygen chambers, and red and infrared light therapies are becoming the new standard. These technologies stimulate cellular regeneration, reduce systemic inflammation, and improve cognitive performance.",
+        "The integration of personalized IV Drips with vitamins and minerals is another booming trend. Modern spas are collaborating with medical staff to offer these services safely, creating a hybrid between luxury hospitality and preventive medicine. The goal is clear: not just to live longer, but to live with full vitality."
+      ]
     }
   },
   {
     title: {
-      es: "5 claves para formar y retener talento en tu spa",
-      en: "5 keys to train and retain talent in your spa"
+      es: "Eco-Lujo: Sostenibilidad como Estándar Premium",
+      en: "Eco-Luxury: Sustainability as a Premium Standard"
     },
     excerpt: {
-      es: "Descubre cómo desarrollar un equipo profesional comprometido y minimizar la rotación.",
-      en: "Discover how to develop a committed professional team and minimize turnover."
+      es: "Por qué los spas de lujo están eliminando plásticos y adoptando la arquitectura bioclimática.",
+      en: "Why luxury spas are eliminating plastics and adopting bioclimatic architecture."
     },
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1518531933037-9a82bf55f363?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     date: {
-      es: "15 Marzo, 2023",
-      en: "March 15, 2023"
+      es: "20 Febrero, 2025",
+      en: "February 20, 2025"
     },
     category: {
-      es: "Equipos",
-      en: "Teams"
+      es: "Sostenibilidad",
+      en: "Sustainability"
+    },
+    readTime: {
+      es: "4 min lectura",
+      en: "4 min read"
+    },
+    content: {
+      es: [
+        "El lujo ya no se define por el exceso, sino por la consciencia. El 'Eco-Lujo' es la nueva norma en la industria wellness, donde la sostenibilidad se integra en cada aspecto de la operación, desde la arquitectura hasta los consumibles.",
+        "Los spas líderes están eliminando por completo los plásticos de un solo uso, optando por materiales biodegradables y envases reutilizables de alta gama. Pero va más allá: la arquitectura bioclimática se utiliza para reducir el consumo energético, aprovechando la luz natural y la ventilación cruzada para crear ambientes saludables y eficientes.",
+        "En cuanto a los productos, la demanda de cosmética 'Blue Beauty' (segura para los océanos) y 'Clean Beauty' (libre de tóxicos) es innegociable. Los clientes premium esperan que su cuidado personal no tenga un coste ambiental. La sostenibilidad se ha convertido en un pilar de la experiencia de lujo, comunicando valores de respeto y responsabilidad."
+      ],
+      en: [
+        "Luxury is no longer defined by excess, but by consciousness. 'Eco-Luxury' is the new norm in the wellness industry, where sustainability is integrated into every aspect of the operation, from architecture to consumables.",
+        "Leading spas are completely eliminating single-use plastics, opting for biodegradable materials and high-end reusable packaging. But it goes further: bioclimatic architecture is used to reduce energy consumption, leveraging natural light and cross-ventilation to create healthy and efficient environments.",
+        "Regarding products, the demand for 'Blue Beauty' (ocean-safe) and 'Clean Beauty' (toxin-free) cosmetics is non-negotiable. Premium clients expect their personal care to come at no environmental cost. Sustainability has become a pillar of the luxury experience, communicating values of respect and responsibility."
+      ]
+    }
+  },
+  {
+    title: {
+      es: "Bienestar Mental y Mindfulness Integrado",
+      en: "Mental Wellness & Integrated Mindfulness"
+    },
+    excerpt: {
+      es: "La fusión de terapias tradicionales con prácticas de meditación y respiración para una salud holística.",
+      en: "Merging traditional therapies with meditation and breathwork for holistic health."
+    },
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    date: {
+      es: "05 Marzo, 2025",
+      en: "March 05, 2025"
+    },
+    category: {
+      es: "Mindfulness",
+      en: "Mindfulness"
+    },
+    readTime: {
+      es: "6 min lectura",
+      en: "6 min read"
+    },
+    content: {
+      es: [
+        "La salud mental ha tomado el protagonismo en el bienestar global. Los spas están respondiendo integrando prácticas de mindfulness y gestión del estrés directamente en sus menús de tratamientos tradicionales.",
+        "Ya no se trata solo de un masaje relajante, sino de una experiencia que combina técnicas manuales con respiración guiada (Breathwork) y meditación. Los terapeutas están siendo formados para guiar a los clientes hacia estados de relajación profunda del sistema nervioso, no solo muscular.",
+        "Los baños de sonido (Sound Baths) con cuencos tibetanos o gongs, y las sesiones de flotación en tanques de privación sensorial, son cada vez más populares como herramientas para desconectar la mente. El spa se convierte así en un santuario para la salud mental, ofreciendo un refugio seguro contra la sobreestimulación digital y el estrés crónico."
+      ],
+      en: [
+        "Mental health has taken center stage in global wellness. Spas are responding by integrating mindfulness and stress management practices directly into their traditional treatment menus.",
+        "It is no longer just about a relaxing massage, but an experience that combines manual techniques with guided breathing (Breathwork) and meditation. Therapists are being trained to guide clients into states of deep nervous system relaxation, not just muscular.",
+        "Sound Baths with Tibetan bowls or gongs, and flotation sessions in sensory deprivation tanks, are becoming increasingly popular as tools to disconnect the mind. The spa thus becomes a sanctuary for mental health, offering a safe haven against digital overstimulation and chronic stress."
+      ]
+    }
+  },
+  {
+    title: {
+      es: "Menopausia: Adaptando el Spa a la Salud Hormonal",
+      en: "Menopause: Adapting the Spa to Hormonal Health"
+    },
+    excerpt: {
+      es: "Nuevos protocolos y retiros diseñados específicamente para apoyar a las mujeres en esta etapa vital.",
+      en: "New protocols and retreats designed specifically to support women during this vital stage."
+    },
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    date: {
+      es: "12 Marzo, 2025",
+      en: "March 12, 2025"
+    },
+    category: {
+      es: "Salud Femenina",
+      en: "Women's Health"
+    },
+    readTime: {
+      es: "5 min lectura",
+      en: "5 min read"
+    },
+    content: {
+      es: [
+        "Históricamente ignorada, la menopausia está siendo finalmente reconocida como una etapa vital que requiere atención especializada en el mundo del wellness. Los spas están creando programas específicos para apoyar a las mujeres durante el perimenopausia y la menopausia.",
+        "Estos programas incluyen tratamientos para aliviar síntomas como los sofocos, el insomnio y los cambios en la piel, utilizando productos con fitoestrógenos y técnicas de enfriamiento. Pero también abordan el bienestar emocional, ofreciendo círculos de mujeres y talleres educativos.",
+        "La adaptación de las instalaciones, con control de temperatura individualizado en las cabinas y opciones de ropa de cama transpirable, demuestra una comprensión profunda de las necesidades fisiológicas. Es un movimiento hacia un wellness más inclusivo y empático que celebra y apoya a la mujer en todas sus etapas."
+      ],
+      en: [
+        "Historically ignored, menopause is finally being recognized as a vital stage requiring specialized attention in the wellness world. Spas are creating specific programs to support women during perimenopause and menopause.",
+        "These programs include treatments to alleviate symptoms such as hot flashes, insomnia, and skin changes, using products with phytoestrogens and cooling techniques. But they also address emotional well-being, offering women's circles and educational workshops.",
+        "Adapting facilities, with individualized temperature control in treatment rooms and breathable bedding options, demonstrates a deep understanding of physiological needs. It is a movement towards a more inclusive and empathetic wellness that celebrates and supports women in all their stages."
+      ]
     }
   }
 ];

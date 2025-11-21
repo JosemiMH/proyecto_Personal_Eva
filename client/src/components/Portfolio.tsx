@@ -3,15 +3,15 @@ import { motion } from 'framer-motion';
 import { portfolioItems } from '@/lib/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-type FilterCategory = 'all' | 'consultoria' | 'proyectos' | 'formacion' | 'interim';
+type FilterCategory = 'all' | 'paradores' | 'eurostars' | 'hg' | 'melia' | 'axel' | 'independientes';
 
 const Portfolio = () => {
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
 
-  // Asegurarnos de que se aplique el filtro correctamente
-  const filteredItems = portfolioItems.filter(item => 
-    activeFilter === 'all' || item.category === activeFilter
+  // Filter by chain instead of category
+  const filteredItems = portfolioItems.filter(item =>
+    activeFilter === 'all' || item.chain === activeFilter
   );
 
   const containerVariants = {
@@ -27,7 +27,7 @@ const Portfolio = () => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
-      opacity: 1, 
+      opacity: 1,
       y: 0,
       transition: { duration: 0.5 }
     }
@@ -36,7 +36,7 @@ const Portfolio = () => {
   return (
     <section id="portfolio" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -51,43 +51,79 @@ const Portfolio = () => {
             {t('portfolio.description')}
           </p>
         </motion.div>
-        
+
+        {/* Statistics Banner */}
+        <motion.div
+          className="bg-gradient-to-r from-turquoise/10 to-turquoise/5 rounded-lg p-6 mb-10 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex flex-wrap justify-center gap-8">
+            <div>
+              <div className="text-4xl font-bold text-turquoise mb-1">40+</div>
+              <div className="text-sm text-charcoal-light">{language === 'es' ? 'Proyectos Completados' : 'Completed Projects'}</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-turquoise mb-1">6</div>
+              <div className="text-sm text-charcoal-light">{language === 'es' ? 'Cadenas Hoteleras' : 'Hotel Chains'}</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-turquoise mb-1">15+</div>
+              <div className="text-sm text-charcoal-light">{language === 'es' ? 'Años de Experiencia' : 'Years of Experience'}</div>
+            </div>
+          </div>
+        </motion.div>
+
         <div className="flex mb-10 justify-center">
           <div className="flex space-x-2 overflow-x-auto pb-2">
-            <button 
-              className={`px-4 py-2 ${activeFilter === 'all' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors`}
+            <button
+              className={`px-4 py-2 ${activeFilter === 'all' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
               onClick={() => setActiveFilter('all')}
             >
               {t('portfolio.all')}
             </button>
-            <button 
-              className={`px-4 py-2 ${activeFilter === 'consultoria' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors`}
-              onClick={() => setActiveFilter('consultoria')}
+            <button
+              className={`px-4 py-2 ${activeFilter === 'paradores' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+              onClick={() => setActiveFilter('paradores')}
             >
-              {t('portfolio.consulting')}
+              Paradores
             </button>
-            <button 
-              className={`px-4 py-2 ${activeFilter === 'proyectos' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors`}
-              onClick={() => setActiveFilter('proyectos')}
+            <button
+              className={`px-4 py-2 ${activeFilter === 'eurostars' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+              onClick={() => setActiveFilter('eurostars')}
             >
-              {t('portfolio.projects')}
+              Eurostars
             </button>
-            <button 
-              className={`px-4 py-2 ${activeFilter === 'formacion' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors`}
-              onClick={() => setActiveFilter('formacion')}
+            <button
+              className={`px-4 py-2 ${activeFilter === 'hg' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+              onClick={() => setActiveFilter('hg')}
             >
-              {t('portfolio.training')}
+              HG Hotels
             </button>
-            <button 
-              className={`px-4 py-2 ${activeFilter === 'interim' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors`}
-              onClick={() => setActiveFilter('interim')}
+            <button
+              className={`px-4 py-2 ${activeFilter === 'melia' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+              onClick={() => setActiveFilter('melia')}
             >
-              {t('portfolio.interim')}
+              Meliá
+            </button>
+            <button
+              className={`px-4 py-2 ${activeFilter === 'axel' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+              onClick={() => setActiveFilter('axel')}
+            >
+              AXEL
+            </button>
+            <button
+              className={`px-4 py-2 ${activeFilter === 'independientes' ? 'bg-turquoise text-white' : 'bg-gray-100 text-charcoal hover:bg-turquoise/10'} rounded-full text-sm font-medium transition-colors whitespace-nowrap`}
+              onClick={() => setActiveFilter('independientes')}
+            >
+              {language === 'es' ? 'Independientes' : 'Independent'}
             </button>
           </div>
         </div>
-        
-        <motion.div 
+
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
           initial="hidden"
@@ -95,15 +131,15 @@ const Portfolio = () => {
           viewport={{ once: true }}
         >
           {filteredItems.map((item, index) => (
-            <motion.div 
-              key={index} 
+            <motion.div
+              key={index}
               className="group rounded-lg overflow-hidden shadow-md hover-scale"
               variants={itemVariants}
             >
               <div className="relative h-64">
-                <img 
-                  src={item.image} 
-                  alt={typeof item.title === 'object' ? item.title[language] : ""} 
+                <img
+                  src={item.image}
+                  alt={typeof item.title === 'object' ? item.title[language] : ""}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
@@ -128,7 +164,7 @@ const Portfolio = () => {
             </motion.div>
           ))}
         </motion.div>
-        
+
         <div className="text-center mt-12">
           <a href="#" className="inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium">
             {t('portfolio.viewMore')}

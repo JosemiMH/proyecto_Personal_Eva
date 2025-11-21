@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { t, language } = useLanguage();
-  
+
   return (
     <footer className="bg-charcoal-dark text-white pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,38 +19,38 @@ const Footer = () => {
           >
             <div className="font-playfair text-2xl font-bold text-white mb-4">Eva Pérez</div>
             <p className="text-gray-400 mb-6">
-              {language === 'es' 
+              {language === 'es'
                 ? 'Más de 20 años transformando espacios de bienestar en experiencias memorables y rentables.'
                 : 'Over 20 years transforming wellness spaces into memorable and profitable experiences.'}
             </p>
             <div className="flex space-x-4">
-              <a 
-                href="https://www.linkedin.com/" 
-                target="_blank" 
+              <a
+                href="https://www.linkedin.com/in/evaperez-spa-consultant/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-turquoise transition-colors w-10 h-10 flex items-center justify-center bg-charcoal rounded-full hover:bg-opacity-80"
               >
                 <FaLinkedinIn size={18} />
               </a>
-              <a 
-                href="https://www.instagram.com/" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-turquoise transition-colors w-10 h-10 flex items-center justify-center bg-charcoal rounded-full hover:bg-opacity-80"
               >
                 <FaInstagram size={18} />
               </a>
-              <a 
-                href="https://twitter.com/" 
-                target="_blank" 
+              <a
+                href="https://twitter.com/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-turquoise transition-colors w-10 h-10 flex items-center justify-center bg-charcoal rounded-full hover:bg-opacity-80"
               >
                 <FaTwitter size={18} />
               </a>
-              <a 
-                href="https://www.youtube.com/" 
-                target="_blank" 
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-turquoise transition-colors w-10 h-10 flex items-center justify-center bg-charcoal rounded-full hover:bg-opacity-80"
               >
@@ -58,7 +58,7 @@ const Footer = () => {
               </a>
             </div>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ const Footer = () => {
               <li><a href="#contact" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.contact')}</a></li>
             </ul>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -97,7 +97,7 @@ const Footer = () => {
               </a></li>
             </ul>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -110,8 +110,8 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <FaEnvelope className="text-turquoise mt-1 mr-2" />
-                <a href="mailto:eperez@asetrabalnearios.com" className="text-gray-400 hover:text-turquoise transition-colors">
-                  eperez@asetrabalnearios.com
+                <a href="mailto:epm@epmwellness.com" className="text-gray-400 hover:text-turquoise transition-colors">
+                  epm@epmwellness.com
                 </a>
               </li>
               <li className="flex items-start">
@@ -129,9 +129,9 @@ const Footer = () => {
             </ul>
           </motion.div>
         </div>
-        
+
         <hr className="border-gray-700 mb-8" />
-        
+
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
             &copy; {currentYear} Eva Pérez. {language === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.'}
