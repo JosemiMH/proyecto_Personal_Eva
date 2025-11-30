@@ -7,7 +7,12 @@ import Home from "@/pages/Home";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import Cookies from "@/pages/Cookies";
+import Booking from "@/pages/Booking";
+import Admin from "@/pages/Admin";
+import AuthPage from "@/pages/Auth";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { AuthProvider } from "./hooks/use-auth";
+import { ProtectedRoute } from "./lib/protected-route";
 import CookieConsent from "@/components/CookieConsent";
 import ChatBot from "@/components/ChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -19,6 +24,9 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/cookies" component={Cookies} />
+      <Route path="/booking" component={Booking} />
+      <Route path="/auth" component={AuthPage} />
+      <ProtectedRoute path="/admin" component={Admin} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
@@ -28,13 +36,15 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <Router />
-        <ChatBot />
-        <CookieConsent />
-        <ScrollToTop />
-        <Toaster />
-      </LanguageProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <Router />
+          <ChatBot />
+          <CookieConsent />
+          <ScrollToTop />
+          <Toaster />
+        </LanguageProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

@@ -48,7 +48,7 @@ const EbookPopup = () => {
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    
+
     try {
       // Enviar el email a la API
       await apiRequest({
@@ -58,12 +58,12 @@ const EbookPopup = () => {
       });
 
       setIsSuccess(true);
-      
+
       // Mostrar toast de éxito
       toast({
         title: language === 'es' ? '¡Gracias por tu interés!' : 'Thank you for your interest!',
-        description: language === 'es' 
-          ? 'Hemos enviado el E-Book a tu correo electrónico' 
+        description: language === 'es'
+          ? 'Hemos enviado el E-Book a tu correo electrónico'
           : 'We have sent the E-Book to your email',
         variant: 'default',
       });
@@ -72,8 +72,8 @@ const EbookPopup = () => {
       setTimeout(() => {
         // En un entorno real, aquí redirigirías a la URL real de descarga
         const link = document.createElement('a');
-        link.href = '#'; // URL del PDF real aquí
-        link.setAttribute('download', 'IA-Spa-Hotelero-30-dias.pdf');
+        link.href = '/resources/ebook-ia-spa-infographic.html';
+        link.setAttribute('download', 'IA-Spa-Hotelero-30-dias.html');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

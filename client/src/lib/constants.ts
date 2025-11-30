@@ -73,7 +73,7 @@ export const portfolioItems = [
       es: 'Consultoría integral y conceptualización de marca de spa en la prestigiosa cadena Paradores. Desde 2008, supervisión de 13+ establecimientos históricos incluyendo La Granja, El Saler, Alcalá de Henares, Corias, Santo Estevo, Vielha, Cruz de Tejeda, Baiona, Cádiz, Lorca y Aiguablava. Implementación de estrategias personalizadas para cada centro, optimización de rentabilidad y Spa Revenue Per Room.',
       en: 'Comprehensive consulting and spa brand conceptualization for the prestigious Paradores chain. Since 2008, supervision of 13+ historic establishments including La Granja, El Saler, Alcalá de Henares, Corias, Santo Estevo, Vielha, Cruz de Tejeda, Baiona, Cádiz, Lorca, and Aiguablava. Implementation of customized strategies for each center, profitability optimization, and Spa Revenue Per Room management.'
     },
-    image: '/attached_assets/parador_aiguablava_spa.jpg',
+    image: '/attached_assets/parador_new.png',
     chain: 'paradores',
     chainName: {
       es: 'Paradores',

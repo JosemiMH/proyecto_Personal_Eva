@@ -77,7 +77,7 @@ export const appointmentSchema = z.object({
   email: z.string().email({ message: 'Por favor introduce un email válido' }),
   phone: z.string().optional(),
   company: z.string().optional(),
-  date: z.date({ required_error: 'Por favor selecciona una fecha y hora' }),
+  date: z.coerce.date({ required_error: 'Por favor selecciona una fecha y hora' }),
   duration: z.number().int().positive().default(60),
   service: z.string({ required_error: 'Por favor selecciona un servicio' }),
   message: z.string().optional(),
@@ -89,3 +89,33 @@ export const appointmentSchema = z.object({
 
 export type InsertAppointment = z.infer<typeof appointmentSchema>;
 export type Appointment = typeof appointments.$inferSelect;
+
+// Articles table
+export const articles = pgTable("articles", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  excerpt: text("excerpt").notNull(),
+  image: text("image").notNull(),
+  category: text("category").notNull(),
+  readTime: text("read_time").notNull(),
+  date: text("date").notNull(),
+  language: text("language").notNull().default("es"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertArticleSchema = createInsertSchema(articles).pick({
+  slug: true,
+  title: true,
+  content: true,
+  excerpt: true,
+  image: true,
+  category: true,
+  readTime: true,
+  date: true,
+  language: true,
+});
+
+export type InsertArticle = z.infer<typeof insertArticleSchema>;
+export type Article = typeof articles.$inferSelect;

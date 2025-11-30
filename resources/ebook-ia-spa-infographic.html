@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: IA en tu Spa Hotelero en 30 Días</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e67e22;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .infographic-container {
+            max-width: 800px;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .timeline-icon {
+            background-color: var(--accent-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 20px;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            border-left: 3px solid #eee;
+            padding-left: 20px;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item:last-child .timeline-content {
+            border-left: none;
+        }
+
+        .week-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .week-goal {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .checklist-section {
+            background-color: #ecf0f1;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+
+        .checklist-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-color);
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .timeline-item { flex-direction: column; }
+            .timeline-icon { margin-bottom: 10px; }
+            .timeline-content { border-left: none; padding-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="infographic-container">
+        <header>
+            <h1>Cómo implementar IA</h1>
+            <h2>En tu Spa Hotelero en 30 Días</h2>
+        </header>
+
+        <div class="content">
+            
+            <!-- Semana 1 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">1</div>
+                <div class="timeline-content">
+                    <h3 class="week-title">Semana 1: Diagnóstico y Preparación</h3>
+                    <span class="week-goal">Objetivo: Entender dónde la IA aporta valor.</span>
+                    <ul>
+                        <li><strong>Día 1-2:</strong> Auditoría de Procesos (identificar tareas repetitivas).</li>
+                        <li><strong>Día 3-4:</strong> Definición de Objetivos (aumentar reservas, satisfacción).</li>
+                        <li><strong>Día 5-7:</strong> Selección de Herramientas (Chatbots, CRM con IA).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Semana 2 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">2</div>
+                <div class="timeline-content">
+                    <h3 class="week-title">Semana 2: Asistentes Virtuales</h3>
+                    <span class="week-goal">Objetivo: Automatizar atención 24/7.</span>
+                    <ul>
+                        <li><strong>Día 8-10:</strong> Configuración del Chatbot (FAQs, horarios).</li>
+                        <li><strong>Día 11-12:</strong> Integración Web (home y reservas).</li>
+                        <li><strong>Día 13-14:</strong> Pruebas Internas (simulación de conversaciones).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Semana 3 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">3</div>
+                <div class="timeline-content">
+                    <h3 class="week-title">Semana 3: Personalización</h3>
+                    <span class="week-goal">Objetivo: Experiencias únicas por huésped.</span>
+                    <ul>
+                        <li><strong>Día 15-17:</strong> Segmentación de Clientes con IA.</li>
+                        <li><strong>Día 18-19:</strong> Email Marketing Automatizado.</li>
+                        <li><strong>Día 20-21:</strong> Recomendaciones en Tiempo Real (up-selling).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Semana 4 -->
+            <div class="timeline-item">
+                <div class="timeline-icon">4</div>
+                <div class="timeline-content">
+                    <h3 class="week-title">Semana 4: Análisis y Optimización</h3>
+                    <span class="week-goal">Objetivo: Medir y ajustar.</span>
+                    <ul>
+                        <li><strong>Día 22-24:</strong> Recopilación de Feedback (encuestas auto).</li>
+                        <li><strong>Día 25-27:</strong> Análisis de Métricas (KPIs, conversión).</li>
+                        <li><strong>Día 28-30:</strong> Ajustes Finales de estrategia.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Checklist -->
+            <div class="checklist-section">
+                <h3 class="checklist-title">Tu Checklist de Éxito</h3>
+                <div class="checklist-item">
+                    <div class="checkbox"></div> Auditoría de procesos realizada
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox"></div> Herramientas de IA seleccionadas
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox"></div> Chatbot configurado y probado
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox"></div> Campaña de email lanzada
+                </div>
+                <div class="checklist-item">
+                    <div class="checkbox"></div> KPIs analizados
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>Marca Personal de Eva Pérez | Experta en Gestión de Spas y Bienestar</p>
+        </footer>
+    </div>
+
+</body>
+</html>

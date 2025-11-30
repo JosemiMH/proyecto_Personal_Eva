@@ -1,13 +1,55 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { blogPosts } from '@/lib/constants';
+import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/contexts/LanguageContext';
 import OptimizedImage from './OptimizedImage';
-import { ArrowRight, Clock, Tag, X } from 'lucide-react';
+import { ArrowRight, Clock, Tag, Calendar, X } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import ReactMarkdown from "react-markdown";
+
+interface Article {
+  id: number;
+  slug: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  image: string;
+  category: string;
+  readTime: string;
+  date: string;
+}
+
+import { blogPosts } from '@/lib/constants';
+
+// ... (imports)
 
 const Blog = () => {
   const { t, language } = useLanguage();
-  const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+
+  const { data: apiArticles, isLoading } = useQuery<Article[]>({
+    queryKey: ['/api/articles'],
+  });
+
+  // Fallback to constants if API returns empty or fails
+  const articles = (apiArticles && apiArticles.length > 0)
+    ? apiArticles
+    : blogPosts.map((post, index) => ({
+      id: index + 1000,
+      slug: `post-${index}`,
+      title: post.title[language as 'es' | 'en'],
+      content: post.content[language as 'es' | 'en'].join('\n\n'),
+      excerpt: post.excerpt[language as 'es' | 'en'],
+      image: post.image,
+      category: post.category[language as 'es' | 'en'],
+      readTime: post.readTime[language as 'es' | 'en'],
+      date: new Date().toISOString() // Use current date as fallback since format might differ
+    }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -27,6 +69,16 @@ const Blog = () => {
       transition: { duration: 0.5 }
     }
   };
+
+  if (isLoading) {
+    return (
+      <section id="blog" className="py-20 md:py-32 bg-gray-50 relative">
+        <div className="container mx-auto px-4 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-turquoise mx-auto"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="blog" className="py-20 md:py-32 bg-gray-50 relative">
@@ -54,19 +106,19 @@ const Blog = () => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {blogPosts.map((post, index) => (
+          {articles?.map((post, index) => (
             <motion.div
-              key={index}
+              key={post.id}
               className={`group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 ? 'md:col-span-2 lg:col-span-2' : ''
                 } ${index === 3 ? 'md:col-span-2 lg:col-span-1' : ''}`}
               variants={itemVariants}
-              onClick={() => setSelectedPost(post)}
+              onClick={() => setSelectedArticle(post)}
             >
               {/* Background Image */}
               <div className="absolute inset-0">
                 <OptimizedImage
                   src={post.image}
-                  alt={typeof post.title === 'object' ? post.title[language] : post.title}
+                  alt={post.title}
                   className="w-full h-full transition-transform duration-700 group-hover:scale-110"
                   objectFit="cover"
                   priority={index < 2}
@@ -80,31 +132,31 @@ const Blog = () => {
                   <div className="flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider">
                     <span className="bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
                       <Tag className="w-3 h-3" />
-                      {typeof post.category === 'object' ? post.category[language] : post.category}
+                      {post.category}
                     </span>
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />
-                      {(post as any).readTime ? ((post as any).readTime[language]) : '5 min read'}
+                      {post.readTime}
                     </span>
                     <span>•</span>
-                    <span>{typeof post.date === 'object' ? post.date[language] : post.date}</span>
+                    <span>{new Date(post.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US')}</span>
                   </div>
 
                   <h4 className={`font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? 'text-3xl md:text-4xl' : 'text-2xl'
                     }`}>
-                    {typeof post.title === 'object' ? post.title[language] : post.title}
+                    {post.title}
                   </h4>
 
                   <p className="text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                    {typeof post.excerpt === 'object' ? post.excerpt[language] : post.excerpt}
+                    {post.excerpt}
                   </p>
 
                   <button
+                    className="inline-flex items-center text-white font-medium group/link"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedPost(post);
+                      setSelectedArticle(post);
                     }}
-                    className="inline-flex items-center text-white font-medium group/link"
                   >
                     <span className="border-b border-turquoise pb-1 group-hover/link:border-white transition-colors">
                       {t('blog.readArticle')}
@@ -128,6 +180,62 @@ const Blog = () => {
           </motion.a>
         </div>
       </div>
+
+      <Dialog open={!!selectedArticle} onOpenChange={(open) => !open && setSelectedArticle(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0">
+          {selectedArticle && (
+            <>
+              <div className="relative h-64 md:h-80 w-full">
+                <OptimizedImage
+                  src={selectedArticle.image}
+                  alt={selectedArticle.title}
+                  className="w-full h-full"
+                  objectFit="cover"
+                />
+                <div className="absolute inset-0 bg-black/40" />
+                <button
+                  onClick={() => setSelectedArticle(null)}
+                  className="absolute top-4 right-4 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors z-10"
+                  aria-label="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                  <div className="flex items-center gap-4 mb-3 text-sm font-medium uppercase tracking-wider">
+                    <span className="bg-turquoise/90 px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
+                      <Tag className="w-3 h-3" />
+                      {selectedArticle.category}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {selectedArticle.readTime}
+                    </span>
+                  </div>
+                  <DialogTitle className="font-playfair text-2xl md:text-4xl font-bold leading-tight">
+                    {selectedArticle.title}
+                  </DialogTitle>
+                </div>
+              </div>
+
+              <div className="p-6 md:p-8">
+                <div className="flex items-center gap-2 text-charcoal-light mb-6 text-sm">
+                  <Calendar className="w-4 h-4" />
+                  {new Date(selectedArticle.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </div>
+
+                <div className="prose prose-lg prose-headings:font-playfair prose-headings:text-charcoal prose-p:text-charcoal-light prose-a:text-turquoise hover:prose-a:text-turquoise-dark max-w-none">
+                  <ReactMarkdown>{selectedArticle.content}</ReactMarkdown>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

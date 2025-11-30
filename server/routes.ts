@@ -1,18 +1,53 @@
-import type { Express } from "express";
+import express, { type Express } from "express";
 import { createServer, type Server } from "http";
+import OpenAI from "openai";
 import { storage } from "./storage";
 import { contactSchema, newsletterSchema, appointmentSchema } from "@shared/schema";
 import { z } from "zod";
 import { ZodError } from "zod-validation-error";
 import { handleChatRequest } from "./api/chat";
+import { emailService } from "./services/email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form endpoint
+  app.use('/resources', express.static('resources'));
+
   app.post('/api/contact', async (req, res) => {
     try {
       const contactData = contactSchema.parse(req.body);
       const savedContact = await storage.createContact(contactData);
-      
+
+      // Send email notification
+      await emailService.sendEmail({
+        to: "eva@evaperez-wellness.com", // Replace with actual admin email or env var
+        subject: `Nuevo mensaje de contacto: ${contactData.name}`,
+        text: `
+          Nombre: ${contactData.name}
+          Email: ${contactData.email}
+          Empresa: ${contactData.company || "N/A"}
+          Servicio: ${contactData.service}
+          Mensaje: ${contactData.message}
+        `,
+      });
+
+      // Send auto-response to user
+      await emailService.sendEmail({
+        to: contactData.email,
+        subject: "Hemos recibido tu mensaje - Eva Pérez",
+        text: `
+Hola ${contactData.name},
+
+Gracias por contactar conmigo. He recibido tu mensaje correctamente.
+
+Revisaré tu consulta sobre "${contactData.service}" y me pondré en contacto contigo lo antes posible, normalmente en un plazo de 24-48 horas laborables.
+
+Atentamente,
+Eva Pérez
+Spa Manager & Wellness Consultant
+https://evaperez-wellness.com
+        `,
+      });
+
       return res.status(200).json({
         success: true,
         message: "Mensaje enviado correctamente",
@@ -26,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: error.errors
         });
       }
-      
+
       return res.status(500).json({
         success: false,
         message: "Error al procesar la solicitud"
@@ -39,7 +74,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const newsletterData = newsletterSchema.parse(req.body);
       const savedSubscription = await storage.createNewsletterSubscription(newsletterData);
-      
+
+      // Send email notification
+      await emailService.sendEmail({
+        to: "eva@evaperez-wellness.com",
+        subject: `Nueva suscripción a newsletter: ${newsletterData.email}`,
+        text: `Se ha suscrito un nuevo usuario: ${newsletterData.email}`,
+      });
+
+      // Send welcome email to user
+      await emailService.sendEmail({
+        to: newsletterData.email,
+        subject: "¡Bienvenido/a a la comunidad de Eva Pérez!",
+        text: `
+Hola,
+
+Gracias por suscribirte a mi newsletter. Me alegra mucho tenerte aquí.
+
+A partir de ahora recibirás consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gestión de spas.
+
+Si tienes alguna pregunta o tema que te gustaría que tratara, no dudes en responder a este correo.
+
+Atentamente,
+Eva Pérez
+Spa Manager & Wellness Consultant
+https://evaperez-wellness.com
+        `,
+      });
+
       return res.status(200).json({
         success: true,
         message: "Suscripción completada correctamente",
@@ -53,7 +115,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: error.errors
         });
       }
-      
+
       return res.status(500).json({
         success: false,
         message: "Error al procesar la suscripción"
@@ -70,7 +132,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const appointmentData = appointmentSchema.parse(req.body);
       const savedAppointment = await storage.createAppointment(appointmentData);
-      
+
+      // Send email notification
+      await emailService.sendEmail({
+        to: "eva@evaperez-wellness.com",
+        subject: `Nueva cita reservada: ${appointmentData.name}`,
+        text: `
+          Nombre: ${appointmentData.name}
+          Email: ${appointmentData.email}
+          Teléfono: ${appointmentData.phone || "N/A"}
+          Empresa: ${appointmentData.company || "N/A"}
+          Fecha: ${new Date(appointmentData.date).toLocaleString()}
+          Servicio: ${appointmentData.service}
+          Mensaje: ${appointmentData.message || "N/A"}
+        `,
+      });
+
+      // Send auto-response to user
+      await emailService.sendEmail({
+        to: appointmentData.email,
+        subject: "Solicitud de cita recibida - Eva Pérez",
+        text: `
+Hola ${appointmentData.name},
+
+Gracias por solicitar una cita. He recibido tu petición para el día ${new Date(appointmentData.date).toLocaleDateString()} a las ${new Date(appointmentData.date).toLocaleTimeString()}.
+
+Tu cita está actualmente en estado "Pendiente de confirmación". Revisaré mi agenda y te enviaré un correo de confirmación definitiva en breve.
+
+Detalles de la solicitud:
+- Servicio: ${appointmentData.service}
+- Fecha: ${new Date(appointmentData.date).toLocaleString()}
+
+Si necesitas modificar algo, por favor responde a este correo.
+
+Atentamente,
+Eva Pérez
+Spa Manager & Wellness Consultant
+https://evaperez-wellness.com
+        `,
+      });
+
       return res.status(201).json({
         success: true,
         message: "Cita reservada correctamente",
@@ -84,7 +185,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: error.errors
         });
       }
-      
+
       return res.status(500).json({
         success: false,
         message: "Error al procesar la solicitud de cita"
@@ -96,25 +197,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/appointments/available', async (req, res) => {
     try {
       const dateParam = req.query.date;
-      
+
       if (!dateParam || typeof dateParam !== 'string') {
         return res.status(400).json({
           success: false,
           message: "Se requiere una fecha válida"
         });
       }
-      
+
       const date = new Date(dateParam);
-      
+
       if (isNaN(date.getTime())) {
         return res.status(400).json({
           success: false,
           message: "Formato de fecha inválido"
         });
       }
-      
+
       const availableSlots = await storage.getAvailableSlots(date);
-      
+
       return res.status(200).json({
         success: true,
         data: availableSlots
@@ -131,7 +232,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/appointments', async (_req, res) => {
     try {
       const appointments = await storage.getAllAppointments();
-      
+
       return res.status(200).json({
         success: true,
         data: appointments
@@ -149,23 +250,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const id = parseInt(req.params.id);
       const { status } = req.body;
-      
+
       if (!status || !['pending', 'confirmed', 'cancelled'].includes(status)) {
         return res.status(400).json({
           success: false,
           message: "Estado de cita inválido"
         });
       }
-      
+
       const updatedAppointment = await storage.updateAppointmentStatus(id, status);
-      
+
       if (!updatedAppointment) {
         return res.status(404).json({
           success: false,
           message: "Cita no encontrada"
         });
       }
-      
+
       return res.status(200).json({
         success: true,
         message: "Estado de la cita actualizado correctamente",
@@ -176,6 +277,103 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false,
         message: "Error al actualizar el estado de la cita"
       });
+    }
+  });
+
+  // Article endpoints
+  app.post('/api/articles/generate', async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).send("Unauthorized");
+    }
+    try {
+      const { topic } = req.body;
+      if (!topic) {
+        return res.status(400).json({ success: false, message: "El tema es requerido" });
+      }
+
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
+      }
+
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "Eres un experto redactor de contenido para un blog de wellness y hospitalidad de lujo. Genera un artículo en formato JSON con los siguientes campos: title, content (en markdown), excerpt, category, readTime (ej: '5 min read'). El contenido debe estar en ESPAÑOL. El tono debe ser profesional, sofisticado y persuasivo, enfocado en hoteles de lujo y estrategias de bienestar."
+          },
+          {
+            role: "user",
+            content: `Escribe un artículo sobre: ${topic}`
+          }
+        ],
+        response_format: { type: "json_object" }
+      });
+
+      const content = JSON.parse(completion.choices[0].message.content || "{}");
+
+      // Generate a slug from the title
+      const slug = content.title.toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove accents
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
+
+      // Save to database
+      const article = await storage.createArticle({
+        slug,
+        title: content.title,
+        content: content.content,
+        excerpt: content.excerpt,
+        image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80", // Placeholder or use an image search API if available
+        category: content.category,
+        readTime: content.readTime,
+        date: new Date().toISOString(),
+        language: "es"
+      });
+
+      return res.status(201).json({ success: true, data: article });
+
+    } catch (error) {
+      console.error("Error generating article:", error);
+      return res.status(500).json({ success: false, message: "Error generando el artículo" });
+    }
+  });
+
+  app.get('/api/articles', async (_req, res) => {
+    try {
+      const articles = await storage.getAllArticles();
+      res.json(articles);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener artículos" });
+    }
+  });
+
+  app.get('/api/articles/:slug', async (req, res) => {
+    try {
+      const article = await storage.getArticleBySlug(req.params.slug);
+      if (!article) {
+        return res.status(404).json({ message: "Artículo no encontrado" });
+      }
+      res.json(article);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener el artículo" });
+    }
+  });
+
+  app.patch('/api/articles/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedArticle = await storage.updateArticle(id, req.body);
+
+      if (!updatedArticle) {
+        return res.status(404).json({ message: "Artículo no encontrado" });
+      }
+
+      res.json(updatedArticle);
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar el artículo" });
     }
   });
 
