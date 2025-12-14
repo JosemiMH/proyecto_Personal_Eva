@@ -132,10 +132,7 @@ const Blog = () => {
                       <Tag className="w-3 h-3" />
                       {post.category}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {post.readTime}
-                    </span>
+
                     <span>•</span>
                     <span>{new Date(post.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US')}</span>
                   </div>
@@ -205,10 +202,7 @@ const Blog = () => {
                       <Tag className="w-3 h-3" />
                       {selectedArticle.category}
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {selectedArticle.readTime}
-                    </span>
+
                   </div>
                   <DialogTitle className="font-playfair text-2xl md:text-4xl font-bold leading-tight">
                     {selectedArticle.title}

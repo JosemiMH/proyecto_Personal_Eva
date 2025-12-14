@@ -665,8 +665,8 @@ export const blogPosts = [
       en: "The Secret of Longevity: How Luxury Hotels Are Innovating in Wellness"
     },
     excerpt: {
-      es: "Descubre cómo la ciencia de la longevidad y el biohacking están transformando la experiencia del spa de lujo.",
-      en: "Discover how longevity science and biohacking are transforming the luxury spa experience."
+      es: "Descubre cómo la ciencia de la longevidad y el biohacking están transformando la experiencia del spa de lujo, convirtiendo los hoteles en destinos de renovación biológica.",
+      en: "Discover how longevity science and biohacking are transforming the luxury spa experience, turning hotels into destinations for biological renewal."
     },
     image: "/attached_assets/blog_longevity_luxury_spa_v2.png",
     date: {
@@ -683,14 +683,26 @@ export const blogPosts = [
     },
     content: {
       es: [
-        "El sector de la hospitalidad de lujo está experimentando una transformación sin precedentes. El huésped moderno ya no busca solo opulencia estética, sino vitalidad medible. Aquí es donde entra 'El Secreto de la Longevidad'.",
-        "Los hoteles más exclusivos del mundo están integrando clínicas de bienestar avanzado dentro de sus spas. Cámaras hiperbáricas, crioterapia de cuerpo entero y diagnósticos moleculares ya no son ciencia ficción, sino amenities estándar en resorts de 5 estrellas.",
-        "Esta convergencia entre medicina preventiva y hospitalidad crea una nueva categoría: el 'Medical Wellness de Lujo'. El objetivo final no es solo relajar al huésped, sino devolverlo a casa biológicamente más joven de lo que llegó."
+        "El sector de la hospitalidad de lujo está experimentando una transformación sin precedentes en 2025. El huésped moderno ya no busca solo opulencia estética o relajación pasiva, sino una vitalidad medible y una extensión de su 'healthspan' (años de vida saludable). Los hoteles de élite están evolucionando para convertirse en verdaderos santuarios de longevidad, integrando medicina preventiva avanzada en sus ofertas de bienestar.",
+        "**La Nueva Era del Medical Wellness de Lujo**",
+        "Estamos presenciando la convergencia definitiva entre la hospitalidad y la medicina. Resorts en destinos como Suiza, Tailandia y ahora también en España, están incorporando clínicas completas dirigidas por equipos médicos multidisciplinares. Ya no hablamos solo de masajes, sino de diagnósticos moleculares, análisis de biomarcadores en tiempo real y terapias epigenéticas diseñadas para revertir el reloj biológico.",
+        "**Tecnologías de Vanguardia al Servicio del Huésped**",
+        "Entre las innovaciones más destacadas se encuentran las cámaras hiperbáricas de oxígeno, que saturan el plasma sanguíneo para acelerar la regeneración celular y la función cognitiva. La crioterapia de cuerpo entero, a temperaturas de -110°C, se ofrece no solo para la recuperación muscular de atletas, sino como un potente antiinflamatorio sistémico y estimulante del metabolismo. Además, terapias de fotobiomodulación (luz roja e infrarroja) se están estandarizando para mejorar la salud mitocondrial mientras el huésped descansa.",
+        "**Nutrición de Precisión y Suplementación**",
+        "La experiencia culinaria también se ha redefinido. Los menús ya no se basan solo en el sabor, sino en la densidad nutricional y la compatibilidad genética. A través de pruebas de nutrigenómica, los chefs diseñan planes de alimentación personalizados que reducen la inflamación y optimizan la energía. Esto se complementa con 'barras de alquimia' donde se sirven sueros intravenosos (IV Drips) de vitaminas y nootrópicos, personalizados según las carencias específicas detectadas en el check-in.",
+        "**El Objetivo Final: Transformación Biológica**",
+        "El lujo en 2025 se define por el resultado: devolver al huésped a su vida cotidiana no solo descansado, sino biológicamente optimizado. Los programas de sueño, por ejemplo, utilizan colchones inteligentes y monitoreo biométrico para reestructurar la arquitectura del sueño del cliente. En definitiva, estos hoteles no venden camas, venden años de vida de calidad."
       ],
       en: [
-        "The luxury hospitality sector is undergoing an unprecedented transformation. The modern guest seeks not just aesthetic opulence, but measurable vitality. This is where 'The Secret of Longevity' comes in.",
-        "The world's most exclusive hotels are integrating advanced wellness clinics into their spas. Hyperbaric chambers, whole-body cryotherapy, and molecular diagnostics are no longer science fiction, but standard amenities in 5-star resorts.",
-        "This convergence of preventive medicine and hospitality creates a new category: 'Luxury Medical Wellness'. The ultimate goal is not just to relax the guest, but to send them home biologically younger than when they arrived."
+        "The luxury hospitality sector is undergoing an unprecedented transformation in 2025. The modern guest is no longer seeking just aesthetic opulence or passive relaxation, but measurable vitality and an extension of their 'healthspan'. Elite hotels are evolving into true longevity sanctuaries, integrating advanced preventive medicine into their wellness offerings.",
+        "**The New Era of Luxury Medical Wellness**",
+        "We are witnessing the definitive convergence between hospitality and medicine. Resorts in destinations like Switzerland, Thailand, and now Spain are incorporating full clinics led by multidisciplinary medical teams. We are no longer talking just about massages, but about molecular diagnostics, real-time biomarker analysis, and epigenetic therapies designed to reverse the biological clock.",
+        "**Cutting-Edge Technologies at the Guest's Service**",
+        "Among the most notable innovations are hyperbaric oxygen chambers, which saturate blood plasma to accelerate cellular regeneration and cognitive function. Whole-body cryotherapy, at temperatures of -110°C, is offered not only for athlete muscle recovery but as a potent systemic anti-inflammatory and metabolic booster. Additionally, photobiomodulation (red and infrared light) therapies are becoming standard to improve mitochondrial health while the guest rests.",
+        "**Precision Nutrition and Supplementation**",
+        "The culinary experience has also been redefined. Menus are no longer based solely on flavor, but on nutritional density and genetic compatibility. Through nutrigenomics testing, chefs design personalized meal plans that reduce inflammation and optimize energy. This is complemented by 'alchemy bars' serving intravenous (IV) vitamin drips and nootropics, customized according to specific deficiencies detected at check-in.",
+        "**The Ultimate Goal: Biological Transformation**",
+        "Luxury in 2025 is defined by the outcome: returning the guest to their daily life not just rested, but biologically optimized. Sleep programs, for example, use smart mattresses and biometric monitoring to restructure the client's sleep architecture. Ultimately, these hotels are not selling beds; they are selling years of quality life."
       ]
     }
   },
@@ -700,8 +712,8 @@ export const blogPosts = [
       en: "AI & Hyper-personalization in Wellness"
     },
     excerpt: {
-      es: "Cómo el Big Data y la IA están redefiniendo los tratamientos a medida, desde diagnósticos de piel hasta bio-ritmos.",
-      en: "How Big Data and AI are redefining bespoke treatments, from skin diagnostics to bio-rhythms."
+      es: "Cómo el Big Data, la Inteligencia Artificial y los wearables están redefiniendo los tratamientos a medida, anticipando las necesidades del cliente antes de que las exprese.",
+      en: "How Big Data, Artificial Intelligence, and wearables are redefining bespoke treatments, anticipating client needs before they are even expressed."
     },
     image: "/assets/new_gen/blog_ai.png",
     date: {
@@ -718,14 +730,26 @@ export const blogPosts = [
     },
     content: {
       es: [
-        "La inteligencia artificial (IA) ha dejado de ser una promesa futurista para convertirse en una herramienta tangible en la gestión de spas. Mediante el análisis de grandes volúmenes de datos (Big Data), los centros wellness ahora pueden predecir las necesidades de sus clientes antes incluso de que ellos las manifiesten.",
-        "Imagina un sistema que analiza el historial de tratamientos, las preferencias de productos y hasta los biorritmos de un cliente para sugerir el masaje perfecto o la intensidad de luz ideal en la cabina. Esto es la hiper-personalización: adaptar cada detalle de la experiencia a la fisiología y estado emocional del individuo en tiempo real.",
-        "Además, los diagnósticos de piel impulsados por IA están permitiendo a los terapeutas diseñar regímenes de cuidado facial con una precisión clínica, aumentando no solo la satisfacción del cliente sino también la venta de productos retail. La tecnología no reemplaza el toque humano, sino que lo potencia, permitiendo a los profesionales centrarse en la conexión emocional mientras los datos aseguran la precisión técnica."
+        "La inteligencia artificial (IA) ha dejado de ser una promesa futurista para convertirse en el cerebro invisible que orquesta la experiencia perfecta en los spas de lujo de 2025. La 'talla única' ha muerto; hoy, el lujo es sinónimo de hiper-personalización basada en datos.",
+        "**El Viaje del Cliente Impulsado por Datos**",
+        "Desde el momento de la reserva, algoritmos predictivos analizan el historial del cliente, sus preferencias declaradas y datos biométricos compartidos (desde sus propios wearables) para diseñar itinerarios a medida. Imagina llegar a tu habitación y que la iluminación, la temperatura y la aromaterapia estén ajustadas automáticamente para contrarrestar tu jet lag específico, basándose en tus datos de vuelo y ritmo circadiano.",
+        "**Diagnósticos de Precisión Clínica**",
+        "En la cabina, la tecnología eleva la terapia manual. Escáneres de piel impulsados por IA analizan capas dérmicas invisibles al ojo humano, detectando daño solar, niveles de hidratación y elasticidad. Esto permite al terapeuta (o al sistema automatizado) crear mezclas de productos 'in-situ' con las concentraciones exactas de activos que la piel necesita en ese preciso instante. No es magia, es alquimia digital.",
+        "**Tecnología Invisible y Empatía Aumentada**",
+        "Lejos de deshumanizar el servicio, la IA actúa como un 'co-terapeuta'. Monitorea los signos vitales del cliente durante un masaje para sugerir al terapeuta cambios en la presión o el ritmo para maximizar la relajación parasimpática. Además, libera al personal de tareas administrativas, permitiéndoles centrarse en la conexión emocional. La tecnología se vuelve invisible, operando en segundo plano para que la experiencia humana brille con mayor intensidad.",
+        "**El Futuro: Bienestar Predictivo**",
+        "El siguiente paso es el bienestar predictivo: sistemas que no solo reaccionan a cómo te sientes, sino que anticipan cómo te sentirás. Mediante el análisis continuo de variabilidad de frecuencia cardíaca (VFC) y calidad del sueño, tu spa de confianza podrá sugerirte intervenciones preventivas antes de que aparezcan los síntomas de agotamiento o enfermedad."
       ],
       en: [
-        "Artificial Intelligence (AI) has moved from a futuristic promise to a tangible tool in spa management. Through Big Data analysis, wellness centers can now predict their clients' needs even before they express them.",
-        "Imagine a system that analyzes a client's treatment history, product preferences, and even bio-rhythms to suggest the perfect massage or the ideal light intensity in the treatment room. This is hyper-personalization: adapting every detail of the experience to the individual's physiology and emotional state in real-time.",
-        "Furthermore, AI-driven skin diagnostics are allowing therapists to design facial care regimens with clinical precision, increasing not only customer satisfaction but also retail product sales. Technology does not replace the human touch; it enhances it, allowing professionals to focus on emotional connection while data ensures technical precision."
+        "Artificial intelligence (AI) has moved from a futuristic promise to the invisible brain orchestrating the perfect experience in the luxury spas of 2025. 'One size fits all' is dead; today, luxury is synonymous with data-driven hyper-personalization.",
+        "**The Data-Driven Guest Journey**",
+        "From the moment of booking, predictive algorithms analyze the client's history, stated preferences, and shared biometric data (from their own wearables) to design bespoke itineraries. Imagine arriving at your room and having the lighting, temperature, and aromatherapy automatically adjusted to counteract your specific jet lag, based on your flight data and circadian rhythm.",
+        "**Clinical Precision Diagnostics**",
+        "In the treatment room, technology elevates manual therapy. AI-driven skin scanners analyze dermal layers invisible to the human eye, detecting sun damage, hydration levels, and elasticity. This allows the therapist (or automated system) to create product blends 'in-situ' with the exact concentrations of actives the skin needs at that precise moment. It's not magic, it's digital alchemy.",
+        "**Invisible Technology and Augmented Empathy**",
+        "Far from dehumanizing service, AI acts as a 'co-therapist'. It monitors the client's vital signs during a massage to suggest changes in pressure or rhythm to the therapist to maximize parasympathetic relaxation. Additionally, it frees staff from administrative tasks, allowing them to focus on emotional connection. Technology becomes invisible, operating in the background so the human experience shines brighter.",
+        "**The Future: Predictive Wellness**",
+        "The next step is predictive wellness: systems that not only react to how you feel but anticipate how you will feel. Through continuous analysis of heart rate variability (HRV) and sleep quality, your trusted spa will be able to suggest preventive interventions before symptoms of burnout or illness appear."
       ]
     }
   },
@@ -735,8 +759,8 @@ export const blogPosts = [
       en: "The Longevity Revolution & Biohacking"
     },
     excerpt: {
-      es: "Más allá de la relajación: cámaras hiperbáricas, crioterapia y sueros IV para optimizar la salud celular.",
-      en: "Beyond relaxation: hyperbaric chambers, cryotherapy, and IV drips to optimize cellular health."
+      es: "Más allá de la relajación: cámaras hiperbáricas, crioterapia y sueros IV para optimizar la salud celular y el rendimiento cognitivo.",
+      en: "Beyond relaxation: hyperbaric chambers, cryotherapy, and IV drips to optimize cellular health and cognitive performance."
     },
     image: "/attached_assets/blog_longevity_luxury_spa_v2.png",
     date: {
@@ -753,14 +777,26 @@ export const blogPosts = [
     },
     content: {
       es: [
-        "El concepto de 'spa' se está expandiendo hacia la 'clínica de longevidad'. Los clientes ya no buscan solo relajación momentánea, sino intervenciones que optimicen su salud a largo plazo y retrasen el envejecimiento celular. Aquí es donde entra el Biohacking.",
-        "Tratamientos como la crioterapia de cuerpo entero, las cámaras hiperbáricas de oxígeno y las terapias de luz roja e infrarroja se están convirtiendo en el nuevo estándar. Estas tecnologías estimulan la regeneración celular, reducen la inflamación sistémica y mejoran el rendimiento cognitivo.",
-        "La integración de sueros intravenosos (IV Drips) personalizados con vitaminas y minerales es otra tendencia en auge. Los spas modernos están colaborando con personal médico para ofrecer estos servicios de manera segura, creando un híbrido entre hospitalidad de lujo y medicina preventiva. El objetivo es claro: no solo vivir más años, sino vivirlos con plena vitalidad."
+        "El término 'spa' (Salus Per Aquam) se está redefiniendo hacia 'Salus Per Scientiam'. Los clientes de alto nivel adquisitivo están impulsando la transición de la relajación hedonista hacia el 'Biohacking': el uso de ciencia y tecnología para controlar la propia biología y optimizar el rendimiento físico y mental.",
+        "**El Arsenal del Biohacker en el Hotel**",
+        "Las instalaciones de spa modernas parecen cada vez más laboratorios de la NASA. La **Crioterapia de Cuerpo Entero** es una de las estrellas; exposiciones breves a frío extremo provocan una cascada de endorfinas y una vasoconstricción masiva que, al liberarse, inunda los tejidos de sangre oxigenada y nutrientes. Es el 'reset' metabólico definitivo.",
+        "Por otro lado, la **Oxigenación Hiperbárica (HBOT)** ofrece lo opuesto: presurizar el cuerpo para forzar la entrada de oxígeno en fluidos donde normalmente no llega, acelerando la curación de tejidos, la neuroplasticidad y combatiendo la fatiga crónica típica de los ejecutivos de alto nivel.",
+        "**Sueros IV y Nutrición Celular**",
+        "La suplementación oral tiene límites de absorción. Por eso, los 'Drip Lounges' son el nuevo bar de moda. Tratamientos intravenosos de NAD+ (una coenzima vital para la energía celular que disminuye con la edad), glutatión (el antioxidante maestro) y complejos vitamínicos se administran mientras el cliente disfruta de vistas al mar o una sesión de meditación guiada. El efecto es casi inmediato: claridad mental, energía renovada y una piel radiante desde el interior.",
+        "**Neuro-hacking y Salud Mental**",
+        "El biohacking no es solo físico. Tecnologías de neurofeedback y estimulación magnética transcraneal (TMS) suave están entrando en los spas para entrenar el cerebro hacia estados de calma profunda (ondas Alpha/Theta) o concentración máxima (ondas Beta/Gamma). Combinado con tanques de flotación privación sensorial, estas herramientas ofrecen un atajo hacia estados meditativos que normalmente requerirían años de práctica.",
+        "Esta revolución marca el fin del bienestar pasivo. El huésped es ahora un participante activo e informado en la optimización de su propia máquina biológica."
       ],
       en: [
-        "The concept of 'spa' is expanding into the 'longevity clinic'. Clients are no longer seeking just momentary relaxation, but interventions that optimize their long-term health and delay cellular aging. This is where Biohacking comes in.",
-        "Treatments such as whole-body cryotherapy, hyperbaric oxygen chambers, and red and infrared light therapies are becoming the new standard. These technologies stimulate cellular regeneration, reduce systemic inflammation, and improve cognitive performance.",
-        "The integration of personalized IV Drips with vitamins and minerals is another booming trend. Modern spas are collaborating with medical staff to offer these services safely, creating a hybrid between luxury hospitality and preventive medicine. The goal is clear: not just to live longer, but to live with full vitality."
+        "The term 'spa' (Salus Per Aquam) is being redefined towards 'Salus Per Scientiam'. High-net-worth clients are driving the transition from hedonistic relaxation to 'Biohacking': the use of science and technology to control one's own biology and optimize physical and mental performance.",
+        "**The Biohacker's Arsenal at the Hotel**",
+        "Modern spa facilities increasingly resemble NASA laboratories. **Whole-Body Cryotherapy** is one of the stars; brief exposures to extreme cold trigger an endorphin cascade and massive vasoconstriction which, upon release, floods tissues with oxygenated blood and nutrients. It is the ultimate metabolic 'reset'.",
+        "On the other hand, **Hyperbaric Oxygen Therapy (HBOT)** offers the opposite: pressurizing the body to force oxygen into fluids where it normally doesn't reach, accelerating tissue healing, neuroplasticity, and combating the chronic fatigue typical of high-level executives.",
+        "**IV Drips and Cellular Nutrition**",
+        "Oral supplementation has absorption limits. That's why 'Drip Lounges' are the new trendy bar. Intravenous treatments of NAD+ (a vital coenzyme for cellular energy that declines with age), glutathione (the master antioxidant), and vitamin complexes are administered while the client enjoys ocean views or a guided meditation session. The effect is almost immediate: mental clarity, renewed energy, and radiant skin from the inside out.",
+        "**Neuro-hacking and Mental Health**",
+        "Biohacking is not just physical. Neurofeedback technologies and mild transcranial magnetic stimulation (TMS) are entering spas to train the brain towards states of deep calm (Alpha/Theta waves) or peak focus (Beta/Gamma waves). Combined with sensory deprivation float tanks, these tools offer a shortcut to meditative states that would normally require years of practice.",
+        "This revolution marks the end of passive wellness. The guest is now an active and informed participant in the optimization of their own biological machine."
       ]
     }
   },
@@ -770,8 +806,8 @@ export const blogPosts = [
       en: "Eco-Luxury: Sustainability as a Premium Standard"
     },
     excerpt: {
-      es: "Por qué los spas de lujo están eliminando plásticos y adoptando la arquitectura bioclimática.",
-      en: "Why luxury spas are eliminating plastics and adopting bioclimatic architecture."
+      es: "Por qué los spas de lujo están liderando la 'Blue Beauty', eliminando plásticos y adoptando la arquitectura bioclimática para un bienestar consciente.",
+      en: "Why luxury spas are leading 'Blue Beauty', eliminating plastics, and adopting bioclimatic architecture for conscious wellness."
     },
     image: "/assets/new_gen/blog_eco.png",
     date: {
@@ -783,21 +819,33 @@ export const blogPosts = [
       en: "Sustainability"
     },
     readTime: {
-      es: "4 min lectura",
-      en: "4 min read"
+      es: "5 min lectura",
+      en: "5 min read"
     },
     content: {
       es: [
-        "El lujo ya no se define por el exceso, sino por la consciencia. El 'Eco-Lujo' es la nueva norma en la industria wellness, donde la sostenibilidad se integra en cada aspecto de la operación, desde la arquitectura hasta los consumibles.",
-        "Los spas líderes están eliminando por completo los plásticos de un solo uso, optando por materiales biodegradables y envases reutilizables de alta gama. Pero va más allá: la arquitectura bioclimática se utiliza para reducir el consumo energético, aprovechando la luz natural y la ventilación cruzada para crear ambientes saludables y eficientes.",
-        "En cuanto a los productos, la demanda de cosmética 'Blue Beauty' (segura para los océanos) y 'Clean Beauty' (libre de tóxicos) es innegociable. Los clientes premium esperan que su cuidado personal no tenga un coste ambiental. La sostenibilidad se ha convertido en un pilar de la experiencia de lujo, comunicando valores de respeto y responsabilidad."
+        "En 2025, la ostentación derrochadora ha sido reemplazada por el lujo consciente. El 'Eco-Lujo' establece que no puede haber bienestar personal si es a costa del bienestar planetario. Los spas más exclusivos del mundo están demostrando que la sostenibilidad extrema y el confort supremo no son mutuamente excluyentes, sino sinérgicos.",
+        "**Blue Beauty y la Protección de los Océanos**",
+        "Más allá de la 'Green Beauty', la tendencia dominante es la 'Blue Beauty': cosmética diseñada para minimizar el impacto en la vida marina. Los spas de resorts costeros están eliminando filtros solares tóxicos (como la oxibenzona) y utilizando exfoliantes a base de sal o semillas, desterrando para siempre los microplásticos. Además, marcas de lujo están utilizando envases hechos de plásticos recuperados del océano, cerrando el círculo de residuos.",
+        "**Arquitectura Bioclimática y Espacios Vivos**",
+        "El edificio del spa ya no es una caja climatizada artificialmente. La arquitectura bioclimática utiliza la orientación solar, la ventilación cruzada natural y materiales térmicos locales (como piedra y madera certificada) para reducir drásticamente la huella de carbono. El diseño biofílico —integrar muros vegetales, luz natural cenital y vistas ininterrumpidas a la naturaleza— no es solo estético; está probado que reduce los niveles de cortisol y mejora la recuperación del huésped.",
+        "**Cero Residuos y Economía Circular**",
+        "El desperdicio es el enemigo del lujo moderno. Los spas están adoptando políticas de 'Cero Residuos': desde zapatillas de spa biodegradables o lavables hasta la eliminación total de botellas de agua de plástico en favor de sistemas de filtración de agua mineralizada in-situ. Los textiles son de lino orgánico o bambú, que requieren menos agua y pesticidas que el algodón convencional.",
+        "**Ética y Comunidad Local**",
+        "Finalmente, el eco-lujo abarca lo social. Los tratamientos 'Signature' ahora destacan ingredientes autóctonos (Km 0), apoyando a cooperativas de agricultores locales y preservando tradiciones curativas ancestrales. El lujo se convierte así en un vehículo para la regeneración cultural y ambiental, ofreciendo al huésped una conexión auténtica y respetuosa con el destino."
       ],
       en: [
-        "Luxury is no longer defined by excess, but by consciousness. 'Eco-Luxury' is the new norm in the wellness industry, where sustainability is integrated into every aspect of the operation, from architecture to consumables.",
-        "Leading spas are completely eliminating single-use plastics, opting for biodegradable materials and high-end reusable packaging. But it goes further: bioclimatic architecture is used to reduce energy consumption, leveraging natural light and cross-ventilation to create healthy and efficient environments.",
-        "Regarding products, the demand for 'Blue Beauty' (ocean-safe) and 'Clean Beauty' (toxin-free) cosmetics is non-negotiable. Premium clients expect their personal care to come at no environmental cost. Sustainability has become a pillar of the luxury experience, communicating values of respect and responsibility."
+        "In 2025, wasteful ostentation has been replaced by conscious luxury. 'Eco-Luxury' establishes that personal wellness cannot come at the cost of planetary wellness. The world's most exclusive spas are demonstrating that extreme sustainability and supreme comfort are not mutually exclusive, but synergistic.",
+        "**Blue Beauty and Ocean Protection**",
+        "Beyond 'Green Beauty', the dominant trend is 'Blue Beauty': cosmetics designed to minimize impact on marine life. Coastal resort spas are eliminating toxic sunscreens (like oxybenzone) and using salt or seed-based scrubs, banishing microplastics forever. Furthermore, luxury brands are using packaging made from ocean-recovered plastics, closing the waste loop.",
+        "**Bioclimatic Architecture and Living Spaces**",
+        "The spa building is no longer an artificially climatized box. Bioclimatic architecture uses solar orientation, natural cross-ventilation, and local thermal materials (like stone and certified wood) to drastically reduce the carbon footprint. Biophilic design—integrating plant walls, overhead natural light, and uninterrupted views of nature—is not just aesthetic; it is proven to reduce cortisol levels and enhance guest recovery.",
+        "**Zero Waste and Circular Economy**",
+        "Waste is the enemy of modern luxury. Spas are adopting 'Zero Waste' policies: from biodegradable or washable spa slippers to the total elimination of plastic water bottles in favor of in-situ mineralized water filtration systems. Textiles are organic linen or bamboo, requiring less water and pesticides than conventional cotton.",
+        "**Ethics and Local Community**",
+        "Finally, eco-luxury embraces the social aspect. 'Signature' treatments now highlight indigenous ingredients (0 Km), supporting local farmer cooperatives and preserving ancestral healing traditions. Luxury thus becomes a vehicle for cultural and environmental regeneration, offering the guest an authentic and respectful connection with the destination."
       ]
-    }
+    },
   },
   {
     title: {

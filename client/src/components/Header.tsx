@@ -131,7 +131,7 @@ const Header = () => {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden bg-white/98 backdrop-blur-md w-full border-t border-gray-100 absolute left-0 right-0 z-50 shadow-md transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden pointer-events-none'
+        className={`md:hidden bg-white w-full border-t border-gray-100 absolute left-0 right-0 z-[60] shadow-md transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden pointer-events-none'
           }`}
       >
         <div className={`container mx-auto ${isMobile ? 'px-3 py-3 space-y-2' : 'px-4 py-4 space-y-3'}`}>
