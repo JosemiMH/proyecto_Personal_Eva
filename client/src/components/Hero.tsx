@@ -13,15 +13,15 @@ const Hero = () => {
 
   return (
     <div className={`relative overflow-hidden ${isMobile
-        ? 'h-[100dvh] pt-0 pb-0'
-        : isTablet
-          ? 'pt-44 pb-24'
-          : 'pt-56 pb-32'
+      ? 'h-[100dvh] pt-0 pb-0'
+      : isTablet
+        ? 'pt-44 pb-24'
+        : 'pt-56 pb-32'
       }`}>
       <div className="absolute inset-0 z-0">
         <div className={`absolute inset-0 z-10 ${isMobile
-            ? 'bg-gradient-to-b from-transparent via-black/10 to-black/90'
-            : 'bg-gradient-to-r from-turquoise/60 to-sage/40 mix-blend-multiply'
+          ? 'bg-gradient-to-b from-transparent via-black/10 to-black/90'
+          : 'bg-gradient-to-r from-turquoise/60 to-sage/40 mix-blend-multiply'
           }`}></div>
         <div className="absolute inset-0 overflow-hidden"
           style={{
@@ -34,20 +34,20 @@ const Hero = () => {
               ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo"
               : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"}
             className={`w-full h-full object-cover ${isMobile
-                ? 'object-[50%_0%]'
-                : isTablet
-                  ? 'object-[55%_-10%]'
-                  : 'object-[50%_-10%]'
+              ? 'object-[50%_0%]'
+              : isTablet
+                ? 'object-[55%_-10%]'
+                : 'object-[50%_-10%]'
               }`}
           />
         </div>
       </div>
 
       <div className={`container mx-auto relative z-20 h-full ${isMobile
-          ? 'px-6 flex flex-col justify-end pb-24'
-          : isTablet
-            ? 'pl-6 pr-6'
-            : 'pl-8 pr-8'
+        ? 'px-6 flex flex-col justify-end pb-24'
+        : isTablet
+          ? 'pl-6 pr-6'
+          : 'pl-8 pr-8'
         }`}>
         <motion.div
           className={isMobile ? 'w-full' : isTablet ? 'max-w-md' : 'max-w-xl'}
@@ -56,20 +56,20 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className={`font-playfair font-bold text-white leading-tight text-shadow ${isMobile
-              ? 'text-3xl mb-3'
-              : isTablet
-                ? 'text-2xl md:text-3xl mb-3'
-                : 'text-3xl lg:text-4xl mb-4'
+            ? 'text-3xl mb-3'
+            : isTablet
+              ? 'text-2xl md:text-3xl mb-3'
+              : 'text-3xl lg:text-4xl mb-4'
             }`}>
             {language === 'es'
               ? "Asesoro a hoteles en la transformación de su área de Wellness"
               : "I advise hotels on transforming their Wellness area"}
           </h1>
           <p className={`text-white opacity-90 border-l-4 border-white/70 ${isMobile
-              ? 'text-sm mb-4 pl-3'
-              : isTablet
-                ? 'text-base mb-3 pl-4 max-w-md'
-                : 'text-lg mb-4 pl-5 max-w-lg'
+            ? 'text-sm mb-4 pl-3'
+            : isTablet
+              ? 'text-base mb-3 pl-4 max-w-md'
+              : 'text-lg mb-4 pl-5 max-w-lg'
             }`}>
             {language === 'es'
               ? "En un motor de crecimiento estratégico, rentable y alineado con la experiencia de lujo."
@@ -89,10 +89,10 @@ const Hero = () => {
             </p>
           </div>
           <p className={`text-white opacity-80 ${isMobile
-              ? 'text-xs mb-6'
-              : isTablet
-                ? 'text-sm mb-5 max-w-sm'
-                : 'text-sm mb-6 max-w-md'
+            ? 'text-xs mb-6'
+            : isTablet
+              ? 'text-sm mb-5 max-w-sm'
+              : 'text-sm mb-6 max-w-md'
             }`}>
             {language === 'es'
               ? "Más de 20 años de experiencia optimizando operaciones, formando equipos excepcionales y elevando la satisfacción del cliente."
@@ -102,10 +102,10 @@ const Hero = () => {
             <a
               href="#services"
               className={`bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center ${isMobile
-                  ? 'px-6 py-3 text-sm w-full'
-                  : isTablet
-                    ? 'px-7 py-2.5 text-sm'
-                    : 'px-8 py-3 text-base'
+                ? 'px-6 py-3 text-sm w-full'
+                : isTablet
+                  ? 'px-7 py-2.5 text-sm'
+                  : 'px-8 py-3 text-base'
                 }`}
             >
               {language === 'es' ? "Descubre mis servicios" : "Discover my services"}
@@ -113,10 +113,10 @@ const Hero = () => {
             <a
               href="#contact"
               className={`bg-white hover:bg-gray-100 text-turquoise-dark font-medium rounded transition-colors inline-block text-center ${isMobile
-                  ? 'px-6 py-3 text-sm w-full'
-                  : isTablet
-                    ? 'px-7 py-2.5 text-sm'
-                    : 'px-8 py-3 text-base'
+                ? 'px-6 py-3 text-sm w-full'
+                : isTablet
+                  ? 'px-7 py-2.5 text-sm'
+                  : 'px-8 py-3 text-base'
                 }`}
             >
               {language === 'es' ? "Contactar" : "Contact me"}

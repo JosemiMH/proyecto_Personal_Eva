@@ -92,7 +92,7 @@ const Newsletter = () => {
                       <FormControl>
                         <Input
                           placeholder={language === 'es' ? "Tu email" : "Your email"}
-                          className="flex-grow p-3 rounded border-0 focus:ring-2 focus:ring-white/50 outline-none"
+                          className="flex-grow p-3 rounded border-0 focus:ring-2 focus:ring-white/50 outline-none text-gray-900 bg-white placeholder:text-gray-500"
                           {...field}
                         />
                       </FormControl>

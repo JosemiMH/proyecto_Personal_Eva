@@ -10,6 +10,32 @@ export const services = [
       es: 'Auditorías completas, desarrollo de conceptos y planes de optimización de rentabilidad para tu spa.',
       en: 'Comprehensive audits, concept development, and profitability optimization plans for your spa.'
     },
+    longDescription: {
+      es: `En el competitivo mundo de la hospitalidad de lujo, un spa no es solo un servicio adicional; es un destino en sí mismo y un motor crucial de ingresos y satisfacción del huésped. Mi servicio de Consultoría Estratégica está diseñado para transformar áreas de bienestar en activos de alto rendimiento, combinando excelencia operativa con rentabilidad financiera.
+
+      Basado en tres pilares fundamentales, este servicio ofrece una solución integral para hoteles y spas que buscan la excelencia:
+
+      1. Auditorías Operativas Completas
+      No se puede mejorar lo que no se mide ni se entiende a fondo. Mis auditorías operativas son un análisis profundo de la salud de tu negocio wellness.
+      
+      2. Desarrollo de Conceptos Únicos
+      En un mercado saturado, la diferenciación es clave. Ayudo a crear identidades de spa que resuenen con tu marca hotelera y atraigan al viajero sofisticado.
+      
+      3. Optimización de Rentabilidad (Revenue Management)
+      La pasión por el bienestar debe ir de la mano con la sostenibilidad financiera. Transformo la gestión del spa para maximizar los ingresos sin comprometer la experiencia.`,
+      en: `In the competitive world of luxury hospitality, a spa is not just an additional amenity; it is a destination in itself and a crucial driver of revenue and guest satisfaction. My Strategic Consulting service is designed to transform wellness areas into high-performance assets, combining operational excellence with financial profitability.
+
+      Based on three fundamental pillars, this service offers a comprehensive solution for hotels and spas seeking excellence:
+
+      1. Comprehensive Operational Audits
+      You cannot improve what you do not measure or fully understand. My operational audits are a deep analysis of the health of your wellness business.
+
+      2. Unique Concept Development
+      In a saturated market, differentiation is key. I help create spa identities that resonate with your hotel brand and attract the sophisticated traveler.
+
+      3. Profitability Optimization (Revenue Management)
+      Passion for wellness must go hand in hand with financial sustainability. I transform spa management to maximize revenue without compromising the experience.`
+    },
     features: {
       es: ['Auditorías operativas', 'Desarrollo de conceptos', 'Optimización de rentabilidad'],
       en: ['Operational audits', 'Concept development', 'Profitability optimization']
@@ -24,6 +50,26 @@ export const services = [
     description: {
       es: 'Supervisión integral de aperturas, renovaciones y mejoras de centros wellness.',
       en: 'Comprehensive supervision of openings, renovations, and improvements of wellness centers.'
+    },
+    longDescription: {
+      es: `Desde la concepción inicial hasta el día de la inauguración, la gestión de un proyecto de spa requiere una coordinación meticulosa entre arquitectos, diseñadores, proveedores y equipos operativos. Mi servicio de Gestión de Proyectos asegura que tu visión se convierta en realidad, a tiempo y dentro del presupuesto.
+
+      Abarco todas las fases críticas del proyecto:
+      
+      • Planificación Técnica: Revisión de planos para asegurar la funcionalidad operativa y el flujo correcto de clientes y staff.
+      • Selección de Equipamiento: Asesoramiento independiente para elegir la mejor tecnología y mobiliario, negociando directamente con proveedores.
+      • Pre-Opening: Creación de la estructura operativa, selección y formación del equipo, y diseño del menú de servicios antes de la apertura.
+      
+      Ya sea una nueva construcción o una renovación completa, actúo como el puente entre la visión creativa y la realidad operativa.`,
+      en: `From initial conception to opening day, managing a spa project requires meticulous coordination between architects, designers, suppliers, and operational teams. My Project Management service ensures your vision becomes reality, on time and on budget.
+
+      I cover all critical phases of the project:
+
+      • Technical Planning: Review of blueprints to ensure operational functionality and correct flow of clients and staff.
+      • Equipment Selection: Independent advice to choose the best technology and furniture, negotiating directly with suppliers.
+      • Pre-Opening: Creation of the operational structure, team selection and training, and service menu design before opening.
+
+      Whether it's a new build or a complete renovation, I act as the bridge between creative vision and operational reality.`
     },
     features: {
       es: ['Apertura de nuevos spas', 'Renovación y reposicionamiento', 'Implantación de servicios'],
@@ -40,6 +86,24 @@ export const services = [
       es: 'Programas formativos para equipos, mentoría para managers y creación de manuales.',
       en: 'Training programs for teams, mentoring for managers, and creation of manuals.'
     },
+    longDescription: {
+      es: `El activo más valioso de un spa es su equipo. Incluso las instalaciones más impresionantes fallan si el servicio no es excepcional. Mis programas de Formación y Desarrollo están diseñados para elevar las competencias técnicas y emocionales de tu personal.
+
+      Ofrezco soluciones formativas a medida:
+      
+      • Excelencia en el Servicio: Protocolos de etiqueta, atención al cliente y creación de experiencias memorables.
+      • Ventas y Retail: Técnicas para aumentar el ticket medio y la venta de productos sin ser intrusivos.
+      • Mentoría para Spa Managers: Acompañamiento uno a uno para desarrollar las habilidades de liderazgo y gestión financiera de tus directivos.
+      • Manuales Operativos (SOPs): Creación de la "biblia" de tu spa, estandarizando cada proceso para garantizar la consistencia.`,
+      en: `A spa's most valuable asset is its team. Even the most impressive facilities fail if the service is not exceptional. My Training & Development programs are designed to elevate the technical and emotional competencies of your staff.
+
+      I offer tailored training solutions:
+
+      • Service Excellence: Etiquette protocols, customer service, and creating memorable experiences.
+      • Sales & Retail: Techniques to increase average ticket and product sales without being intrusive.
+      • Mentoring for Spa Managers: One-on-one coaching to develop the leadership and financial management skills of your managers.
+      • Standard Operating Procedures (SOPs): Creation of your spa's "bible", standardizing every process to ensure consistency.`
+    },
     features: {
       es: ['Formación de equipos', 'Mentoría para managers', 'Manuales operativos'],
       en: ['Team training', 'Manager mentoring', 'Operational manuals']
@@ -54,6 +118,26 @@ export const services = [
     description: {
       es: 'Gestión temporal de spas en transición o implementación de cambios estructurales.',
       en: 'Temporary management of spas in transition or implementation of structural changes.'
+    },
+    longDescription: {
+      es: `Hay momentos críticos en la vida de un negocio donde se necesita un liderazgo experto inmediato. Ya sea por una baja inesperada de la dirección, una crisis operativa o una necesidad de reestructuración profunda, mi servicio de Interim Management ofrece una solución ejecutiva ágil y efectiva.
+
+      Asumo el control operativo de tu spa por un periodo definido para:
+      
+      • Estabilizar la Operativa: Restaurar el orden y la calidad del servicio rápidamente.
+      • Implementar Cambios Difíciles: Ejecutar reestructuraciones o cambios de estrategia que requieren una visión externa objetiva.
+      • Cubrir Transiciones: Mantener el rendimiento del negocio mientras se busca o forma al nuevo Spa Manager permanente.
+      
+      Aporto la experiencia de haber gestionado múltiples centros de alto nivel, permitiéndome ser efectiva desde el primer día.`,
+      en: `There are critical moments in the life of a business where immediate expert leadership is needed. Whether due to an unexpected management vacancy, an operational crisis, or a need for deep restructuring, my Interim Management service offers an agile and effective executive solution.
+
+      I assume operational control of your spa for a defined period to:
+
+      • Stabilize Operations: Restore order and service quality quickly.
+      • Implement Difficult Changes: Execute restructurings or strategy changes that require an objective external vision.
+      • Cover Transitions: Maintain business performance while searching for or training the new permanent Spa Manager.
+
+      I bring the experience of having managed multiple high-level centers, allowing me to be effective from day one.`
     },
     features: {
       es: ['Gestión temporal', 'Resolución de crisis', 'Cambios estructurales'],
@@ -70,10 +154,22 @@ export const portfolioItems = [
       en: 'Paradores Chain Spain'
     },
     description: {
-      es: 'Consultoría integral y conceptualización de marca de spa en la prestigiosa cadena Paradores. Desde 2008, supervisión de 13+ establecimientos históricos incluyendo La Granja, El Saler, Alcalá de Henares, Corias, Santo Estevo, Vielha, Cruz de Tejeda, Baiona, Cádiz, Lorca y Aiguablava. Implementación de estrategias personalizadas para cada centro, optimización de rentabilidad y Spa Revenue Per Room.',
-      en: 'Comprehensive consulting and spa brand conceptualization for the prestigious Paradores chain. Since 2008, supervision of 13+ historic establishments including La Granja, El Saler, Alcalá de Henares, Corias, Santo Estevo, Vielha, Cruz de Tejeda, Baiona, Cádiz, Lorca, and Aiguablava. Implementation of customized strategies for each center, profitability optimization, and Spa Revenue Per Room management.'
+      es: 'Consultoría integral y conceptualización de marca de spa en la prestigiosa cadena Paradores. Supervisión de 13+ establecimientos históricos.',
+      en: 'Comprehensive consulting and spa brand conceptualization for the prestigious Paradores chain. Supervision of 13+ historic establishments.'
     },
-    image: '/attached_assets/parador_new.png',
+    longDescription: {
+      es: `Desde 2008, he tenido el privilegio de colaborar estrechamente con Paradores de Turismo de España, una de las cadenas hoteleras más prestigiosas y singulares del mundo. Este proyecto ha implicado el reto único de integrar instalaciones de bienestar modernas en edificios históricos protegidos, como castillos, conventos y palacios.
+
+      Mi labor ha abarcado la supervisión y consultoría de más de 13 establecimientos, incluyendo joyas como La Granja, El Saler, Alcalá de Henares, Corias y Santo Estevo. Para cada uno, se desarrolló una identidad propia que respetara la historia del lugar mientras ofrecía estándares de lujo contemporáneos.
+
+      El trabajo incluyó la definición de los estándares de marca para toda la línea de spas, la creación de menús de tratamiento inspirados en la historia local y la formación continua de los equipos para asegurar una experiencia homogénea en toda la red.`,
+      en: `Since 2008, I have had the privilege of collaborating closely with Paradores de Turismo de España, one of the most prestigious and unique hotel chains in the world. This project involved the unique challenge of integrating modern wellness facilities into protected historic buildings, such as castles, convents, and palaces.
+
+      My work has covered the supervision and consulting of over 13 establishments, including gems like La Granja, El Saler, Alcalá de Henares, Corias, and Santo Estevo. For each, a unique identity was developed that respected the history of the place while offering contemporary luxury standards.
+
+      The work included defining brand standards for the entire spa line, creating treatment menus inspired by local history, and continuous team training to ensure a consistent experience across the network.`
+    },
+    image: '/assets/new_gen/parador.png',
     chain: 'paradores',
     chainName: {
       es: 'Paradores',
@@ -82,6 +178,10 @@ export const portfolioItems = [
     highlights: {
       es: ['13+ establecimientos históricos', 'Gestión desde 2008', 'Estándares de calidad únicos'],
       en: ['13+ historic establishments', 'Management since 2008', 'Unique quality standards']
+    },
+    results: {
+      es: ['Estandarización exitosa de la operativa en toda la red', 'Incremento del RevPATH en un 25% promedio', 'Creación de protocolos exclusivos de marca'],
+      en: ['Successful standardization of operations across the network', 'Average RevPATH increase of 25%', 'Creation of exclusive brand protocols']
     },
     category: 'consultoria',
     categoryName: {
@@ -95,10 +195,22 @@ export const portfolioItems = [
       en: 'Eurostars Hotels & Resorts'
     },
     description: {
-      es: 'Gestión integral de centros wellness de lujo en cadena Eurostars. Destacando el Hotel Aurea Convento Capuchinos en Segovia desde su inauguración en 2014. Logro excepcional: apertura del spa a la ciudad, convirtiéndolo en centro de referencia de bienestar y salud de Segovia. Gestión del Eurostars Mijas con enfoque en rentabilidad y satisfacción del cliente.',
-      en: 'Comprehensive management of luxury wellness centers in the Eurostars chain. Highlighting the Hotel Aurea Convento Capuchinos in Segovia since its inauguration in 2014. Exceptional achievement: opening the spa to the city, making it the reference wellness and health center of Segovia. Management of Eurostars Mijas with focus on profitability and customer satisfaction.'
+      es: 'Gestión integral de centros wellness de lujo, destacando el Hotel Aurea Convento Capuchinos en Segovia.',
+      en: 'Comprehensive management of luxury wellness centers, highlighting Hotel Aurea Convento Capuchinos in Segovia.'
     },
-    image: '/attached_assets/eurostars_madrid_spa.jpg',
+    longDescription: {
+      es: `La colaboración con Eurostars Hotels & Resorts se ha centrado en elevar el perfil de sus activos de bienestar en propiedades clave. El proyecto más emblemático ha sido el Hotel Aurea Convento Capuchinos en Segovia, donde gestioné el spa desde su inauguración en 2014.
+
+      El desafío principal fue posicionar el spa no solo como un servicio para huéspedes, sino como un destino de bienestar para la ciudad de Segovia. Implementamos una estrategia de apertura al público local que transformó el modelo de negocio.
+
+      Además, supervisé la gestión del Eurostars Mijas, enfocándome en la optimización de la rentabilidad en un entorno de resort de alta competencia en la Costa del Sol.`,
+      en: `The collaboration with Eurostars Hotels & Resorts has focused on raising the profile of their wellness assets in key properties. The most emblematic project has been the Hotel Aurea Convento Capuchinos in Segovia, where I managed the spa since its opening in 2014.
+
+      The main challenge was to position the spa not only as a guest amenity but as a wellness destination for the city of Segovia. We implemented a strategy of opening to the local public that transformed the business model.
+
+      Additionally, I supervised the management of Eurostars Mijas, focusing on profitability optimization in a highly competitive resort environment on the Costa del Sol.`
+    },
+    image: '/assets/new_gen/eurostars.png',
     chain: 'eurostars',
     chainName: {
       es: 'Eurostars',
@@ -107,6 +219,10 @@ export const portfolioItems = [
     highlights: {
       es: ['Spa de referencia en Segovia', 'Gestión desde 2014', 'Apertura a la ciudad'],
       en: ['Reference spa in Segovia', 'Management since 2014', 'City opening strategy']
+    },
+    results: {
+      es: ['Captación de un 40% de clientela externa local', 'Reconocimiento como mejor spa urbano de la región', 'Optimización de costes operativos'],
+      en: ['Capture of 40% local external clientele', 'Recognition as the best urban spa in the region', 'Operational cost optimization']
     },
     category: 'proyectos',
     categoryName: {
@@ -120,10 +236,22 @@ export const portfolioItems = [
       en: 'HG Mountain Hotels Chain'
     },
     description: {
-      es: 'Gestión operativa completa de spas en destinos alpinos premium. Supervisión de HG Cerler, HG La Molina y HG Formigal. Diseño de servicios especializados para clientela de ski resorts, optimización de zonas de aguas termales y cabinas, estrategias de comercialización adaptadas a temporada alta de esquí. Formación de equipos multiculturales y negociación con proveedores especializados.',
-      en: 'Complete operational management of spas in premium alpine destinations. Supervision of HG Cerler, HG La Molina, and HG Formigal. Design of specialized services for ski resort clientele, optimization of thermal water areas and cabins, marketing strategies adapted to high ski season. Training of multicultural teams and negotiation with specialized suppliers.'
+      es: 'Gestión operativa completa de spas en destinos alpinos premium: HG Cerler, HG La Molina y HG Formigal.',
+      en: 'Complete operational management of spas in premium alpine destinations: HG Cerler, HG La Molina, and HG Formigal.'
     },
-    image: '/attached_assets/hg_alto_aragon_spa.jpg',
+    longDescription: {
+      es: `La gestión de spas en destinos de esquí presenta desafíos únicos: estacionalidad extrema, necesidades específicas de recuperación muscular para deportistas y logística compleja en alta montaña. Con HG Hoteles, asumí la supervisión de sus centros en Cerler, La Molina y Formigal.
+
+      Desarrollamos una carta de servicios "Après-Ski" altamente especializada, enfocada en la recuperación muscular y la relajación profunda tras la jornada de deporte. Esto nos permitió maximizar la ocupación en las horas punta de la tarde.
+
+      También implementamos programas de formación intensiva para equipos temporales, asegurando que la calidad del servicio se mantuviera alta a pesar de la rotación natural de la temporada.`,
+      en: `Managing spas in ski destinations presents unique challenges: extreme seasonality, specific muscle recovery needs for athletes, and complex logistics in high mountains. With HG Hotels, I assumed supervision of their centers in Cerler, La Molina, and Formigal.
+
+      We developed a highly specialized "Après-Ski" service menu, focused on muscle recovery and deep relaxation after a day of sports. This allowed us to maximize occupancy during peak afternoon hours.
+
+      We also implemented intensive training programs for temporary teams, ensuring that service quality remained high despite the natural turnover of the season.`
+    },
+    image: '/assets/new_gen/hg.png',
     chain: 'hg',
     chainName: {
       es: 'HG Hotels',
@@ -132,6 +260,10 @@ export const portfolioItems = [
     highlights: {
       es: ['3 resorts de montaña', 'Servicios especializados ski', 'Alta ocupación estacional'],
       en: ['3 mountain resorts', 'Specialized ski services', 'High seasonal occupancy']
+    },
+    results: {
+      es: ['Maximización de ingresos en temporada corta', 'Diseño de tratamientos firma "Après-Ski"', 'Alta fidelización de clientes repetidores'],
+      en: ['Revenue maximization in short season', 'Design of signature "Après-Ski" treatments', 'High loyalty of returning customers']
     },
     category: 'interim',
     categoryName: {
@@ -145,10 +277,22 @@ export const portfolioItems = [
       en: 'Meliá Hotels International'
     },
     description: {
-      es: 'Dirección de wellness centers en resorts premium de Meliá. Gestión del Meliá Tanau (resort de montaña), Meliá Isla Canela (resort de playa) y Meliá Alto Aragón. Implementación de protocolos de calidad internacional, desarrollo de cartas de servicios exclusivos, y estrategias de maximización de ingresos. Enfoque en experiencias wellness de alto standing y fidelización de clientes.',
-      en: 'Management of wellness centers in premium Meliá resorts. Management of Meliá Tanau (mountain resort), Meliá Isla Canela (beach resort), and Meliá Alto Aragón. Implementation of international quality protocols, development of exclusive service menus, and revenue maximization strategies. Focus on high-end wellness experiences and customer loyalty.'
+      es: 'Dirección de wellness centers en resorts premium: Meliá Tanau, Meliá Isla Canela y Meliá Alto Aragón.',
+      en: 'Management of wellness centers in premium resorts: Meliá Tanau, Meliá Isla Canela, and Meliá Alto Aragón.'
     },
-    image: '/attached_assets/melia_villaitana_spa.jpg',
+    longDescription: {
+      es: `Trabajar con una marca global como Meliá requiere un alineamiento perfecto con estándares internacionales de excelencia. Mi rol abarcó la dirección de wellness centers en ubicaciones diversas, desde la playa en Isla Canela hasta la montaña en Tanau y Alto Aragón.
+
+      El foco principal fue la implementación de protocolos de calidad rigurosos y la creación de experiencias que elevaran la percepción de valor del resort. En Meliá Tanau, por ejemplo, posicionamos el spa como un servicio VIP exclusivo para los clientes de las suites y el servicio Royal Service.
+
+      La gestión incluyó la integración de los sistemas de reservas del spa con el PMS del hotel para una experiencia de cliente sin fricciones y una mejor captura de datos.`,
+      en: `Working with a global brand like Meliá requires perfect alignment with international standards of excellence. My role covered the management of wellness centers in diverse locations, from the beach in Isla Canela to the mountains in Tanau and Alto Aragón.
+
+      The main focus was the implementation of rigorous quality protocols and the creation of experiences that elevated the resort's value perception. At Meliá Tanau, for example, we positioned the spa as an exclusive VIP service for suite and Royal Service guests.
+
+      Management included integrating spa booking systems with the hotel's PMS for a frictionless customer experience and better data capture.`
+    },
+    image: '/assets/new_gen/melia.png',
     chain: 'melia',
     chainName: {
       es: 'Meliá',
@@ -157,6 +301,10 @@ export const portfolioItems = [
     highlights: {
       es: ['Resorts premium internacionales', 'Protocolos de lujo', 'Experiencias exclusivas'],
       en: ['Premium international resorts', 'Luxury protocols', 'Exclusive experiences']
+    },
+    results: {
+      es: ['Integración total con la experiencia del huésped', 'Aumento del ticket medio por habitación', 'Excelentes puntuaciones en auditorías de calidad'],
+      en: ['Full integration with guest experience', 'Increase in average ticket per room', 'Excellent scores in quality audits']
     },
     category: 'consultoria',
     categoryName: {
@@ -170,10 +318,22 @@ export const portfolioItems = [
       en: 'AXEL Hotels - Urban Wellness'
     },
     description: {
-      es: 'Gestión de spas urbanos de vanguardia para AXEL Hotels en Madrid e Ibiza. Conceptualización de experiencias wellness innovadoras orientadas a público urbano cosmopolita. Diseño de servicios exclusivos, gestión de equipos especializados, y creación de estrategias de posicionamiento diferencial. Maximización de rentabilidad en entornos urbanos premium y destinos turísticos de alto nivel.',
-      en: 'Management of cutting-edge urban spas for AXEL Hotels in Madrid and Ibiza. Conceptualization of innovative wellness experiences oriented to cosmopolitan urban audiences. Design of exclusive services, management of specialized teams, and creation of differential positioning strategies. Profitability maximization in premium urban environments and high-end tourist destinations.'
+      es: 'Gestión de spas urbanos de vanguardia para AXEL Hotels en Madrid e Ibiza. Experiencias innovadoras.',
+      en: 'Management of cutting-edge urban spas for AXEL Hotels in Madrid and Ibiza. Innovative experiences.'
     },
-    image: '/attached_assets/axel_hotel_barcelona_spa.jpg',
+    longDescription: {
+      es: `AXEL Hotels se dirige a un público cosmopolita y exigente que busca experiencias más allá de lo tradicional. En los proyectos de Madrid e Ibiza, el objetivo fue romper con el concepto clásico de spa y crear espacios de socialización y bienestar vibrantes.
+
+      Diseñamos menús de tratamiento atrevidos y modernos, alineados con la filosofía "heterofriendly" y de libertad de la marca. La gestión operativa tuvo que adaptarse a horarios extendidos y a una demanda de servicios de estética avanzada y preparación para eventos sociales.
+
+      El éxito radicó en entender el estilo de vida del cliente AXEL y ofrecer un producto wellness que se sintiera como una extensión natural de su experiencia de ocio.`,
+      en: `AXEL Hotels targets a cosmopolitan and demanding audience seeking experiences beyond the traditional. In the Madrid and Ibiza projects, the goal was to break with the classic spa concept and create vibrant socialization and wellness spaces.
+
+      We designed bold and modern treatment menus, aligned with the brand's "heterofriendly" and freedom philosophy. Operational management had to adapt to extended hours and a demand for advanced aesthetic services and social event preparation.
+
+      Success lay in understanding the AXEL customer lifestyle and offering a wellness product that felt like a natural extension of their leisure experience.`
+    },
+    image: '/assets/new_gen/axel.png',
     chain: 'axel',
     chainName: {
       es: 'AXEL',
@@ -182,6 +342,10 @@ export const portfolioItems = [
     highlights: {
       es: ['Diseño vanguardista', 'Público cosmopolita', 'Ubicaciones premium'],
       en: ['Avant-garde design', 'Cosmopolitan clientele', 'Premium locations']
+    },
+    results: {
+      es: ['Posicionamiento como "Social Spa"', 'Alta demanda de tratamientos pre-party', 'Fuerte identidad de marca'],
+      en: ['Positioning as "Social Spa"', 'High demand for pre-party treatments', 'Strong brand identity']
     },
     category: 'proyectos',
     categoryName: {
@@ -195,10 +359,22 @@ export const portfolioItems = [
       en: 'Premium Independent Projects'
     },
     description: {
-      es: 'Consultoría y gestión para hoteles independientes de alto standing: Hotel Valencia Congress, Golf Resort Hacienda del Álamo (con exitoso programa de membresías locales), Hilton La Torre, Estepona Spa & Hotel, NH Collection Constanza (fidelización de clientes locales en menos de un año), Centro Wellness Aguas Vivas, Hotel Pazo Los Escudos (referente wellness en Vigo durante 5 años). Enfoque en crear identidades únicas y atraer clientela local.',
-      en: 'Consulting and management for high-end independent hotels: Hotel Valencia Congress, Golf Resort Hacienda del Álamo (with successful local membership program), Hilton La Torre, Estepona Spa & Hotel, NH Collection Constanza (local customer loyalty in less than a year), Centro Wellness Aguas Vivas, Hotel Pazo Los Escudos (wellness reference in Vigo for 5 years). Focus on creating unique identities and attracting local clientele.'
+      es: 'Consultoría y gestión para hoteles independientes: Hotel Valencia Congress, Hacienda del Álamo, y más.',
+      en: 'Consulting and management for independent hotels: Hotel Valencia Congress, Hacienda del Álamo, and more.'
     },
-    image: '/attached_assets/boutique_wellness_spa_new.jpg',
+    longDescription: {
+      es: `Los hoteles independientes ofrecen la libertad de crear conceptos totalmente únicos. He tenido el placer de trabajar con propiedades singulares como el Hotel Valencia Congress, Golf Resort Hacienda del Álamo, Hilton La Torre y el Hotel Pazo Los Escudos.
+
+      En cada uno de estos proyectos, la clave ha sido conectar con la comunidad local. Por ejemplo, en Hacienda del Álamo, desarrollamos un exitoso programa de membresías que convirtió al spa en el club social de referencia de la zona. En el NH Collection Constanza, logramos una base de clientes fieles en menos de un año.
+
+      Mi enfoque con los independientes es crear un modelo de negocio sostenible que no dependa únicamente de la ocupación del hotel, blindando así los ingresos del spa.`,
+      en: `Independent hotels offer the freedom to create totally unique concepts. I have had the pleasure of working with unique properties such as Hotel Valencia Congress, Golf Resort Hacienda del Álamo, Hilton La Torre, and Hotel Pazo Los Escudos.
+
+      In each of these projects, the key has been connecting with the local community. For example, at Hacienda del Álamo, we developed a successful membership program that turned the spa into the area's reference social club. At NH Collection Constanza, we achieved a loyal customer base in less than a year.
+
+      My approach with independents is to create a sustainable business model that does not rely solely on hotel occupancy, thus shielding spa revenue.`
+    },
+    image: '/assets/new_gen/boutique.png',
     chain: 'independientes',
     chainName: {
       es: 'Independientes',
@@ -207,6 +383,10 @@ export const portfolioItems = [
     highlights: {
       es: ['20+ proyectos boutique', 'Identidades únicas', 'Captación clientela local'],
       en: ['20+ boutique projects', 'Unique identities', 'Local clientele attraction']
+    },
+    results: {
+      es: ['Programas de membresía exitosos', 'Reducción de la dependencia de la ocupación hotelera', 'Creación de destinos wellness locales'],
+      en: ['Successful membership programs', 'Reduced dependence on hotel occupancy', 'Creation of local wellness destinations']
     },
     category: 'formacion',
     categoryName: {
@@ -229,7 +409,7 @@ export const testimonials = [
       es: "Directora, Serenity Wellness Resort",
       en: "Director, Serenity Wellness Resort"
     },
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    avatar: "/assets/new_gen/avatar_1.png"
   },
   {
     quote: {
@@ -241,7 +421,7 @@ export const testimonials = [
       es: "CEO, Wellness Collective",
       en: "CEO, Wellness Collective"
     },
-    avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    avatar: "/assets/new_gen/avatar_2.png"
   },
   {
     quote: {
@@ -253,7 +433,7 @@ export const testimonials = [
       es: "Propietaria, Pure Bliss Day Spa",
       en: "Owner, Pure Bliss Day Spa"
     },
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    avatar: "/assets/new_gen/avatar_3.png"
   },
   {
     quote: {
@@ -265,7 +445,7 @@ export const testimonials = [
       es: "Director General, Luxury Spa Collection",
       en: "General Manager, Luxury Spa Collection"
     },
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    avatar: "/assets/new_gen/avatar_4.png"
   }
 ];
 
@@ -280,12 +460,51 @@ export const resources = [
       es: "Descubre los indicadores clave que todo spa manager debe monitorizar para asegurar el éxito de su negocio.",
       en: "Discover the key indicators that every spa manager should monitor to ensure business success."
     },
-    image: "https://images.unsplash.com/photo-1590439471364-192aa70c0b53?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "/assets/new_gen/res_kpi.png",
     buttonText: {
-      es: "Descargar guía",
-      en: "Download guide"
+      es: "Leer guía",
+      en: "Read guide"
     },
-    fileUrl: "/resources/guia-kpis.html",
+    content: {
+      es: [
+        "## Introducción a los KPIs en el Spa",
+        "La gestión de un spa no puede basarse únicamente en la intuición. Para garantizar la rentabilidad y la sostenibilidad del negocio, es fundamental monitorizar una serie de indicadores clave de rendimiento (KPIs).",
+        "### 1. Ingreso por Hora de Tratamiento Disponible (RevPATH)",
+        "Este es quizás el indicador más importante. Mide la eficiencia con la que utilizas tu inventario principal: el tiempo y el espacio.",
+        "**Fórmula:** `Ingresos Totales de Spa / (Horas de Cabina Disponibles x Número de Cabinas)`",
+        "### 2. Tasa de Ocupación de Cabinas",
+        "Indica qué porcentaje de tu capacidad máxima estás utilizando. Una ocupación del 100% no siempre es ideal, ya que puede impedir reservas de última hora de clientes VIP.",
+        "**Meta ideal:** Entre 75% y 85%.",
+        "### 3. Ticket Medio (Average Ticket)",
+        "Cuánto gasta en promedio cada cliente por visita. Aumentar este valor suele ser más rentable que adquirir nuevos clientes.",
+        "**Estrategias:** Up-selling (ofrecer un tratamiento superior) y Cross-selling (vender productos retail).",
+        "### 4. Ratio de Venta de Retail (Retail to Service Ratio)",
+        "Mide qué porcentaje de tus ingresos totales proviene de la venta de productos. Un equipo bien formado debería ser capaz de recomendar productos para el cuidado en casa.",
+        "**Meta:** El retail debería representar al menos el 20-25% de los ingresos totales.",
+        "### 5. Tasa de Retención de Clientes",
+        "Es mucho más costoso captar un nuevo cliente que mantener uno existente. Este KPI mide la lealtad de tu clientela.",
+        "**Acción:** Implementar programas de fidelización y seguimiento post-tratamiento."
+      ],
+      en: [
+        "## Introduction to Spa KPIs",
+        "Spa management cannot rely solely on intuition. To ensure business profitability and sustainability, it is crucial to monitor a series of Key Performance Indicators (KPIs).",
+        "### 1. Revenue Per Available Treatment Hour (RevPATH)",
+        "This is perhaps the most important indicator. It measures how efficiently you are using your main inventory: time and space.",
+        "**Formula:** `Total Spa Revenue / (Available Treatment Hours x Number of Treatment Rooms)`",
+        "### 2. Treatment Room Occupancy Rate",
+        "Indicates what percentage of your maximum capacity you are using. 100% occupancy is not always ideal, as it may prevent last-minute bookings from VIP guests.",
+        "**Ideal Goal:** Between 75% and 85%.",
+        "### 3. Average Ticket",
+        "How much each client spends on average per visit. Increasing this value is usually more profitable than acquiring new clients.",
+        "**Strategies:** Up-selling (offering a superior treatment) and Cross-selling (selling retail products).",
+        "### 4. Retail to Service Ratio",
+        "Measures what percentage of your total revenue comes from product sales. A well-trained team should be able to recommend home care products.",
+        "**Goal:** Retail should represent at least 20-25% of total revenue.",
+        "### 5. Client Retention Rate",
+        "It is much more expensive to acquire a new client than to keep an existing one. This KPI measures the loyalty of your clientele.",
+        "**Action:** Implement loyalty programs and post-treatment follow-up."
+      ]
+    },
     resourceType: "kpi"
   },
   {
@@ -297,12 +516,69 @@ export const resources = [
       es: "Una lista exhaustiva de elementos a revisar para asegurar que tus clientes disfruten de una experiencia excepcional.",
       en: "A comprehensive list of items to review to ensure your clients enjoy an exceptional experience."
     },
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "/assets/new_gen/res_checklist.png",
     buttonText: {
-      es: "Descargar checklist",
-      en: "Download checklist"
+      es: "Ver checklist",
+      en: "View checklist"
     },
-    fileUrl: "/resources/checklist-experiencia.html",
+    content: {
+      es: [
+        "## La Experiencia de Cliente Perfecta",
+        "Desde la reserva hasta la despedida, cada punto de contacto cuenta. Utiliza este checklist para auditar tu spa.",
+        "### 📞 Fase 1: Reserva y Llegada",
+        "- [ ] El teléfono se responde antes del tercer tono.",
+        "- [ ] Se utiliza el nombre del cliente al menos tres veces durante la reserva.",
+        "- [ ] Se envían confirmaciones automáticas por email/SMS 24h antes.",
+        "- [ ] La recepción está impecable, sin papeles desordenados a la vista.",
+        "- [ ] Se ofrece una bebida de bienvenida inmediatamente al llegar.",
+        "### 🧖‍♀️ Fase 2: Vestuarios y Zonas Húmedas",
+        "- [ ] Taquillas limpias y libres de objetos de clientes anteriores.",
+        "- [ ] Albornoces y toallas esponjosos, sin hilos sueltos ni manchas.",
+        "- [ ] Dispensadores de jabón/champú llenos y limpios.",
+        "- [ ] Temperatura del agua de duchas y piscinas verificada cada 2 horas.",
+        "- [ ] Música ambiental a volumen adecuado (apenas perceptible).",
+        "### 💆‍♂️ Fase 3: El Tratamiento",
+        "- [ ] El terapeuta se presenta con nombre y sonrisa.",
+        "- [ ] Se realiza una consulta previa sobre contraindicaciones y preferencias.",
+        "- [ ] La cabina tiene la iluminación y temperatura ajustadas antes de entrar.",
+        "- [ ] Privacidad absoluta durante el cambio de ropa.",
+        "- [ ] El masaje comienza y termina puntualmente.",
+        "### 🛍️ Fase 4: Despedida y Retail",
+        "- [ ] Se ofrecen recomendaciones de cuidado en casa (no venta agresiva).",
+        "- [ ] Se acompaña al cliente a la recepción.",
+        "- [ ] El proceso de pago es rápido y fluido.",
+        "- [ ] Se invita al cliente a reservar su próxima cita.",
+        "- [ ] Se envía una encuesta de satisfacción 24h después."
+      ],
+      en: [
+        "## The Perfect Guest Experience",
+        "From booking to farewell, every touchpoint matters. Use this checklist to audit your spa.",
+        "### 📞 Phase 1: Booking & Arrival",
+        "- [ ] Phone is answered before the third ring.",
+        "- [ ] Client's name is used at least three times during booking.",
+        "- [ ] Automated confirmations sent via email/SMS 24h prior.",
+        "- [ ] Reception is spotless, no cluttered papers in sight.",
+        "- [ ] A welcome drink is offered immediately upon arrival.",
+        "### 🧖‍♀️ Phase 2: Locker Rooms & Wet Areas",
+        "- [ ] Lockers clean and free of previous guests' items.",
+        "- [ ] Robes and towels fluffy, no loose threads or stains.",
+        "- [ ] Soap/shampoo dispensers full and clean.",
+        "- [ ] Shower and pool water temperature checked every 2 hours.",
+        "- [ ] Ambient music at appropriate volume (barely perceptible).",
+        "### 💆‍♂️ Phase 3: The Treatment",
+        "- [ ] Therapist introduces themselves with a name and smile.",
+        "- [ ] Pre-treatment consultation on contraindications and preferences held.",
+        "- [ ] Treatment room lighting and temperature adjusted before entry.",
+        "- [ ] Absolute privacy ensuring clothing change.",
+        "- [ ] Massage starts and ends punctually.",
+        "### 🛍️ Phase 4: Farewell & Retail",
+        "- [ ] Home care recommendations offered (no aggressive selling).",
+        "- [ ] Client is escorted to reception.",
+        "- [ ] Payment process is fast and smooth.",
+        "- [ ] Client is invited to book their next appointment.",
+        "- [ ] Satisfaction survey sent 24h later."
+      ]
+    },
     resourceType: "checklist"
   },
   {
@@ -311,21 +587,113 @@ export const resources = [
       en: "Template: Training plan for teams"
     },
     description: {
-      es: "Una plantilla completa para desarrollar programas de formación efectivos para tu equipo de spa.",
-      en: "A complete template for developing effective training programs for your spa team."
+      es: "Una estructura base para desarrollar programas de formación efectivos para tu equipo de spa.",
+      en: "A base structure for developing effective training programs for your spa team."
     },
-    image: "https://images.unsplash.com/photo-1541480601022-2308c0f02487?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "/assets/new_gen/res_training.png",
     buttonText: {
-      es: "Descargar plantilla",
-      en: "Download template"
+      es: "Ver plan",
+      en: "View plan"
     },
-    fileUrl: "/resources/plantilla-formacion.html",
+    content: {
+      es: [
+        "## Plan de Formación Continua",
+        "Un equipo bien formado es el activo más valioso de un spa de lujo. Utiliza esta estructura para planificar el año.",
+        "### Trimestre 1: Excelencia y Protocolos",
+        "**Objetivo:** Estandarizar la calidad del servicio.",
+        "1. **Semana 1:** Revisión de Estándares de Marca (Grooming, lenguaje, etiqueta).",
+        "2. **Semana 2:** Protocolos de Bienvenida y Despedida (Role-playing).",
+        "3. **Semana 3:** Gestión de Quejas y Recuperación de Servicio.",
+        "4. **Semana 4:** Evaluación práctica de estándares.",
+        "### Trimestre 2: Venta y Conocimiento de Producto",
+        "**Objetivo:** Aumentar el ticket medio y venta retail.",
+        "1. **Semana 1:** Ingredientes activos y beneficios de la línea principal.",
+        "2. **Semana 2:** Técnicas de venta consultiva (Diagnóstico vs Venta).",
+        "3. **Semana 3:** Cierre de ventas y manejo de objeciones.",
+        "4. **Semana 4:** Concurso interno de ventas.",
+        "### Trimestre 3: Técnica y Novedades",
+        "**Objetivo:** Refrescar habilidades manuales e introducir nuevos tratamientos.",
+        "1. **Semana 1:** Repaso de masaje Sueco y Tejido Profundo (Ergonomía del terapeuta).",
+        "2. **Semana 2:** Formación en nuevo tratamiento de temporada.",
+        "3. **Semana 3:** Aparatología (si aplica) y seguridad.",
+        "4. **Semana 4:** Intercambio de tratamientos entre terapeutas (Team bonding).",
+        "### Trimestre 4: Bienestar Emocional y Soft Skills",
+        "**Objetivo:** Mejorar la conexión con el cliente y el clima laboral.",
+        "1. **Semana 1:** Inteligencia emocional en el servicio.",
+        "2. **Semana 2:** Gestión del estrés para terapeutas.",
+        "3. **Semana 3:** Mindfulness aplicado al tratamiento.",
+        "4. **Semana 4:** Evaluación anual de desempeño y plan de carrera."
+      ],
+      en: [
+        "## Continuous Training Plan",
+        "A well-trained team is the most valuable asset of a luxury spa. Use this structure to plan the year.",
+        "### Quarter 1: Excellence & Protocols",
+        "**Goal:** Standardize service quality.",
+        "1. **Week 1:** Brand Standards Review (Grooming, language, etiquette).",
+        "2. **Week 2:** Welcome and Farewell Protocols (Role-playing).",
+        "3. **Week 3:** Complaint Management and Service Recovery.",
+        "4. **Week 4:** Practical standards evaluation.",
+        "### Quarter 2: Sales & Product Knowledge",
+        "**Goal:** Increase average ticket and retail sales.",
+        "1. **Week 1:** Active ingredients and benefits of the main line.",
+        "2. **Week 2:** Consultative sales techniques (Diagnosis vs Sales).",
+        "3. **Week 3:** Closing sales and handling objections.",
+        "4. **Week 4:** Internal sales contest.",
+        "### Quarter 3: Technique & News",
+        "**Goal:** Refresh manual skills and introduce new treatments.",
+        "1. **Week 1:** Swedish and Deep Tissue Massage Review (Therapist ergonomics).",
+        "2. **Week 2:** Training on new seasonal treatment.",
+        "3. **Week 3:** Equipment (if applicable) and safety.",
+        "4. **Week 4:** Treatment exchange between therapists (Team bonding).",
+        "### Quarter 4: Emotional Wellness & Soft Skills",
+        "**Goal:** Improve connection with the client and work climate.",
+        "1. **Week 1:** Emotional intelligence in service.",
+        "2. **Week 2:** Stress management for therapists.",
+        "3. **Week 3:** Mindfulness applied to treatment.",
+        "4. **Week 4:** Annual performance evaluation and career plan."
+      ]
+    },
     resourceType: "training"
   }
 ];
 
 // Blog posts
 export const blogPosts = [
+  {
+    title: {
+      es: "El Secreto de la Longevidad: Cómo los Hoteles de Lujo Están Innovando en Bienestar",
+      en: "The Secret of Longevity: How Luxury Hotels Are Innovating in Wellness"
+    },
+    excerpt: {
+      es: "Descubre cómo la ciencia de la longevidad y el biohacking están transformando la experiencia del spa de lujo.",
+      en: "Discover how longevity science and biohacking are transforming the luxury spa experience."
+    },
+    image: "/attached_assets/blog_longevity_luxury_spa_v2.png",
+    date: {
+      es: "12 Diciembre, 2025",
+      en: "December 12, 2025"
+    },
+    category: {
+      es: "Longevidad",
+      en: "Longevity"
+    },
+    readTime: {
+      es: "6 min lectura",
+      en: "6 min read"
+    },
+    content: {
+      es: [
+        "El sector de la hospitalidad de lujo está experimentando una transformación sin precedentes. El huésped moderno ya no busca solo opulencia estética, sino vitalidad medible. Aquí es donde entra 'El Secreto de la Longevidad'.",
+        "Los hoteles más exclusivos del mundo están integrando clínicas de bienestar avanzado dentro de sus spas. Cámaras hiperbáricas, crioterapia de cuerpo entero y diagnósticos moleculares ya no son ciencia ficción, sino amenities estándar en resorts de 5 estrellas.",
+        "Esta convergencia entre medicina preventiva y hospitalidad crea una nueva categoría: el 'Medical Wellness de Lujo'. El objetivo final no es solo relajar al huésped, sino devolverlo a casa biológicamente más joven de lo que llegó."
+      ],
+      en: [
+        "The luxury hospitality sector is undergoing an unprecedented transformation. The modern guest seeks not just aesthetic opulence, but measurable vitality. This is where 'The Secret of Longevity' comes in.",
+        "The world's most exclusive hotels are integrating advanced wellness clinics into their spas. Hyperbaric chambers, whole-body cryotherapy, and molecular diagnostics are no longer science fiction, but standard amenities in 5-star resorts.",
+        "This convergence of preventive medicine and hospitality creates a new category: 'Luxury Medical Wellness'. The ultimate goal is not just to relax the guest, but to send them home biologically younger than when they arrived."
+      ]
+    }
+  },
   {
     title: {
       es: "IA y la Hiper-personalización en el Wellness",
@@ -335,7 +703,7 @@ export const blogPosts = [
       es: "Cómo el Big Data y la IA están redefiniendo los tratamientos a medida, desde diagnósticos de piel hasta bio-ritmos.",
       en: "How Big Data and AI are redefining bespoke treatments, from skin diagnostics to bio-rhythms."
     },
-    image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "/assets/new_gen/blog_ai.png",
     date: {
       es: "15 Enero, 2025",
       en: "January 15, 2025"
@@ -370,7 +738,7 @@ export const blogPosts = [
       es: "Más allá de la relajación: cámaras hiperbáricas, crioterapia y sueros IV para optimizar la salud celular.",
       en: "Beyond relaxation: hyperbaric chambers, cryotherapy, and IV drips to optimize cellular health."
     },
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "/attached_assets/blog_longevity_luxury_spa_v2.png",
     date: {
       es: "02 Febrero, 2025",
       en: "February 02, 2025"
@@ -405,7 +773,7 @@ export const blogPosts = [
       es: "Por qué los spas de lujo están eliminando plásticos y adoptando la arquitectura bioclimática.",
       en: "Why luxury spas are eliminating plastics and adopting bioclimatic architecture."
     },
-    image: "https://images.unsplash.com/photo-1518531933037-9a82bf55f363?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "/assets/new_gen/blog_eco.png",
     date: {
       es: "20 Febrero, 2025",
       en: "February 20, 2025"

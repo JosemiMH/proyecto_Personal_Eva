@@ -1,61 +1,48 @@
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaArrowUp } from 'react-icons/fa';
 
 const ScrollToTop = () => {
-  const [showButton, setShowButton] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Función para volver arriba rápidamente
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  // Evento para detectar si el usuario hace scroll y mostrar/ocultar el botón
   useEffect(() => {
-    const handleScroll = () => {
-      // Mostrar el botón cuando se ha hecho scroll hacia abajo (más de 300px)
+    const toggleVisibility = () => {
       if (window.scrollY > 300) {
-        setShowButton(true);
+        setIsVisible(true);
       } else {
-        setShowButton(false);
+        setIsVisible(false);
       }
     };
 
-    // Añadir el evento de scroll
-    window.addEventListener('scroll', handleScroll);
-    
+    window.addEventListener('scroll', toggleVisibility);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', toggleVisibility);
     };
   }, []);
 
-  if (!showButton) return null;
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
-      <Button
-        onClick={scrollToTop}
-        className="bg-turquoise hover:bg-turquoise-dark text-white rounded-full shadow-lg w-12 h-12 flex items-center justify-center transition-all hover:scale-105"
-        aria-label="Volver arriba"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          onClick={scrollToTop}
+          className="fixed bottom-8 left-8 z-50 p-3 bg-turquoise text-white rounded-full shadow-lg hover:bg-turquoise-dark transition-colors focus:outline-none focus:ring-2 focus:ring-turquoise focus:ring-offset-2"
+          aria-label="Scroll to top"
         >
-          <path d="M12 19V5"></path>
-          <path d="m5 12 7-7 7 7"></path>
-        </svg>
-      </Button>
-    </div>
+          <FaArrowUp size={20} />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 };
 

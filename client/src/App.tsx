@@ -16,6 +16,7 @@ import { ProtectedRoute } from "./lib/protected-route";
 import CookieConsent from "@/components/CookieConsent";
 import ChatBot from "@/components/ChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
+import Resources from "@/components/Resources";
 
 function Router() {
   return (
@@ -27,6 +28,7 @@ function Router() {
       <Route path="/booking" component={Booking} />
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/admin" component={Admin} />
+      <Route path="/resources" component={Resources} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

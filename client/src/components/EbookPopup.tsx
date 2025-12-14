@@ -63,26 +63,17 @@ const EbookPopup = () => {
       toast({
         title: language === 'es' ? '¡Gracias por tu interés!' : 'Thank you for your interest!',
         description: language === 'es'
-          ? 'Hemos enviado el E-Book a tu correo electrónico'
-          : 'We have sent the E-Book to your email',
+          ? 'Hemos enviado el E-Book a tu correo electrónico. Revisa tu bandeja de entrada.'
+          : 'We have sent the E-Book to your email. Please check your inbox.',
         variant: 'default',
       });
 
-      // Simular descarga después de 1 segundo
+      // Cerrar el popup después de 2 segundos
       setTimeout(() => {
-        // En un entorno real, aquí redirigirías a la URL real de descarga
-        const link = document.createElement('a');
-        link.href = '/resources/ebook-ia-spa-infographic.html';
-        link.setAttribute('download', 'IA-Spa-Hotelero-30-dias.html');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        // Cerrar el popup después de la "descarga"
         setIsOpen(false);
-        // Guardar en localStorage que el usuario descargó el ebook
+        // Guardar en localStorage que el usuario ya descargó el ebook
         localStorage.setItem('ebookPopupClosed', 'true');
-      }, 1000);
+      }, 2000);
     } catch (error) {
       console.error('Error al enviar el email:', error);
       toast({
@@ -122,7 +113,7 @@ const EbookPopup = () => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -185,8 +176,8 @@ const EbookPopup = () => {
                 <div className="flex items-center justify-center p-5 bg-green-50 rounded-md">
                   <p className="text-green-700 text-center">
                     {language === 'es'
-                      ? '¡Gracias! Tu descarga debería comenzar automáticamente.'
-                      : 'Thank you! Your download should start automatically.'}
+                      ? '¡Gracias! Revisa tu correo electrónico para descargar el E-Book.'
+                      : 'Thank you! Check your email to download the E-Book.'}
                   </p>
                 </div>
               )}

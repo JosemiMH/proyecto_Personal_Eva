@@ -36,20 +36,18 @@ const Blog = () => {
     queryKey: ['/api/articles'],
   });
 
-  // Fallback to constants if API returns empty or fails
-  const articles = (apiArticles && apiArticles.length > 0)
-    ? apiArticles
-    : blogPosts.map((post, index) => ({
-      id: index + 1000,
-      slug: `post-${index}`,
-      title: post.title[language as 'es' | 'en'],
-      content: post.content[language as 'es' | 'en'].join('\n\n'),
-      excerpt: post.excerpt[language as 'es' | 'en'],
-      image: post.image,
-      category: post.category[language as 'es' | 'en'],
-      readTime: post.readTime[language as 'es' | 'en'],
-      date: new Date().toISOString() // Use current date as fallback since format might differ
-    }));
+  // Use local constants as the primary source of truth
+  const articles = blogPosts.map((post, index) => ({
+    id: index + 1000,
+    slug: `post-${index}`,
+    title: post.title[language as 'es' | 'en'],
+    content: post.content[language as 'es' | 'en'].join('\n\n'),
+    excerpt: post.excerpt[language as 'es' | 'en'],
+    image: post.image,
+    category: post.category[language as 'es' | 'en'],
+    readTime: post.readTime[language as 'es' | 'en'],
+    date: new Date().toISOString()
+  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },

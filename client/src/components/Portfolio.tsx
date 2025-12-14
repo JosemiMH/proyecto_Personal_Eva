@@ -2,12 +2,20 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { portfolioItems } from '@/lib/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ProjectModal from './ProjectModal';
 
 type FilterCategory = 'all' | 'paradores' | 'eurostars' | 'hg' | 'melia' | 'axel' | 'independientes';
 
 const Portfolio = () => {
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = (project: any) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
 
   // Filter by chain instead of category
   const filteredItems = portfolioItems.filter(item =>
@@ -154,12 +162,15 @@ const Portfolio = () => {
                 <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">
                   {typeof item.title === 'object' ? item.title[language] : item.title}
                 </h4>
-                <p className="text-charcoal-light text-sm mb-4">
+                <p className="text-charcoal-light text-sm mb-4 line-clamp-3">
                   {typeof item.description === 'object' ? item.description[language] : item.description}
                 </p>
-                <a href="#" className="text-turquoise hover:text-turquoise-dark font-medium text-sm">
+                <button
+                  onClick={() => handleOpenModal(item)}
+                  className="text-turquoise hover:text-turquoise-dark font-medium text-sm flex items-center"
+                >
                   {t('portfolio.viewCase')} <i className="fas fa-arrow-right ml-1"></i>
-                </a>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -171,6 +182,12 @@ const Portfolio = () => {
           </a>
         </div>
       </div>
+
+      <ProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        project={selectedProject}
+      />
     </section>
   );
 };

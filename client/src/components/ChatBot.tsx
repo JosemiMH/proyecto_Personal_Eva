@@ -20,10 +20,10 @@ const ChatBot = () => {
 
   // Al iniciar, cargar mensaje de bienvenida
   useEffect(() => {
-    const welcomeMessage = language === 'es' 
+    const welcomeMessage = language === 'es'
       ? '¡Hola! Soy el asistente virtual de Eva Pérez, experta en estrategia wellness para hoteles. Puedo ayudarte con consultas sobre gestión de áreas de bienestar, optimización de ingresos en SPAs, formación de equipos o implementación de proyectos wellness. ¿En qué estás interesado?'
       : 'Hello! I am Eva Pérez\'s virtual assistant, an expert in wellness strategy for hotels. I can help you with queries about wellness area management, SPA revenue optimization, team training, or wellness project implementation. What are you interested in?';
-    
+
     setMessages([
       { role: 'assistant', content: welcomeMessage }
     ]);
@@ -38,15 +38,15 @@ const ChatBot = () => {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    
+
     // Añadir mensaje del usuario
     const userMessage: ChatMessage = { role: 'user', content: input.trim() };
     setMessages(prev => [...prev, userMessage]);
-    
+
     const userInput = input.trim();
     setInput('');
     setIsLoading(true);
-    
+
     try {
       // Enviar mensaje a la API del chatbot
       const chatResponse = await apiRequest<{ response: ChatMessage, usage: any }>({
@@ -54,7 +54,7 @@ const ChatBot = () => {
         method: 'POST',
         body: { messages: [...messages, userMessage].filter(m => m.role !== 'system') }
       });
-      
+
       if (chatResponse && chatResponse.response) {
         // Añadir respuesta del asistente
         setMessages(prev => [...prev, chatResponse.response]);
@@ -63,14 +63,14 @@ const ChatBot = () => {
       }
     } catch (error) {
       console.error('Error al comunicarse con el chatbot:', error);
-      
+
       // Mensaje de error para mostrar al usuario
       const errorMessage = language === 'es'
         ? 'Lo siento, estoy teniendo problemas para conectarme. Por favor, intenta de nuevo más tarde o contacta directamente con Eva a través del formulario de contacto.'
         : 'I\'m sorry, I\'m having connection issues. Please try again later or contact Eva directly through the contact form.';
-      
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
+
+      setMessages(prev => [...prev, {
+        role: 'assistant',
         content: errorMessage
       }]);
     } finally {
@@ -86,10 +86,10 @@ const ChatBot = () => {
   };
 
   // Textos según el idioma
-  const placeholderText = language === 'es' 
-    ? 'Escribe tu mensaje...' 
+  const placeholderText = language === 'es'
+    ? 'Escribe tu mensaje...'
     : 'Type your message...';
-  
+
   const sendButtonText = language === 'es' ? 'Enviar' : 'Send';
   const chatTitle = language === 'es' ? 'Asistente Virtual' : 'Virtual Assistant';
   const loadingText = language === 'es' ? 'Escribiendo...' : 'Typing...';
@@ -97,7 +97,7 @@ const ChatBot = () => {
   return (
     <div id="chatbot-container" className="relative">
       {/* Botón para abrir el chat */}
-      <motion.div 
+      <motion.div
         className="fixed bottom-6 right-6 z-50 flex flex-col items-end"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -106,35 +106,35 @@ const ChatBot = () => {
         {!isOpen && (
           <div className="bg-white rounded-lg shadow-lg p-3 mb-3 max-w-[200px] text-sm">
             <p className="text-charcoal font-medium">
-              {language === 'es' 
-                ? '¿Necesitas ayuda con tu proyecto wellness?' 
+              {language === 'es'
+                ? '¿Necesitas ayuda con tu proyecto wellness?'
                 : 'Need help with your wellness project?'}
             </p>
-            <button 
+            <button
               className="text-turquoise text-xs mt-1 hover:underline"
               onClick={() => setIsOpen(true)}
             >
               {language === 'es' ? 'Chatea conmigo' : 'Chat with me'}
             </button>
-            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white transform rotate-45"></div>
+
           </div>
         )}
-        <motion.button 
+        <motion.button
           className="bg-turquoise text-white rounded-full p-4 shadow-lg flex items-center justify-center"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsOpen(true)}
           aria-label={language === 'es' ? 'Abrir chat' : 'Open chat'}
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
             strokeLinejoin="round"
           >
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -146,7 +146,7 @@ const ChatBot = () => {
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20">
-            <motion.div 
+            <motion.div
               className="bg-white rounded-lg shadow-xl w-full max-w-md h-[600px] max-h-[80vh] flex flex-col"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -164,14 +164,14 @@ const ChatBot = () => {
                   <div>
                     <h3 className="font-medium text-white">{chatTitle}</h3>
                     <p className="text-white/70 text-xs">
-                      {language === 'es' 
+                      {language === 'es'
                         ? 'Experta en estrategia wellness'
                         : 'Wellness strategy expert'}
                     </p>
                   </div>
                 </div>
-                <button 
-                  onClick={() => setIsOpen(false)} 
+                <button
+                  onClick={() => setIsOpen(false)}
                   className="text-white hover:text-white/80 transition-colors"
                   aria-label={language === 'es' ? 'Cerrar chat' : 'Close chat'}
                 >
@@ -181,29 +181,28 @@ const ChatBot = () => {
                   </svg>
                 </button>
               </div>
-              
+
               {/* Área de mensajes */}
-              <div 
+              <div
                 ref={chatContainerRef}
                 className="flex-1 p-4 overflow-y-auto space-y-4"
               >
                 {messages.map((msg, i) => (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
-                    <div 
-                      className={`rounded-lg p-3 max-w-[80%] ${
-                        msg.role === 'user' 
-                          ? 'bg-sage/20 text-charcoal' 
+                    <div
+                      className={`rounded-lg p-3 max-w-[80%] ${msg.role === 'user'
+                          ? 'bg-sage/20 text-charcoal'
                           : 'bg-turquoise text-white'
-                      }`}
+                        }`}
                     >
                       {msg.content}
                     </div>
                   </div>
                 ))}
-                
+
                 {isLoading && (
                   <div className="flex justify-start">
                     <div className="bg-gray-100 text-gray-500 rounded-lg p-3">
@@ -217,11 +216,11 @@ const ChatBot = () => {
                   </div>
                 )}
               </div>
-              
+
               {/* Sugerencias de preguntas */}
               <div className="px-4 pt-2 pb-0">
                 <p className="text-xs text-gray-500 mb-2">
-                  {language === 'es' 
+                  {language === 'es'
                     ? 'Puedes preguntar sobre:'
                     : 'You can ask about:'}
                 </p>
@@ -254,7 +253,7 @@ const ChatBot = () => {
                     rows={1}
                     disabled={isLoading}
                   />
-                  <Button 
+                  <Button
                     className="rounded-l-none bg-turquoise hover:bg-turquoise/90"
                     onClick={sendMessage}
                     disabled={isLoading || !input.trim()}

@@ -82,14 +82,24 @@ https://evaperez-wellness.com
         text: `Se ha suscrito un nuevo usuario: ${newsletterData.email}`,
       });
 
-      // Send welcome email to user
+      // Send welcome email to user with ebook
       await emailService.sendEmail({
         to: newsletterData.email,
-        subject: "¡Bienvenido/a a la comunidad de Eva Pérez!",
+        subject: "¡Bienvenido/a a la comunidad de Eva Pérez! + Tu E-Book gratuito",
         text: `
 Hola,
 
 Gracias por suscribirte a mi newsletter. Me alegra mucho tenerte aquí.
+
+Como regalo de bienvenida, aquí tienes tu E-Book gratuito:
+"Cómo implementar IA en tu spa hotelero en 30 días"
+
+📥 Descarga aquí: https://evaperez-wellness.com/resources/ebook-ia-spa-infographic.html
+
+Este E-Book incluye:
+✓ Pasos concretos para implementar IA en tu spa
+✓ Plantilla de implementación lista para usar
+✓ Casos de uso reales y aplicables
 
 A partir de ahora recibirás consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gestión de spas.
 
