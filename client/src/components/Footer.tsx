@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { FaLinkedinIn, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -33,15 +33,6 @@ const Footer = () => {
                 aria-label="LinkedIn"
               >
                 <FaLinkedinIn size={18} />
-              </a>
-              <a
-                href="https://www.instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-turquoise transition-colors w-10 h-10 flex items-center justify-center bg-charcoal rounded-full hover:bg-opacity-80"
-                aria-label="Instagram"
-              >
-                <FaInstagram size={18} />
               </a>
             </div>
           </motion.div>

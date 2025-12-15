@@ -157,15 +157,6 @@ const Contact = () => {
               <a href="https://www.linkedin.com/in/evaperez-spa-consultant/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors">
                 <i className="fab fa-linkedin-in"></i>
               </a>
-              <a href="#" className="w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors">
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a href="#" className="w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors">
-                <i className="fab fa-twitter"></i>
-              </a>
-              <a href="#" className="w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors">
-                <i className="fab fa-youtube"></i>
-              </a>
             </div>
           </motion.div>
 
