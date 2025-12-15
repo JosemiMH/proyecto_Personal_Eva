@@ -177,6 +177,7 @@ const Blog = () => {
                   alt={selectedArticle.title}
                   className="w-full h-full"
                   objectFit="cover"
+                  priority={true}
                 />
                 <div className="absolute inset-0 bg-black/40" />
                 <button
