@@ -164,16 +164,7 @@ const Blog = () => {
           ))}
         </motion.div>
 
-        <div className="text-center mt-16">
-          <motion.a
-            href="#"
-            className="inline-block px-10 py-4 border-2 border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-all duration-300 rounded-full font-medium tracking-wide uppercase text-sm"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {t('blog.viewAll')}
-          </motion.a>
-        </div>
+
       </div>
 
       <Dialog open={!!selectedArticle} onOpenChange={(open) => !open && setSelectedArticle(null)}>
