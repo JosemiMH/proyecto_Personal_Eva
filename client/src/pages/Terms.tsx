@@ -1,100 +1,62 @@
-import { useEffect } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { useEffect } from "react";
 
 const Terms = () => {
-  const { language } = useLanguage();
-
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="font-poppins text-charcoal bg-white">
+    <div className="font-poppins text-charcoal bg-white min-h-screen flex flex-col">
       <Header />
+      <main className="flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto prose prose-slate">
+          <h1 className="font-playfair text-4xl font-bold mb-8 text-turquoise-dark">Términos y Condiciones</h1>
 
-      <main className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <h1 className="font-playfair text-4xl md:text-5xl font-bold text-center mb-12">
-            {language === 'es' ? 'Términos y Condiciones' : 'Terms and Conditions'}
-          </h1>
+          <p className="lead">
+            Bienvenido/a a la web de Eva Pérez. Al acceder y utilizar este sitio web, aceptas cumplir con los siguientes términos y condiciones de uso.
+          </p>
 
-          <div className="prose prose-lg max-w-none">
-            {language === 'es' ? (
-              <>
-                <p>Última actualización: {new Date().toLocaleDateString('es-ES')}</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">1. Propiedad Intelectual</h3>
+          <p>
+            Todo el contenido de este sitio web (textos, imágenes, diseños, logotipos, vídeos, material descargable, guías, etc.) es propiedad exclusiva de Eva Pérez o de terceros que han autorizado su uso. Está prohibida su reproducción, distribución, comunicación pública o transformación sin la autorización expresa y por escrito de la titular.
+          </p>
 
-                <h2>1. Aceptación de los Términos</h2>
-                <p>Al acceder o utilizar el sitio web de Eva Pérez ("nosotros", "nos" o "nuestro"), usted acepta estar legalmente obligado por estos Términos y Condiciones. Si no está de acuerdo con estos términos, por favor no utilice nuestro sitio web.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">2. Uso del Sitio Web</h3>
+          <p>
+            El usuario se compromete a utilizar el sitio web de conformidad con la ley, la moral, el orden público y estos Términos y Condiciones. Se prohíbe el uso del sitio web con fines ilícitos o lesivos contra Eva Pérez o terceros.
+          </p>
 
-                <h2>2. Cambios en los Términos</h2>
-                <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en el sitio web. Su uso continuado del sitio después de cualquier cambio constituye su aceptación de los nuevos términos.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">3. Contratación de Servicios</h3>
+          <p>
+            Los servicios de consultoría, formación e interim management expuestos en la web están sujetos a presupuestos personalizados. La mera solicitud de información a través de los formularios no implica relación contractual hasta la firma de la propuesta de servicios correspondiente.
+          </p>
 
-                <h2>3. Uso del Sitio</h2>
-                <p>Usted acepta utilizar nuestro sitio web solo para fines legales y de una manera que no infrinja los derechos de terceros ni restrinja su uso del sitio. Están prohibidas las siguientes actividades:</p>
-                <ul>
-                  <li>Cualquier uso que pudiera dañar, deshabilitar o sobrecargar nuestro sitio</li>
-                  <li>Uso no autorizado de nuestros sistemas informáticos</li>
-                  <li>Recopilación no autorizada de información de usuarios</li>
-                  <li>Publicación de contenido difamatorio, obsceno o ilegal</li>
-                </ul>
+          <h3 className="text-xl font-bold mt-6 mb-2">4. Exención de Responsabilidad</h3>
+          <p>
+            Eva Pérez no se hace responsable de los daños y perjuicios de cualquier naturaleza que pudieran derivarse de la disponibilidad y continuidad técnica del funcionamiento del sitio web. Asimismo, aunque se esfuerza por mantener la información actualizada y veraz, no garantiza la inexistencia de errores en los contenidos.
+          </p>
+          <p>
+            La información proporcionada en el "Chatbot" o asistente virtual es de carácter orientativo y no sustituye una consultoría profesional personalizada.
+          </p>
 
-                <h2>4. Propiedad Intelectual</h2>
-                <p>Todo el contenido de este sitio web, incluyendo textos, gráficos, logotipos, iconos, imágenes, clips de audio, descargas digitales y software, es propiedad de Eva Pérez o de sus proveedores de contenido y está protegido por las leyes de propiedad intelectual. La reproducción, distribución o uso no autorizado de cualquier material de nuestro sitio está estrictamente prohibido.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">5. Enlaces Externos</h3>
+          <p>
+            Este sitio web puede contener enlaces a sitios web de terceros. Eva Pérez no asume responsabilidad alguna por el contenido, políticas de privacidad o prácticas de dichos sitios web.
+          </p>
 
-                <h2>5. Enlaces a Terceros</h2>
-                <p>Nuestro sitio web puede contener enlaces a sitios web de terceros. Estos enlaces se proporcionan únicamente para su conveniencia. No tenemos control sobre el contenido de estos sitios y no somos responsables de ningún contenido, políticas de privacidad o prácticas de sitios web de terceros.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">6. Modificaciones</h3>
+          <p>
+            Nos reservamos el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del sitio web, así como los presentes Términos y Condiciones.
+          </p>
 
-                <h2>6. Limitación de Responsabilidad</h2>
-                <p>En la máxima medida permitida por la ley, Eva Pérez no será responsable por daños directos, indirectos, incidentales, consecuentes o punitivos resultantes de su acceso o uso de nuestro sitio web.</p>
-
-                <h2>7. Ley Aplicable</h2>
-                <p>Estos términos se regirán e interpretarán de acuerdo con las leyes de España, sin tener en cuenta sus conflictos de principios legales.</p>
-
-                <h2>8. Contacto</h2>
-                <p>Si tiene preguntas sobre estos Términos y Condiciones, puede contactarnos en epm@epmwellness.com.</p>
-              </>
-            ) : (
-              <>
-                <p>Last updated: {new Date().toLocaleDateString('en-US')}</p>
-
-                <h2>1. Acceptance of Terms</h2>
-                <p>By accessing or using Eva Pérez's website ("we," "us," or "our"), you agree to be legally bound by these Terms and Conditions. If you do not agree to these terms, please do not use our website.</p>
-
-                <h2>2. Changes to Terms</h2>
-                <p>We reserve the right to modify these terms at any time. Changes will take effect immediately upon posting on the website. Your continued use of the site after any changes constitutes your acceptance of the new terms.</p>
-
-                <h2>3. Use of the Site</h2>
-                <p>You agree to use our website only for lawful purposes and in a manner that does not infringe on the rights of third parties or restrict their use of the site. The following activities are prohibited:</p>
-                <ul>
-                  <li>Any use that could damage, disable, or overburden our site</li>
-                  <li>Unauthorized use of our computer systems</li>
-                  <li>Unauthorized collection of user information</li>
-                  <li>Posting defamatory, obscene, or illegal content</li>
-                </ul>
-
-                <h2>4. Intellectual Property</h2>
-                <p>All content on this website, including text, graphics, logos, icons, images, audio clips, digital downloads, and software, is the property of Eva Pérez or its content providers and is protected by intellectual property laws. Unauthorized reproduction, distribution, or use of any material from our site is strictly prohibited.</p>
-
-                <h2>5. Third-Party Links</h2>
-                <p>Our website may contain links to third-party websites. These links are provided solely for your convenience. We have no control over the content of these sites and are not responsible for any content, privacy policies, or practices of third-party websites.</p>
-
-                <h2>6. Limitation of Liability</h2>
-                <p>To the maximum extent permitted by law, Eva Pérez will not be liable for any direct, indirect, incidental, consequential, or punitive damages resulting from your access to or use of our website.</p>
-
-                <h2>7. Governing Law</h2>
-                <p>These terms will be governed by and construed in accordance with the laws of Spain, without regard to its conflict of law principles.</p>
-
-                <h2>8. Contact</h2>
-                <p>If you have questions about these Terms and Conditions, you can contact us at epm@epmwellness.com.</p>
-              </>
-            )}
-          </div>
+          <h3 className="text-xl font-bold mt-6 mb-2">7. Legislación Aplicable</h3>
+          <p>
+            Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España).
+          </p>
         </div>
       </main>
-
       <Footer />
     </div>
   );

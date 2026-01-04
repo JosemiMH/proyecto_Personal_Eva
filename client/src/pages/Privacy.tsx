@@ -1,122 +1,72 @@
-import { useEffect } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { useEffect } from "react";
 
 const Privacy = () => {
-  const { language } = useLanguage();
-
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="font-poppins text-charcoal bg-white">
+    <div className="font-poppins text-charcoal bg-white min-h-screen flex flex-col">
       <Header />
+      <main className="flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto prose prose-slate">
+          <h1 className="font-playfair text-4xl font-bold mb-8 text-turquoise-dark">Política de Privacidad</h1>
 
-      <main className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <h1 className="font-playfair text-4xl md:text-5xl font-bold text-center mb-12">
-            {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}
-          </h1>
+          <p className="lead">
+            En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016 (RGPD), y la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales, te informamos sobre el tratamiento de tus datos personales.
+          </p>
 
-          <div className="prose prose-lg max-w-none">
-            {language === 'es' ? (
-              <>
-                <p>Última actualización: {new Date().toLocaleDateString('es-ES')}</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">1. Responsable del Tratamiento</h3>
+          <p>
+            <strong>Identidad:</strong> Eva Pérez<br />
+            <strong>Actividad:</strong> Consultoría de Spa y Wellness<br />
+            <strong>Email de contacto:</strong> epm@epmwellness.com<br />
+            <strong>Ubicación:</strong> Madrid, España
+          </p>
 
-                <h2>1. Información que recopilamos</h2>
-                <p>Eva Pérez ("nosotros", "nos" o "nuestro") se compromete a proteger su privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos y protegemos la información personal que usted proporciona a través de nuestro sitio web.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">2. Finalidad del Tratamiento</h3>
+          <p>Tratamos la información que nos facilitas para las siguientes finalidades:</p>
+          <ul className="list-disc pl-5 mb-4">
+            <li><strong>Formulario de Contacto:</strong> Responder a tus consultas, solicitudes de auditoría o propuestas de colaboración.</li>
+            <li><strong>Newsletter y Lead Magnets:</strong> Enviarte la guía gratuita solicitada y comunicaciones periódicas (newsletter) con contenidos sobre gestión de spas, novedades y servicios, siempre que hayas dado tu consentimiento explícito.</li>
+            <li><strong>Gestión de Servicios:</strong> En caso de contratación, para la gestión administrativa, fiscal y contable de los servicios prestados.</li>
+          </ul>
 
-                <p>Recopilamos los siguientes tipos de información:</p>
-                <ul>
-                  <li><strong>Información de contacto:</strong> Nombre, dirección de correo electrónico, número de teléfono, empresa y mensaje cuando utiliza nuestro formulario de contacto.</li>
-                  <li><strong>Información de suscripción:</strong> Correo electrónico cuando se suscribe a nuestro boletín informativo.</li>
-                  <li><strong>Información de uso:</strong> Datos sobre cómo interactúa con nuestro sitio, incluidas las páginas visitadas, el tiempo pasado en el sitio y otra información estadística.</li>
-                </ul>
+          <h3 className="text-xl font-bold mt-6 mb-2">3. Legitimación</h3>
+          <p>La base legal para el tratamiento de tus datos es:</p>
+          <ul className="list-disc pl-5 mb-4">
+            <li><strong>Consentimiento:</strong> Al marcar la casilla de aceptación en nuestros formularios, nos autorizas expresamente a tratar tus datos.</li>
+            <li><strong>Ejecución de un contrato:</strong> En caso de contratar servicios de consultoría o formación.</li>
+            <li><strong>Interés legítimo:</strong> Para la respuesta a consultas pre-contractuales.</li>
+          </ul>
 
-                <h2>2. Cómo utilizamos su información</h2>
-                <p>Utilizamos su información personal para:</p>
-                <ul>
-                  <li>Responder a sus consultas y solicitudes</li>
-                  <li>Enviarle nuestro boletín informativo si ha dado su consentimiento</li>
-                  <li>Mejorar y personalizar su experiencia en nuestro sitio web</li>
-                  <li>Cumplir con obligaciones legales</li>
-                </ul>
+          <h3 className="text-xl font-bold mt-6 mb-2">4. Conservación de los Datos</h3>
+          <p>
+            Los datos proporcionados se conservarán mientras se mantenga la relación comercial o durante los años necesarios para cumplir con las obligaciones legales. Los datos para el envío de newsletter se conservarán hasta que solicites tu baja.
+          </p>
 
-                <h2>3. Compartición de datos</h2>
-                <p>No vendemos ni alquilamos su información personal a terceros. Podemos compartir su información con proveedores de servicios que nos ayudan a operar nuestro sitio web y prestar servicios, pero estos proveedores están obligados a mantener la confidencialidad de su información.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">5. Destinatarios</h3>
+          <p>
+            Los datos no se cederán a terceros salvo en los casos en que exista una obligación legal. Utilizamos proveedores de servicios (como plataformas de email marketing o hosting) que pueden tener acceso a datos, garantizando siempre el cumplimiento del RGPD.
+          </p>
 
-                <h2>4. Seguridad de datos</h2>
-                <p>Implementamos medidas de seguridad para proteger su información personal. Sin embargo, ninguna transmisión de Internet o método de almacenamiento electrónico es 100% seguro, por lo que no podemos garantizar su seguridad absoluta.</p>
-
-                <h2>5. Sus derechos</h2>
-                <p>Usted tiene derecho a:</p>
-                <ul>
-                  <li>Acceder a su información personal</li>
-                  <li>Rectificar información inexacta</li>
-                  <li>Solicitar la eliminación de sus datos</li>
-                  <li>Retirar su consentimiento en cualquier momento</li>
-                  <li>Presentar una reclamación ante una autoridad de protección de datos</li>
-                </ul>
-
-                <h2>6. Cambios a esta política</h2>
-                <p>Podemos actualizar esta política periódicamente. Le notificaremos cualquier cambio publicando la nueva política de privacidad en esta página.</p>
-
-                <h2>7. Contacto</h2>
-                <p>Si tiene preguntas sobre esta Política de Privacidad, puede contactarnos en epm@epmwellness.com.</p>
-              </>
-            ) : (
-              <>
-                <p>Last updated: {new Date().toLocaleDateString('en-US')}</p>
-
-                <h2>1. Information We Collect</h2>
-                <p>Eva Pérez ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect the personal information you provide through our website.</p>
-
-                <p>We collect the following types of information:</p>
-                <ul>
-                  <li><strong>Contact Information:</strong> Name, email address, phone number, company, and message when you use our contact form.</li>
-                  <li><strong>Subscription Information:</strong> Email when you subscribe to our newsletter.</li>
-                  <li><strong>Usage Information:</strong> Data about how you interact with our site, including pages visited, time spent on the site, and other statistical information.</li>
-                </ul>
-
-                <h2>2. How We Use Your Information</h2>
-                <p>We use your personal information to:</p>
-                <ul>
-                  <li>Respond to your inquiries and requests</li>
-                  <li>Send you our newsletter if you have consented</li>
-                  <li>Improve and personalize your experience on our website</li>
-                  <li>Comply with legal obligations</li>
-                </ul>
-
-                <h2>3. Data Sharing</h2>
-                <p>We do not sell or rent your personal information to third parties. We may share your information with service providers who help us operate our website and deliver services, but these providers are required to keep your information confidential.</p>
-
-                <h2>4. Data Security</h2>
-                <p>We implement security measures to protect your personal information. However, no Internet transmission or electronic storage method is 100% secure, so we cannot guarantee its absolute security.</p>
-
-                <h2>5. Your Rights</h2>
-                <p>You have the right to:</p>
-                <ul>
-                  <li>Access your personal information</li>
-                  <li>Rectify inaccurate information</li>
-                  <li>Request the deletion of your data</li>
-                  <li>Withdraw your consent at any time</li>
-                  <li>Lodge a complaint with a data protection authority</li>
-                </ul>
-
-                <h2>6. Changes to This Policy</h2>
-                <p>We may update this policy periodically. We will notify you of any changes by posting the new privacy policy on this page.</p>
-
-                <h2>7. Contact</h2>
-                <p>If you have questions about this Privacy Policy, you can contact us at epm@epmwellness.com.</p>
-              </>
-            )}
-          </div>
+          <h3 className="text-xl font-bold mt-6 mb-2">6. Derechos</h3>
+          <p>Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales y, por tanto, tienes derecho a:</p>
+          <ul className="list-disc pl-5 mb-4">
+            <li>Acceder a tus datos personales.</li>
+            <li>Rectificar los datos inexactos.</li>
+            <li>Solicitar su supresión cuando los datos ya no sean necesarios.</li>
+            <li>Limitar el tratamiento de tus datos.</li>
+            <li>Oponerte al tratamiento.</li>
+            <li>Portabilidad de tus datos.</li>
+          </ul>
+          <p>
+            Puedes ejercer tus derechos enviando un email a <strong>epm@epmwellness.com</strong>.
+          </p>
         </div>
       </main>
-
       <Footer />
     </div>
   );

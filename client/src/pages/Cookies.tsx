@@ -1,90 +1,59 @@
-import { useEffect } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { useEffect } from "react";
 
 const Cookies = () => {
-  const { language } = useLanguage();
-
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="font-poppins text-charcoal bg-white">
+    <div className="font-poppins text-charcoal bg-white min-h-screen flex flex-col">
       <Header />
+      <main className="flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto prose prose-slate">
+          <h1 className="font-playfair text-4xl font-bold mb-8 text-turquoise-dark">Política de Cookies</h1>
 
-      <main className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <h1 className="font-playfair text-4xl md:text-5xl font-bold text-center mb-12">
-            {language === 'es' ? 'Política de Cookies' : 'Cookie Policy'}
-          </h1>
+          <p className="lead">
+            Este sitio web utiliza cookies propias y de terceros para mejorar tu experiencia de usuario, analizar el tráfico y personalizar el contenido.
+          </p>
 
-          <div className="prose prose-lg max-w-none">
-            {language === 'es' ? (
-              <>
-                <p>Última actualización: {new Date().toLocaleDateString('es-ES')}</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">¿Qué son las cookies?</h3>
+          <p>
+            Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página.
+          </p>
 
-                <h2>1. ¿Qué son las cookies?</h2>
-                <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo (ordenador, tableta, teléfono móvil) cuando visita un sitio web. Las cookies ayudan a recordar sus preferencias y a mejorar su experiencia de navegación.</p>
+          <h3 className="text-xl font-bold mt-6 mb-2">Cookies que utilizamos</h3>
 
-                <h2>2. Tipos de cookies que utilizamos</h2>
-                <p>Nuestro sitio web utiliza los siguientes tipos de cookies:</p>
+          <h4 className="font-bold mt-4">1. Cookies Técnicas (Necesarias)</h4>
+          <p>
+            Son aquellas que permiten al usuario la navegación a través de la página web y la utilización de las diferentes opciones o servicios que en ella existan. Por ejemplo, controlar el tráfico, identificar la sesión o recordar elementos de un pedido.
+          </p>
 
-                <h3>Cookies esenciales</h3>
-                <p>Estas cookies son necesarias para el funcionamiento básico de nuestro sitio web. Le permiten navegar por nuestro sitio y utilizar sus funciones. Sin estas cookies, no podríamos proporcionar los servicios que ha solicitado.</p>
+          <h4 className="font-bold mt-4">2. Cookies de Análisis</h4>
+          <p>
+            Son aquellas que nos permiten cuantificar el número de usuarios y así realizar la medición y análisis estadístico de la utilización que hacen los usuarios del servicio. Para ello se analiza tu navegación en nuestra página web con el fin de mejorar la oferta de productos o servicios que te ofrecemos.
+          </p>
 
-                <h3>Cookies de preferencias</h3>
-                <p>Estas cookies recuerdan sus elecciones y preferencias para mejorar su experiencia cuando vuelva a visitar nuestro sitio web.</p>
+          <h4 className="font-bold mt-4">3. Cookies de Preferencias</h4>
+          <p>
+            Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional.
+          </p>
 
-                <h3>Cookies analíticas</h3>
-                <p>Utilizamos cookies analíticas para entender cómo los visitantes interactúan con nuestro sitio web. Estas cookies nos ayudan a reconocer y contar el número de visitantes y a ver cómo se mueven por nuestro sitio cuando lo están utilizando.</p>
-
-                <h2>3. Control de cookies</h2>
-                <p>La mayoría de los navegadores web permiten controlar la mayoría de las cookies a través de sus ajustes. Puede configurar su navegador para que rechace las cookies o le avise cuando se envíen cookies a su dispositivo.</p>
-                <p>Si desea saber más sobre las cookies o cómo gestionarlas o eliminarlas, visite <a href="https://www.aboutcookies.org/" target="_blank" rel="noopener noreferrer">aboutcookies.org</a>.</p>
-
-                <h2>4. Cambios en nuestra política de cookies</h2>
-                <p>Podemos actualizar nuestra política de cookies de vez en cuando. Cualquier cambio será publicado en esta página.</p>
-
-                <h2>5. Contacto</h2>
-                <p>Si tiene preguntas sobre nuestra política de cookies, puede contactarnos en epm@epmwellness.com.</p>
-              </>
-            ) : (
-              <>
-                <p>Last updated: {new Date().toLocaleDateString('en-US')}</p>
-
-                <h2>1. What are cookies?</h2>
-                <p>Cookies are small text files that are stored on your device (computer, tablet, mobile phone) when you visit a website. Cookies help remember your preferences and improve your browsing experience.</p>
-
-                <h2>2. Types of cookies we use</h2>
-                <p>Our website uses the following types of cookies:</p>
-
-                <h3>Essential cookies</h3>
-                <p>These cookies are necessary for the basic functioning of our website. They allow you to navigate our site and use its features. Without these cookies, we could not provide the services you have requested.</p>
-
-                <h3>Preference cookies</h3>
-                <p>These cookies remember your choices and preferences to enhance your experience when you return to our website.</p>
-
-                <h3>Analytical cookies</h3>
-                <p>We use analytical cookies to understand how visitors interact with our website. These cookies help us recognize and count the number of visitors and see how they move around our site when they are using it.</p>
-
-                <h2>3. Cookie control</h2>
-                <p>Most web browsers allow you to control most cookies through their settings. You can set your browser to refuse cookies or to alert you when cookies are being sent to your device.</p>
-                <p>If you want to learn more about cookies or how to manage or delete them, visit <a href="https://www.aboutcookies.org/" target="_blank" rel="noopener noreferrer">aboutcookies.org</a>.</p>
-
-                <h2>4. Changes to our cookie policy</h2>
-                <p>We may update our cookie policy from time to time. Any changes will be posted on this page.</p>
-
-                <h2>5. Contact</h2>
-                <p>If you have questions about our cookie policy, you can contact us at epm@epmwellness.com.</p>
-              </>
-            )}
-          </div>
+          <h3 className="text-xl font-bold mt-6 mb-2">Gestión de Cookies</h3>
+          <p>
+            Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:
+          </p>
+          <ul className="list-disc pl-5 mb-4">
+            <li><strong>Google Chrome:</strong> Configuración &rarr; Privacidad y seguridad &rarr; Cookies y otros datos de sitios.</li>
+            <li><strong>Mozilla Firefox:</strong> Opciones &rarr; Privacidad y Seguridad.</li>
+            <li><strong>Safari:</strong> Preferencias &rarr; Privacidad.</li>
+          </ul>
+          <p>
+            Ten en cuenta que, si desactivas las cookies, es posible que algunas funciones del sitio web no funcionen correctamente.
+          </p>
         </div>
       </main>
-
       <Footer />
     </div>
   );
