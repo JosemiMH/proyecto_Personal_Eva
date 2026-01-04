@@ -59,6 +59,12 @@ export type TranslationKey =
   | 'newsletter.subtitle'
   | 'newsletter.subscribe'
   | 'newsletter.sending'
+  | 'newsletter.leadMagnetTitle'
+  | 'newsletter.leadMagnetSubtitle'
+  | 'newsletter.downloadButton'
+  | 'header.bookAudit'
+  | 'hero.ctaPrimary'
+  | 'hero.ctaSecondary'
   | 'contact.title'
   | 'contact.subtitle'
   | 'contact.description'
@@ -192,6 +198,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'newsletter.subtitle': 'Recibe mensualmente contenido exclusivo, consejos y las últimas tendencias en gestión de spas.',
     'newsletter.subscribe': 'Suscribirme',
     'newsletter.sending': 'Enviando...',
+    'newsletter.leadMagnetTitle': 'Descarga GRATIS la Guía de Rentabilidad',
+    'newsletter.leadMagnetSubtitle': 'Descubre los 10 puntos críticos para aumentar el margen de tu spa en 30 días. Incluye plantilla de auditoría.',
+    'newsletter.downloadButton': 'Descargar Guía Ahora',
+    'header.bookAudit': 'Solicitar Auditoría',
+    'hero.ctaPrimary': 'Mejorar mi Spa Ahora',
+    'hero.ctaSecondary': 'Ver Casos de Éxito',
 
     'contact.title': 'Contacto',
     'contact.subtitle': '¿Hablamos sobre tu proyecto?',
@@ -323,6 +335,12 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'newsletter.subtitle': 'Receive monthly exclusive content, tips, and the latest trends in spa management.',
     'newsletter.subscribe': 'Subscribe',
     'newsletter.sending': 'Sending...',
+    'newsletter.leadMagnetTitle': 'Download FREE Profitability Guide',
+    'newsletter.leadMagnetSubtitle': 'Discover 10 critical points to increase your spa margin in 30 days. Includes audit template.',
+    'newsletter.downloadButton': 'Download Guide Now',
+    'header.bookAudit': 'Request Audit',
+    'hero.ctaPrimary': 'Improve my Spa Now',
+    'hero.ctaSecondary': 'View Success Stories',
 
     'contact.title': 'Contact',
     'contact.subtitle': 'Let\'s talk about your project',

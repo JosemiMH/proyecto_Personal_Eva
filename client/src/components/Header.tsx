@@ -109,7 +109,7 @@ const Header = () => {
                   className={`bg-turquoise text-white rounded hover:bg-turquoise-dark transition-colors ${isTablet ? 'text-xs px-3 py-1.5 ml-1' : 'text-sm px-4 py-2 ml-2'
                     }`}
                 >
-                  {t('header.contact')}
+                  {t('header.bookAudit')}
                 </a>
               </nav>
               <div className={isTablet ? 'ml-2' : 'ml-4'}>
@@ -182,7 +182,7 @@ const Header = () => {
               }`}
             onClick={toggleMobileMenu}
           >
-            {t('header.contact')}
+            {t('header.bookAudit')}
           </a>
 
           <div className={`flex items-center justify-between ${isMobile ? 'py-2' : 'py-3'}`}>

@@ -43,10 +43,10 @@ const Newsletter = () => {
       });
 
       toast({
-        title: language === 'es' ? "Suscripción exitosa" : "Successful subscription",
+        title: language === 'es' ? "¡Guía enviada!" : "Guide sent!",
         description: language === 'es'
-          ? "Te has suscrito correctamente a la newsletter."
-          : "You have successfully subscribed to the newsletter.",
+          ? "Revisa tu email para descargar la Guía de Rentabilidad."
+          : "Check your email to download the Profitability Guide.",
       });
 
       form.reset();
@@ -54,8 +54,8 @@ const Newsletter = () => {
       toast({
         title: "Error",
         description: language === 'es'
-          ? "Hubo un problema al suscribirte. Inténtalo nuevamente."
-          : "There was a problem with your subscription. Please try again.",
+          ? "Hubo un problema al procesar tu solicitud. Inténtalo de nuevo."
+          : "There was a problem processing your request. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -75,10 +75,10 @@ const Newsletter = () => {
         >
           <div className="md:w-1/2">
             <h2 className="font-playfair text-2xl md:text-3xl font-bold mb-4">
-              {t('newsletter.title')}
+              {t('newsletter.leadMagnetTitle')}
             </h2>
             <p className="text-white/90">
-              {t('newsletter.subtitle')}
+              {t('newsletter.leadMagnetSubtitle')}
             </p>
           </div>
           <div className="md:w-1/2">
@@ -105,7 +105,7 @@ const Newsletter = () => {
                   className="bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-6 py-3 rounded whitespace-nowrap"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? t('newsletter.sending') : t('newsletter.subscribe')}
+                  {isSubmitting ? t('newsletter.sending') : t('newsletter.downloadButton')}
                 </Button>
               </form>
             </Form>
