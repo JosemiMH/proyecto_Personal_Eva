@@ -43,23 +43,19 @@ function Router() {
   );
 }
 
-import { HelmetProvider } from 'react-helmet-async';
-
 export default function App({ queryClient: propsClient }: { queryClient?: any }) {
   const client = propsClient || queryClient;
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={client}>
-        <AuthProvider>
-          <LanguageProvider>
-            <Router />
-            <ChatBot />
-            <CookieConsent />
-            <ScrollToTop />
-            <Toaster />
-          </LanguageProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <QueryClientProvider client={client}>
+      <AuthProvider>
+        <LanguageProvider>
+          <Router />
+          <ChatBot />
+          <CookieConsent />
+          <ScrollToTop />
+          <Toaster />
+        </LanguageProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

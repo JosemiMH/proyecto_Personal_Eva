@@ -10,13 +10,19 @@ import { QueryClient } from "@tanstack/react-query";
 // Simple implementation of staticLocationHook to avoid build issues
 const staticLocationHook = (path = "/") => () => [path, () => null] as [string, (to: string, options?: any) => void];
 
+import { HelmetProvider } from 'react-helmet-async';
+
 export function render(url: string) {
     const hook = staticLocationHook(url);
     const queryClient = new QueryClient(); // Simple client for SSR
+    const helmetContext = {};
+
     const html = renderToString(
-        <Router hook={hook}>
-            <App queryClient={queryClient} />
-        </Router>
+        <HelmetProvider context={helmetContext}>
+            <Router hook={hook}>
+                <App queryClient={queryClient} />
+            </Router>
+        </HelmetProvider>
     );
-    return { html };
+    return { html, helmetContext };
 }
