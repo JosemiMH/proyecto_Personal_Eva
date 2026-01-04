@@ -14,6 +14,7 @@ import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import EbookPopup from "@/components/EbookPopup";
+import SEO from "@/components/SEO";
 
 const Home = () => {
   // Handle smooth scrolling for anchor links
@@ -67,8 +68,14 @@ const Home = () => {
     };
   }, []);
 
+
+
   return (
     <div className="font-poppins text-charcoal bg-white">
+      <SEO
+        title="Consultoría Wellness & Spa de Lujo"
+        description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas y hospitalidad de lujo."
+      />
       <Header />
       <section id="home">
         <Hero />

@@ -4,7 +4,21 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { setupAuth } from "./auth";
 
+import helmet from "helmet";
+
 const app = express();
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://replit.com", "https://*.replit.com", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://*.replit.com"],
+      connectSrc: ["'self'", "ws:", "wss:", "https://*.replit.com"],
+    },
+  },
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

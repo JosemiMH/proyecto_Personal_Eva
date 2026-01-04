@@ -3,52 +3,63 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
-import Home from "@/pages/Home";
-import Privacy from "@/pages/Privacy";
-import Terms from "@/pages/Terms";
-import Cookies from "@/pages/Cookies";
-import Booking from "@/pages/Booking";
-import Admin from "@/pages/Admin";
-import AuthPage from "@/pages/Auth";
+import React, { Suspense } from "react";
+
+import ResourcesPage from "@/components/Resources"; // Ensure this is imported if used directly or lazily
+// Restore missing imports
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 import CookieConsent from "@/components/CookieConsent";
 import ChatBot from "@/components/ChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
-import Resources from "@/components/Resources";
+
+// Lazy load heavy components
+const Home = React.lazy(() => import("@/pages/Home"));
+const Privacy = React.lazy(() => import("@/pages/Privacy"));
+const Terms = React.lazy(() => import("@/pages/Terms"));
+const Cookies = React.lazy(() => import("@/pages/Cookies"));
+const Booking = React.lazy(() => import("@/pages/Booking"));
+const Admin = React.lazy(() => import("@/pages/Admin"));
+const AuthPage = React.lazy(() => import("@/pages/Auth"));
+// const ResourcesPage = React.lazy(() => import("@/components/Resources")); // If using lazy, comment out check above
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/terms" component={Terms} />
-      <Route path="/cookies" component={Cookies} />
-      <Route path="/booking" component={Booking} />
-      <Route path="/auth" component={AuthPage} />
-      <ProtectedRoute path="/admin" component={Admin} />
-      <Route path="/resources" component={Resources} />
-      {/* Fallback to 404 */}
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/terms" component={Terms} />
+        <Route path="/cookies" component={Cookies} />
+        <Route path="/booking" component={Booking} />
+        <Route path="/auth" component={AuthPage} />
+        <ProtectedRoute path="/admin" component={Admin} />
+        <Route path="/resources" component={ResourcesPage} />
+        {/* Fallback to 404 */}
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 
-function App() {
+import { HelmetProvider } from 'react-helmet-async';
+
+export default function App({ queryClient: propsClient }: { queryClient?: any }) {
+  const client = propsClient || queryClient;
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <LanguageProvider>
-          <Router />
-          <ChatBot />
-          <CookieConsent />
-          <ScrollToTop />
-          <Toaster />
-        </LanguageProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={client}>
+        <AuthProvider>
+          <LanguageProvider>
+            <Router />
+            <ChatBot />
+            <CookieConsent />
+            <ScrollToTop />
+            <Toaster />
+          </LanguageProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
-
-export default App;

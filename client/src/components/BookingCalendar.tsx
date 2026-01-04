@@ -40,25 +40,25 @@ const BookingCalendar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [step, setStep] = useState<'date' | 'time' | 'form'>('date');
-  
+
   const dateLocale = language === 'es' ? es : enUS;
 
   // Esquema de validación del formulario
   const formSchema = z.object({
-    name: z.string().min(2, { 
-      message: language === 'es' ? 'El nombre debe tener al menos 2 caracteres' : 'Name must be at least 2 characters' 
+    name: z.string().min(2, {
+      message: t('booking.val.name')
     }),
-    email: z.string().email({ 
-      message: language === 'es' ? 'Por favor introduce un email válido' : 'Please enter a valid email address' 
+    email: z.string().email({
+      message: t('booking.val.email')
     }),
     phone: z.string().optional(),
     company: z.string().optional(),
-    service: z.string({ 
-      required_error: language === 'es' ? 'Por favor selecciona un servicio' : 'Please select a service' 
+    service: z.string({
+      required_error: t('booking.val.service')
     }),
     message: z.string().optional(),
     privacy: z.boolean().refine(val => val === true, {
-      message: language === 'es' ? 'Debes aceptar la política de privacidad' : 'You must accept the privacy policy',
+      message: t('booking.val.privacy'),
     }),
   });
 
@@ -80,7 +80,7 @@ const BookingCalendar = () => {
   // Cargar slots disponibles cuando se selecciona una fecha
   useEffect(() => {
     if (!date) return;
-    
+
     const fetchAvailableSlots = async () => {
       setIsLoading(true);
       try {
@@ -88,7 +88,7 @@ const BookingCalendar = () => {
           path: `/api/appointments/available?date=${date.toISOString()}`,
           method: 'GET',
         });
-        
+
         if (result.success && result.data) {
           // Convertir strings a objetos Date
           const formattedSlots = result.data.map(slot => ({
@@ -99,20 +99,16 @@ const BookingCalendar = () => {
           setStep('time');
         } else {
           toast({
-            title: language === 'es' ? 'Error' : 'Error',
-            description: language === 'es' 
-              ? 'No se pudieron cargar los horarios disponibles' 
-              : 'Could not load available time slots',
+            title: t('booking.fetchError'),
+            description: t('booking.fetchError'),
             variant: 'destructive',
           });
         }
       } catch (error) {
         console.error('Error fetching available slots:', error);
         toast({
-          title: language === 'es' ? 'Error' : 'Error',
-          description: language === 'es' 
-            ? 'Ocurrió un error al cargar los horarios disponibles' 
-            : 'An error occurred while loading available time slots',
+          title: t('booking.fetchError'),
+          description: t('booking.fetchError'),
           variant: 'destructive',
         });
       } finally {
@@ -121,7 +117,7 @@ const BookingCalendar = () => {
     };
 
     fetchAvailableSlots();
-  }, [date, language]);
+  }, [date, language, t]);
 
   const handleSlotSelect = (slot: AvailableSlot) => {
     setSelectedSlot(slot);
@@ -130,9 +126,9 @@ const BookingCalendar = () => {
 
   const onSubmit = async (values: FormValues) => {
     if (!selectedSlot || !date) return;
-    
+
     setSubmitLoading(true);
-    
+
     try {
       const appointmentData = {
         ...values,
@@ -140,21 +136,19 @@ const BookingCalendar = () => {
         duration: 60,
         status: "pending"
       };
-      
+
       const result = await apiRequest<{ success: boolean; message: string }>({
         path: '/api/appointments',
         method: 'POST',
         body: appointmentData,
       });
-      
+
       if (result.success) {
         toast({
-          title: language === 'es' ? '¡Reserva completada!' : 'Booking completed!',
-          description: language === 'es' 
-            ? 'Tu cita ha sido reservada correctamente. Recibirás un email de confirmación.' 
-            : 'Your appointment has been booked successfully. You will receive a confirmation email.',
+          title: t('booking.successTitle'),
+          description: t('booking.successDesc'),
         });
-        
+
         // Reiniciar el formulario
         form.reset();
         setDate(undefined);
@@ -162,20 +156,16 @@ const BookingCalendar = () => {
         setStep('date');
       } else {
         toast({
-          title: language === 'es' ? 'Error en la reserva' : 'Booking error',
-          description: language === 'es' 
-            ? 'No se pudo completar la reserva. Por favor, inténtalo de nuevo.' 
-            : 'Could not complete the booking. Please try again.',
+          title: t('booking.errorTitle'),
+          description: t('booking.errorDesc'),
           variant: 'destructive',
         });
       }
     } catch (error) {
       console.error('Error submitting booking:', error);
       toast({
-        title: language === 'es' ? 'Error en la reserva' : 'Booking error',
-        description: language === 'es' 
-          ? 'Ocurrió un error al procesar tu reserva. Por favor, inténtalo de nuevo más tarde.' 
-          : 'An error occurred while processing your booking. Please try again later.',
+        title: t('booking.errorTitle'),
+        description: t('booking.errorDesc'),
         variant: 'destructive',
       });
     } finally {
@@ -195,11 +185,11 @@ const BookingCalendar = () => {
     // No permitir fechas en el pasado
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     if (isBefore(date, today)) {
       return true;
     }
-    
+
     // No permitir reservas en días específicos (ej: fines de semana)
     const day = date.getDay();
     return day === 0 || day === 6; // 0 es domingo, 6 es sábado
@@ -209,14 +199,12 @@ const BookingCalendar = () => {
     <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
       <div className="p-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          {language === 'es' ? 'Reserva una consulta con Eva' : 'Book a consultation with Eva'}
+          {t('booking.title')}
         </h2>
         <p className="text-gray-600 mb-6">
-          {language === 'es' 
-            ? 'Selecciona una fecha y hora para tu consulta personalizada' 
-            : 'Select a date and time for your personalized consultation'}
+          {t('booking.subtitle')}
         </p>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="md:col-span-12">
             <AnimatePresence mode="wait">
@@ -231,12 +219,10 @@ const BookingCalendar = () => {
                   <Card>
                     <CardHeader>
                       <CardTitle>
-                        {language === 'es' ? 'Selecciona una fecha' : 'Select a date'}
+                        {t('booking.selectDate')}
                       </CardTitle>
                       <CardDescription>
-                        {language === 'es' 
-                          ? 'Elige el día para tu consulta' 
-                          : 'Choose the day for your consultation'}
+                        {t('booking.chooseDay')}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -253,9 +239,7 @@ const BookingCalendar = () => {
                     </CardContent>
                     <CardFooter className="flex flex-col gap-4">
                       <p className="text-sm text-gray-500">
-                        {language === 'es' 
-                          ? 'Los fines de semana no están disponibles para reservas.' 
-                          : 'Weekends are not available for bookings.'}
+                        {t('booking.weekendUnavailable')}
                       </p>
 
                     </CardFooter>
@@ -274,12 +258,10 @@ const BookingCalendar = () => {
                   <Card>
                     <CardHeader>
                       <CardTitle>
-                        {language === 'es' ? 'Selecciona una hora' : 'Select a time'}
+                        {t('booking.selectTime')}
                       </CardTitle>
                       <CardDescription>
-                        {language === 'es' 
-                          ? `Horarios disponibles para el ${format(date!, 'PPP', { locale: dateLocale })}` 
-                          : `Available times for ${format(date!, 'PPP', { locale: dateLocale })}`}
+                        {t('booking.availableTimes')} {format(date!, 'PPP', { locale: dateLocale })}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -303,19 +285,17 @@ const BookingCalendar = () => {
                       ) : (
                         <div className="text-center py-6">
                           <p className="text-gray-500">
-                            {language === 'es' 
-                              ? 'No hay horarios disponibles para esta fecha. Por favor, selecciona otro día.' 
-                              : 'No available times for this date. Please select another day.'}
+                            {t('booking.noSlots')}
                           </p>
                         </div>
                       )}
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         onClick={handleBackClick}
                       >
-                        {language === 'es' ? 'Volver' : 'Back'}
+                        {t('booking.back')}
                       </Button>
 
                     </CardFooter>
@@ -334,12 +314,10 @@ const BookingCalendar = () => {
                   <Card>
                     <CardHeader>
                       <CardTitle>
-                        {language === 'es' ? 'Completa tu reserva' : 'Complete your booking'}
+                        {t('booking.complete')}
                       </CardTitle>
                       <CardDescription>
-                        {language === 'es' 
-                          ? `Reservando para el ${format(date!, 'PPP', { locale: dateLocale })} a las ${format(selectedSlot.start, 'HH:mm')}` 
-                          : `Booking for ${format(date!, 'PPP', { locale: dateLocale })} at ${format(selectedSlot.start, 'HH:mm')}`}
+                        {t('booking.details')} {format(date!, 'PPP', { locale: dateLocale })} {t('booking.at')} {format(selectedSlot.start, 'HH:mm')}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -352,33 +330,33 @@ const BookingCalendar = () => {
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>
-                                    {language === 'es' ? 'Nombre completo' : 'Full name'}
+                                    {t('booking.fullName')}
                                   </FormLabel>
                                   <FormControl>
-                                    <Input placeholder={language === 'es' ? 'Tu nombre' : 'Your name'} {...field} />
+                                    <Input placeholder={String(t('booking.namePlaceholder'))} {...field} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={form.control}
                               name="email"
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>
-                                    {language === 'es' ? 'Email' : 'Email'}
+                                    {t('booking.email')}
                                   </FormLabel>
                                   <FormControl>
-                                    <Input placeholder={language === 'es' ? 'tu@email.com' : 'your@email.com'} type="email" {...field} />
+                                    <Input placeholder={String(t('booking.emailPlaceholder'))} type="email" {...field} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
                               )}
                             />
                           </div>
-                          
+
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField
                               control={form.control}
@@ -386,45 +364,45 @@ const BookingCalendar = () => {
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>
-                                    {language === 'es' ? 'Teléfono (opcional)' : 'Phone (optional)'}
+                                    {t('booking.phone')}
                                   </FormLabel>
                                   <FormControl>
-                                    <Input placeholder={language === 'es' ? 'Tu teléfono' : 'Your phone'} {...field} />
+                                    <Input placeholder={String(t('booking.phonePlaceholder'))} {...field} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={form.control}
                               name="company"
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>
-                                    {language === 'es' ? 'Empresa (opcional)' : 'Company (optional)'}
+                                    {t('booking.company')}
                                   </FormLabel>
                                   <FormControl>
-                                    <Input placeholder={language === 'es' ? 'Tu empresa' : 'Your company'} {...field} />
+                                    <Input placeholder={String(t('booking.companyPlaceholder'))} {...field} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
                               )}
                             />
                           </div>
-                          
+
                           <FormField
                             control={form.control}
                             name="service"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  {language === 'es' ? 'Servicio' : 'Service'}
+                                  {t('booking.service')}
                                 </FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
                                     <SelectTrigger>
-                                      <SelectValue placeholder={language === 'es' ? 'Selecciona un servicio' : 'Select a service'} />
+                                      <SelectValue placeholder={t('booking.selectService')} />
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>
@@ -439,33 +417,29 @@ const BookingCalendar = () => {
                               </FormItem>
                             )}
                           />
-                          
+
                           <FormField
                             control={form.control}
                             name="message"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  {language === 'es' ? 'Mensaje (opcional)' : 'Message (optional)'}
+                                  {t('booking.message')}
                                 </FormLabel>
                                 <FormControl>
-                                  <Textarea 
-                                    placeholder={
-                                      language === 'es' 
-                                        ? 'Cuéntanos brevemente sobre tu proyecto o consulta' 
-                                        : 'Tell us briefly about your project or inquiry'
-                                    }
-                                    className="resize-none" 
-                                    {...field} 
+                                  <Textarea
+                                    placeholder={String(t('booking.messagePlaceholder'))}
+                                    className="resize-none"
+                                    {...field}
                                   />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
-                          
+
                           <Separator className="my-4" />
-                          
+
                           <FormField
                             control={form.control}
                             name="privacy"
@@ -479,43 +453,39 @@ const BookingCalendar = () => {
                                 </FormControl>
                                 <div className="space-y-1 leading-none">
                                   <FormLabel>
-                                    {language === 'es' 
-                                      ? 'Acepto la política de privacidad' 
-                                      : 'I accept the privacy policy'}
+                                    {t('booking.privacy')}
                                   </FormLabel>
                                   <FormDescription>
-                                    {language === 'es' 
-                                      ? 'Al marcar esta casilla, aceptas nuestra política de privacidad.' 
-                                      : 'By checking this box, you agree to our privacy policy.'}
+                                    {t('booking.privacyDesc')}
                                   </FormDescription>
                                 </div>
                                 <FormMessage />
                               </FormItem>
                             )}
                           />
-                          
+
                           <div className="flex gap-2 pt-4">
-                            <Button 
+                            <Button
                               type="button"
-                              variant="outline" 
+                              variant="outline"
                               onClick={handleBackClick}
                             >
-                              {language === 'es' ? 'Volver' : 'Back'}
+                              {t('booking.back')}
                             </Button>
 
                             <div className="ml-auto">
-                              <Button 
-                                type="submit" 
+                              <Button
+                                type="submit"
                                 className="bg-turquoise hover:bg-turquoise/90"
                                 disabled={submitLoading}
                               >
                                 {submitLoading ? (
                                   <>
                                     <span className="animate-spin mr-2">⏳</span>
-                                    {language === 'es' ? 'Enviando...' : 'Sending...'}
+                                    {t('booking.sending')}
                                   </>
                                 ) : (
-                                  language === 'es' ? 'Confirmar reserva' : 'Confirm booking'
+                                  t('booking.confirm')
                                 )}
                               </Button>
                             </div>

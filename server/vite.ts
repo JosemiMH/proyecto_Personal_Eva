@@ -54,12 +54,22 @@ export async function setupVite(app: Express, server: Server) {
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`,
+      // Apply Vite HTML transforms
+      template = await vite.transformIndexHtml(url, template);
+
+      // Load the server entry
+      const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
+
+      // Render the app
+      const { html: appHtml } = await render(url);
+
+      // Inject into template
+      const html = template.replace(
+        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
+        `<div id="root">${appHtml}</div>`
       );
-      const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);
@@ -78,8 +88,34 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  // SSR for production
+  app.use("*", async (req, res, next) => {
+    try {
+      const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
+
+      // In production, we import the built server entry
+      const serverEntryPath = path.resolve(import.meta.dirname, "server", "entry-server.js");
+
+      if (!fs.existsSync(serverEntryPath)) {
+        // Fallback to client-side rendering if server build is missing, simpler handling
+        res.sendFile(path.resolve(distPath, "index.html"));
+        return;
+      }
+
+      // Dynamic import of the server bundle
+      const { render } = await import("file://" + serverEntryPath);
+
+      const { html: appHtml } = await render(req.originalUrl);
+
+      // Robust replacement: handle both unminified (with comment) and minified (empty div) scenarios
+      const html = template.replace(
+        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
+        `<div id="root">${appHtml}</div>`
+      );
+
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    } catch (e) {
+      next(e);
+    }
   });
 }

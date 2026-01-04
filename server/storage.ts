@@ -1,5 +1,5 @@
 import session from "express-session";
-import createMemoryStore from "memorystore";
+// import createMemoryStore from "memorystore";
 import { users, type User, type InsertUser } from "@shared/schema";
 import { contacts, type Contact, type InsertContact } from "@shared/schema";
 import { newsletters, type Newsletter, type InsertNewsletter } from "@shared/schema";
@@ -8,11 +8,13 @@ import { articles, type Article, type InsertArticle } from "@shared/schema";
 import { db } from "./db";
 import { eq, sql } from "drizzle-orm";
 
-const MemoryStore = createMemoryStore(session);
+import ConnectPgSimple from "connect-pg-simple";
+import { pool } from "./db";
+
+const PgSessionStore = ConnectPgSimple(session);
 
 export interface IStorage {
   sessionStore: session.Store;
-  // ... existing methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
@@ -23,7 +25,6 @@ export interface IStorage {
   createNewsletterSubscription(subscription: InsertNewsletter): Promise<Newsletter>;
   getAllNewsletterSubscriptions(): Promise<Newsletter[]>;
 
-  // Operaciones para citas
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   getAppointmentById(id: number): Promise<Appointment | undefined>;
   getAllAppointments(): Promise<Appointment[]>;
@@ -31,7 +32,6 @@ export interface IStorage {
   updateAppointmentStatus(id: number, status: string): Promise<Appointment | undefined>;
   getAvailableSlots(date: Date): Promise<{ start: Date; end: Date; }[]>;
 
-  // Operaciones para artículos
   createArticle(article: InsertArticle): Promise<Article>;
   getArticleBySlug(slug: string): Promise<Article | undefined>;
   getAllArticles(): Promise<Article[]>;
@@ -42,8 +42,9 @@ export class DatabaseStorage implements IStorage {
   sessionStore: session.Store;
 
   constructor() {
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 86400000,
+    this.sessionStore = new PgSessionStore({
+      pool,
+      createTableIfMissing: true,
     });
   }
 
@@ -120,6 +121,8 @@ export class DatabaseStorage implements IStorage {
       status: insertAppointment.status,
     }).returning();
 
+    this.invalidateAvailabilityCache(new Date(insertAppointment.date));
+
     return appointment;
   }
 
@@ -155,10 +158,26 @@ export class DatabaseStorage implements IStorage {
       .where(eq(appointments.id, id))
       .returning();
 
+    if (appointment) {
+      this.invalidateAvailabilityCache(new Date(appointment.date));
+    }
+
     return appointment;
   }
 
+
+  // Cache for availability
+  private availabilityCache: Map<string, { data: { start: Date; end: Date; }[], timestamp: number }> = new Map();
+  private CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
   async getAvailableSlots(date: Date): Promise<{ start: Date; end: Date; }[]> {
+    const cacheKey = date.toISOString().split('T')[0];
+    const cached = this.availabilityCache.get(cacheKey);
+
+    if (cached && (Date.now() - cached.timestamp < this.CACHE_TTL)) {
+      return cached.data;
+    }
+
     // Horario de trabajo: 9:00 AM a 6:00 PM
     const workStartHour = 9;
     const workEndHour = 18;
@@ -213,7 +232,13 @@ export class DatabaseStorage implements IStorage {
       });
     });
 
+    this.availabilityCache.set(cacheKey, { data: availableSlots, timestamp: Date.now() });
     return availableSlots;
+  }
+
+  private invalidateAvailabilityCache(date: Date) {
+    const cacheKey = date.toISOString().split('T')[0];
+    this.availabilityCache.delete(cacheKey);
   }
 
   // Article methods

@@ -1,33 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { apiRequest } from '@/lib/queryClient';
-
-// Tipo para los mensajes del chat
-interface ChatMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-}
+import { useChatbot } from '@/hooks/useChatbot';
 
 const ChatBot = () => {
-  const { language } = useLanguage();
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { language, t } = useLanguage();
+  const {
+    isOpen,
+    setIsOpen,
+    messages,
+    input,
+    setInput,
+    isLoading,
+    sendMessage
+  } = useChatbot();
+
   const chatContainerRef = useRef<HTMLDivElement>(null);
-
-  // Al iniciar, cargar mensaje de bienvenida
-  useEffect(() => {
-    const welcomeMessage = language === 'es'
-      ? '¡Hola! Soy el asistente virtual de Eva Pérez, experta en estrategia wellness para hoteles. Puedo ayudarte con consultas sobre gestión de áreas de bienestar, optimización de ingresos en SPAs, formación de equipos o implementación de proyectos wellness. ¿En qué estás interesado?'
-      : 'Hello! I am Eva Pérez\'s virtual assistant, an expert in wellness strategy for hotels. I can help you with queries about wellness area management, SPA revenue optimization, team training, or wellness project implementation. What are you interested in?';
-
-    setMessages([
-      { role: 'assistant', content: welcomeMessage }
-    ]);
-  }, [language]);
 
   // Auto-scroll al último mensaje
   useEffect(() => {
@@ -35,48 +24,6 @@ const ChatBot = () => {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
-
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-
-    // Añadir mensaje del usuario
-    const userMessage: ChatMessage = { role: 'user', content: input.trim() };
-    setMessages(prev => [...prev, userMessage]);
-
-    const userInput = input.trim();
-    setInput('');
-    setIsLoading(true);
-
-    try {
-      // Enviar mensaje a la API del chatbot
-      const chatResponse = await apiRequest<{ response: ChatMessage, usage: any }>({
-        path: '/api/chat',
-        method: 'POST',
-        body: { messages: [...messages, userMessage].filter(m => m.role !== 'system') }
-      });
-
-      if (chatResponse && chatResponse.response) {
-        // Añadir respuesta del asistente
-        setMessages(prev => [...prev, chatResponse.response]);
-      } else {
-        throw new Error('No se recibió respuesta del servidor');
-      }
-    } catch (error) {
-      console.error('Error al comunicarse con el chatbot:', error);
-
-      // Mensaje de error para mostrar al usuario
-      const errorMessage = language === 'es'
-        ? 'Lo siento, estoy teniendo problemas para conectarme. Por favor, intenta de nuevo más tarde o contacta directamente con Eva a través del formulario de contacto.'
-        : 'I\'m sorry, I\'m having connection issues. Please try again later or contact Eva directly through the contact form.';
-
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: errorMessage
-      }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -86,13 +33,12 @@ const ChatBot = () => {
   };
 
   // Textos según el idioma
-  const placeholderText = language === 'es'
-    ? 'Escribe tu mensaje...'
-    : 'Type your message...';
-
-  const sendButtonText = language === 'es' ? 'Enviar' : 'Send';
-  const chatTitle = language === 'es' ? 'Asistente Virtual' : 'Virtual Assistant';
-  const loadingText = language === 'es' ? 'Escribiendo...' : 'Typing...';
+  const placeholderText = String(t('chatbot.placeholder'));
+  const sendButtonText = t('chatbot.send');
+  const chatTitle = t('chatbot.title');
+  const loadingText = t('chatbot.typing');
+  const subtitle = t('chatbot.subtitle');
+  const suggestionsText = t('chatbot.suggestions');
 
   return (
     <div id="chatbot-container" className="relative">
@@ -164,9 +110,7 @@ const ChatBot = () => {
                   <div>
                     <h3 className="font-medium text-white">{chatTitle}</h3>
                     <p className="text-white/70 text-xs">
-                      {language === 'es'
-                        ? 'Experta en estrategia wellness'
-                        : 'Wellness strategy expert'}
+                      {subtitle}
                     </p>
                   </div>
                 </div>
@@ -194,8 +138,8 @@ const ChatBot = () => {
                   >
                     <div
                       className={`rounded-lg p-3 max-w-[80%] ${msg.role === 'user'
-                          ? 'bg-sage/20 text-charcoal'
-                          : 'bg-turquoise text-white'
+                        ? 'bg-sage/20 text-charcoal'
+                        : 'bg-turquoise text-white'
                         }`}
                     >
                       {msg.content}
@@ -220,9 +164,7 @@ const ChatBot = () => {
               {/* Sugerencias de preguntas */}
               <div className="px-4 pt-2 pb-0">
                 <p className="text-xs text-gray-500 mb-2">
-                  {language === 'es'
-                    ? 'Puedes preguntar sobre:'
-                    : 'You can ask about:'}
+                  {suggestionsText}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {[
@@ -267,9 +209,7 @@ const ChatBot = () => {
                 </div>
                 <div className="mt-2 text-xs text-center text-gray-500">
                   <p>
-                    {language === 'es'
-                      ? 'Potenciado por IA para información general. Para consultas específicas, contacta directamente con Eva.'
-                      : 'Powered by AI for general information. For specific inquiries, contact Eva directly.'}
+                    {t('chatbot.disclaimer')}
                   </p>
                 </div>
               </div>

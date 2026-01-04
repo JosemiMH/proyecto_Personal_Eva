@@ -7,12 +7,39 @@ import { z } from "zod";
 import { ZodError } from "zod-validation-error";
 import { handleChatRequest } from "./api/chat";
 import { emailService } from "./services/email";
+import rateLimit from "express-rate-limit";
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later"
+});
+
+const authLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 failed attempts
+  message: "Too many login attempts, please try again after an hour"
+});
+
+// Helper for sanitization
+function sanitizeInput(text: string): string {
+  if (!text) return "";
+  return text.replace(/[<>]/g, "").trim();
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form endpoint
   app.use('/resources', express.static('resources'));
 
-  app.post('/api/contact', async (req, res) => {
+  app.post('/api/contact', limiter, async (req, res) => {
+    // Sanitize
+    if (req.body) {
+      if (typeof req.body.message === 'string') req.body.message = sanitizeInput(req.body.message);
+      if (typeof req.body.name === 'string') req.body.name = sanitizeInput(req.body.name);
+      if (typeof req.body.company === 'string') req.body.company = sanitizeInput(req.body.company);
+    }
     try {
       const contactData = contactSchema.parse(req.body);
       const savedContact = await storage.createContact(contactData);
@@ -70,7 +97,7 @@ https://evaperez-wellness.com
   });
 
   // Newsletter subscription endpoint
-  app.post('/api/newsletter', async (req, res) => {
+  app.post('/api/newsletter', limiter, async (req, res) => {
     try {
       const newsletterData = newsletterSchema.parse(req.body);
       const savedSubscription = await storage.createNewsletterSubscription(newsletterData);
@@ -134,7 +161,7 @@ https://evaperez-wellness.com
   });
 
   // Chatbot API endpoint
-  app.post('/api/chat', handleChatRequest);
+  app.post('/api/chat', limiter, handleChatRequest);
 
   // Appointment endpoints
   // 1. Crear una nueva cita
@@ -373,6 +400,7 @@ https://evaperez-wellness.com
   });
 
   app.patch('/api/articles/:id', async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
     try {
       const id = parseInt(req.params.id);
       const updatedArticle = await storage.updateArticle(id, req.body);
