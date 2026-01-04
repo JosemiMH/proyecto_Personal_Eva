@@ -78,7 +78,7 @@ const Portfolio = () => {
               <div className="text-sm text-charcoal-light">{language === 'es' ? 'Cadenas Hoteleras' : 'Hotel Chains'}</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-turquoise mb-1">15+</div>
+              <div className="text-4xl font-bold text-turquoise mb-1">20+</div>
               <div className="text-sm text-charcoal-light">{language === 'es' ? 'Años de Experiencia' : 'Years of Experience'}</div>
             </div>
           </div>

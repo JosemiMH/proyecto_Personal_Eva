@@ -77,12 +77,11 @@ const About = () => {
               {t('about.speaker')}
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+            <div className="flex flex-wrap justify-center gap-8 mb-10">
               <AnimatedCounter end={20} suffix="+" label={t('about.stats.years')} />
               <AnimatedCounter end={50} suffix="+" label={t('about.stats.projects')} />
               <AnimatedCounter end={30} suffix="+" label={t('about.stats.conferences')} />
               <AnimatedCounter end={200} suffix="+" label={t('about.stats.trained')} />
-              <AnimatedCounter end={15} suffix="+" label={t('about.stats.countries')} />
               <AnimatedCounter end={5000} label={t('about.stats.attendees')} prefix="" suffix="+" />
             </div>
 
