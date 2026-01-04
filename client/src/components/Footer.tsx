@@ -97,15 +97,15 @@ const Footer = () => {
             &copy; {currentYear} Eva Pérez. {language === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.'}
           </p>
           <div className="flex space-x-6">
-            <a href="/privacy" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
+            <Link href="/privacy" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
               {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}
-            </a>
-            <a href="/terms" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
+            </Link>
+            <Link href="/terms" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
               {language === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions'}
-            </a>
-            <a href="/cookies" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
+            </Link>
+            <Link href="/cookies" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
               {language === 'es' ? 'Cookies' : 'Cookies'}
-            </a>
+            </Link>
           </div>
         </div>
       </div>
