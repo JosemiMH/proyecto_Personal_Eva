@@ -78,9 +78,20 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
+  const distPath = path.resolve(process.cwd(), "dist", "public");
 
   if (!fs.existsSync(distPath)) {
+    console.error(`[serveStatic] Error: Build directory not found at ${distPath}`);
+    console.error(`[serveStatic] CWD: ${process.cwd()}`);
+    try {
+      const distRoot = path.resolve(process.cwd(), "dist");
+      if (fs.existsSync(distRoot)) {
+        console.error(`[serveStatic] Contents of ${distRoot}:`, fs.readdirSync(distRoot));
+      } else {
+        console.error(`[serveStatic] ${distRoot} does not exist.`);
+      }
+    } catch (e) { console.error("[serveStatic] Error listing dist:", e); }
+
     throw new Error(
       `Could not find the build directory: ${distPath}, make sure to build the client first`,
     );
@@ -94,7 +105,7 @@ export function serveStatic(app: Express) {
       const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
 
       // In production, we import the built server entry
-      const serverEntryPath = path.resolve(import.meta.dirname, "server", "entry-server.js");
+      const serverEntryPath = path.resolve(process.cwd(), "dist", "server", "entry-server.js");
 
       if (!fs.existsSync(serverEntryPath)) {
         // Fallback to client-side rendering if server build is missing, simpler handling
