@@ -50,7 +50,7 @@ const ChatBot = () => {
         transition={{ delay: 1 }}
       >
         {!isOpen && (
-          <div className="bg-white rounded-lg shadow-lg p-3 mb-3 max-w-[200px] text-sm">
+          <div className="bg-white rounded-lg shadow-lg p-3 mb-3 max-w-[200px] text-sm hidden md:block">
             <p className="text-charcoal font-medium">
               {language === 'es'
                 ? '¿Necesitas ayuda con tu proyecto wellness?'

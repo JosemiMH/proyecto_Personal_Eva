@@ -34,7 +34,7 @@ const Hero = () => {
               ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo"
               : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy"}
             className={`w-full h-full object-cover ${isMobile
-              ? 'object-[50%_0%]'
+              ? 'object-[50%_15%]'
               : isTablet
                 ? 'object-[55%_-10%]'
                 : 'object-[50%_-10%]'
@@ -44,7 +44,7 @@ const Hero = () => {
       </div>
 
       <div className={`container mx-auto relative z-20 h-full ${isMobile
-        ? 'px-6 flex flex-col justify-end pb-24'
+        ? 'px-6 flex flex-col justify-end pb-12'
         : isTablet
           ? 'pl-6 pr-6'
           : 'pl-8 pr-8'
@@ -56,7 +56,7 @@ const Hero = () => {
           transition={{ duration: 0.6 }}
         >
           <h1 className={`font-playfair font-bold text-white leading-tight text-shadow ${isMobile
-            ? 'text-3xl mb-3'
+            ? 'text-2xl mb-2'
             : isTablet
               ? 'text-2xl md:text-3xl mb-3'
               : 'text-3xl lg:text-4xl mb-4'
