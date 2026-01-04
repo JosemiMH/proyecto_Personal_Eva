@@ -1,6 +1,7 @@
-import { hydrateRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import { HelmetProvider } from "react-helmet-async";
 
 // Custom CSS for specific design elements - same as main.tsx
 const style = document.createElement('style');
@@ -181,4 +182,8 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-hydrateRoot(document.getElementById("root")!, <App />);
+createRoot(document.getElementById("root")!).render(
+  <HelmetProvider>
+    <App />
+  </HelmetProvider>
+);
