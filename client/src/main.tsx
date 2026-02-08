@@ -181,7 +181,8 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-import { HelmetProvider } from 'react-helmet-async';
+import * as HelmetAsync from 'react-helmet-async';
+const { HelmetProvider } = HelmetAsync;
 
 createRoot(document.getElementById("root")!).render(
   <HelmetProvider>

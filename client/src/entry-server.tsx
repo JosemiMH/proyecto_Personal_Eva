@@ -10,7 +10,8 @@ import { QueryClient } from "@tanstack/react-query";
 // Simple implementation of staticLocationHook to avoid build issues
 const staticLocationHook = (path = "/") => () => [path, () => null] as [string, (to: string, options?: any) => void];
 
-import { HelmetProvider } from 'react-helmet-async';
+import * as HelmetAsync from 'react-helmet-async';
+const { HelmetProvider } = HelmetAsync;
 
 export function render(url: string) {
     const hook = staticLocationHook(url);
