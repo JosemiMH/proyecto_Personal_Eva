@@ -1,6 +1,6 @@
-const esbuild = require('esbuild');
+const esbuild = require('esbuild-wasm');
 
-console.log('Building backend with ESBuild API...');
+console.log('Building backend with ESBuild WASM...');
 
 esbuild.build({
     entryPoints: ['server/index.ts'],
