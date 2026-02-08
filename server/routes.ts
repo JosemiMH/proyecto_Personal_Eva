@@ -33,6 +33,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form endpoint
   app.use('/resources', express.static('resources'));
 
+  // Health check endpoint
+  app.get('/health', (_req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime() });
+  });
+
   app.post('/api/contact', limiter, async (req, res) => {
     // Sanitize
     if (req.body) {

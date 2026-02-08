@@ -10,7 +10,7 @@
     "build:client": "node scripts/vite-build.cjs build",
     "build:server": "node scripts/vite-build.cjs build --ssr src/entry-server.tsx --outDir ../dist/server",
     "build:backend": "node scripts/esbuild-backend.cjs",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "NODE_ENV=production node dist/index.cjs",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
@@ -109,7 +109,7 @@
     "@vitejs/plugin-react": "^4.3.2",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.30.4",
-    "esbuild-wasm": "^0.27.3",
+    "esbuild": "^0.25.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
     "tsx": "^4.19.1",
@@ -118,8 +118,5 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
-  },
-  "overrides": {
-    "esbuild": "npm:esbuild-wasm@0.25.0"
   }
 }

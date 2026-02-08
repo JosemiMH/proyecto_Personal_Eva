@@ -1,4 +1,4 @@
-const esbuild = require('esbuild-wasm');
+const esbuild = require('esbuild');
 
 console.log('Building backend with ESBuild WASM...');
 
@@ -7,11 +7,11 @@ esbuild.build({
     platform: 'node',
     packages: 'external',
     bundle: true,
-    format: 'esm',
-    outdir: 'dist',
+    format: 'cjs',
+    outfile: 'dist/index.cjs',
     logLevel: 'info'
 }).then(() => {
-    console.log('Backend build complete.');
+    console.log('Backend build complete (CJS).');
 }).catch((e) => {
     console.error('Backend build failed:', e);
     process.exit(1);
