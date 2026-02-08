@@ -12,7 +12,7 @@ esbuild.build({
     logLevel: 'info'
 }).then(() => {
     console.log('Backend build complete.');
-}).catch(() => {
-    console.error('Backend build failed.');
+}).catch((e) => {
+    console.error('Backend build failed:', e);
     process.exit(1);
 });
