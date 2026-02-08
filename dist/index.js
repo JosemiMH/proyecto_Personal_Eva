@@ -1048,7 +1048,7 @@ app.use((req, res, next) => {
   } else {
     serveStatic(app);
   }
-  const port = process.env.PORT || 5e3;
+  const port = parseInt(process.env.PORT || "5000", 10);
   server.listen({
     port,
     host: "0.0.0.0"
@@ -1056,3 +1056,9 @@ app.use((req, res, next) => {
     log(`serving on port ${port}`);
   });
 })();
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+});
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
