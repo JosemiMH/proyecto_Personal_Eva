@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "npm run build:client && npm run build:server && npm run build:backend",
+    "build": "echo 'Skipping build on server, using committed artifacts'",
+    "build:local": "npm run build:client && npm run build:server && npm run build:backend",
     "build:client": "node scripts/vite-build.cjs build",
     "build:server": "node scripts/vite-build.cjs build --ssr src/entry-server.tsx --outDir ../dist/server",
     "build:backend": "node scripts/esbuild-backend.cjs",
