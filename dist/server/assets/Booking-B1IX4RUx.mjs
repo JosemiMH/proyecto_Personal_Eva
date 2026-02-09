@@ -1,6 +1,7 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useEffect } from "react";
-import { B as BookingCalendar } from "./BookingCalendar-JgwSUTpR.mjs";
+import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
+import { B as BookingCalendar } from "./BookingCalendar-DYB6wbGn.mjs";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
@@ -32,7 +33,7 @@ const Booking = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsx(
     motion.div,
     {
       className: "min-h-screen pt-24 pb-16 px-4",
@@ -82,7 +83,7 @@ const Booking = () => {
         ] })
       ] })
     }
-  );
+  ) });
 };
 export {
   Booking as default

@@ -1,6 +1,6 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { renderToString } from "react-dom/server";
-import { Route, Redirect, Link, Switch, Router as Router$1 } from "wouter";
+import { Route, Redirect, Link, useLocation, Switch, Router as Router$1 } from "wouter";
 import { QueryClient, useQuery, useMutation, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import React__default, { createContext, useContext, useState, useEffect, useRef, Suspense } from "react";
@@ -2214,25 +2214,26 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-XPLl29mP.mjs"));
-const Privacy = React__default.lazy(() => import("./assets/Privacy-BCDZHSyp.mjs"));
-const Terms = React__default.lazy(() => import("./assets/Terms-D2Ybgsbb.mjs"));
-const Cookies = React__default.lazy(() => import("./assets/Cookies-EbENJFRi.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-BSio9x9J.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-DRLUzZEp.mjs"));
+const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
+const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
+const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-B1IX4RUx.mjs"));
 const Admin = React__default.lazy(() => import("./assets/Admin-Ch3qVOtN.mjs"));
 const AuthPage = React__default.lazy(() => import("./assets/Auth-jiNbsEYK.mjs"));
 function Router() {
-  return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsxs(Switch, { children: [
-    /* @__PURE__ */ jsx(Route, { path: "/", component: Home }),
-    /* @__PURE__ */ jsx(Route, { path: "/privacy", component: Privacy }),
-    /* @__PURE__ */ jsx(Route, { path: "/terms", component: Terms }),
-    /* @__PURE__ */ jsx(Route, { path: "/cookies", component: Cookies }),
-    /* @__PURE__ */ jsx(Route, { path: "/booking", component: Booking }),
-    /* @__PURE__ */ jsx(Route, { path: "/auth", component: AuthPage }),
+  const [location] = useLocation();
+  return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
+    /* @__PURE__ */ jsx(Route, { path: "/", children: /* @__PURE__ */ jsx(Home, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/privacy", children: /* @__PURE__ */ jsx(Privacy, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/terms", children: /* @__PURE__ */ jsx(Terms, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/cookies", children: /* @__PURE__ */ jsx(Cookies, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/booking", children: /* @__PURE__ */ jsx(Booking, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/auth", children: /* @__PURE__ */ jsx(AuthPage, {}) }),
     /* @__PURE__ */ jsx(ProtectedRoute, { path: "/admin", component: Admin }),
-    /* @__PURE__ */ jsx(Route, { path: "/resources", component: Resources }),
+    /* @__PURE__ */ jsx(Route, { path: "/resources", children: /* @__PURE__ */ jsx(Resources, {}) }),
     /* @__PURE__ */ jsx(Route, { component: NotFound })
-  ] }) });
+  ] }, location) }) });
 }
 function App({ queryClient: propsClient }) {
   const client = propsClient || queryClient;

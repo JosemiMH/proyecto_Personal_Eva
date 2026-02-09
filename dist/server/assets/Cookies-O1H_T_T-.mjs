@@ -1,6 +1,8 @@
-import { jsxs, jsx } from "react/jsx-runtime";
+import { jsx, jsxs } from "react/jsx-runtime";
+import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { useEffect } from "react";
+import "framer-motion";
 import "../entry-server.mjs";
 import "react-dom/server";
 import "wouter";
@@ -10,7 +12,6 @@ import "class-variance-authority";
 import "lucide-react";
 import "clsx";
 import "tailwind-merge";
-import "framer-motion";
 import "react-markdown";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
@@ -20,7 +21,7 @@ const Cookies = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
     /* @__PURE__ */ jsx(Header, {}),
     /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
       /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Cookies" }),
@@ -53,7 +54,7 @@ const Cookies = () => {
       /* @__PURE__ */ jsx("p", { children: "Ten en cuenta que, si desactivas las cookies, es posible que algunas funciones del sitio web no funcionen correctamente." })
     ] }) }),
     /* @__PURE__ */ jsx(Footer, {})
-  ] });
+  ] }) });
 };
 export {
   Cookies as default

@@ -451,7 +451,7 @@ const BookingCalendar = () => {
                 " ",
                 format(date, "PPP", { locale: dateLocale }),
                 " ",
-                t("booking.at"),
+                language === "es" ? "a las" : "at",
                 " ",
                 format(selectedSlot.start, "HH:mm")
               ] })

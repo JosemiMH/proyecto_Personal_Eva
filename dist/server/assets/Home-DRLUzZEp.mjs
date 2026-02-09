@@ -1,6 +1,7 @@
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
+import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { u as useLanguage, c as cn, D as Dialog, a as DialogContent, b as DialogTitle, d as DialogDescription, B as Button, s as services, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
@@ -12,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-Qkbd4gOm.mjs";
-import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, T as Textarea, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-JgwSUTpR.mjs";
+import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, T as Textarea, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DYB6wbGn.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { Helmet } from "react-helmet-async";
 import "wouter";
@@ -326,21 +327,21 @@ const About = () => {
   ] }) }) });
 };
 const ServiceModal = ({ isOpen, onClose, service }) => {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   if (!service) return null;
   return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[600px] max-h-[90vh] flex flex-col font-poppins p-0 gap-0 bg-white border-none shadow-2xl z-[60] overflow-hidden", children: [
     /* @__PURE__ */ jsxs("div", { className: "bg-gradient-to-r from-turquoise/10 to-transparent p-6 md:p-8 flex items-center gap-6 border-b border-gray-100", children: [
       /* @__PURE__ */ jsx("div", { className: "w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-turquoise", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-2xl` }) }),
-      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-3xl font-bold text-charcoal", children: typeof service.title === "object" ? service.title[language] : service.title }) })
+      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-3xl font-bold text-charcoal", children: service.title[language] }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "flex-grow overflow-y-auto bg-white", children: /* @__PURE__ */ jsxs("div", { className: "p-6 md:p-8 space-y-6", children: [
-      /* @__PURE__ */ jsx(DialogDescription, { className: "text-base text-charcoal-light leading-relaxed", children: service.longDescription ? typeof service.longDescription === "object" ? service.longDescription[language] : service.longDescription : typeof service.description === "object" ? service.description[language] : service.description }),
+      /* @__PURE__ */ jsx(DialogDescription, { className: "text-base text-charcoal-light leading-relaxed", children: service.longDescription ? service.longDescription[language] : service.description[language] }),
       /* @__PURE__ */ jsxs("div", { className: "bg-gray-50/80 p-6 rounded-xl border border-gray-100", children: [
         /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 font-playfair text-lg", children: [
           /* @__PURE__ */ jsx("i", { className: "fas fa-star text-turquoise" }),
           language === "es" ? "Características Clave" : "Key Features"
         ] }),
-        /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: (typeof service.features === "object" ? service.features[language] : service.features).map((feature, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
+        /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: service.features[language].map((feature, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
           /* @__PURE__ */ jsx("div", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0" }),
           /* @__PURE__ */ jsx("span", { className: "text-charcoal-light", children: feature })
         ] }, index)) })
@@ -419,9 +420,9 @@ const Services = () => {
               variants: itemVariants,
               children: [
                 /* @__PURE__ */ jsx("div", { className: "w-16 h-16 bg-turquoise/10 rounded-full flex items-center justify-center mb-6", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-turquoise text-2xl` }) }),
-                /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-4", children: typeof service.title === "object" ? service.title[language] : service.title }),
-                /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-4 line-clamp-3", children: typeof service.description === "object" ? service.description[language] : service.description }),
-                /* @__PURE__ */ jsx("ul", { className: "space-y-2 mb-6", children: (typeof service.features === "object" ? service.features[language] : service.features).map((feature, featureIndex) => /* @__PURE__ */ jsxs("li", { className: "flex items-start", children: [
+                /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-4", children: service.title[language] }),
+                /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-4 line-clamp-3", children: service.description[language] }),
+                /* @__PURE__ */ jsx("ul", { className: "space-y-2 mb-6", children: service.features[language].map((feature, featureIndex) => /* @__PURE__ */ jsxs("li", { className: "flex items-start", children: [
                   /* @__PURE__ */ jsx("i", { className: "fas fa-check text-turquoise mt-1 mr-2" }),
                   /* @__PURE__ */ jsx("span", { className: "text-sm text-charcoal-light", children: feature })
                 ] }, featureIndex)) }),
@@ -514,13 +515,13 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
         "img",
         {
           src: project.image,
-          alt: typeof project.title === "object" ? project.title[language] : project.title,
+          alt: project.title[language],
           className: "w-full h-full object-cover opacity-90"
         }
       ),
       /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8", children: /* @__PURE__ */ jsxs("div", { className: "w-full relative z-10", children: [
-        /* @__PURE__ */ jsx("div", { className: "flex justify-between items-end mb-3", children: /* @__PURE__ */ jsx(Badge, { className: "bg-turquoise text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm", children: typeof project.categoryName === "object" ? project.categoryName[language] : project.categoryName }) }),
-        /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-4xl text-white font-bold drop-shadow-md leading-tight", children: typeof project.title === "object" ? project.title[language] : project.title })
+        /* @__PURE__ */ jsx("div", { className: "flex justify-between items-end mb-3", children: /* @__PURE__ */ jsx(Badge, { className: "bg-turquoise text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm", children: project.categoryName[language] }) }),
+        /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-4xl text-white font-bold drop-shadow-md leading-tight", children: project.title[language] })
       ] }) }),
       /* @__PURE__ */ jsx(
         "button",
@@ -538,8 +539,8 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           /* @__PURE__ */ jsx("span", { className: "w-8 h-1 bg-turquoise rounded-full block" }),
           language === "es" ? "Sobre el Proyecto" : "About the Project"
         ] }),
-        /* @__PURE__ */ jsx(DialogDescription, { className: "text-lg md:text-xl text-charcoal-light leading-relaxed font-light", children: typeof project.description === "object" ? project.description[language] : project.description }),
-        /* @__PURE__ */ jsx("div", { className: "prose prose-lg text-charcoal-light max-w-none", children: /* @__PURE__ */ jsx("p", { className: "whitespace-pre-line leading-relaxed", children: project.longDescription ? typeof project.longDescription === "object" ? project.longDescription[language] : project.longDescription : "" }) })
+        /* @__PURE__ */ jsx(DialogDescription, { className: "text-lg md:text-xl text-charcoal-light leading-relaxed font-light", children: project.description[language] }),
+        /* @__PURE__ */ jsx("div", { className: "prose prose-lg text-charcoal-light max-w-none", children: /* @__PURE__ */ jsx("p", { className: "whitespace-pre-line leading-relaxed", children: project.longDescription[language] }) })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
         /* @__PURE__ */ jsxs("div", { className: "bg-gray-50 p-6 rounded-xl border border-gray-100", children: [
@@ -547,7 +548,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
             /* @__PURE__ */ jsx("i", { className: "fas fa-clipboard-check text-turquoise" }),
             language === "es" ? "Desafíos & Soluciones" : "Challenges & Solutions"
           ] }),
-          /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: (typeof project.highlights === "object" ? project.highlights[language] : project.highlights).map((highlight, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
+          /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: project.highlights[language].map((highlight, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
             /* @__PURE__ */ jsx("div", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0" }),
             /* @__PURE__ */ jsx("span", { className: "text-charcoal-light leading-relaxed", children: highlight })
           ] }, index)) })
@@ -557,7 +558,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
             /* @__PURE__ */ jsx("i", { className: "fas fa-trophy text-gold" }),
             language === "es" ? "Logros Destacados" : "Key Achievements"
           ] }),
-          /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: (typeof project.results === "object" ? project.results[language] : project.results).map((result, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
+          /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: project.results[language].map((result, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
             /* @__PURE__ */ jsx("i", { className: "fas fa-star text-gold mt-1 shrink-0" }),
             /* @__PURE__ */ jsx("span", { className: "text-charcoal-light leading-relaxed", children: result })
           ] }, index)) })
@@ -713,15 +714,15 @@ const Portfolio = () => {
                     "img",
                     {
                       src: item.image,
-                      alt: typeof item.title === "object" ? item.title[language] : "",
+                      alt: item.title[language],
                       className: "w-full h-full object-cover"
                     }
                   ),
-                  /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end", children: /* @__PURE__ */ jsx("div", { className: "p-4", children: /* @__PURE__ */ jsx("span", { className: "text-xs font-medium bg-turquoise text-white px-2 py-1 rounded", children: typeof item.categoryName === "object" ? item.categoryName[language] : item.categoryName }) }) })
+                  /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end", children: /* @__PURE__ */ jsx("div", { className: "p-4", children: /* @__PURE__ */ jsx("span", { className: "text-xs font-medium bg-turquoise text-white px-2 py-1 rounded", children: item.categoryName[language] }) }) })
                 ] }),
                 /* @__PURE__ */ jsxs("div", { className: "p-6 bg-white", children: [
-                  /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-2", children: typeof item.title === "object" ? item.title[language] : item.title }),
-                  /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm mb-4 line-clamp-3", children: typeof item.description === "object" ? item.description[language] : item.description }),
+                  /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-2", children: item.title[language] }),
+                  /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm mb-4 line-clamp-3", children: item.description[language] }),
                   /* @__PURE__ */ jsxs(
                     "button",
                     {
@@ -1592,7 +1593,7 @@ const Home = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  return /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white", children: [
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white", children: [
     /* @__PURE__ */ jsx(
       SEO,
       {
@@ -1614,7 +1615,7 @@ const Home = () => {
     /* @__PURE__ */ jsx(Footer, {}),
     /* @__PURE__ */ jsx(ScrollToTop, {}),
     /* @__PURE__ */ jsx(EbookPopup, {})
-  ] });
+  ] }) });
 };
 export {
   Home as default

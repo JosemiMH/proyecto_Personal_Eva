@@ -33,7 +33,7 @@ var import_express3 = __toESM(require("express"));
 // server/routes.ts
 var import_express = __toESM(require("express"));
 var import_http = require("http");
-var import_openai = __toESM(require("openai"));
+var import_openai2 = __toESM(require("openai"));
 
 // server/storage-minimal.ts
 var import_express_session = __toESM(require("express-session"));
@@ -111,6 +111,10 @@ var MinimalStorage = class {
   }
   async getArticleBySlug(slug) {
     return null;
+  }
+  async updateArticle(id, articleUpdate) {
+    console.log("\u{1F4C4} Article update not available (no database)");
+    return { id, ...articleUpdate };
   }
   async getAllArticles() {
     return [];
@@ -246,6 +250,73 @@ var insertArticleSchema = (0, import_drizzle_zod.createInsertSchema)(articles).p
 
 // server/routes.ts
 var import_zod2 = require("zod");
+
+// server/api/chat.ts
+var import_openai = __toESM(require("openai"));
+var openai = null;
+if (process.env.OPENAI_API_KEY) {
+  openai = new import_openai.default({
+    apiKey: process.env.OPENAI_API_KEY
+  });
+}
+var contextInfo = `
+Eva P\xE9rez: Experta en Estrategia de Hospitalidad y Bienestar de Lujo (>20 a\xF1os exp).
+Misi\xF3n: Transformar \xE1reas wellness de hoteles en motores de rentabilidad estrat\xE9gica.
+
+Servicios:
+1. Consultor\xEDa: Viabilidad, concepto, diferenciaci\xF3n.
+2. Gesti\xF3n de Proyectos: Dise\xF1o, proveedores, ejecuci\xF3n.
+3. Revenue Management: Pricing, fidelizaci\xF3n, KPIs.
+4. Formaci\xF3n: Liderazgo, protocolos de excelencia.
+
+Propuesta de Valor: Aumento RevPAR, gasto medio y satisfacci\xF3n del cliente. Hotel Wellness como activo financiero.
+
+Instrucciones ESTRAT\xC9GICAS (Lead Generation):
+- Rol: Asistente virtual experto y persuasivo.
+- Objetivo Principal: CAPTAR LEADS (emails). No solo informes, \xA1vende el siguiente paso!
+- T\xE1ctica: Si el usuario pregunta por precios, servicios espec\xEDficos o muestra inter\xE9s real, NO des toda la informaci\xF3n de golpe.
+- Acci\xF3n Clave: Ofr\xE9cele enviarle un "Dossier Ejecutivo" o la "Gu\xEDa de Rentabilidad" por email.
+- Ejemplo: "Para darte un presupuesto exacto, puedo enviarte nuestro Dossier de Servicios y un caso de \xE9xito similar al tuyo. \xBFMe facilitas tu correo electr\xF3nico?"
+- Idioma: Responde en el idioma del usuario.
+`;
+async function handleChatRequest(req, res) {
+  try {
+    const { messages } = req.body;
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: "Se requiere un array de mensajes" });
+    }
+    const systemMessage = {
+      role: "system",
+      content: contextInfo
+    };
+    if (!openai) {
+      return res.status(503).json({
+        error: "El servicio de chat no est\xE1 disponible en este momento (Falta configuraci\xF3n de OpenAI)",
+        details: "OPENAI_API_KEY no est\xE1 definida"
+      });
+    }
+    const chatCompletion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      // El modelo más reciente de OpenAI
+      messages: [systemMessage, ...messages],
+      max_tokens: 500,
+      temperature: 0.7
+    });
+    res.json({
+      response: chatCompletion.choices[0].message,
+      usage: chatCompletion.usage
+    });
+  } catch (err) {
+    const error = err;
+    console.error("Error en la API de chat:", error);
+    res.status(500).json({
+      error: "Error al procesar la solicitud del chat",
+      details: error.message || "Error desconocido"
+    });
+  }
+}
+
+// server/routes.ts
 var import_express_rate_limit = __toESM(require("express-rate-limit"));
 var limiter = (0, import_express_rate_limit.default)({
   windowMs: 15 * 60 * 1e3,
@@ -384,14 +455,7 @@ https://evaperez-wellness.com
       });
     }
   });
-  app2.post("/api/chat", limiter, async (req, res) => {
-    return res.status(200).json({
-      response: {
-        role: "assistant",
-        content: "Hola! El chatbot est\xE1 temporalmente desactivado. Por favor, usa el formulario de contacto para comunicarte conmigo. \xA1Gracias!"
-      }
-    });
-  });
+  app2.post("/api/chat", limiter, handleChatRequest);
   app2.post("/api/appointments", async (req, res) => {
     try {
       const appointmentData = appointmentSchema.parse(req.body);
@@ -533,8 +597,8 @@ https://evaperez-wellness.com
       if (!process.env.OPENAI_API_KEY) {
         return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
       }
-      const openai = new import_openai.default({ apiKey: process.env.OPENAI_API_KEY });
-      const completion = await openai.chat.completions.create({
+      const openai2 = new import_openai2.default({ apiKey: process.env.OPENAI_API_KEY });
+      const completion = await openai2.chat.completions.create({
         model: "gpt-4o",
         messages: [
           {
@@ -622,8 +686,7 @@ async function setupVite(app2, server) {
   const viteLogger = createLogger();
   const serverOptions = {
     middlewareMode: true,
-    hmr: { server },
-    allowedHosts: true
+    hmr: { server }
   };
   const vite = await createViteServer({
     server: serverOptions,
@@ -1034,7 +1097,8 @@ app.use((req, res, next) => {
     console.log("");
     console.log("\u2705 Database: DISABLED (memory only)");
     console.log("\u2705 Email: DISABLED (console only)");
-    console.log("\u2705 OpenAI: DISABLED");
+    const openAIEnabled = !!process.env.OPENAI_API_KEY;
+    console.log(`\u2705 OpenAI: ${openAIEnabled ? "ENABLED" : "DISABLED"}`);
     console.log("");
     setupAuth(app);
     const server = await registerRoutes(app);
@@ -1064,7 +1128,11 @@ app.use((req, res, next) => {
       console.log("\u26A0\uFE0F  REMEMBER: This is a minimal version");
       console.log("\u26A0\uFE0F  - No database (data in memory only)");
       console.log("\u26A0\uFE0F  - No emails sent (logged to console)");
-      console.log("\u26A0\uFE0F  - No AI chatbot");
+      if (!process.env.OPENAI_API_KEY) {
+        console.log("\u26A0\uFE0F  - No AI chatbot (OPENAI_API_KEY missing)");
+      } else {
+        console.log("\u2705  - AI Chatbot ACTIVE");
+      }
       console.log("");
     });
   } catch (error) {
