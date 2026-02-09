@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "if [ -f dist/index.js ]; then echo 'Using pre-built artifacts'; else npm run build:local; fi",
+    "clean": "rm -rf dist",
+    "build": "npm run build:local",
     "build:local": "npm run build:client && npm run build:server && npm run build:backend",
     "build:client": "node scripts/vite-build.cjs build",
     "build:server": "node scripts/vite-build.cjs build --ssr src/entry-server.tsx --outDir ../dist/server",

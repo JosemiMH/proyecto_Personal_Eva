@@ -1,0 +1,5 @@
+PassengerAppRoot /home/u919982339/domains/epmwellness.com/public_html
+PassengerAppType node
+PassengerNodejs /opt/alt/alt-nodejs22/root/bin/node
+PassengerStartupFile dist/index.js
+PassengerBaseURI /

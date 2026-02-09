@@ -2242,13 +2242,13 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-Cwr5vwC4.js"));
-const Privacy = React__default.lazy(() => import("./assets/Privacy-BP33lkSI.js"));
-const Terms = React__default.lazy(() => import("./assets/Terms-D5J3OJDh.js"));
-const Cookies = React__default.lazy(() => import("./assets/Cookies-4ssU3nQp.js"));
-const Booking = React__default.lazy(() => import("./assets/Booking-Dnm5HaZN.js"));
-const Admin = React__default.lazy(() => import("./assets/Admin-DuBTGi_f.js"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-CO-FDDwr.js"));
+const Home = React__default.lazy(() => import("./assets/Home-BlLO1Iax.mjs"));
+const Privacy = React__default.lazy(() => import("./assets/Privacy-BCDZHSyp.mjs"));
+const Terms = React__default.lazy(() => import("./assets/Terms-D2Ybgsbb.mjs"));
+const Cookies = React__default.lazy(() => import("./assets/Cookies-EbENJFRi.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-DPaWm6pl.mjs"));
+const Admin = React__default.lazy(() => import("./assets/Admin-DKm0PmTK.mjs"));
+const AuthPage = React__default.lazy(() => import("./assets/Auth-7XIluDxD.mjs"));
 function Router() {
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsxs(Switch, { children: [
     /* @__PURE__ */ jsx(Route, { path: "/", component: Home }),

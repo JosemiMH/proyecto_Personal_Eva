@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { u as useLanguage } from "../entry-server.js";
+import { u as useLanguage } from "../entry-server.mjs";
 import { Link } from "wouter";
 import { FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import { motion } from "framer-motion";

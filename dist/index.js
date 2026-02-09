@@ -608,8 +608,6 @@ https://evaperez-wellness.com
 var import_express2 = __toESM(require("express"));
 var import_fs = __toESM(require("fs"));
 var import_path = __toESM(require("path"));
-var import_vite = require("vite");
-var viteLogger = (0, import_vite.createLogger)();
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -620,12 +618,14 @@ function log(message, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 async function setupVite(app2, server) {
+  const { createServer: createViteServer, createLogger } = await import("vite");
+  const viteLogger = createLogger();
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
     allowedHosts: true
   };
-  const vite = await (0, import_vite.createServer)({
+  const vite = await createViteServer({
     server: serverOptions,
     appType: "custom",
     configFile: import_path.default.resolve(__dirname, "..", "vite.config.ts"),

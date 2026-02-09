@@ -1,0 +1,63 @@
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+
+added 617 packages, and audited 618 packages in 6s
+
+123 packages are looking for funding
+  run `npm fund` for details
+
+30 vulnerabilities (3 low, 1 moderate, 23 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> rest-express@1.0.1 build
+> npm run build:client && npm run build:server && npm run build:backend
+
+
+> rest-express@1.0.1 build:client
+> node scripts/vite-build.cjs build
+
+Current working directory: /home/u919982339/domains/epmwellness.com/public_html/.builds/source/repository
+Directory listing of .: [
+  '.env.example',       '.git',
+  '.gitignore',         '.replit',
+  '.snapshots',         '.vscode',
+  'DEPLOY.md',          'HOSTINGER_DEPLOY.md',
+  'README.md',          'client',
+  'dist',               'drizzle.config.ts',
+  'generated-icon.png', 'node_modules',
+  'package-lock.json',  'package.json',
+  'postcss.config.js',  'resources',
+  'scripts',            'server',
+  'shared',             'spaxion_centros.html',
+  'start.ps1',          'tailwind.config.ts',
+  'test-booking.ts',    'test-email.ts',
+  'theme.json',         'tsconfig.json',
+  'vite.config.ts'
+]
+Directory listing of node_modules: [
+  '.bin',
+  '.package-lock.json',
+  '@alloc',
+  '@ampproject',
+  '@anthropic-ai',
+  '@aws',
+  '@aws-crypto',
+  '@aws-sdk',
+  '@babel',
+  '@drizzle-team'
+]
+require.resolve("vite/package.json") failed: Cannot find module 'vite/package.json'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/.builds/source/repository/scripts/vite-build.cjs
+Checking candidate: /home/u919982339/domains/epmwellness.com/public_html/.builds/source/repository/node_modules/vite/bin/vite.js
+Checking candidate: /home/u919982339/domains/epmwellness.com/public_html/.builds/source/node_modules/vite/bin/vite.js
+Checking candidate: /home/u919982339/domains/epmwellness.com/public_html/node_modules/vite/bin/vite.js
+CRITICAL: Cannot find vite/bin/vite.js
+Modules in node_modules starting with v: [ 'vary', 'vaul', 'vfile', 'vfile-message', 'victory-vendor' ]
+[31mERROR: Failed to build the application[0m

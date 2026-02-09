@@ -1,0 +1,156 @@
+node:internal/modules/cjs/loader:1368
+  throw err;
+  ^
+
+Error: Cannot find module 'vite'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/dist/index.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)
+    at Module._load (node:internal/modules/cjs/loader:1175:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1445:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/home/u919982339/domains/epmwellness.com/public_html/dist/index.js:611:19)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/u919982339/domains/epmwellness.com/public_html/dist/index.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.18.0
+node:internal/modules/cjs/loader:1368
+  throw err;
+  ^
+
+Error: Cannot find module 'vite'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/dist/index.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)
+    at Module._load (node:internal/modules/cjs/loader:1175:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1445:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/home/u919982339/domains/epmwellness.com/public_html/dist/index.js:611:19)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/u919982339/domains/epmwellness.com/public_html/dist/index.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.18.0
+node:internal/modules/cjs/loader:1368
+  throw err;
+  ^
+
+Error: Cannot find module 'vite'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/dist/index.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)
+    at Module._load (node:internal/modules/cjs/loader:1175:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1445:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/home/u919982339/domains/epmwellness.com/public_html/dist/index.js:611:19)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/u919982339/domains/epmwellness.com/public_html/dist/index.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.18.0
+node:internal/modules/cjs/loader:1368
+  throw err;
+  ^
+
+Error: Cannot find module 'vite'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/dist/index.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)
+    at Module._load (node:internal/modules/cjs/loader:1175:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1445:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/home/u919982339/domains/epmwellness.com/public_html/dist/index.js:611:19)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/u919982339/domains/epmwellness.com/public_html/dist/index.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.18.0
+node:internal/modules/cjs/loader:1368
+  throw err;
+  ^
+
+Error: Cannot find module 'vite'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/dist/index.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)
+    at Module._load (node:internal/modules/cjs/loader:1175:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1445:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/home/u919982339/domains/epmwellness.com/public_html/dist/index.js:611:19)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/u919982339/domains/epmwellness.com/public_html/dist/index.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.18.0
+node:internal/modules/cjs/loader:1368
+  throw err;
+  ^
+
+Error: Cannot find module 'vite'
+Require stack:
+- /home/u919982339/domains/epmwellness.com/public_html/dist/index.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1365:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)
+    at Module._load (node:internal/modules/cjs/loader:1175:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1445:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/home/u919982339/domains/epmwellness.com/public_html/dist/index.js:611:19)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/u919982339/domains/epmwellness.com/public_html/dist/index.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.18.0

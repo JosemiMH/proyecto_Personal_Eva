@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { H as Header, F as Footer } from "./Footer-BtMHmrlJ.js";
+import { H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { useEffect } from "react";
-import "../entry-server.js";
+import "../entry-server.mjs";
 import "react-dom/server";
 import "wouter";
 import "@tanstack/react-query";
