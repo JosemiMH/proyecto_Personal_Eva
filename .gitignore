@@ -5,3 +5,7 @@ server/public
 vite.config.ts.*
 *.tar.gz
 .env
+
+# Comentario: dist/ ya no está en .gitignore
+# Esto permite que los artifacts pre-compilados se suban a GitHub
+# para deployment en Hostinger (que no instala devDependencies)
