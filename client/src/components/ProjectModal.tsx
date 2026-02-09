@@ -16,17 +16,19 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[900px] w-[95vw] max-h-[90vh] flex flex-col font-poppins p-0 overflow-hidden border-none shadow-2xl bg-white text-charcoal z-[60]">
-                <div className="relative h-64 md:h-80 w-full shrink-0 group bg-gray-100">
+            <DialogContent className="sm:max-w-[900px] w-[95vw] h-[90vh] max-h-[90vh] flex flex-col font-poppins p-0 border-none shadow-2xl bg-white z-[60] overflow-hidden">
+
+                {/* Header Image Section - Fixed Height */}
+                <div className="relative h-64 md:h-80 w-full shrink-0 bg-gray-900">
                     <img
                         src={project.image}
                         alt={typeof project.title === 'object' ? project.title[language] : project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="w-full h-full object-cover opacity-90"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8">
                         <div className="w-full relative z-10">
                             <div className="flex justify-between items-end mb-3">
-                                <Badge className="bg-turquoise hover:bg-turquoise-dark text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm backdrop-blur-sm">
+                                <Badge className="bg-turquoise text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm">
                                     {typeof project.categoryName === 'object' ? project.categoryName[language] : project.categoryName}
                                 </Badge>
                             </div>
@@ -39,76 +41,77 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                         onClick={onClose}
                         className="absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg"
                         aria-label="Close modal"
-                        title="Close"
                     >
                         <i className="fas fa-times text-lg w-5 h-5 flex items-center justify-center"></i>
                     </button>
                 </div>
 
-                <ScrollArea className="flex-grow bg-white">
-                    <div className="p-6 md:p-8 space-y-8 md:space-y-10 pb-10">
-                        <div>
-                            <h4 className="font-playfair text-xl md:text-2xl font-bold text-charcoal mb-4 flex items-center gap-3">
+                {/* Content Section - Scrollable and Solid White */}
+                <div className="flex-1 overflow-y-auto bg-white relative z-50">
+                    <div className="p-6 md:p-8 space-y-8 pb-10">
+
+                        {/* Description Section */}
+                        <div className="space-y-4">
+                            <h4 className="font-playfair text-xl md:text-2xl font-bold text-charcoal flex items-center gap-3">
                                 <span className="w-8 h-1 bg-turquoise rounded-full block"></span>
                                 {language === 'es' ? 'Sobre el Proyecto' : 'About the Project'}
                             </h4>
-                            <DialogDescription className="text-base text-charcoal-light leading-relaxed whitespace-pre-line font-light">
-                                {project.longDescription
-                                    ? (typeof project.longDescription === 'object' ? project.longDescription[language] : project.longDescription)
-                                    : (typeof project.description === 'object' ? project.description[language] : project.description)
-                                }
+
+                            <DialogDescription className="text-lg md:text-xl text-charcoal-light leading-relaxed font-light">
+                                {typeof project.description === 'object' ? project.description[language] : project.description}
                             </DialogDescription>
+
+                            <div className="prose prose-lg text-charcoal-light max-w-none">
+                                <p className="whitespace-pre-line leading-relaxed">
+                                    {project.longDescription
+                                        ? (typeof project.longDescription === 'object' ? project.longDescription[language] : project.longDescription)
+                                        : ''}
+                                </p>
+                            </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                            <div className="bg-white p-5 md:p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                <h4 className="font-playfair font-bold text-lg md:text-xl text-charcoal mb-5 flex items-center gap-3 border-b border-gray-100 pb-3">
-                                    <div className="bg-turquoise/10 p-2 rounded-lg">
-                                        <i className="fas fa-trophy text-turquoise"></i>
-                                    </div>
-                                    {language === 'es' ? 'Logros Destacados' : 'Key Highlights'}
+                        {/* Details Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Challenges */}
+                            <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                                <h4 className="font-bold text-charcoal mb-4 flex items-center gap-2 text-lg">
+                                    <i className="fas fa-clipboard-check text-turquoise"></i>
+                                    {language === 'es' ? 'Desafíos & Soluciones' : 'Challenges & Solutions'}
                                 </h4>
-                                <ul className="space-y-3 md:space-y-4">
+                                <ul className="space-y-3">
                                     {(typeof project.highlights === 'object' ?
                                         project.highlights[language] :
                                         project.highlights
                                     ).map((highlight: string, index: number) => (
-                                        <li key={index} className="flex items-start gap-4 group">
-                                            <div className="mt-1 shrink-0 w-5 h-5 rounded-full bg-turquoise/10 flex items-center justify-center group-hover:bg-turquoise transition-colors">
-                                                <i className="fas fa-check text-xs text-turquoise group-hover:text-white transition-colors"></i>
-                                            </div>
-                                            <span className="text-charcoal-light text-sm leading-relaxed">{highlight}</span>
+                                        <li key={index} className="flex items-start gap-3">
+                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0"></div>
+                                            <span className="text-charcoal-light leading-relaxed">{highlight}</span>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
 
-                            {project.results && (
-                                <div className="bg-white p-5 md:p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                    <h4 className="font-playfair font-bold text-lg md:text-xl text-charcoal mb-5 flex items-center gap-3 border-b border-gray-100 pb-3">
-                                        <div className="bg-turquoise/10 p-2 rounded-lg">
-                                            <i className="fas fa-chart-line text-turquoise"></i>
-                                        </div>
-                                        {language === 'es' ? 'Resultados' : 'Results'}
-                                    </h4>
-                                    <ul className="space-y-3 md:space-y-4">
-                                        {(typeof project.results === 'object' ?
-                                            project.results[language] :
-                                            project.results
-                                        ).map((result: string, index: number) => (
-                                            <li key={index} className="flex items-start gap-4 group">
-                                                <div className="mt-1 shrink-0 w-5 h-5 rounded-full bg-turquoise/10 flex items-center justify-center group-hover:bg-turquoise transition-colors">
-                                                    <i className="fas fa-arrow-up text-xs text-turquoise group-hover:text-white transition-colors"></i>
-                                                </div>
-                                                <span className="text-charcoal-light font-medium text-sm leading-relaxed">{result}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
+                            {/* Results */}
+                            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                                <h4 className="font-bold text-charcoal mb-4 flex items-center gap-2 text-lg">
+                                    <i className="fas fa-trophy text-gold"></i>
+                                    {language === 'es' ? 'Logros Destacados' : 'Key Achievements'}
+                                </h4>
+                                <ul className="space-y-3">
+                                    {(typeof project.results === 'object' ?
+                                        project.results[language] :
+                                        project.results
+                                    ).map((result: string, index: number) => (
+                                        <li key={index} className="flex items-start gap-3">
+                                            <i className="fas fa-star text-gold mt-1 shrink-0"></i>
+                                            <span className="text-charcoal-light leading-relaxed">{result}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </ScrollArea>
+                </div>
             </DialogContent>
         </Dialog>
     );

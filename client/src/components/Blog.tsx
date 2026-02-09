@@ -168,10 +168,10 @@ const Blog = () => {
       </div>
 
       <Dialog open={!!selectedArticle} onOpenChange={(open) => !open && setSelectedArticle(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 bg-white border-none shadow-2xl z-[60]">
           {selectedArticle && (
             <>
-              <div className="relative h-64 md:h-80 w-full">
+              <div className="relative h-64 md:h-96 w-full shrink-0">
                 <OptimizedImage
                   src={selectedArticle.image}
                   alt={selectedArticle.title}
@@ -179,10 +179,11 @@ const Blog = () => {
                   objectFit="cover"
                   priority={true}
                 />
-                <div className="absolute inset-0 bg-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+
                 <button
                   onClick={() => setSelectedArticle(null)}
-                  className="absolute top-4 right-4 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors z-10"
+                  className="absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg"
                   aria-label="Close"
                 >
                   <X className="w-5 h-5" />

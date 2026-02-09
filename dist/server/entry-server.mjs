@@ -1614,34 +1614,6 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
   )
 ] }));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
-const DialogHeader = ({
-  className,
-  ...props
-}) => /* @__PURE__ */ jsx(
-  "div",
-  {
-    className: cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
-      className
-    ),
-    ...props
-  }
-);
-DialogHeader.displayName = "DialogHeader";
-const DialogFooter = ({
-  className,
-  ...props
-}) => /* @__PURE__ */ jsx(
-  "div",
-  {
-    className: cn(
-      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
-      className
-    ),
-    ...props
-  }
-);
-DialogFooter.displayName = "DialogFooter";
 const DialogTitle = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Title,
   {
@@ -2242,13 +2214,13 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-BlLO1Iax.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-XPLl29mP.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-BCDZHSyp.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-D2Ybgsbb.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-EbENJFRi.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-DPaWm6pl.mjs"));
-const Admin = React__default.lazy(() => import("./assets/Admin-DKm0PmTK.mjs"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-7XIluDxD.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-BSio9x9J.mjs"));
+const Admin = React__default.lazy(() => import("./assets/Admin-Ch3qVOtN.mjs"));
+const AuthPage = React__default.lazy(() => import("./assets/Auth-jiNbsEYK.mjs"));
 function Router() {
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsxs(Switch, { children: [
     /* @__PURE__ */ jsx(Route, { path: "/", component: Home }),
@@ -2290,23 +2262,21 @@ export {
   Resources as R,
   ScrollToTop as S,
   DialogContent as a,
-  DialogHeader as b,
+  DialogTitle as b,
   cn as c,
-  DialogTitle as d,
-  DialogDescription as e,
-  DialogFooter as f,
-  blogPosts as g,
-  useToast as h,
-  apiRequest as i,
-  buttonVariants as j,
-  CardHeader as k,
-  CardTitle as l,
-  CardDescription as m,
-  CardContent as n,
-  CardFooter as o,
+  DialogDescription as d,
+  blogPosts as e,
+  useToast as f,
+  apiRequest as g,
+  buttonVariants as h,
+  CardHeader as i,
+  CardTitle as j,
+  CardDescription as k,
+  CardContent as l,
+  CardFooter as m,
+  toast as n,
+  useAuth as o,
   portfolioItems as p,
-  toast as q,
-  useAuth as r,
   render,
   services as s,
   testimonials as t,

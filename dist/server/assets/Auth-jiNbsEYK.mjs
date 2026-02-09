@@ -1,5 +1,5 @@
 import { jsx, jsxs } from "react/jsx-runtime";
-import { r as useAuth, C as Card, k as CardHeader, l as CardTitle, m as CardDescription, n as CardContent, B as Button } from "../entry-server.mjs";
+import { o as useAuth, C as Card, i as CardHeader, j as CardTitle, k as CardDescription, l as CardContent, B as Button } from "../entry-server.mjs";
 import { useLocation } from "wouter";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

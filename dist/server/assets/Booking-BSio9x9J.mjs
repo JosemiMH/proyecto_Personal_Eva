@@ -1,6 +1,6 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useEffect } from "react";
-import { B as BookingCalendar } from "./BookingCalendar-DcT-9qQV.mjs";
+import { B as BookingCalendar } from "./BookingCalendar-JgwSUTpR.mjs";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
 import { motion } from "framer-motion";
 import { Link } from "wouter";

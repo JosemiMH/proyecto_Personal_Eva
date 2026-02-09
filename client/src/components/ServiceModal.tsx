@@ -16,20 +16,20 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col font-poppins">
-                <DialogHeader>
-                    <div className="flex items-center gap-4 mb-2">
-                        <div className="w-12 h-12 bg-turquoise/10 rounded-full flex items-center justify-center shrink-0">
-                            <i className={`fas ${service.icon} text-turquoise text-xl`}></i>
-                        </div>
-                        <DialogTitle className="font-playfair text-2xl text-charcoal">
+            <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col font-poppins p-0 gap-0 bg-white border-none shadow-2xl z-[60] overflow-hidden">
+                <div className="bg-gradient-to-r from-turquoise/10 to-transparent p-6 md:p-8 flex items-center gap-6 border-b border-gray-100">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-turquoise">
+                        <i className={`fas ${service.icon} text-2xl`}></i>
+                    </div>
+                    <div>
+                        <DialogTitle className="font-playfair text-2xl md:text-3xl font-bold text-charcoal">
                             {typeof service.title === 'object' ? service.title[language] : service.title}
                         </DialogTitle>
                     </div>
-                </DialogHeader>
+                </div>
 
-                <ScrollArea className="flex-grow pr-4">
-                    <div className="space-y-6">
+                <div className="flex-grow overflow-y-auto bg-white">
+                    <div className="p-6 md:p-8 space-y-6">
                         <DialogDescription className="text-base text-charcoal-light leading-relaxed">
                             {service.longDescription
                                 ? (typeof service.longDescription === 'object' ? service.longDescription[language] : service.longDescription)
@@ -37,8 +37,8 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
                             }
                         </DialogDescription>
 
-                        <div className="bg-gray-50 p-6 rounded-lg">
-                            <h4 className="font-bold text-charcoal mb-4 flex items-center gap-2">
+                        <div className="bg-gray-50/80 p-6 rounded-xl border border-gray-100">
+                            <h4 className="font-bold text-charcoal mb-4 flex items-center gap-2 font-playfair text-lg">
                                 <i className="fas fa-star text-turquoise"></i>
                                 {language === 'es' ? 'Características Clave' : 'Key Features'}
                             </h4>
@@ -48,16 +48,16 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
                                     service.features
                                 ).map((feature: string, index: number) => (
                                     <li key={index} className="flex items-start gap-3">
-                                        <i className="fas fa-check text-turquoise mt-1 shrink-0"></i>
+                                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0"></div>
                                         <span className="text-charcoal-light">{feature}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     </div>
-                </ScrollArea>
+                </div>
 
-                <DialogFooter className="mt-6">
+                <div className="p-6 border-t border-gray-100 bg-gray-50/50">
                     <Button
                         onClick={() => {
                             onClose();
@@ -66,11 +66,11 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
                                 contactSection.scrollIntoView({ behavior: 'smooth' });
                             }
                         }}
-                        className="w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-6 text-lg"
+                        className="w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-6 text-lg shadow-lg hover:shadow-xl transition-all"
                     >
                         {language === 'es' ? 'Solicitar Consultoría' : 'Request Consultation'}
                     </Button>
-                </DialogFooter>
+                </div>
             </DialogContent>
         </Dialog>
     );

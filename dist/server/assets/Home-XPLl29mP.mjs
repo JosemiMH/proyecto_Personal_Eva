@@ -3,9 +3,8 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { u as useLanguage, c as cn, D as Dialog, a as DialogContent, b as DialogHeader, d as DialogTitle, e as DialogDescription, f as DialogFooter, B as Button, s as services, p as portfolioItems, t as testimonials, g as blogPosts, h as useToast, i as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
+import { u as useLanguage, c as cn, D as Dialog, a as DialogContent, b as DialogTitle, d as DialogDescription, B as Button, s as services, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
 import { ArrowRight, Tag, X, Calendar } from "lucide-react";
-import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import { cva } from "class-variance-authority";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
@@ -13,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-Qkbd4gOm.mjs";
-import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, T as Textarea, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DcT-9qQV.mjs";
+import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, T as Textarea, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-JgwSUTpR.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { Helmet } from "react-helmet-async";
 import "wouter";
@@ -326,58 +325,28 @@ const About = () => {
     )
   ] }) }) });
 };
-const ScrollArea = React.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
-  ScrollAreaPrimitive.Root,
-  {
-    ref,
-    className: cn("relative overflow-hidden", className),
-    ...props,
-    children: [
-      /* @__PURE__ */ jsx(ScrollAreaPrimitive.Viewport, { className: "h-full w-full rounded-[inherit]", children }),
-      /* @__PURE__ */ jsx(ScrollBar, {}),
-      /* @__PURE__ */ jsx(ScrollAreaPrimitive.Corner, {})
-    ]
-  }
-));
-ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName;
-const ScrollBar = React.forwardRef(({ className, orientation = "vertical", ...props }, ref) => /* @__PURE__ */ jsx(
-  ScrollAreaPrimitive.ScrollAreaScrollbar,
-  {
-    ref,
-    orientation,
-    className: cn(
-      "flex touch-none select-none transition-colors",
-      orientation === "vertical" && "h-full w-2.5 border-l border-l-transparent p-[1px]",
-      orientation === "horizontal" && "h-2.5 flex-col border-t border-t-transparent p-[1px]",
-      className
-    ),
-    ...props,
-    children: /* @__PURE__ */ jsx(ScrollAreaPrimitive.ScrollAreaThumb, { className: "relative flex-1 rounded-full bg-border" })
-  }
-));
-ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
 const ServiceModal = ({ isOpen, onClose, service }) => {
   const { language, t } = useLanguage();
   if (!service) return null;
-  return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[600px] max-h-[90vh] flex flex-col font-poppins", children: [
-    /* @__PURE__ */ jsx(DialogHeader, { children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-4 mb-2", children: [
-      /* @__PURE__ */ jsx("div", { className: "w-12 h-12 bg-turquoise/10 rounded-full flex items-center justify-center shrink-0", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-turquoise text-xl` }) }),
-      /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl text-charcoal", children: typeof service.title === "object" ? service.title[language] : service.title })
-    ] }) }),
-    /* @__PURE__ */ jsx(ScrollArea, { className: "flex-grow pr-4", children: /* @__PURE__ */ jsxs("div", { className: "space-y-6", children: [
+  return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[600px] max-h-[90vh] flex flex-col font-poppins p-0 gap-0 bg-white border-none shadow-2xl z-[60] overflow-hidden", children: [
+    /* @__PURE__ */ jsxs("div", { className: "bg-gradient-to-r from-turquoise/10 to-transparent p-6 md:p-8 flex items-center gap-6 border-b border-gray-100", children: [
+      /* @__PURE__ */ jsx("div", { className: "w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-turquoise", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-2xl` }) }),
+      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-3xl font-bold text-charcoal", children: typeof service.title === "object" ? service.title[language] : service.title }) })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "flex-grow overflow-y-auto bg-white", children: /* @__PURE__ */ jsxs("div", { className: "p-6 md:p-8 space-y-6", children: [
       /* @__PURE__ */ jsx(DialogDescription, { className: "text-base text-charcoal-light leading-relaxed", children: service.longDescription ? typeof service.longDescription === "object" ? service.longDescription[language] : service.longDescription : typeof service.description === "object" ? service.description[language] : service.description }),
-      /* @__PURE__ */ jsxs("div", { className: "bg-gray-50 p-6 rounded-lg", children: [
-        /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2", children: [
+      /* @__PURE__ */ jsxs("div", { className: "bg-gray-50/80 p-6 rounded-xl border border-gray-100", children: [
+        /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 font-playfair text-lg", children: [
           /* @__PURE__ */ jsx("i", { className: "fas fa-star text-turquoise" }),
           language === "es" ? "Características Clave" : "Key Features"
         ] }),
         /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: (typeof service.features === "object" ? service.features[language] : service.features).map((feature, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
-          /* @__PURE__ */ jsx("i", { className: "fas fa-check text-turquoise mt-1 shrink-0" }),
+          /* @__PURE__ */ jsx("div", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0" }),
           /* @__PURE__ */ jsx("span", { className: "text-charcoal-light", children: feature })
         ] }, index)) })
       ] })
     ] }) }),
-    /* @__PURE__ */ jsx(DialogFooter, { className: "mt-6", children: /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsx("div", { className: "p-6 border-t border-gray-100 bg-gray-50/50", children: /* @__PURE__ */ jsx(
       Button,
       {
         onClick: () => {
@@ -387,7 +356,7 @@ const ServiceModal = ({ isOpen, onClose, service }) => {
             contactSection.scrollIntoView({ behavior: "smooth" });
           }
         },
-        className: "w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-6 text-lg",
+        className: "w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-6 text-lg shadow-lg hover:shadow-xl transition-all",
         children: language === "es" ? "Solicitar Consultoría" : "Request Consultation"
       }
     ) })
@@ -446,7 +415,7 @@ const Services = () => {
           children: services.map((service, index) => /* @__PURE__ */ jsxs(
             motion.div,
             {
-              className: "bg-white rounded-lg shadow-md p-8 hover:shadow-lg transition-shadow hover-scale",
+              className: "bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
               variants: itemVariants,
               children: [
                 /* @__PURE__ */ jsx("div", { className: "w-16 h-16 bg-turquoise/10 rounded-full flex items-center justify-center mb-6", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-turquoise text-2xl` }) }),
@@ -539,45 +508,58 @@ function Badge({ className, variant, ...props }) {
 const ProjectModal = ({ isOpen, onClose, project }) => {
   const { language } = useLanguage();
   if (!project) return null;
-  return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[800px] max-h-[90vh] flex flex-col font-poppins p-0 overflow-hidden", children: [
-    /* @__PURE__ */ jsxs("div", { className: "relative h-64 w-full shrink-0", children: [
+  return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[900px] w-[95vw] h-[90vh] max-h-[90vh] flex flex-col font-poppins p-0 border-none shadow-2xl bg-white z-[60] overflow-hidden", children: [
+    /* @__PURE__ */ jsxs("div", { className: "relative h-64 md:h-80 w-full shrink-0 bg-gray-900", children: [
       /* @__PURE__ */ jsx(
         "img",
         {
           src: project.image,
           alt: typeof project.title === "object" ? project.title[language] : project.title,
-          className: "w-full h-full object-cover"
+          className: "w-full h-full object-cover opacity-90"
         }
       ),
-      /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6", children: /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx(Badge, { className: "bg-turquoise hover:bg-turquoise-dark mb-2 text-white border-none", children: typeof project.categoryName === "object" ? project.categoryName[language] : project.categoryName }),
-        /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-3xl text-white font-bold shadow-sm", children: typeof project.title === "object" ? project.title[language] : project.title })
-      ] }) })
+      /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8", children: /* @__PURE__ */ jsxs("div", { className: "w-full relative z-10", children: [
+        /* @__PURE__ */ jsx("div", { className: "flex justify-between items-end mb-3", children: /* @__PURE__ */ jsx(Badge, { className: "bg-turquoise text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm", children: typeof project.categoryName === "object" ? project.categoryName[language] : project.categoryName }) }),
+        /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-4xl text-white font-bold drop-shadow-md leading-tight", children: typeof project.title === "object" ? project.title[language] : project.title })
+      ] }) }),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          onClick: onClose,
+          className: "absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg",
+          "aria-label": "Close modal",
+          children: /* @__PURE__ */ jsx("i", { className: "fas fa-times text-lg w-5 h-5 flex items-center justify-center" })
+        }
+      )
     ] }),
-    /* @__PURE__ */ jsx(ScrollArea, { className: "flex-grow px-6 py-6", children: /* @__PURE__ */ jsxs("div", { className: "space-y-8", children: [
-      /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-3 border-b border-gray-100 pb-2", children: language === "es" ? "Sobre el Proyecto" : "About the Project" }),
-        /* @__PURE__ */ jsx(DialogDescription, { className: "text-base text-charcoal-light leading-relaxed whitespace-pre-line", children: project.longDescription ? typeof project.longDescription === "object" ? project.longDescription[language] : project.longDescription : typeof project.description === "object" ? project.description[language] : project.description })
+    /* @__PURE__ */ jsx("div", { className: "flex-1 overflow-y-auto bg-white relative z-50", children: /* @__PURE__ */ jsxs("div", { className: "p-6 md:p-8 space-y-8 pb-10", children: [
+      /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
+        /* @__PURE__ */ jsxs("h4", { className: "font-playfair text-xl md:text-2xl font-bold text-charcoal flex items-center gap-3", children: [
+          /* @__PURE__ */ jsx("span", { className: "w-8 h-1 bg-turquoise rounded-full block" }),
+          language === "es" ? "Sobre el Proyecto" : "About the Project"
+        ] }),
+        /* @__PURE__ */ jsx(DialogDescription, { className: "text-lg md:text-xl text-charcoal-light leading-relaxed font-light", children: typeof project.description === "object" ? project.description[language] : project.description }),
+        /* @__PURE__ */ jsx("div", { className: "prose prose-lg text-charcoal-light max-w-none", children: /* @__PURE__ */ jsx("p", { className: "whitespace-pre-line leading-relaxed", children: project.longDescription ? typeof project.longDescription === "object" ? project.longDescription[language] : project.longDescription : "" }) })
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-8", children: [
-        /* @__PURE__ */ jsxs("div", { className: "bg-gray-50 p-5 rounded-lg", children: [
-          /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2", children: [
-            /* @__PURE__ */ jsx("i", { className: "fas fa-trophy text-turquoise" }),
-            language === "es" ? "Logros Destacados" : "Key Highlights"
+      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
+        /* @__PURE__ */ jsxs("div", { className: "bg-gray-50 p-6 rounded-xl border border-gray-100", children: [
+          /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 text-lg", children: [
+            /* @__PURE__ */ jsx("i", { className: "fas fa-clipboard-check text-turquoise" }),
+            language === "es" ? "Desafíos & Soluciones" : "Challenges & Solutions"
           ] }),
           /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: (typeof project.highlights === "object" ? project.highlights[language] : project.highlights).map((highlight, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
-            /* @__PURE__ */ jsx("i", { className: "fas fa-check text-turquoise mt-1 shrink-0" }),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-charcoal-light", children: highlight })
+            /* @__PURE__ */ jsx("div", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0" }),
+            /* @__PURE__ */ jsx("span", { className: "text-charcoal-light leading-relaxed", children: highlight })
           ] }, index)) })
         ] }),
-        project.results && /* @__PURE__ */ jsxs("div", { className: "bg-turquoise/5 p-5 rounded-lg border border-turquoise/10", children: [
-          /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2", children: [
-            /* @__PURE__ */ jsx("i", { className: "fas fa-chart-line text-turquoise" }),
-            language === "es" ? "Resultados" : "Results"
+        /* @__PURE__ */ jsxs("div", { className: "bg-white p-6 rounded-xl shadow-lg border border-gray-100", children: [
+          /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 text-lg", children: [
+            /* @__PURE__ */ jsx("i", { className: "fas fa-trophy text-gold" }),
+            language === "es" ? "Logros Destacados" : "Key Achievements"
           ] }),
           /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: (typeof project.results === "object" ? project.results[language] : project.results).map((result, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
-            /* @__PURE__ */ jsx("i", { className: "fas fa-arrow-up text-turquoise mt-1 shrink-0" }),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-charcoal-light font-medium", children: result })
+            /* @__PURE__ */ jsx("i", { className: "fas fa-star text-gold mt-1 shrink-0" }),
+            /* @__PURE__ */ jsx("span", { className: "text-charcoal-light leading-relaxed", children: result })
           ] }, index)) })
         ] })
       ] })
@@ -723,7 +705,7 @@ const Portfolio = () => {
           children: filteredItems.map((item, index) => /* @__PURE__ */ jsxs(
             motion.div,
             {
-              className: "group rounded-lg overflow-hidden shadow-md hover-scale",
+              className: "group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
               variants: itemVariants,
               children: [
                 /* @__PURE__ */ jsxs("div", { className: "relative h-64", children: [
@@ -1001,8 +983,8 @@ const Blog = () => {
         }
       )
     ] }),
-    /* @__PURE__ */ jsx(Dialog, { open: !!selectedArticle, onOpenChange: (open) => !open && setSelectedArticle(null), children: /* @__PURE__ */ jsx(DialogContent, { className: "max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0", children: selectedArticle && /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsxs("div", { className: "relative h-64 md:h-80 w-full", children: [
+    /* @__PURE__ */ jsx(Dialog, { open: !!selectedArticle, onOpenChange: (open) => !open && setSelectedArticle(null), children: /* @__PURE__ */ jsx(DialogContent, { className: "max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 bg-white border-none shadow-2xl z-[60]", children: selectedArticle && /* @__PURE__ */ jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsxs("div", { className: "relative h-64 md:h-96 w-full shrink-0", children: [
         /* @__PURE__ */ jsx(
           OptimizedImage,
           {
@@ -1013,12 +995,12 @@ const Blog = () => {
             priority: true
           }
         ),
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/40" }),
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" }),
         /* @__PURE__ */ jsx(
           "button",
           {
             onClick: () => setSelectedArticle(null),
-            className: "absolute top-4 right-4 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors z-10",
+            className: "absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg",
             "aria-label": "Close",
             children: /* @__PURE__ */ jsx(X, { className: "w-5 h-5" })
           }
