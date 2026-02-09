@@ -142,7 +142,7 @@ const Portfolio = () => {
           {filteredItems.map((item, index) => (
             <motion.div
               key={index}
-              className="group rounded-lg overflow-hidden shadow-md hover-scale"
+              className="group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               variants={itemVariants}
             >
               <div className="relative h-64">
