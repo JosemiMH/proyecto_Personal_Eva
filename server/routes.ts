@@ -176,15 +176,7 @@ https://evaperez-wellness.com
   });
 
   // Chatbot API endpoint
-  // Chatbot endpoint - DISABLED for minimal version
-  app.post("/api/chat", limiter, async (req, res) => {
-    return res.status(200).json({
-      response: {
-        role: "assistant",
-        content: "Hola! El chatbot está temporalmente desactivado. Por favor, usa el formulario de contacto para comunicarte conmigo. ¡Gracias!"
-      }
-    });
-  });
+  app.post("/api/chat", limiter, handleChatRequest);
 
   // Appointment endpoints
   // 1. Crear una nueva cita

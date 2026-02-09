@@ -64,7 +64,8 @@ app.use((req, res, next) => {
     console.log('');
     console.log('✅ Database: DISABLED (memory only)');
     console.log('✅ Email: DISABLED (console only)');
-    console.log('✅ OpenAI: DISABLED');
+    const openAIEnabled = !!process.env.OPENAI_API_KEY;
+    console.log(`✅ OpenAI: ${openAIEnabled ? 'ENABLED' : 'DISABLED'}`);
     console.log('');
 
     // Setup auth and routes (simplified)
@@ -103,7 +104,11 @@ app.use((req, res, next) => {
       console.log('⚠️  REMEMBER: This is a minimal version');
       console.log('⚠️  - No database (data in memory only)');
       console.log('⚠️  - No emails sent (logged to console)');
-      console.log('⚠️  - No AI chatbot');
+      if (!process.env.OPENAI_API_KEY) {
+        console.log('⚠️  - No AI chatbot (OPENAI_API_KEY missing)');
+      } else {
+        console.log('✅  - AI Chatbot ACTIVE');
+      }
       console.log('');
     });
 
