@@ -1970,7 +1970,7 @@ function useChatbot() {
       }
     } catch (error) {
       console.error("Error al comunicarse con el chatbot:", error);
-      const errorMessage = t("chatbot.error");
+      const errorMessage = `${t("chatbot.error")} (${error instanceof Error ? error.message : String(error)})`;
       setMessages((prev) => [...prev, {
         role: "assistant",
         content: errorMessage

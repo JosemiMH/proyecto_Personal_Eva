@@ -51,8 +51,8 @@ export function useChatbot() {
         } catch (error) {
             console.error('Error al comunicarse con el chatbot:', error);
 
-            // Mensaje de error para mostrar al usuario
-            const errorMessage = t('chatbot.error');
+            // Mensaje de error para mostrar al usuario (con detalles de depuración)
+            const errorMessage = `${t('chatbot.error')} (${error instanceof Error ? error.message : String(error)})`;
 
             setMessages(prev => [...prev, {
                 role: 'assistant',
