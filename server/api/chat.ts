@@ -1,16 +1,6 @@
 import { Request, Response } from 'express';
 import OpenAI from 'openai';
 
-// Inicializar la API de OpenAI de forma perezosa
-// Nota: Deberás añadir tu OPENAI_API_KEY como variable de entorno
-let openai: OpenAI | null = null;
-
-if (process.env.OPENAI_API_KEY) {
-  openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-}
-
 // Información contextual resumida sobre Eva Pérez y sus servicios
 const contextInfo = `
 Eva Pérez: Experta en Estrategia de Hospitalidad y Bienestar de Lujo (>20 años exp).
@@ -33,7 +23,6 @@ Instrucciones ESTRATÉGICAS (Lead Generation):
 - Idioma: Responde en el idioma del usuario.
 `;
 
-// Asegurar que el primer mensaje incluya el contexto
 export async function handleChatRequest(req: Request, res: Response) {
   try {
     const { messages } = req.body;
@@ -43,19 +32,28 @@ export async function handleChatRequest(req: Request, res: Response) {
       return res.status(400).json({ error: 'Se requiere un array de mensajes' });
     }
 
+    // Verificar API Key en el momento de la petición
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      console.error('❌ Error: OPENAI_API_KEY missing in environment variables');
+      // Debug: Log available keys (sanitized) to help diagnose
+      console.error('Available Environment Keys:', Object.keys(process.env).join(', '));
+
+      return res.status(503).json({
+        error: 'El servicio de chat no está disponible en este momento (Falta configuración de OpenAI)',
+        details: 'OPENAI_API_KEY no está definida en el entorno'
+      });
+    }
+
+    const openai = new OpenAI({
+      apiKey: apiKey,
+    });
+
     // Asegurar que el primer mensaje incluya el contexto
     const systemMessage = {
       role: 'system',
       content: contextInfo
     };
-
-    // Verificar si OpenAI está configurado
-    if (!openai) {
-      return res.status(503).json({
-        error: 'El servicio de chat no está disponible en este momento (Falta configuración de OpenAI)',
-        details: 'OPENAI_API_KEY no está definida'
-      });
-    }
 
     // Obtener la respuesta de la API de OpenAI
     const chatCompletion = await openai.chat.completions.create({

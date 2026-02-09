@@ -253,12 +253,6 @@ var import_zod2 = require("zod");
 
 // server/api/chat.ts
 var import_openai = __toESM(require("openai"));
-var openai = null;
-if (process.env.OPENAI_API_KEY) {
-  openai = new import_openai.default({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-}
 var contextInfo = `
 Eva P\xE9rez: Experta en Estrategia de Hospitalidad y Bienestar de Lujo (>20 a\xF1os exp).
 Misi\xF3n: Transformar \xE1reas wellness de hoteles en motores de rentabilidad estrat\xE9gica.
@@ -285,16 +279,22 @@ async function handleChatRequest(req, res) {
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Se requiere un array de mensajes" });
     }
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      console.error("\u274C Error: OPENAI_API_KEY missing in environment variables");
+      console.error("Available Environment Keys:", Object.keys(process.env).join(", "));
+      return res.status(503).json({
+        error: "El servicio de chat no est\xE1 disponible en este momento (Falta configuraci\xF3n de OpenAI)",
+        details: "OPENAI_API_KEY no est\xE1 definida en el entorno"
+      });
+    }
+    const openai = new import_openai.default({
+      apiKey
+    });
     const systemMessage = {
       role: "system",
       content: contextInfo
     };
-    if (!openai) {
-      return res.status(503).json({
-        error: "El servicio de chat no est\xE1 disponible en este momento (Falta configuraci\xF3n de OpenAI)",
-        details: "OPENAI_API_KEY no est\xE1 definida"
-      });
-    }
     const chatCompletion = await openai.chat.completions.create({
       model: "gpt-4o",
       // El modelo más reciente de OpenAI
@@ -597,8 +597,8 @@ https://evaperez-wellness.com
       if (!process.env.OPENAI_API_KEY) {
         return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
       }
-      const openai2 = new import_openai2.default({ apiKey: process.env.OPENAI_API_KEY });
-      const completion = await openai2.chat.completions.create({
+      const openai = new import_openai2.default({ apiKey: process.env.OPENAI_API_KEY });
+      const completion = await openai.chat.completions.create({
         model: "gpt-4o",
         messages: [
           {
