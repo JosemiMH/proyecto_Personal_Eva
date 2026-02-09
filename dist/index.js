@@ -5,9 +5,6 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -29,6 +26,115 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
+// server/index.ts
+var import_config = require("dotenv/config");
+var import_express3 = __toESM(require("express"), 1);
+
+// server/routes.ts
+var import_express = __toESM(require("express"), 1);
+var import_http = require("http");
+var import_openai = __toESM(require("openai"), 1);
+
+// server/storage-minimal.ts
+var import_express_session = __toESM(require("express-session"), 1);
+var MinimalStorage = class {
+  sessionStore;
+  // In-memory storage
+  contacts = [];
+  newsletters = [];
+  appointments = [];
+  constructor() {
+    this.sessionStore = new import_express_session.default.MemoryStore();
+    console.log("\u2713 Using memory session store (no database)");
+  }
+  // Contact methods (in-memory)
+  async createContact(data) {
+    const contact = { id: this.contacts.length + 1, ...data, createdAt: /* @__PURE__ */ new Date() };
+    this.contacts.push(contact);
+    console.log("\u{1F4DD} Contact saved to memory:", contact.email);
+    return contact;
+  }
+  async getAllContacts() {
+    return this.contacts;
+  }
+  // Newsletter methods (in-memory)
+  async createNewsletterSubscription(data) {
+    const existing = this.newsletters.find((n) => n.email === data.email);
+    if (existing) {
+      console.log("\u{1F4E7} Newsletter subscription already exists:", data.email);
+      return existing;
+    }
+    const subscription = { id: this.newsletters.length + 1, ...data, createdAt: /* @__PURE__ */ new Date() };
+    this.newsletters.push(subscription);
+    console.log("\u{1F4E7} Newsletter subscription saved to memory:", data.email);
+    return subscription;
+  }
+  async getAllNewsletterSubscriptions() {
+    return this.newsletters;
+  }
+  // Appointment methods (in-memory)
+  async createAppointment(data) {
+    const appointment = { id: this.appointments.length + 1, ...data, createdAt: /* @__PURE__ */ new Date() };
+    this.appointments.push(appointment);
+    console.log("\u{1F4C5} Appointment saved to memory:", appointment.email);
+    return appointment;
+  }
+  async getAppointmentById(id) {
+    return this.appointments.find((a) => a.id === id);
+  }
+  async getAllAppointments() {
+    return this.appointments;
+  }
+  async getAvailableSlots(date) {
+    const slots = [];
+    for (let hour = 9; hour < 18; hour++) {
+      const start = new Date(date);
+      start.setHours(hour, 0, 0, 0);
+      const end = new Date(date);
+      end.setHours(hour + 1, 0, 0, 0);
+      slots.push({ start, end });
+    }
+    return slots;
+  }
+  async updateAppointmentStatus(id, status) {
+    const appointment = this.appointments.find((a) => a.id === id);
+    if (appointment) {
+      appointment.status = status;
+      console.log("\u{1F4C5} Appointment status updated:", id, status);
+    }
+    return appointment;
+  }
+  // Article methods (mock - return empty for now)
+  async createArticle(data) {
+    console.log("\u{1F4C4} Article creation not available (no database)");
+    return data;
+  }
+  async getArticleBySlug(slug) {
+    return null;
+  }
+  async getAllArticles() {
+    return [];
+  }
+};
+var storage = new MinimalStorage();
+
+// server/email-minimal.ts
+var MinimalEmailService = class {
+  async sendEmail(options) {
+    console.log("");
+    console.log("\u{1F4E7} ================================");
+    console.log("\u{1F4E7} EMAIL (Not sent - console only)");
+    console.log("\u{1F4E7} ================================");
+    console.log(`To: ${options.to}`);
+    console.log(`Subject: ${options.subject}`);
+    console.log(`Message: ${options.text.substring(0, 100)}...`);
+    console.log("\u{1F4E7} ================================");
+    console.log("");
+    return true;
+  }
+};
+var emailService = new MinimalEmailService();
+
 // shared/schema.ts
 var schema_exports = {};
 __export(schema_exports, {
@@ -43,508 +149,103 @@ __export(schema_exports, {
   newsletters: () => newsletters,
   users: () => users
 });
-var import_pg_core, import_drizzle_zod, import_zod, users, insertUserSchema, contacts, contactSchema, newsletters, newsletterSchema, appointments, appointmentSchema, articles, insertArticleSchema;
-var init_schema = __esm({
-  "shared/schema.ts"() {
-    "use strict";
-    import_pg_core = require("drizzle-orm/pg-core");
-    import_drizzle_zod = require("drizzle-zod");
-    import_zod = require("zod");
-    users = (0, import_pg_core.pgTable)("users", {
-      id: (0, import_pg_core.serial)("id").primaryKey(),
-      username: (0, import_pg_core.text)("username").notNull().unique(),
-      password: (0, import_pg_core.text)("password").notNull()
-    });
-    insertUserSchema = (0, import_drizzle_zod.createInsertSchema)(users).pick({
-      username: true,
-      password: true
-    });
-    contacts = (0, import_pg_core.pgTable)("contacts", {
-      id: (0, import_pg_core.serial)("id").primaryKey(),
-      name: (0, import_pg_core.text)("name").notNull(),
-      email: (0, import_pg_core.text)("email").notNull(),
-      company: (0, import_pg_core.text)("company"),
-      service: (0, import_pg_core.text)("service").notNull(),
-      message: (0, import_pg_core.text)("message").notNull(),
-      privacy: (0, import_pg_core.boolean)("privacy").notNull(),
-      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
-    });
-    contactSchema = import_zod.z.object({
-      name: import_zod.z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
-      email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
-      company: import_zod.z.string().optional(),
-      service: import_zod.z.string({ required_error: "Por favor selecciona un servicio" }),
-      message: import_zod.z.string().min(10, { message: "Tu mensaje debe tener al menos 10 caracteres" }),
-      privacy: import_zod.z.boolean().refine((val) => val === true, {
-        message: "Debes aceptar la pol\xEDtica de privacidad"
-      })
-    });
-    newsletters = (0, import_pg_core.pgTable)("newsletters", {
-      id: (0, import_pg_core.serial)("id").primaryKey(),
-      email: (0, import_pg_core.text)("email").notNull().unique(),
-      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
-    });
-    newsletterSchema = import_zod.z.object({
-      email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" })
-    });
-    appointments = (0, import_pg_core.pgTable)("appointments", {
-      id: (0, import_pg_core.serial)("id").primaryKey(),
-      name: (0, import_pg_core.text)("name").notNull(),
-      email: (0, import_pg_core.text)("email").notNull(),
-      phone: (0, import_pg_core.text)("phone"),
-      company: (0, import_pg_core.text)("company"),
-      date: (0, import_pg_core.timestamp)("date").notNull(),
-      duration: (0, import_pg_core.integer)("duration").notNull().default(60),
-      // duración en minutos
-      service: (0, import_pg_core.text)("service").notNull(),
-      // tipo de servicio requerido
-      message: (0, import_pg_core.text)("message"),
-      status: (0, import_pg_core.text)("status").notNull().default("pending"),
-      // pending, confirmed, cancelled
-      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
-    });
-    appointmentSchema = import_zod.z.object({
-      name: import_zod.z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
-      email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
-      phone: import_zod.z.string().optional(),
-      company: import_zod.z.string().optional(),
-      date: import_zod.z.coerce.date({ required_error: "Por favor selecciona una fecha y hora" }),
-      duration: import_zod.z.number().int().positive().default(60),
-      service: import_zod.z.string({ required_error: "Por favor selecciona un servicio" }),
-      message: import_zod.z.string().optional(),
-      status: import_zod.z.enum(["pending", "confirmed", "cancelled"]).default("pending"),
-      privacy: import_zod.z.boolean().refine((val) => val === true, {
-        message: "Debes aceptar la pol\xEDtica de privacidad"
-      })
-    });
-    articles = (0, import_pg_core.pgTable)("articles", {
-      id: (0, import_pg_core.serial)("id").primaryKey(),
-      slug: (0, import_pg_core.text)("slug").notNull().unique(),
-      title: (0, import_pg_core.text)("title").notNull(),
-      content: (0, import_pg_core.text)("content").notNull(),
-      excerpt: (0, import_pg_core.text)("excerpt").notNull(),
-      image: (0, import_pg_core.text)("image").notNull(),
-      category: (0, import_pg_core.text)("category").notNull(),
-      readTime: (0, import_pg_core.text)("read_time").notNull(),
-      date: (0, import_pg_core.text)("date").notNull(),
-      language: (0, import_pg_core.text)("language").notNull().default("es"),
-      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
-    });
-    insertArticleSchema = (0, import_drizzle_zod.createInsertSchema)(articles).pick({
-      slug: true,
-      title: true,
-      content: true,
-      excerpt: true,
-      image: true,
-      category: true,
-      readTime: true,
-      date: true,
-      language: true
-    });
-  }
+var import_pg_core = require("drizzle-orm/pg-core");
+var import_drizzle_zod = require("drizzle-zod");
+var import_zod = require("zod");
+var users = (0, import_pg_core.pgTable)("users", {
+  id: (0, import_pg_core.serial)("id").primaryKey(),
+  username: (0, import_pg_core.text)("username").notNull().unique(),
+  password: (0, import_pg_core.text)("password").notNull()
 });
-
-// server/db.ts
-var import_serverless, import_neon_serverless, import_ws, pool, db;
-var init_db = __esm({
-  "server/db.ts"() {
-    "use strict";
-    import_serverless = require("@neondatabase/serverless");
-    import_neon_serverless = require("drizzle-orm/neon-serverless");
-    import_ws = __toESM(require("ws"), 1);
-    init_schema();
-    import_serverless.neonConfig.webSocketConstructor = import_ws.default;
-    if (!process.env.DATABASE_URL) {
-      console.warn("\u26A0\uFE0F DATABASE_URL not set - database features will be limited");
-      console.warn("\u26A0\uFE0F Sessions will use memory store");
-      pool = new import_serverless.Pool({ connectionString: "postgresql://dummy:dummy@localhost:5432/dummy" });
-      db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
-    } else {
-      pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
-      db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
-    }
-  }
+var insertUserSchema = (0, import_drizzle_zod.createInsertSchema)(users).pick({
+  username: true,
+  password: true
 });
-
-// server/test-db-connection.ts
-var test_db_connection_exports = {};
-__export(test_db_connection_exports, {
-  testDatabaseConnection: () => testDatabaseConnection,
-  validateDatabaseUrl: () => validateDatabaseUrl
+var contacts = (0, import_pg_core.pgTable)("contacts", {
+  id: (0, import_pg_core.serial)("id").primaryKey(),
+  name: (0, import_pg_core.text)("name").notNull(),
+  email: (0, import_pg_core.text)("email").notNull(),
+  company: (0, import_pg_core.text)("company"),
+  service: (0, import_pg_core.text)("service").notNull(),
+  message: (0, import_pg_core.text)("message").notNull(),
+  privacy: (0, import_pg_core.boolean)("privacy").notNull(),
+  createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
 });
-async function testDatabaseConnection() {
-  if (!process.env.DATABASE_URL) {
-    console.warn("\u26A0\uFE0F Skipping database test - DATABASE_URL not configured");
-    return false;
-  }
-  try {
-    console.log("Testing database connection...");
-    const client = await pool.connect();
-    const result = await client.query("SELECT NOW() as current_time, version() as postgres_version");
-    client.release();
-    console.log("\u2713 Database connection successful");
-    console.log(`  PostgreSQL version: ${result.rows[0].postgres_version.split(",")[0]}`);
-    console.log(`  Server time: ${result.rows[0].current_time}`);
-    return true;
-  } catch (error) {
-    console.error("\u2717 Database connection failed");
-    console.error(`  Error: ${error.message}`);
-    if (error.code === "ENOTFOUND") {
-      console.error("  \u2192 Database host not found. Check DATABASE_URL hostname.");
-    } else if (error.code === "ECONNREFUSED") {
-      console.error("  \u2192 Connection refused. Check if database is running and port is correct.");
-    } else if (error.code === "28P01") {
-      console.error("  \u2192 Authentication failed. Check database username/password.");
-    }
-    console.error("  DATABASE_URL format should be: postgresql://user:pass@host:port/dbname?sslmode=require");
-    return false;
-  }
-}
-function validateDatabaseUrl() {
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) {
-    console.warn("\u26A0\uFE0F DATABASE_URL environment variable is not set");
-    return false;
-  }
-  if (!dbUrl.startsWith("postgresql://") && !dbUrl.startsWith("postgres://")) {
-    console.error("\u274C DATABASE_URL must start with postgresql:// or postgres://");
-    return false;
-  }
-  console.log("\u2713 DATABASE_URL format looks valid");
-  return true;
-}
-var init_test_db_connection = __esm({
-  "server/test-db-connection.ts"() {
-    "use strict";
-    init_db();
-  }
+var contactSchema = import_zod.z.object({
+  name: import_zod.z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+  email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
+  company: import_zod.z.string().optional(),
+  service: import_zod.z.string({ required_error: "Por favor selecciona un servicio" }),
+  message: import_zod.z.string().min(10, { message: "Tu mensaje debe tener al menos 10 caracteres" }),
+  privacy: import_zod.z.boolean().refine((val) => val === true, {
+    message: "Debes aceptar la pol\xEDtica de privacidad"
+  })
 });
-
-// server/index.ts
-var import_config = require("dotenv/config");
-var import_express3 = __toESM(require("express"), 1);
+var newsletters = (0, import_pg_core.pgTable)("newsletters", {
+  id: (0, import_pg_core.serial)("id").primaryKey(),
+  email: (0, import_pg_core.text)("email").notNull().unique(),
+  createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+});
+var newsletterSchema = import_zod.z.object({
+  email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" })
+});
+var appointments = (0, import_pg_core.pgTable)("appointments", {
+  id: (0, import_pg_core.serial)("id").primaryKey(),
+  name: (0, import_pg_core.text)("name").notNull(),
+  email: (0, import_pg_core.text)("email").notNull(),
+  phone: (0, import_pg_core.text)("phone"),
+  company: (0, import_pg_core.text)("company"),
+  date: (0, import_pg_core.timestamp)("date").notNull(),
+  duration: (0, import_pg_core.integer)("duration").notNull().default(60),
+  // duración en minutos
+  service: (0, import_pg_core.text)("service").notNull(),
+  // tipo de servicio requerido
+  message: (0, import_pg_core.text)("message"),
+  status: (0, import_pg_core.text)("status").notNull().default("pending"),
+  // pending, confirmed, cancelled
+  createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+});
+var appointmentSchema = import_zod.z.object({
+  name: import_zod.z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+  email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
+  phone: import_zod.z.string().optional(),
+  company: import_zod.z.string().optional(),
+  date: import_zod.z.coerce.date({ required_error: "Por favor selecciona una fecha y hora" }),
+  duration: import_zod.z.number().int().positive().default(60),
+  service: import_zod.z.string({ required_error: "Por favor selecciona un servicio" }),
+  message: import_zod.z.string().optional(),
+  status: import_zod.z.enum(["pending", "confirmed", "cancelled"]).default("pending"),
+  privacy: import_zod.z.boolean().refine((val) => val === true, {
+    message: "Debes aceptar la pol\xEDtica de privacidad"
+  })
+});
+var articles = (0, import_pg_core.pgTable)("articles", {
+  id: (0, import_pg_core.serial)("id").primaryKey(),
+  slug: (0, import_pg_core.text)("slug").notNull().unique(),
+  title: (0, import_pg_core.text)("title").notNull(),
+  content: (0, import_pg_core.text)("content").notNull(),
+  excerpt: (0, import_pg_core.text)("excerpt").notNull(),
+  image: (0, import_pg_core.text)("image").notNull(),
+  category: (0, import_pg_core.text)("category").notNull(),
+  readTime: (0, import_pg_core.text)("read_time").notNull(),
+  date: (0, import_pg_core.text)("date").notNull(),
+  language: (0, import_pg_core.text)("language").notNull().default("es"),
+  createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+});
+var insertArticleSchema = (0, import_drizzle_zod.createInsertSchema)(articles).pick({
+  slug: true,
+  title: true,
+  content: true,
+  excerpt: true,
+  image: true,
+  category: true,
+  readTime: true,
+  date: true,
+  language: true
+});
 
 // server/routes.ts
-var import_express = __toESM(require("express"), 1);
-var import_http = require("http");
-var import_openai2 = __toESM(require("openai"), 1);
-
-// server/storage.ts
-var import_express_session = __toESM(require("express-session"), 1);
-init_schema();
-init_schema();
-init_schema();
-init_schema();
-init_schema();
-init_db();
-var import_drizzle_orm = require("drizzle-orm");
-var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
-init_db();
-var PgSessionStore = (0, import_connect_pg_simple.default)(import_express_session.default);
-var DatabaseStorage = class {
-  sessionStore;
-  constructor() {
-    try {
-      this.sessionStore = new PgSessionStore({
-        pool,
-        createTableIfMissing: true
-      });
-      console.log("\u2713 Using PostgreSQL session store");
-    } catch (error) {
-      console.warn("\u26A0 PostgreSQL session store unavailable, using memory store:", error);
-      console.warn("\u26A0 Sessions will be lost on server restart");
-      try {
-        const createMemoryStore = require("memorystore");
-        const MemoryStore = createMemoryStore(import_express_session.default);
-        this.sessionStore = new MemoryStore({
-          checkPeriod: 864e5
-          // prune expired entries every 24h
-        });
-      } catch (memError) {
-        console.error("\u274C Cannot load memorystore, using default session store");
-        this.sessionStore = new import_express_session.default.MemoryStore();
-      }
-    }
-  }
-  // User methods
-  async getUser(id) {
-    const [user] = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.id, id));
-    return user;
-  }
-  // ... rest of the class implementation remains the same, just need to make sure I don't delete it.
-  // I will use replace_file_content carefully.
-  async getUserByUsername(username) {
-    const [user] = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.username, username));
-    return user;
-  }
-  async createUser(insertUser) {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    return user;
-  }
-  // Contact methods
-  async createContact(insertContact) {
-    const [contact] = await db.insert(contacts).values({
-      name: insertContact.name,
-      email: insertContact.email,
-      company: insertContact.company || null,
-      service: insertContact.service,
-      message: insertContact.message,
-      privacy: insertContact.privacy
-    }).returning();
-    return contact;
-  }
-  async getAllContacts() {
-    return await db.select().from(contacts);
-  }
-  // Newsletter methods
-  async createNewsletterSubscription(insertNewsletter) {
-    const [existingSubscription] = await db.select().from(newsletters).where((0, import_drizzle_orm.eq)(newsletters.email, insertNewsletter.email));
-    if (existingSubscription) {
-      return existingSubscription;
-    }
-    const [subscription] = await db.insert(newsletters).values(insertNewsletter).returning();
-    return subscription;
-  }
-  async getAllNewsletterSubscriptions() {
-    return await db.select().from(newsletters);
-  }
-  // Appointment methods
-  async createAppointment(insertAppointment) {
-    const [appointment] = await db.insert(appointments).values({
-      name: insertAppointment.name,
-      email: insertAppointment.email,
-      phone: insertAppointment.phone || null,
-      company: insertAppointment.company || null,
-      date: insertAppointment.date,
-      duration: insertAppointment.duration,
-      service: insertAppointment.service,
-      message: insertAppointment.message || null,
-      status: insertAppointment.status
-    }).returning();
-    this.invalidateAvailabilityCache(new Date(insertAppointment.date));
-    return appointment;
-  }
-  async getAppointmentById(id) {
-    const [appointment] = await db.select().from(appointments).where((0, import_drizzle_orm.eq)(appointments.id, id));
-    return appointment;
-  }
-  async getAllAppointments() {
-    return await db.select().from(appointments);
-  }
-  async getAppointmentsByDate(date) {
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date(date);
-    endOfDay.setHours(23, 59, 59, 999);
-    const result = await db.select().from(appointments).where(
-      import_drizzle_orm.sql`${appointments.date} >= ${startOfDay} AND ${appointments.date} <= ${endOfDay}`
-    );
-    return result;
-  }
-  async updateAppointmentStatus(id, status) {
-    const [appointment] = await db.update(appointments).set({ status }).where((0, import_drizzle_orm.eq)(appointments.id, id)).returning();
-    if (appointment) {
-      this.invalidateAvailabilityCache(new Date(appointment.date));
-    }
-    return appointment;
-  }
-  // Cache for availability
-  availabilityCache = /* @__PURE__ */ new Map();
-  CACHE_TTL = 5 * 60 * 1e3;
-  // 5 minutes
-  async getAvailableSlots(date) {
-    const cacheKey = date.toISOString().split("T")[0];
-    const cached = this.availabilityCache.get(cacheKey);
-    if (cached && Date.now() - cached.timestamp < this.CACHE_TTL) {
-      return cached.data;
-    }
-    const workStartHour = 9;
-    const workEndHour = 18;
-    const slotDuration = 60;
-    const bookedAppointments = await this.getAppointmentsByDate(date);
-    const allSlots = [];
-    const startOfDay = new Date(date);
-    startOfDay.setHours(workStartHour, 0, 0, 0);
-    const endOfDay = new Date(date);
-    endOfDay.setHours(workEndHour, 0, 0, 0);
-    let currentSlotStart = new Date(startOfDay);
-    while (currentSlotStart < endOfDay) {
-      const currentSlotEnd = new Date(currentSlotStart);
-      currentSlotEnd.setMinutes(currentSlotStart.getMinutes() + slotDuration);
-      if (currentSlotEnd <= endOfDay) {
-        allSlots.push({
-          start: new Date(currentSlotStart),
-          end: new Date(currentSlotEnd)
-        });
-      }
-      currentSlotStart.setMinutes(currentSlotStart.getMinutes() + slotDuration);
-    }
-    const availableSlots = allSlots.filter((slot) => {
-      return !bookedAppointments.some((appointment) => {
-        const appointmentStartTime = new Date(appointment.date);
-        const appointmentEndTime = new Date(appointment.date);
-        appointmentEndTime.setMinutes(appointmentEndTime.getMinutes() + appointment.duration);
-        return slot.start >= appointmentStartTime && slot.start < appointmentEndTime || slot.end > appointmentStartTime && slot.end <= appointmentEndTime || slot.start <= appointmentStartTime && slot.end >= appointmentEndTime;
-      });
-    });
-    this.availabilityCache.set(cacheKey, { data: availableSlots, timestamp: Date.now() });
-    return availableSlots;
-  }
-  invalidateAvailabilityCache(date) {
-    const cacheKey = date.toISOString().split("T")[0];
-    this.availabilityCache.delete(cacheKey);
-  }
-  // Article methods
-  async createArticle(insertArticle) {
-    const [article] = await db.insert(articles).values(insertArticle).returning();
-    return article;
-  }
-  async getArticleBySlug(slug) {
-    const [article] = await db.select().from(articles).where((0, import_drizzle_orm.eq)(articles.slug, slug));
-    return article;
-  }
-  async getAllArticles() {
-    return await db.select().from(articles).orderBy(import_drizzle_orm.sql`${articles.createdAt} DESC`);
-  }
-  async updateArticle(id, articleUpdate) {
-    const [updatedArticle] = await db.update(articles).set(articleUpdate).where((0, import_drizzle_orm.eq)(articles.id, id)).returning();
-    return updatedArticle;
-  }
-};
-var storage = new DatabaseStorage();
-
-// server/routes.ts
-init_schema();
 var import_zod2 = require("zod");
-
-// server/api/chat.ts
-var import_openai = __toESM(require("openai"), 1);
-var openai = null;
-if (process.env.OPENAI_API_KEY) {
-  openai = new import_openai.default({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-}
-var contextInfo = `
-Eva P\xE9rez: Experta en Estrategia de Hospitalidad y Bienestar de Lujo (>20 a\xF1os exp).
-Misi\xF3n: Transformar \xE1reas wellness de hoteles en motores de rentabilidad estrat\xE9gica.
-
-Servicios:
-1. Consultor\xEDa: Viabilidad, concepto, diferenciaci\xF3n.
-2. Gesti\xF3n de Proyectos: Dise\xF1o, proveedores, ejecuci\xF3n.
-3. Revenue Management: Pricing, fidelizaci\xF3n, KPIs.
-4. Formaci\xF3n: Liderazgo, protocolos de excelencia.
-
-Propuesta de Valor: Aumento RevPAR, gasto medio y satisfacci\xF3n del cliente. Hotel Wellness como activo financiero.
-
-Instrucciones ESTRAT\xC9GICAS (Lead Generation):
-- Rol: Asistente virtual experto y persuasivo.
-- Objetivo Principal: CAPTAR LEADS (emails). No solo informes, \xA1vende el siguiente paso!
-- T\xE1ctica: Si el usuario pregunta por precios, servicios espec\xEDficos o muestra inter\xE9s real, NO des toda la informaci\xF3n de golpe.
-- Acci\xF3n Clave: Ofr\xE9cele enviarle un "Dossier Ejecutivo" o la "Gu\xEDa de Rentabilidad" por email.
-- Ejemplo: "Para darte un presupuesto exacto, puedo enviarte nuestro Dossier de Servicios y un caso de \xE9xito similar al tuyo. \xBFMe facilitas tu correo electr\xF3nico?"
-- Idioma: Responde en el idioma del usuario.
-`;
-async function handleChatRequest(req, res) {
-  try {
-    const { messages } = req.body;
-    if (!messages || !Array.isArray(messages)) {
-      return res.status(400).json({ error: "Se requiere un array de mensajes" });
-    }
-    const systemMessage = {
-      role: "system",
-      content: contextInfo
-    };
-    if (!openai) {
-      return res.status(503).json({
-        error: "El servicio de chat no est\xE1 disponible en este momento (Falta configuraci\xF3n de OpenAI)",
-        details: "OPENAI_API_KEY no est\xE1 definida"
-      });
-    }
-    const chatCompletion = await openai.chat.completions.create({
-      model: "gpt-4o",
-      // El modelo más reciente de OpenAI
-      messages: [systemMessage, ...messages],
-      max_tokens: 500,
-      temperature: 0.7
-    });
-    res.json({
-      response: chatCompletion.choices[0].message,
-      usage: chatCompletion.usage
-    });
-  } catch (err) {
-    const error = err;
-    console.error("Error en la API de chat:", error);
-    res.status(500).json({
-      error: "Error al procesar la solicitud del chat",
-      details: error.message || "Error desconocido"
-    });
-  }
-}
-
-// server/services/email.ts
-var import_nodemailer = __toESM(require("nodemailer"), 1);
-var EmailService = class {
-  transporter;
-  constructor() {
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      if (process.env.EMAIL_SERVICE) {
-        this.transporter = import_nodemailer.default.createTransport({
-          service: process.env.EMAIL_SERVICE,
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-          }
-        });
-      } else {
-        this.transporter = import_nodemailer.default.createTransport({
-          host: process.env.SMTP_HOST || "smtp.gmail.com",
-          port: parseInt(process.env.SMTP_PORT || "587"),
-          secure: process.env.SMTP_SECURE === "true",
-          // true for 465, false for other ports
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-          }
-        });
-      }
-    } else {
-      this.transporter = import_nodemailer.default.createTransport({
-        jsonTransport: true
-      });
-    }
-  }
-  async sendEmail(options) {
-    try {
-      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        console.log("---------------------------------------------------");
-        console.log("\u{1F4E7} [MOCK EMAIL SERVICE] Email would be sent:");
-        console.log(`From: ${process.env.EMAIL_FROM || "noreply@example.com"}`);
-        console.log(`To: ${options.to}`);
-        console.log(`Subject: ${options.subject}`);
-        console.log(`Text: ${options.text}`);
-        console.log("---------------------------------------------------");
-        return true;
-      }
-      const result = await this.transporter.sendMail({
-        from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-        to: options.to,
-        subject: options.subject,
-        text: options.text,
-        html: options.html
-      });
-      console.log(`\u2705 Email sent successfully to ${options.to}`);
-      console.log(`Message ID: ${result.messageId}`);
-      return true;
-    } catch (error) {
-      console.error("\u274C Error sending email:", error);
-      return false;
-    }
-  }
-};
-var emailService = new EmailService();
-
-// server/routes.ts
 var import_express_rate_limit = __toESM(require("express-rate-limit"), 1);
 var limiter = (0, import_express_rate_limit.default)({
   windowMs: 15 * 60 * 1e3,
@@ -683,7 +384,14 @@ https://evaperez-wellness.com
       });
     }
   });
-  app2.post("/api/chat", limiter, handleChatRequest);
+  app2.post("/api/chat", limiter, async (req, res) => {
+    return res.status(200).json({
+      response: {
+        role: "assistant",
+        content: "Hola! El chatbot est\xE1 temporalmente desactivado. Por favor, usa el formulario de contacto para comunicarte conmigo. \xA1Gracias!"
+      }
+    });
+  });
   app2.post("/api/appointments", async (req, res) => {
     try {
       const appointmentData = appointmentSchema.parse(req.body);
@@ -825,8 +533,8 @@ https://evaperez-wellness.com
       if (!process.env.OPENAI_API_KEY) {
         return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
       }
-      const openai2 = new import_openai2.default({ apiKey: process.env.OPENAI_API_KEY });
-      const completion = await openai2.chat.completions.create({
+      const openai = new import_openai.default({ apiKey: process.env.OPENAI_API_KEY });
+      const completion = await openai.chat.completions.create({
         model: "gpt-4o",
         messages: [
           {
@@ -999,9 +707,207 @@ function serveStatic(app2) {
 // server/auth.ts
 var import_passport = __toESM(require("passport"), 1);
 var import_passport_local = require("passport-local");
-var import_express_session2 = __toESM(require("express-session"), 1);
+var import_express_session3 = __toESM(require("express-session"), 1);
 var import_crypto = require("crypto");
 var import_util = require("util");
+
+// server/storage.ts
+var import_express_session2 = __toESM(require("express-session"), 1);
+
+// server/db.ts
+var import_serverless = require("@neondatabase/serverless");
+var import_neon_serverless = require("drizzle-orm/neon-serverless");
+var import_ws = __toESM(require("ws"), 1);
+import_serverless.neonConfig.webSocketConstructor = import_ws.default;
+var pool;
+var db;
+if (!process.env.DATABASE_URL) {
+  console.warn("\u26A0\uFE0F DATABASE_URL not set - database features will be limited");
+  console.warn("\u26A0\uFE0F Sessions will use memory store");
+  pool = new import_serverless.Pool({ connectionString: "postgresql://dummy:dummy@localhost:5432/dummy" });
+  db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
+} else {
+  pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
+  db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
+}
+
+// server/storage.ts
+var import_drizzle_orm = require("drizzle-orm");
+var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
+var PgSessionStore = (0, import_connect_pg_simple.default)(import_express_session2.default);
+var DatabaseStorage = class {
+  sessionStore;
+  constructor() {
+    try {
+      this.sessionStore = new PgSessionStore({
+        pool,
+        createTableIfMissing: true
+      });
+      console.log("\u2713 Using PostgreSQL session store");
+    } catch (error) {
+      console.warn("\u26A0 PostgreSQL session store unavailable, using memory store:", error);
+      console.warn("\u26A0 Sessions will be lost on server restart");
+      try {
+        const createMemoryStore = require("memorystore");
+        const MemoryStore = createMemoryStore(import_express_session2.default);
+        this.sessionStore = new MemoryStore({
+          checkPeriod: 864e5
+          // prune expired entries every 24h
+        });
+      } catch (memError) {
+        console.error("\u274C Cannot load memorystore, using default session store");
+        this.sessionStore = new import_express_session2.default.MemoryStore();
+      }
+    }
+  }
+  // User methods
+  async getUser(id) {
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.id, id));
+    return user;
+  }
+  // ... rest of the class implementation remains the same, just need to make sure I don't delete it.
+  // I will use replace_file_content carefully.
+  async getUserByUsername(username) {
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.username, username));
+    return user;
+  }
+  async createUser(insertUser) {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+  // Contact methods
+  async createContact(insertContact) {
+    const [contact] = await db.insert(contacts).values({
+      name: insertContact.name,
+      email: insertContact.email,
+      company: insertContact.company || null,
+      service: insertContact.service,
+      message: insertContact.message,
+      privacy: insertContact.privacy
+    }).returning();
+    return contact;
+  }
+  async getAllContacts() {
+    return await db.select().from(contacts);
+  }
+  // Newsletter methods
+  async createNewsletterSubscription(insertNewsletter) {
+    const [existingSubscription] = await db.select().from(newsletters).where((0, import_drizzle_orm.eq)(newsletters.email, insertNewsletter.email));
+    if (existingSubscription) {
+      return existingSubscription;
+    }
+    const [subscription] = await db.insert(newsletters).values(insertNewsletter).returning();
+    return subscription;
+  }
+  async getAllNewsletterSubscriptions() {
+    return await db.select().from(newsletters);
+  }
+  // Appointment methods
+  async createAppointment(insertAppointment) {
+    const [appointment] = await db.insert(appointments).values({
+      name: insertAppointment.name,
+      email: insertAppointment.email,
+      phone: insertAppointment.phone || null,
+      company: insertAppointment.company || null,
+      date: insertAppointment.date,
+      duration: insertAppointment.duration,
+      service: insertAppointment.service,
+      message: insertAppointment.message || null,
+      status: insertAppointment.status
+    }).returning();
+    this.invalidateAvailabilityCache(new Date(insertAppointment.date));
+    return appointment;
+  }
+  async getAppointmentById(id) {
+    const [appointment] = await db.select().from(appointments).where((0, import_drizzle_orm.eq)(appointments.id, id));
+    return appointment;
+  }
+  async getAllAppointments() {
+    return await db.select().from(appointments);
+  }
+  async getAppointmentsByDate(date) {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+    const result = await db.select().from(appointments).where(
+      import_drizzle_orm.sql`${appointments.date} >= ${startOfDay} AND ${appointments.date} <= ${endOfDay}`
+    );
+    return result;
+  }
+  async updateAppointmentStatus(id, status) {
+    const [appointment] = await db.update(appointments).set({ status }).where((0, import_drizzle_orm.eq)(appointments.id, id)).returning();
+    if (appointment) {
+      this.invalidateAvailabilityCache(new Date(appointment.date));
+    }
+    return appointment;
+  }
+  // Cache for availability
+  availabilityCache = /* @__PURE__ */ new Map();
+  CACHE_TTL = 5 * 60 * 1e3;
+  // 5 minutes
+  async getAvailableSlots(date) {
+    const cacheKey = date.toISOString().split("T")[0];
+    const cached = this.availabilityCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < this.CACHE_TTL) {
+      return cached.data;
+    }
+    const workStartHour = 9;
+    const workEndHour = 18;
+    const slotDuration = 60;
+    const bookedAppointments = await this.getAppointmentsByDate(date);
+    const allSlots = [];
+    const startOfDay = new Date(date);
+    startOfDay.setHours(workStartHour, 0, 0, 0);
+    const endOfDay = new Date(date);
+    endOfDay.setHours(workEndHour, 0, 0, 0);
+    let currentSlotStart = new Date(startOfDay);
+    while (currentSlotStart < endOfDay) {
+      const currentSlotEnd = new Date(currentSlotStart);
+      currentSlotEnd.setMinutes(currentSlotStart.getMinutes() + slotDuration);
+      if (currentSlotEnd <= endOfDay) {
+        allSlots.push({
+          start: new Date(currentSlotStart),
+          end: new Date(currentSlotEnd)
+        });
+      }
+      currentSlotStart.setMinutes(currentSlotStart.getMinutes() + slotDuration);
+    }
+    const availableSlots = allSlots.filter((slot) => {
+      return !bookedAppointments.some((appointment) => {
+        const appointmentStartTime = new Date(appointment.date);
+        const appointmentEndTime = new Date(appointment.date);
+        appointmentEndTime.setMinutes(appointmentEndTime.getMinutes() + appointment.duration);
+        return slot.start >= appointmentStartTime && slot.start < appointmentEndTime || slot.end > appointmentStartTime && slot.end <= appointmentEndTime || slot.start <= appointmentStartTime && slot.end >= appointmentEndTime;
+      });
+    });
+    this.availabilityCache.set(cacheKey, { data: availableSlots, timestamp: Date.now() });
+    return availableSlots;
+  }
+  invalidateAvailabilityCache(date) {
+    const cacheKey = date.toISOString().split("T")[0];
+    this.availabilityCache.delete(cacheKey);
+  }
+  // Article methods
+  async createArticle(insertArticle) {
+    const [article] = await db.insert(articles).values(insertArticle).returning();
+    return article;
+  }
+  async getArticleBySlug(slug) {
+    const [article] = await db.select().from(articles).where((0, import_drizzle_orm.eq)(articles.slug, slug));
+    return article;
+  }
+  async getAllArticles() {
+    return await db.select().from(articles).orderBy(import_drizzle_orm.sql`${articles.createdAt} DESC`);
+  }
+  async updateArticle(id, articleUpdate) {
+    const [updatedArticle] = await db.update(articles).set(articleUpdate).where((0, import_drizzle_orm.eq)(articles.id, id)).returning();
+    return updatedArticle;
+  }
+};
+var storage2 = new DatabaseStorage();
+
+// server/auth.ts
 var scryptAsync = (0, import_util.promisify)(import_crypto.scrypt);
 async function hashPassword(password) {
   const salt = (0, import_crypto.randomBytes)(16).toString("hex");
@@ -1019,17 +925,17 @@ function setupAuth(app2) {
     secret: process.env.SESSION_SECRET || "super_secret_key_change_in_prod",
     resave: false,
     saveUninitialized: false,
-    store: storage.sessionStore
+    store: storage2.sessionStore
   };
   if (app2.get("env") === "production") {
     app2.set("trust proxy", 1);
   }
-  app2.use((0, import_express_session2.default)(sessionSettings));
+  app2.use((0, import_express_session3.default)(sessionSettings));
   app2.use(import_passport.default.initialize());
   app2.use(import_passport.default.session());
   import_passport.default.use(
     new import_passport_local.Strategy(async (username, password, done) => {
-      const user = await storage.getUserByUsername(username);
+      const user = await storage2.getUserByUsername(username);
       if (!user || !await comparePasswords(password, user.password)) {
         return done(null, false);
       } else {
@@ -1039,7 +945,7 @@ function setupAuth(app2) {
   );
   import_passport.default.serializeUser((user, done) => done(null, user.id));
   import_passport.default.deserializeUser(async (id, done) => {
-    const user = await storage.getUser(id);
+    const user = await storage2.getUser(id);
     done(null, user);
   });
   app2.post("/api/login", import_passport.default.authenticate("local"), (req, res) => {
@@ -1047,12 +953,12 @@ function setupAuth(app2) {
   });
   app2.post("/api/register", async (req, res, next) => {
     try {
-      const existingUser = await storage.getUserByUsername(req.body.username);
+      const existingUser = await storage2.getUserByUsername(req.body.username);
       if (existingUser) {
         return res.status(400).send("Username already exists");
       }
       const hashedPassword = await hashPassword(req.body.password);
-      const user = await storage.createUser({
+      const user = await storage2.createUser({
         ...req.body,
         password: hashedPassword
       });
@@ -1119,52 +1025,53 @@ app.use((req, res, next) => {
 });
 (async () => {
   try {
-    console.log("\u{1F680} Starting PersonalBrandSpa server...");
+    console.log("");
+    console.log("\u{1F680} ================================");
+    console.log("\u{1F680} PersonalBrandSpa MINIMAL VERSION");
+    console.log("\u{1F680} ================================");
     console.log(`Environment: ${app.get("env")}`);
-    console.log(`Node version: ${process.version}`);
+    console.log(`Node: ${process.version}`);
     console.log(`Platform: ${process.platform}`);
-    try {
-      const { testDatabaseConnection: testDatabaseConnection2 } = await Promise.resolve().then(() => (init_test_db_connection(), test_db_connection_exports));
-      const dbConnected = await testDatabaseConnection2();
-      if (!dbConnected) {
-        console.warn("\u26A0 Starting server without database connection");
-        console.warn("\u26A0 Using memory store for sessions");
-      }
-    } catch (dbError) {
-      console.warn("\u26A0 Database test failed, continuing anyway:", dbError.message);
-    }
+    console.log("");
+    console.log("\u2705 Database: DISABLED (memory only)");
+    console.log("\u2705 Email: DISABLED (console only)");
+    console.log("\u2705 OpenAI: DISABLED");
+    console.log("");
     setupAuth(app);
     const server = await registerRoutes(app);
     app.use((err, _req, res, _next) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
       res.status(status).json({ message });
-      console.error("\u274C Error handler:", err);
+      console.error("\u274C Error:", message);
     });
     const environment = app.get("env");
     if (environment === "development") {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
-      console.log("Vite dev server setup complete.");
     } else {
       console.log("\u{1F4C1} Serving static files from dist/public");
       serveStatic(app);
     }
     const port = parseInt(process.env.PORT || "5000", 10);
-    console.log(`\u{1F3AF} Attempting to listen on port ${port}...`);
     server.listen(port, "0.0.0.0", () => {
       console.log("");
       console.log("\u2705 ================================");
-      console.log(`\u2705 Server successfully started!`);
-      console.log(`\u2705 Listening on port ${port}`);
+      console.log(`\u2705 SERVER STARTED SUCCESSFULLY!`);
+      console.log(`\u2705 Port: ${port}`);
       console.log(`\u2705 URL: http://localhost:${port}`);
       console.log("\u2705 ================================");
+      console.log("");
+      console.log("\u26A0\uFE0F  REMEMBER: This is a minimal version");
+      console.log("\u26A0\uFE0F  - No database (data in memory only)");
+      console.log("\u26A0\uFE0F  - No emails sent (logged to console)");
+      console.log("\u26A0\uFE0F  - No AI chatbot");
       console.log("");
     });
   } catch (error) {
     console.error("");
     console.error("\u274C ================================");
-    console.error("\u274C FATAL ERROR DURING STARTUP");
+    console.error("\u274C FATAL STARTUP ERROR");
     console.error("\u274C ================================");
     console.error(error);
     console.error("");

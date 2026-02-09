@@ -1,12 +1,22 @@
-import express, { type Express } from "express";
+import express, { type Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
+import type { Express } from "express";
 import OpenAI from "openai";
-import { storage } from "./storage";
-import { contactSchema, newsletterSchema, appointmentSchema } from "@shared/schema";
+
+// Minimal imports - no database
+import { storage } from "./storage-minimal";
+import { emailService } from "./email-minimal";
+
+// Schemas still needed for validation
+import {
+  contactSchema,
+  newsletterSchema,
+  appointmentSchema,
+} from "@shared/schema";
+
 import { z } from "zod";
-import { ZodError } from "zod-validation-error";
-import { handleChatRequest } from "./api/chat";
-import { emailService } from "./services/email";
+import { ZodError } from "zod-validation-error"; // Keep this as it's used later
+import { handleChatRequest } from "./api/chat"; // Keep this as it's used later
 import rateLimit from "express-rate-limit";
 
 const limiter = rateLimit({
@@ -166,7 +176,15 @@ https://evaperez-wellness.com
   });
 
   // Chatbot API endpoint
-  app.post('/api/chat', limiter, handleChatRequest);
+  // Chatbot endpoint - DISABLED for minimal version
+  app.post("/api/chat", limiter, async (req, res) => {
+    return res.status(200).json({
+      response: {
+        role: "assistant",
+        content: "Hola! El chatbot está temporalmente desactivado. Por favor, usa el formulario de contacto para comunicarte conmigo. ¡Gracias!"
+      }
+    });
+  });
 
   // Appointment endpoints
   // 1. Crear una nueva cita

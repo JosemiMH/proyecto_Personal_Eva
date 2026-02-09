@@ -54,24 +54,20 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
-    console.log('🚀 Starting PersonalBrandSpa server...');
+    console.log('');
+    console.log('🚀 ================================');
+    console.log('🚀 PersonalBrandSpa MINIMAL VERSION');
+    console.log('🚀 ================================');
     console.log(`Environment: ${app.get("env")}`);
-    console.log(`Node version: ${process.version}`);
+    console.log(`Node: ${process.version}`);
     console.log(`Platform: ${process.platform}`);
+    console.log('');
+    console.log('✅ Database: DISABLED (memory only)');
+    console.log('✅ Email: DISABLED (console only)');
+    console.log('✅ OpenAI: DISABLED');
+    console.log('');
 
-    // Test database connection (non-blocking, won't crash if fails)
-    try {
-      const { testDatabaseConnection } = await import('./test-db-connection');
-      const dbConnected = await testDatabaseConnection();
-      if (!dbConnected) {
-        console.warn('⚠ Starting server without database connection');
-        console.warn('⚠ Using memory store for sessions');
-      }
-    } catch (dbError: any) {
-      console.warn('⚠ Database test failed, continuing anyway:', dbError.message);
-    }
-
-    // Setup auth and routes
+    // Setup auth and routes (simplified)
     setupAuth(app);
     const server = await registerRoutes(app);
 
@@ -80,7 +76,7 @@ app.use((req, res, next) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
       res.status(status).json({ message });
-      console.error('❌ Error handler:', err);
+      console.error('❌ Error:', message);
     });
 
     // Setup Vite (dev) or static serving (production)
@@ -88,7 +84,6 @@ app.use((req, res, next) => {
     if (environment === "development") {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
-      console.log("Vite dev server setup complete.");
     } else {
       console.log("📁 Serving static files from dist/public");
       serveStatic(app);
@@ -96,22 +91,26 @@ app.use((req, res, next) => {
 
     // Start listening
     const port = parseInt(process.env.PORT || "5000", 10);
-    console.log(`🎯 Attempting to listen on port ${port}...`);
 
     server.listen(port, "0.0.0.0", () => {
       console.log('');
       console.log('✅ ================================');
-      console.log(`✅ Server successfully started!`);
-      console.log(`✅ Listening on port ${port}`);
+      console.log(`✅ SERVER STARTED SUCCESSFULLY!`);
+      console.log(`✅ Port: ${port}`);
       console.log(`✅ URL: http://localhost:${port}`);
       console.log('✅ ================================');
+      console.log('');
+      console.log('⚠️  REMEMBER: This is a minimal version');
+      console.log('⚠️  - No database (data in memory only)');
+      console.log('⚠️  - No emails sent (logged to console)');
+      console.log('⚠️  - No AI chatbot');
       console.log('');
     });
 
   } catch (error) {
     console.error('');
     console.error('❌ ================================');
-    console.error('❌ FATAL ERROR DURING STARTUP');
+    console.error('❌ FATAL STARTUP ERROR');
     console.error('❌ ================================');
     console.error(error);
     console.error('');
