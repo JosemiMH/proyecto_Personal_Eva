@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express, { type Request, Response, NextFunction } from "express";
+import express from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { setupAuth } from "./auth";
@@ -53,40 +53,68 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  setupAuth(app);
-  const server = await registerRoutes(app);
+  try {
+    // Import database test utility
+    const { testDatabaseConnection, validateDatabaseUrl } = await import('./test-db-connection');
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    // Validate DATABASE_URL first
+    if (!validateDatabaseUrl()) {
+      console.error('Please set DATABASE_URL in your environment variables');
+      console.error('Example: postgresql://user:pass@host:port/dbname?sslmode=require');
+      // Continue anyway - will use memory store for sessions
+    }
 
-    res.status(status).json({ message });
-    throw err;
-  });
+    // Test database connection (non-blocking)
+    const dbConnected = await testDatabaseConnection();
+    if (!dbConnected) {
+      console.warn('⚠ Starting server without database connection');
+      console.warn('⚠ Some features may not work correctly');
+    }
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+    setupAuth(app);
+    const server = await registerRoutes(app);
+
+    app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+
+      res.status(status).json({ message });
+      console.error('Error handler:', err);
+    });
+
+    // importantly only setup vite in development and after
+    // setting up all the other routes so the catch-all route
+    // doesn't interfere with the other routes
+    const environment = app.get("env");
+    console.log(`Environment: ${environment}`);
+    console.log(`Node version: ${process.version}`);
+    console.log(`Platform: ${process.platform}`);
+
+    if (environment === "development") {
+      console.log("Setting up Vite dev server...");
+      await setupVite(app, server);
+      console.log("Vite dev server setup complete.");
+    } else {
+      console.log("Serving static files from dist/public");
+      serveStatic(app);
+    }
+
+    // ALWAYS serve the app on port 5000
+    // this serves both the API and the client.
+    // It is the only port that is not firewalled.
+    const port = parseInt(process.env.PORT || "5000", 10);
+    server.listen({
+      port,
+      host: "0.0.0.0",
+
+    }, () => {
+      log(`serving on port ${port}`);
+      log(`Visit: http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.error('Fatal error during startup:', error);
+    process.exit(1);
   }
-
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-
-  }, () => {
-    log(`serving on port ${port}`);
-  });
 })();
 
 // Global error handler for uncaught exceptions

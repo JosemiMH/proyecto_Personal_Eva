@@ -1,5 +1,5 @@
 import session from "express-session";
-// import createMemoryStore from "memorystore";
+import createMemoryStore from "memorystore";
 import { users, type User, type InsertUser } from "@shared/schema";
 import { contacts, type Contact, type InsertContact } from "@shared/schema";
 import { newsletters, type Newsletter, type InsertNewsletter } from "@shared/schema";
@@ -42,10 +42,31 @@ export class DatabaseStorage implements IStorage {
   sessionStore: session.Store;
 
   constructor() {
-    this.sessionStore = new PgSessionStore({
-      pool,
-      createTableIfMissing: true,
-    });
+    try {
+      // Try PostgreSQL session store first
+      this.sessionStore = new PgSessionStore({
+        pool,
+        createTableIfMissing: true,
+      });
+      console.log('✓ Using PostgreSQL session store');
+    } catch (error) {
+      // Fallback to memory store if PostgreSQL fails
+      console.warn('⚠ PostgreSQL session store unavailable, using memory store:', error);
+      console.warn('⚠ Sessions will be lost on server restart');
+
+      // Dynamically import memorystore only if needed
+      try {
+        const createMemoryStore = require('memorystore');
+        const MemoryStore = createMemoryStore(session);
+        this.sessionStore = new MemoryStore({
+          checkPeriod: 86400000 // prune expired entries every 24h
+        });
+      } catch (memError) {
+        // If memorystore is not available, use default
+        console.error('❌ Cannot load memorystore, using default session store');
+        this.sessionStore = new session.MemoryStore();
+      }
+    }
   }
 
   // User methods

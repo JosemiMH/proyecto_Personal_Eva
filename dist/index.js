@@ -1,20 +1,33 @@
+"use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-
-// server/index.ts
-import "dotenv/config";
-import express3 from "express";
-
-// server/routes.ts
-import express from "express";
-import { createServer } from "http";
-import OpenAI2 from "openai";
-
-// server/storage.ts
-import session from "express-session";
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 
 // shared/schema.ts
 var schema_exports = {};
@@ -30,135 +43,232 @@ __export(schema_exports, {
   newsletters: () => newsletters,
   users: () => users
 });
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
-var users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull()
-});
-var insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true
-});
-var contacts = pgTable("contacts", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  company: text("company"),
-  service: text("service").notNull(),
-  message: text("message").notNull(),
-  privacy: boolean("privacy").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull()
-});
-var contactSchema = z.object({
-  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
-  email: z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
-  company: z.string().optional(),
-  service: z.string({ required_error: "Por favor selecciona un servicio" }),
-  message: z.string().min(10, { message: "Tu mensaje debe tener al menos 10 caracteres" }),
-  privacy: z.boolean().refine((val) => val === true, {
-    message: "Debes aceptar la pol\xEDtica de privacidad"
-  })
-});
-var newsletters = pgTable("newsletters", {
-  id: serial("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  createdAt: timestamp("created_at").defaultNow().notNull()
-});
-var newsletterSchema = z.object({
-  email: z.string().email({ message: "Por favor introduce un email v\xE1lido" })
-});
-var appointments = pgTable("appointments", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
-  company: text("company"),
-  date: timestamp("date").notNull(),
-  duration: integer("duration").notNull().default(60),
-  // duración en minutos
-  service: text("service").notNull(),
-  // tipo de servicio requerido
-  message: text("message"),
-  status: text("status").notNull().default("pending"),
-  // pending, confirmed, cancelled
-  createdAt: timestamp("created_at").defaultNow().notNull()
-});
-var appointmentSchema = z.object({
-  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
-  email: z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
-  phone: z.string().optional(),
-  company: z.string().optional(),
-  date: z.coerce.date({ required_error: "Por favor selecciona una fecha y hora" }),
-  duration: z.number().int().positive().default(60),
-  service: z.string({ required_error: "Por favor selecciona un servicio" }),
-  message: z.string().optional(),
-  status: z.enum(["pending", "confirmed", "cancelled"]).default("pending"),
-  privacy: z.boolean().refine((val) => val === true, {
-    message: "Debes aceptar la pol\xEDtica de privacidad"
-  })
-});
-var articles = pgTable("articles", {
-  id: serial("id").primaryKey(),
-  slug: text("slug").notNull().unique(),
-  title: text("title").notNull(),
-  content: text("content").notNull(),
-  excerpt: text("excerpt").notNull(),
-  image: text("image").notNull(),
-  category: text("category").notNull(),
-  readTime: text("read_time").notNull(),
-  date: text("date").notNull(),
-  language: text("language").notNull().default("es"),
-  createdAt: timestamp("created_at").defaultNow().notNull()
-});
-var insertArticleSchema = createInsertSchema(articles).pick({
-  slug: true,
-  title: true,
-  content: true,
-  excerpt: true,
-  image: true,
-  category: true,
-  readTime: true,
-  date: true,
-  language: true
+var import_pg_core, import_drizzle_zod, import_zod, users, insertUserSchema, contacts, contactSchema, newsletters, newsletterSchema, appointments, appointmentSchema, articles, insertArticleSchema;
+var init_schema = __esm({
+  "shared/schema.ts"() {
+    "use strict";
+    import_pg_core = require("drizzle-orm/pg-core");
+    import_drizzle_zod = require("drizzle-zod");
+    import_zod = require("zod");
+    users = (0, import_pg_core.pgTable)("users", {
+      id: (0, import_pg_core.serial)("id").primaryKey(),
+      username: (0, import_pg_core.text)("username").notNull().unique(),
+      password: (0, import_pg_core.text)("password").notNull()
+    });
+    insertUserSchema = (0, import_drizzle_zod.createInsertSchema)(users).pick({
+      username: true,
+      password: true
+    });
+    contacts = (0, import_pg_core.pgTable)("contacts", {
+      id: (0, import_pg_core.serial)("id").primaryKey(),
+      name: (0, import_pg_core.text)("name").notNull(),
+      email: (0, import_pg_core.text)("email").notNull(),
+      company: (0, import_pg_core.text)("company"),
+      service: (0, import_pg_core.text)("service").notNull(),
+      message: (0, import_pg_core.text)("message").notNull(),
+      privacy: (0, import_pg_core.boolean)("privacy").notNull(),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+    });
+    contactSchema = import_zod.z.object({
+      name: import_zod.z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+      email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
+      company: import_zod.z.string().optional(),
+      service: import_zod.z.string({ required_error: "Por favor selecciona un servicio" }),
+      message: import_zod.z.string().min(10, { message: "Tu mensaje debe tener al menos 10 caracteres" }),
+      privacy: import_zod.z.boolean().refine((val) => val === true, {
+        message: "Debes aceptar la pol\xEDtica de privacidad"
+      })
+    });
+    newsletters = (0, import_pg_core.pgTable)("newsletters", {
+      id: (0, import_pg_core.serial)("id").primaryKey(),
+      email: (0, import_pg_core.text)("email").notNull().unique(),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+    });
+    newsletterSchema = import_zod.z.object({
+      email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" })
+    });
+    appointments = (0, import_pg_core.pgTable)("appointments", {
+      id: (0, import_pg_core.serial)("id").primaryKey(),
+      name: (0, import_pg_core.text)("name").notNull(),
+      email: (0, import_pg_core.text)("email").notNull(),
+      phone: (0, import_pg_core.text)("phone"),
+      company: (0, import_pg_core.text)("company"),
+      date: (0, import_pg_core.timestamp)("date").notNull(),
+      duration: (0, import_pg_core.integer)("duration").notNull().default(60),
+      // duración en minutos
+      service: (0, import_pg_core.text)("service").notNull(),
+      // tipo de servicio requerido
+      message: (0, import_pg_core.text)("message"),
+      status: (0, import_pg_core.text)("status").notNull().default("pending"),
+      // pending, confirmed, cancelled
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+    });
+    appointmentSchema = import_zod.z.object({
+      name: import_zod.z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+      email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
+      phone: import_zod.z.string().optional(),
+      company: import_zod.z.string().optional(),
+      date: import_zod.z.coerce.date({ required_error: "Por favor selecciona una fecha y hora" }),
+      duration: import_zod.z.number().int().positive().default(60),
+      service: import_zod.z.string({ required_error: "Por favor selecciona un servicio" }),
+      message: import_zod.z.string().optional(),
+      status: import_zod.z.enum(["pending", "confirmed", "cancelled"]).default("pending"),
+      privacy: import_zod.z.boolean().refine((val) => val === true, {
+        message: "Debes aceptar la pol\xEDtica de privacidad"
+      })
+    });
+    articles = (0, import_pg_core.pgTable)("articles", {
+      id: (0, import_pg_core.serial)("id").primaryKey(),
+      slug: (0, import_pg_core.text)("slug").notNull().unique(),
+      title: (0, import_pg_core.text)("title").notNull(),
+      content: (0, import_pg_core.text)("content").notNull(),
+      excerpt: (0, import_pg_core.text)("excerpt").notNull(),
+      image: (0, import_pg_core.text)("image").notNull(),
+      category: (0, import_pg_core.text)("category").notNull(),
+      readTime: (0, import_pg_core.text)("read_time").notNull(),
+      date: (0, import_pg_core.text)("date").notNull(),
+      language: (0, import_pg_core.text)("language").notNull().default("es"),
+      createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
+    });
+    insertArticleSchema = (0, import_drizzle_zod.createInsertSchema)(articles).pick({
+      slug: true,
+      title: true,
+      content: true,
+      excerpt: true,
+      image: true,
+      category: true,
+      readTime: true,
+      date: true,
+      language: true
+    });
+  }
 });
 
 // server/db.ts
-import { Pool, neonConfig } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-serverless";
-import ws from "ws";
-neonConfig.webSocketConstructor = ws;
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?"
-  );
+var import_serverless, import_neon_serverless, import_ws, pool, db;
+var init_db = __esm({
+  "server/db.ts"() {
+    "use strict";
+    import_serverless = require("@neondatabase/serverless");
+    import_neon_serverless = require("drizzle-orm/neon-serverless");
+    import_ws = __toESM(require("ws"), 1);
+    init_schema();
+    import_serverless.neonConfig.webSocketConstructor = import_ws.default;
+    if (!process.env.DATABASE_URL) {
+      throw new Error(
+        "DATABASE_URL must be set. Did you forget to provision a database?"
+      );
+    }
+    pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
+    db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
+  }
+});
+
+// server/test-db-connection.ts
+var test_db_connection_exports = {};
+__export(test_db_connection_exports, {
+  testDatabaseConnection: () => testDatabaseConnection,
+  validateDatabaseUrl: () => validateDatabaseUrl
+});
+async function testDatabaseConnection() {
+  try {
+    console.log("Testing database connection...");
+    const client = await pool.connect();
+    const result = await client.query("SELECT NOW() as current_time, version() as postgres_version");
+    client.release();
+    console.log("\u2713 Database connection successful");
+    console.log(`  PostgreSQL version: ${result.rows[0].postgres_version.split(",")[0]}`);
+    console.log(`  Server time: ${result.rows[0].current_time}`);
+    return true;
+  } catch (error) {
+    console.error("\u2717 Database connection failed");
+    console.error(`  Error: ${error.message}`);
+    if (error.code === "ENOTFOUND") {
+      console.error("  \u2192 Database host not found. Check DATABASE_URL hostname.");
+    } else if (error.code === "ECONNREFUSED") {
+      console.error("  \u2192 Connection refused. Check if database is running and port is correct.");
+    } else if (error.code === "28P01") {
+      console.error("  \u2192 Authentication failed. Check database username/password.");
+    }
+    console.error("  DATABASE_URL format should be: postgresql://user:pass@host:port/dbname?sslmode=require");
+    return false;
+  }
 }
-var pool = new Pool({ connectionString: process.env.DATABASE_URL });
-var db = drizzle({ client: pool, schema: schema_exports });
+function validateDatabaseUrl() {
+  const dbUrl = process.env.DATABASE_URL;
+  if (!dbUrl) {
+    console.error("\u274C DATABASE_URL environment variable is not set");
+    return false;
+  }
+  if (!dbUrl.startsWith("postgresql://") && !dbUrl.startsWith("postgres://")) {
+    console.error("\u274C DATABASE_URL must start with postgresql:// or postgres://");
+    return false;
+  }
+  console.log("\u2713 DATABASE_URL format looks valid");
+  return true;
+}
+var init_test_db_connection = __esm({
+  "server/test-db-connection.ts"() {
+    "use strict";
+    init_db();
+  }
+});
+
+// server/index.ts
+var import_config = require("dotenv/config");
+var import_express3 = __toESM(require("express"), 1);
+
+// server/routes.ts
+var import_express = __toESM(require("express"), 1);
+var import_http = require("http");
+var import_openai2 = __toESM(require("openai"), 1);
 
 // server/storage.ts
-import { eq, sql } from "drizzle-orm";
-import ConnectPgSimple from "connect-pg-simple";
-var PgSessionStore = ConnectPgSimple(session);
+var import_express_session = __toESM(require("express-session"), 1);
+init_schema();
+init_schema();
+init_schema();
+init_schema();
+init_schema();
+init_db();
+var import_drizzle_orm = require("drizzle-orm");
+var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
+init_db();
+var PgSessionStore = (0, import_connect_pg_simple.default)(import_express_session.default);
 var DatabaseStorage = class {
   sessionStore;
   constructor() {
-    this.sessionStore = new PgSessionStore({
-      pool,
-      createTableIfMissing: true
-    });
+    try {
+      this.sessionStore = new PgSessionStore({
+        pool,
+        createTableIfMissing: true
+      });
+      console.log("\u2713 Using PostgreSQL session store");
+    } catch (error) {
+      console.warn("\u26A0 PostgreSQL session store unavailable, using memory store:", error);
+      console.warn("\u26A0 Sessions will be lost on server restart");
+      try {
+        const createMemoryStore = require("memorystore");
+        const MemoryStore = createMemoryStore(import_express_session.default);
+        this.sessionStore = new MemoryStore({
+          checkPeriod: 864e5
+          // prune expired entries every 24h
+        });
+      } catch (memError) {
+        console.error("\u274C Cannot load memorystore, using default session store");
+        this.sessionStore = new import_express_session.default.MemoryStore();
+      }
+    }
   }
   // User methods
   async getUser(id) {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.id, id));
     return user;
   }
   // ... rest of the class implementation remains the same, just need to make sure I don't delete it.
   // I will use replace_file_content carefully.
   async getUserByUsername(username) {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.username, username));
     return user;
   }
   async createUser(insertUser) {
@@ -182,7 +292,7 @@ var DatabaseStorage = class {
   }
   // Newsletter methods
   async createNewsletterSubscription(insertNewsletter) {
-    const [existingSubscription] = await db.select().from(newsletters).where(eq(newsletters.email, insertNewsletter.email));
+    const [existingSubscription] = await db.select().from(newsletters).where((0, import_drizzle_orm.eq)(newsletters.email, insertNewsletter.email));
     if (existingSubscription) {
       return existingSubscription;
     }
@@ -209,7 +319,7 @@ var DatabaseStorage = class {
     return appointment;
   }
   async getAppointmentById(id) {
-    const [appointment] = await db.select().from(appointments).where(eq(appointments.id, id));
+    const [appointment] = await db.select().from(appointments).where((0, import_drizzle_orm.eq)(appointments.id, id));
     return appointment;
   }
   async getAllAppointments() {
@@ -221,12 +331,12 @@ var DatabaseStorage = class {
     const endOfDay = new Date(date);
     endOfDay.setHours(23, 59, 59, 999);
     const result = await db.select().from(appointments).where(
-      sql`${appointments.date} >= ${startOfDay} AND ${appointments.date} <= ${endOfDay}`
+      import_drizzle_orm.sql`${appointments.date} >= ${startOfDay} AND ${appointments.date} <= ${endOfDay}`
     );
     return result;
   }
   async updateAppointmentStatus(id, status) {
-    const [appointment] = await db.update(appointments).set({ status }).where(eq(appointments.id, id)).returning();
+    const [appointment] = await db.update(appointments).set({ status }).where((0, import_drizzle_orm.eq)(appointments.id, id)).returning();
     if (appointment) {
       this.invalidateAvailabilityCache(new Date(appointment.date));
     }
@@ -284,27 +394,28 @@ var DatabaseStorage = class {
     return article;
   }
   async getArticleBySlug(slug) {
-    const [article] = await db.select().from(articles).where(eq(articles.slug, slug));
+    const [article] = await db.select().from(articles).where((0, import_drizzle_orm.eq)(articles.slug, slug));
     return article;
   }
   async getAllArticles() {
-    return await db.select().from(articles).orderBy(sql`${articles.createdAt} DESC`);
+    return await db.select().from(articles).orderBy(import_drizzle_orm.sql`${articles.createdAt} DESC`);
   }
   async updateArticle(id, articleUpdate) {
-    const [updatedArticle] = await db.update(articles).set(articleUpdate).where(eq(articles.id, id)).returning();
+    const [updatedArticle] = await db.update(articles).set(articleUpdate).where((0, import_drizzle_orm.eq)(articles.id, id)).returning();
     return updatedArticle;
   }
 };
 var storage = new DatabaseStorage();
 
 // server/routes.ts
-import { z as z2 } from "zod";
+init_schema();
+var import_zod2 = require("zod");
 
 // server/api/chat.ts
-import OpenAI from "openai";
+var import_openai = __toESM(require("openai"), 1);
 var openai = null;
 if (process.env.OPENAI_API_KEY) {
-  openai = new OpenAI({
+  openai = new import_openai.default({
     apiKey: process.env.OPENAI_API_KEY
   });
 }
@@ -366,13 +477,13 @@ async function handleChatRequest(req, res) {
 }
 
 // server/services/email.ts
-import nodemailer from "nodemailer";
+var import_nodemailer = __toESM(require("nodemailer"), 1);
 var EmailService = class {
   transporter;
   constructor() {
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
       if (process.env.EMAIL_SERVICE) {
-        this.transporter = nodemailer.createTransport({
+        this.transporter = import_nodemailer.default.createTransport({
           service: process.env.EMAIL_SERVICE,
           auth: {
             user: process.env.EMAIL_USER,
@@ -380,7 +491,7 @@ var EmailService = class {
           }
         });
       } else {
-        this.transporter = nodemailer.createTransport({
+        this.transporter = import_nodemailer.default.createTransport({
           host: process.env.SMTP_HOST || "smtp.gmail.com",
           port: parseInt(process.env.SMTP_PORT || "587"),
           secure: process.env.SMTP_SECURE === "true",
@@ -392,7 +503,7 @@ var EmailService = class {
         });
       }
     } else {
-      this.transporter = nodemailer.createTransport({
+      this.transporter = import_nodemailer.default.createTransport({
         jsonTransport: true
       });
     }
@@ -428,8 +539,8 @@ var EmailService = class {
 var emailService = new EmailService();
 
 // server/routes.ts
-import rateLimit from "express-rate-limit";
-var limiter = rateLimit({
+var import_express_rate_limit = __toESM(require("express-rate-limit"), 1);
+var limiter = (0, import_express_rate_limit.default)({
   windowMs: 15 * 60 * 1e3,
   // 15 minutes
   max: 100,
@@ -438,7 +549,7 @@ var limiter = rateLimit({
   legacyHeaders: false,
   message: "Too many requests from this IP, please try again later"
 });
-var authLimiter = rateLimit({
+var authLimiter = (0, import_express_rate_limit.default)({
   windowMs: 60 * 60 * 1e3,
   // 1 hour
   max: 5,
@@ -450,7 +561,10 @@ function sanitizeInput(text2) {
   return text2.replace(/[<>]/g, "").trim();
 }
 async function registerRoutes(app2) {
-  app2.use("/resources", express.static("resources"));
+  app2.use("/resources", import_express.default.static("resources"));
+  app2.get("/health", (_req, res) => {
+    res.status(200).json({ status: "ok", uptime: process.uptime() });
+  });
   app2.post("/api/contact", limiter, async (req, res) => {
     if (req.body) {
       if (typeof req.body.message === "string") req.body.message = sanitizeInput(req.body.message);
@@ -494,7 +608,7 @@ https://evaperez-wellness.com
         data: savedContact
       });
     } catch (error) {
-      if (error instanceof z2.ZodError) {
+      if (error instanceof import_zod2.z.ZodError) {
         return res.status(400).json({
           success: false,
           message: "Datos del formulario inv\xE1lidos",
@@ -550,7 +664,7 @@ https://evaperez-wellness.com
         data: savedSubscription
       });
     } catch (error) {
-      if (error instanceof z2.ZodError) {
+      if (error instanceof import_zod2.z.ZodError) {
         return res.status(400).json({
           success: false,
           message: "Email inv\xE1lido",
@@ -609,7 +723,7 @@ https://evaperez-wellness.com
         data: savedAppointment
       });
     } catch (error) {
-      if (error instanceof z2.ZodError) {
+      if (error instanceof import_zod2.z.ZodError) {
         return res.status(400).json({
           success: false,
           message: "Datos de la cita inv\xE1lidos",
@@ -705,7 +819,7 @@ https://evaperez-wellness.com
       if (!process.env.OPENAI_API_KEY) {
         return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
       }
-      const openai2 = new OpenAI2({ apiKey: process.env.OPENAI_API_KEY });
+      const openai2 = new import_openai2.default({ apiKey: process.env.OPENAI_API_KEY });
       const completion = await openai2.chat.completions.create({
         model: "gpt-4o",
         messages: [
@@ -772,53 +886,17 @@ https://evaperez-wellness.com
       res.status(500).json({ message: "Error al actualizar el art\xEDculo" });
     }
   });
-  const httpServer = createServer(app2);
+  const httpServer = (0, import_http.createServer)(app2);
   return httpServer;
 }
 
 // server/vite.ts
-import express2 from "express";
-import fs from "fs";
-import path2 from "path";
-import { createServer as createViteServer, createLogger } from "vite";
-
-// vite.config.ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import themePlugin from "@replit/vite-plugin-shadcn-theme-json";
-import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-var vite_config_default = defineConfig({
-  plugins: [
-    react(),
-    runtimeErrorOverlay(),
-    themePlugin(),
-    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
-      await import("@replit/vite-plugin-cartographer").then(
-        (m) => m.cartographer()
-      )
-    ] : []
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets")
-    }
-  },
-  root: path.resolve(import.meta.dirname, "client"),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true
-  },
-  optimizeDeps: {
-    exclude: ["esbuild"]
-    // Force Vite to not try to optimize esbuild itself
-  }
-});
-
-// server/vite.ts
-var viteLogger = createLogger();
+var import_express2 = __toESM(require("express"), 1);
+var import_fs = __toESM(require("fs"), 1);
+var import_path = __toESM(require("path"), 1);
+var import_vite = require("vite");
+var import_meta = {};
+var viteLogger = (0, import_vite.createLogger)();
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -834,30 +912,29 @@ async function setupVite(app2, server) {
     hmr: { server },
     allowedHosts: true
   };
-  const vite = await createViteServer({
-    ...vite_config_default,
-    configFile: false,
+  const vite = await (0, import_vite.createServer)({
+    server: serverOptions,
+    appType: "custom",
+    configFile: import_path.default.resolve(import_meta.dirname, "..", "vite.config.ts"),
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
         viteLogger.error(msg, options);
         process.exit(1);
       }
-    },
-    server: serverOptions,
-    appType: "custom"
+    }
   });
   app2.use(vite.middlewares);
   app2.use("*", async (req, res, next) => {
     const url = req.originalUrl;
     try {
-      const clientTemplate = path2.resolve(
-        import.meta.dirname,
+      const clientTemplate = import_path.default.resolve(
+        import_meta.dirname,
         "..",
         "client",
         "index.html"
       );
-      let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      let template = await import_fs.default.promises.readFile(clientTemplate, "utf-8");
       template = await vite.transformIndexHtml(url, template);
       const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
       const { html: appHtml } = await render(url);
@@ -873,14 +950,14 @@ async function setupVite(app2, server) {
   });
 }
 function serveStatic(app2) {
-  const distPath = path2.resolve(process.cwd(), "dist", "public");
-  if (!fs.existsSync(distPath)) {
+  const distPath = import_path.default.resolve(process.cwd(), "dist", "public");
+  if (!import_fs.default.existsSync(distPath)) {
     console.error(`[serveStatic] Error: Build directory not found at ${distPath}`);
     console.error(`[serveStatic] CWD: ${process.cwd()}`);
     try {
-      const distRoot = path2.resolve(process.cwd(), "dist");
-      if (fs.existsSync(distRoot)) {
-        console.error(`[serveStatic] Contents of ${distRoot}:`, fs.readdirSync(distRoot));
+      const distRoot = import_path.default.resolve(process.cwd(), "dist");
+      if (import_fs.default.existsSync(distRoot)) {
+        console.error(`[serveStatic] Contents of ${distRoot}:`, import_fs.default.readdirSync(distRoot));
       } else {
         console.error(`[serveStatic] ${distRoot} does not exist.`);
       }
@@ -891,13 +968,13 @@ function serveStatic(app2) {
       `Could not find the build directory: ${distPath}, make sure to build the client first`
     );
   }
-  app2.use(express2.static(distPath));
+  app2.use(import_express2.default.static(distPath));
   app2.use("*", async (req, res, next) => {
     try {
-      const template = fs.readFileSync(path2.resolve(distPath, "index.html"), "utf-8");
-      const serverEntryPath = path2.resolve(process.cwd(), "dist", "server", "entry-server.js");
-      if (!fs.existsSync(serverEntryPath)) {
-        res.sendFile(path2.resolve(distPath, "index.html"));
+      const template = import_fs.default.readFileSync(import_path.default.resolve(distPath, "index.html"), "utf-8");
+      const serverEntryPath = import_path.default.resolve(process.cwd(), "dist", "server", "entry-server.js");
+      if (!import_fs.default.existsSync(serverEntryPath)) {
+        res.sendFile(import_path.default.resolve(distPath, "index.html"));
         return;
       }
       const { render } = await import("file://" + serverEntryPath);
@@ -914,14 +991,14 @@ function serveStatic(app2) {
 }
 
 // server/auth.ts
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import session2 from "express-session";
-import { scrypt, randomBytes, timingSafeEqual } from "crypto";
-import { promisify } from "util";
-var scryptAsync = promisify(scrypt);
+var import_passport = __toESM(require("passport"), 1);
+var import_passport_local = require("passport-local");
+var import_express_session2 = __toESM(require("express-session"), 1);
+var import_crypto = require("crypto");
+var import_util = require("util");
+var scryptAsync = (0, import_util.promisify)(import_crypto.scrypt);
 async function hashPassword(password) {
-  const salt = randomBytes(16).toString("hex");
+  const salt = (0, import_crypto.randomBytes)(16).toString("hex");
   const buf = await scryptAsync(password, salt, 64);
   return `${buf.toString("hex")}.${salt}`;
 }
@@ -929,7 +1006,7 @@ async function comparePasswords(supplied, stored) {
   const [hashed, salt] = stored.split(".");
   const hashedBuf = Buffer.from(hashed, "hex");
   const suppliedBuf = await scryptAsync(supplied, salt, 64);
-  return timingSafeEqual(hashedBuf, suppliedBuf);
+  return (0, import_crypto.timingSafeEqual)(hashedBuf, suppliedBuf);
 }
 function setupAuth(app2) {
   const sessionSettings = {
@@ -941,11 +1018,11 @@ function setupAuth(app2) {
   if (app2.get("env") === "production") {
     app2.set("trust proxy", 1);
   }
-  app2.use(session2(sessionSettings));
-  app2.use(passport.initialize());
-  app2.use(passport.session());
-  passport.use(
-    new LocalStrategy(async (username, password, done) => {
+  app2.use((0, import_express_session2.default)(sessionSettings));
+  app2.use(import_passport.default.initialize());
+  app2.use(import_passport.default.session());
+  import_passport.default.use(
+    new import_passport_local.Strategy(async (username, password, done) => {
       const user = await storage.getUserByUsername(username);
       if (!user || !await comparePasswords(password, user.password)) {
         return done(null, false);
@@ -954,12 +1031,12 @@ function setupAuth(app2) {
       }
     })
   );
-  passport.serializeUser((user, done) => done(null, user.id));
-  passport.deserializeUser(async (id, done) => {
+  import_passport.default.serializeUser((user, done) => done(null, user.id));
+  import_passport.default.deserializeUser(async (id, done) => {
     const user = await storage.getUser(id);
     done(null, user);
   });
-  app2.post("/api/login", passport.authenticate("local"), (req, res) => {
+  app2.post("/api/login", import_passport.default.authenticate("local"), (req, res) => {
     res.status(200).json(req.user);
   });
   app2.post("/api/register", async (req, res, next) => {
@@ -994,9 +1071,9 @@ function setupAuth(app2) {
 }
 
 // server/index.ts
-import helmet from "helmet";
-var app = express3();
-app.use(helmet({
+var import_helmet = __toESM(require("helmet"), 1);
+var app = (0, import_express3.default)();
+app.use((0, import_helmet.default)({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
@@ -1008,11 +1085,11 @@ app.use(helmet({
     }
   }
 }));
-app.use(express3.json());
-app.use(express3.urlencoded({ extended: false }));
+app.use(import_express3.default.json());
+app.use(import_express3.default.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   const start = Date.now();
-  const path3 = req.path;
+  const path2 = req.path;
   let capturedJsonResponse = void 0;
   const originalResJson = res.json;
   res.json = function(bodyJson, ...args) {
@@ -1021,8 +1098,8 @@ app.use((req, res, next) => {
   };
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path3.startsWith("/api")) {
-      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
+    if (path2.startsWith("/api")) {
+      let logLine = `${req.method} ${path2} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
@@ -1035,26 +1112,49 @@ app.use((req, res, next) => {
   next();
 });
 (async () => {
-  setupAuth(app);
-  const server = await registerRoutes(app);
-  app.use((err, _req, res, _next) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    res.status(status).json({ message });
-    throw err;
-  });
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+  try {
+    const { testDatabaseConnection: testDatabaseConnection2, validateDatabaseUrl: validateDatabaseUrl2 } = await Promise.resolve().then(() => (init_test_db_connection(), test_db_connection_exports));
+    if (!validateDatabaseUrl2()) {
+      console.error("Please set DATABASE_URL in your environment variables");
+      console.error("Example: postgresql://user:pass@host:port/dbname?sslmode=require");
+    }
+    const dbConnected = await testDatabaseConnection2();
+    if (!dbConnected) {
+      console.warn("\u26A0 Starting server without database connection");
+      console.warn("\u26A0 Some features may not work correctly");
+    }
+    setupAuth(app);
+    const server = await registerRoutes(app);
+    app.use((err, _req, res, _next) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      res.status(status).json({ message });
+      console.error("Error handler:", err);
+    });
+    const environment = app.get("env");
+    console.log(`Environment: ${environment}`);
+    console.log(`Node version: ${process.version}`);
+    console.log(`Platform: ${process.platform}`);
+    if (environment === "development") {
+      console.log("Setting up Vite dev server...");
+      await setupVite(app, server);
+      console.log("Vite dev server setup complete.");
+    } else {
+      console.log("Serving static files from dist/public");
+      serveStatic(app);
+    }
+    const port = parseInt(process.env.PORT || "5000", 10);
+    server.listen({
+      port,
+      host: "0.0.0.0"
+    }, () => {
+      log(`serving on port ${port}`);
+      log(`Visit: http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.error("Fatal error during startup:", error);
+    process.exit(1);
   }
-  const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen({
-    port,
-    host: "0.0.0.0"
-  }, () => {
-    log(`serving on port ${port}`);
-  });
 })();
 process.on("uncaughtException", (err) => {
   console.error("Uncaught Exception:", err);
@@ -1062,3 +1162,4 @@ process.on("uncaughtException", (err) => {
 process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at:", promise, "reason:", reason);
 });
+//# sourceMappingURL=index.js.map
