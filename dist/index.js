@@ -155,12 +155,14 @@ var init_db = __esm({
     init_schema();
     import_serverless.neonConfig.webSocketConstructor = import_ws.default;
     if (!process.env.DATABASE_URL) {
-      throw new Error(
-        "DATABASE_URL must be set. Did you forget to provision a database?"
-      );
+      console.warn("\u26A0\uFE0F DATABASE_URL not set - database features will be limited");
+      console.warn("\u26A0\uFE0F Sessions will use memory store");
+      pool = new import_serverless.Pool({ connectionString: "postgresql://dummy:dummy@localhost:5432/dummy" });
+      db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
+    } else {
+      pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
+      db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
     }
-    pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
-    db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
   }
 });
 
@@ -171,6 +173,10 @@ __export(test_db_connection_exports, {
   validateDatabaseUrl: () => validateDatabaseUrl
 });
 async function testDatabaseConnection() {
+  if (!process.env.DATABASE_URL) {
+    console.warn("\u26A0\uFE0F Skipping database test - DATABASE_URL not configured");
+    return false;
+  }
   try {
     console.log("Testing database connection...");
     const client = await pool.connect();
@@ -197,7 +203,7 @@ async function testDatabaseConnection() {
 function validateDatabaseUrl() {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
-    console.error("\u274C DATABASE_URL environment variable is not set");
+    console.warn("\u26A0\uFE0F DATABASE_URL environment variable is not set");
     return false;
   }
   if (!dbUrl.startsWith("postgresql://") && !dbUrl.startsWith("postgres://")) {

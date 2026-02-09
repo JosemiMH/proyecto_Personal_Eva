@@ -5,6 +5,12 @@ import { pool } from './db';
  * Helps identify connection issues early in the deployment process
  */
 export async function testDatabaseConnection(): Promise<boolean> {
+    // Don't test if DATABASE_URL is not set
+    if (!process.env.DATABASE_URL) {
+        console.warn('⚠️ Skipping database test - DATABASE_URL not configured');
+        return false;
+    }
+
     try {
         console.log('Testing database connection...');
         const client = await pool.connect();
@@ -41,7 +47,7 @@ export function validateDatabaseUrl(): boolean {
     const dbUrl = process.env.DATABASE_URL;
 
     if (!dbUrl) {
-        console.error('❌ DATABASE_URL environment variable is not set');
+        console.warn('⚠️ DATABASE_URL environment variable is not set');
         return false;
     }
 
