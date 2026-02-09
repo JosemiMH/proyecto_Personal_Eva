@@ -33,15 +33,17 @@ export async function handleChatRequest(req: Request, res: Response) {
     }
 
     // Verificar API Key en el momento de la petición
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
     if (!apiKey) {
       console.error('❌ Error: OPENAI_API_KEY missing in environment variables');
-      // Debug: Log available keys (sanitized) to help diagnose
-      console.error('Available Environment Keys:', Object.keys(process.env).join(', '));
+
+      const availableKeys = Object.keys(process.env).filter(k => !k.includes('KEY') && !k.includes('SECRET') && !k.includes('PASSWORD'));
+      console.error('Available Environment Keys:', availableKeys.join(', '));
 
       return res.status(503).json({
         error: 'El servicio de chat no está disponible en este momento (Falta configuración de OpenAI)',
-        details: 'OPENAI_API_KEY no está definida en el entorno'
+        details: 'OPENAI_API_KEY no está definida en el entorno',
+        debug_available_env_vars: availableKeys
       });
     }
 

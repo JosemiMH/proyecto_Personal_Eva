@@ -279,13 +279,15 @@ async function handleChatRequest(req, res) {
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Se requiere un array de mensajes" });
     }
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
     if (!apiKey) {
       console.error("\u274C Error: OPENAI_API_KEY missing in environment variables");
-      console.error("Available Environment Keys:", Object.keys(process.env).join(", "));
+      const availableKeys = Object.keys(process.env).filter((k) => !k.includes("KEY") && !k.includes("SECRET") && !k.includes("PASSWORD"));
+      console.error("Available Environment Keys:", availableKeys.join(", "));
       return res.status(503).json({
         error: "El servicio de chat no est\xE1 disponible en este momento (Falta configuraci\xF3n de OpenAI)",
-        details: "OPENAI_API_KEY no est\xE1 definida en el entorno"
+        details: "OPENAI_API_KEY no est\xE1 definida en el entorno",
+        debug_available_env_vars: availableKeys
       });
     }
     const openai = new import_openai.default({
