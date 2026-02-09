@@ -54,65 +54,67 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
-    // Import database test utility
-    const { testDatabaseConnection, validateDatabaseUrl } = await import('./test-db-connection');
-
-    // Validate DATABASE_URL first
-    if (!validateDatabaseUrl()) {
-      console.error('Please set DATABASE_URL in your environment variables');
-      console.error('Example: postgresql://user:pass@host:port/dbname?sslmode=require');
-      // Continue anyway - will use memory store for sessions
-    }
-
-    // Test database connection (non-blocking)
-    const dbConnected = await testDatabaseConnection();
-    if (!dbConnected) {
-      console.warn('⚠ Starting server without database connection');
-      console.warn('⚠ Some features may not work correctly');
-    }
-
-    setupAuth(app);
-    const server = await registerRoutes(app);
-
-    app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-      const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-
-      res.status(status).json({ message });
-      console.error('Error handler:', err);
-    });
-
-    // importantly only setup vite in development and after
-    // setting up all the other routes so the catch-all route
-    // doesn't interfere with the other routes
-    const environment = app.get("env");
-    console.log(`Environment: ${environment}`);
+    console.log('🚀 Starting PersonalBrandSpa server...');
+    console.log(`Environment: ${app.get("env")}`);
     console.log(`Node version: ${process.version}`);
     console.log(`Platform: ${process.platform}`);
 
+    // Test database connection (non-blocking, won't crash if fails)
+    try {
+      const { testDatabaseConnection } = await import('./test-db-connection');
+      const dbConnected = await testDatabaseConnection();
+      if (!dbConnected) {
+        console.warn('⚠ Starting server without database connection');
+        console.warn('⚠ Using memory store for sessions');
+      }
+    } catch (dbError: any) {
+      console.warn('⚠ Database test failed, continuing anyway:', dbError.message);
+    }
+
+    // Setup auth and routes
+    setupAuth(app);
+    const server = await registerRoutes(app);
+
+    // Error handler
+    app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      res.status(status).json({ message });
+      console.error('❌ Error handler:', err);
+    });
+
+    // Setup Vite (dev) or static serving (production)
+    const environment = app.get("env");
     if (environment === "development") {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
       console.log("Vite dev server setup complete.");
     } else {
-      console.log("Serving static files from dist/public");
+      console.log("📁 Serving static files from dist/public");
       serveStatic(app);
     }
 
-    // ALWAYS serve the app on port 5000
-    // this serves both the API and the client.
-    // It is the only port that is not firewalled.
+    // Start listening
     const port = parseInt(process.env.PORT || "5000", 10);
-    server.listen({
-      port,
-      host: "0.0.0.0",
+    console.log(`🎯 Attempting to listen on port ${port}...`);
 
-    }, () => {
-      log(`serving on port ${port}`);
-      log(`Visit: http://localhost:${port}`);
+    server.listen(port, "0.0.0.0", () => {
+      console.log('');
+      console.log('✅ ================================');
+      console.log(`✅ Server successfully started!`);
+      console.log(`✅ Listening on port ${port}`);
+      console.log(`✅ URL: http://localhost:${port}`);
+      console.log('✅ ================================');
+      console.log('');
     });
+
   } catch (error) {
-    console.error('Fatal error during startup:', error);
+    console.error('');
+    console.error('❌ ================================');
+    console.error('❌ FATAL ERROR DURING STARTUP');
+    console.error('❌ ================================');
+    console.error(error);
+    console.error('');
     process.exit(1);
   }
 })();

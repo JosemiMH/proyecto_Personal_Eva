@@ -1119,15 +1119,19 @@ app.use((req, res, next) => {
 });
 (async () => {
   try {
-    const { testDatabaseConnection: testDatabaseConnection2, validateDatabaseUrl: validateDatabaseUrl2 } = await Promise.resolve().then(() => (init_test_db_connection(), test_db_connection_exports));
-    if (!validateDatabaseUrl2()) {
-      console.error("Please set DATABASE_URL in your environment variables");
-      console.error("Example: postgresql://user:pass@host:port/dbname?sslmode=require");
-    }
-    const dbConnected = await testDatabaseConnection2();
-    if (!dbConnected) {
-      console.warn("\u26A0 Starting server without database connection");
-      console.warn("\u26A0 Some features may not work correctly");
+    console.log("\u{1F680} Starting PersonalBrandSpa server...");
+    console.log(`Environment: ${app.get("env")}`);
+    console.log(`Node version: ${process.version}`);
+    console.log(`Platform: ${process.platform}`);
+    try {
+      const { testDatabaseConnection: testDatabaseConnection2 } = await Promise.resolve().then(() => (init_test_db_connection(), test_db_connection_exports));
+      const dbConnected = await testDatabaseConnection2();
+      if (!dbConnected) {
+        console.warn("\u26A0 Starting server without database connection");
+        console.warn("\u26A0 Using memory store for sessions");
+      }
+    } catch (dbError) {
+      console.warn("\u26A0 Database test failed, continuing anyway:", dbError.message);
     }
     setupAuth(app);
     const server = await registerRoutes(app);
@@ -1135,30 +1139,35 @@ app.use((req, res, next) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
       res.status(status).json({ message });
-      console.error("Error handler:", err);
+      console.error("\u274C Error handler:", err);
     });
     const environment = app.get("env");
-    console.log(`Environment: ${environment}`);
-    console.log(`Node version: ${process.version}`);
-    console.log(`Platform: ${process.platform}`);
     if (environment === "development") {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
       console.log("Vite dev server setup complete.");
     } else {
-      console.log("Serving static files from dist/public");
+      console.log("\u{1F4C1} Serving static files from dist/public");
       serveStatic(app);
     }
     const port = parseInt(process.env.PORT || "5000", 10);
-    server.listen({
-      port,
-      host: "0.0.0.0"
-    }, () => {
-      log(`serving on port ${port}`);
-      log(`Visit: http://localhost:${port}`);
+    console.log(`\u{1F3AF} Attempting to listen on port ${port}...`);
+    server.listen(port, "0.0.0.0", () => {
+      console.log("");
+      console.log("\u2705 ================================");
+      console.log(`\u2705 Server successfully started!`);
+      console.log(`\u2705 Listening on port ${port}`);
+      console.log(`\u2705 URL: http://localhost:${port}`);
+      console.log("\u2705 ================================");
+      console.log("");
     });
   } catch (error) {
-    console.error("Fatal error during startup:", error);
+    console.error("");
+    console.error("\u274C ================================");
+    console.error("\u274C FATAL ERROR DURING STARTUP");
+    console.error("\u274C ================================");
+    console.error(error);
+    console.error("");
     process.exit(1);
   }
 })();
