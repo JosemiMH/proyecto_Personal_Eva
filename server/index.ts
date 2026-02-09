@@ -92,7 +92,7 @@ app.use((req, res, next) => {
     // Start listening
     const port = parseInt(process.env.PORT || "5000", 10);
 
-    server.listen(port, "0.0.0.0", () => {
+    server.listen(port, () => {
       console.log('');
       console.log('✅ ================================');
       console.log(`✅ SERVER STARTED SUCCESSFULLY!`);

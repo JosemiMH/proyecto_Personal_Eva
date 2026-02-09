@@ -33,10 +33,107 @@ var import_express3 = __toESM(require("express"), 1);
 // server/routes.ts
 var import_express = __toESM(require("express"), 1);
 var import_http = require("http");
-var import_openai2 = __toESM(require("openai"), 1);
+var import_openai = __toESM(require("openai"), 1);
 
-// server/storage.ts
+// server/storage-minimal.ts
 var import_express_session = __toESM(require("express-session"), 1);
+var MinimalStorage = class {
+  sessionStore;
+  // In-memory storage
+  contacts = [];
+  newsletters = [];
+  appointments = [];
+  constructor() {
+    this.sessionStore = new import_express_session.default.MemoryStore();
+    console.log("\u2713 Using memory session store (no database)");
+  }
+  // Contact methods (in-memory)
+  async createContact(data) {
+    const contact = { id: this.contacts.length + 1, ...data, createdAt: /* @__PURE__ */ new Date() };
+    this.contacts.push(contact);
+    console.log("\u{1F4DD} Contact saved to memory:", contact.email);
+    return contact;
+  }
+  async getAllContacts() {
+    return this.contacts;
+  }
+  // Newsletter methods (in-memory)
+  async createNewsletterSubscription(data) {
+    const existing = this.newsletters.find((n) => n.email === data.email);
+    if (existing) {
+      console.log("\u{1F4E7} Newsletter subscription already exists:", data.email);
+      return existing;
+    }
+    const subscription = { id: this.newsletters.length + 1, ...data, createdAt: /* @__PURE__ */ new Date() };
+    this.newsletters.push(subscription);
+    console.log("\u{1F4E7} Newsletter subscription saved to memory:", data.email);
+    return subscription;
+  }
+  async getAllNewsletterSubscriptions() {
+    return this.newsletters;
+  }
+  // Appointment methods (in-memory)
+  async createAppointment(data) {
+    const appointment = { id: this.appointments.length + 1, ...data, createdAt: /* @__PURE__ */ new Date() };
+    this.appointments.push(appointment);
+    console.log("\u{1F4C5} Appointment saved to memory:", appointment.email);
+    return appointment;
+  }
+  async getAppointmentById(id) {
+    return this.appointments.find((a) => a.id === id);
+  }
+  async getAllAppointments() {
+    return this.appointments;
+  }
+  async getAvailableSlots(date) {
+    const slots = [];
+    for (let hour = 9; hour < 18; hour++) {
+      const start = new Date(date);
+      start.setHours(hour, 0, 0, 0);
+      const end = new Date(date);
+      end.setHours(hour + 1, 0, 0, 0);
+      slots.push({ start, end });
+    }
+    return slots;
+  }
+  async updateAppointmentStatus(id, status) {
+    const appointment = this.appointments.find((a) => a.id === id);
+    if (appointment) {
+      appointment.status = status;
+      console.log("\u{1F4C5} Appointment status updated:", id, status);
+    }
+    return appointment;
+  }
+  // Article methods (mock - return empty for now)
+  async createArticle(data) {
+    console.log("\u{1F4C4} Article creation not available (no database)");
+    return data;
+  }
+  async getArticleBySlug(slug) {
+    return null;
+  }
+  async getAllArticles() {
+    return [];
+  }
+};
+var storage = new MinimalStorage();
+
+// server/email-minimal.ts
+var MinimalEmailService = class {
+  async sendEmail(options) {
+    console.log("");
+    console.log("\u{1F4E7} ================================");
+    console.log("\u{1F4E7} EMAIL (Not sent - console only)");
+    console.log("\u{1F4E7} ================================");
+    console.log(`To: ${options.to}`);
+    console.log(`Subject: ${options.subject}`);
+    console.log(`Message: ${options.text.substring(0, 100)}...`);
+    console.log("\u{1F4E7} ================================");
+    console.log("");
+    return true;
+  }
+};
+var emailService = new MinimalEmailService();
 
 // shared/schema.ts
 var schema_exports = {};
@@ -147,30 +244,521 @@ var insertArticleSchema = (0, import_drizzle_zod.createInsertSchema)(articles).p
   language: true
 });
 
+// server/routes.ts
+var import_zod2 = require("zod");
+var import_express_rate_limit = __toESM(require("express-rate-limit"), 1);
+var limiter = (0, import_express_rate_limit.default)({
+  windowMs: 15 * 60 * 1e3,
+  // 15 minutes
+  max: 100,
+  // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later"
+});
+var authLimiter = (0, import_express_rate_limit.default)({
+  windowMs: 60 * 60 * 1e3,
+  // 1 hour
+  max: 5,
+  // 5 failed attempts
+  message: "Too many login attempts, please try again after an hour"
+});
+function sanitizeInput(text2) {
+  if (!text2) return "";
+  return text2.replace(/[<>]/g, "").trim();
+}
+async function registerRoutes(app2) {
+  app2.use("/resources", import_express.default.static("resources"));
+  app2.get("/health", (_req, res) => {
+    res.status(200).json({ status: "ok", uptime: process.uptime() });
+  });
+  app2.post("/api/contact", limiter, async (req, res) => {
+    if (req.body) {
+      if (typeof req.body.message === "string") req.body.message = sanitizeInput(req.body.message);
+      if (typeof req.body.name === "string") req.body.name = sanitizeInput(req.body.name);
+      if (typeof req.body.company === "string") req.body.company = sanitizeInput(req.body.company);
+    }
+    try {
+      const contactData = contactSchema.parse(req.body);
+      const savedContact = await storage.createContact(contactData);
+      await emailService.sendEmail({
+        to: "eva@evaperez-wellness.com",
+        // Replace with actual admin email or env var
+        subject: `Nuevo mensaje de contacto: ${contactData.name}`,
+        text: `
+          Nombre: ${contactData.name}
+          Email: ${contactData.email}
+          Empresa: ${contactData.company || "N/A"}
+          Servicio: ${contactData.service}
+          Mensaje: ${contactData.message}
+        `
+      });
+      await emailService.sendEmail({
+        to: contactData.email,
+        subject: "Hemos recibido tu mensaje - Eva P\xE9rez",
+        text: `
+Hola ${contactData.name},
+
+Gracias por contactar conmigo. He recibido tu mensaje correctamente.
+
+Revisar\xE9 tu consulta sobre "${contactData.service}" y me pondr\xE9 en contacto contigo lo antes posible, normalmente en un plazo de 24-48 horas laborables.
+
+Atentamente,
+Eva P\xE9rez
+Spa Manager & Wellness Consultant
+https://evaperez-wellness.com
+        `
+      });
+      return res.status(200).json({
+        success: true,
+        message: "Mensaje enviado correctamente",
+        data: savedContact
+      });
+    } catch (error) {
+      if (error instanceof import_zod2.z.ZodError) {
+        return res.status(400).json({
+          success: false,
+          message: "Datos del formulario inv\xE1lidos",
+          errors: error.errors
+        });
+      }
+      return res.status(500).json({
+        success: false,
+        message: "Error al procesar la solicitud"
+      });
+    }
+  });
+  app2.post("/api/newsletter", limiter, async (req, res) => {
+    try {
+      const newsletterData = newsletterSchema.parse(req.body);
+      const savedSubscription = await storage.createNewsletterSubscription(newsletterData);
+      await emailService.sendEmail({
+        to: "eva@evaperez-wellness.com",
+        subject: `Nueva suscripci\xF3n a newsletter: ${newsletterData.email}`,
+        text: `Se ha suscrito un nuevo usuario: ${newsletterData.email}`
+      });
+      await emailService.sendEmail({
+        to: newsletterData.email,
+        subject: "\xA1Bienvenido/a a la comunidad de Eva P\xE9rez! + Tu E-Book gratuito",
+        text: `
+Hola,
+
+Gracias por suscribirte a mi newsletter. Me alegra mucho tenerte aqu\xED.
+
+Como regalo de bienvenida, aqu\xED tienes tu E-Book gratuito:
+"C\xF3mo implementar IA en tu spa hotelero en 30 d\xEDas"
+
+\u{1F4E5} Descarga aqu\xED: https://evaperez-wellness.com/resources/ebook-ia-spa-infographic.html
+
+Este E-Book incluye:
+\u2713 Pasos concretos para implementar IA en tu spa
+\u2713 Plantilla de implementaci\xF3n lista para usar
+\u2713 Casos de uso reales y aplicables
+
+A partir de ahora recibir\xE1s consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gesti\xF3n de spas.
+
+Si tienes alguna pregunta o tema que te gustar\xEDa que tratara, no dudes en responder a este correo.
+
+Atentamente,
+Eva P\xE9rez
+Spa Manager & Wellness Consultant
+https://evaperez-wellness.com
+        `
+      });
+      return res.status(200).json({
+        success: true,
+        message: "Suscripci\xF3n completada correctamente",
+        data: savedSubscription
+      });
+    } catch (error) {
+      if (error instanceof import_zod2.z.ZodError) {
+        return res.status(400).json({
+          success: false,
+          message: "Email inv\xE1lido",
+          errors: error.errors
+        });
+      }
+      return res.status(500).json({
+        success: false,
+        message: "Error al procesar la suscripci\xF3n"
+      });
+    }
+  });
+  app2.post("/api/chat", limiter, async (req, res) => {
+    return res.status(200).json({
+      response: {
+        role: "assistant",
+        content: "Hola! El chatbot est\xE1 temporalmente desactivado. Por favor, usa el formulario de contacto para comunicarte conmigo. \xA1Gracias!"
+      }
+    });
+  });
+  app2.post("/api/appointments", async (req, res) => {
+    try {
+      const appointmentData = appointmentSchema.parse(req.body);
+      const savedAppointment = await storage.createAppointment(appointmentData);
+      await emailService.sendEmail({
+        to: "eva@evaperez-wellness.com",
+        subject: `Nueva cita reservada: ${appointmentData.name}`,
+        text: `
+          Nombre: ${appointmentData.name}
+          Email: ${appointmentData.email}
+          Tel\xE9fono: ${appointmentData.phone || "N/A"}
+          Empresa: ${appointmentData.company || "N/A"}
+          Fecha: ${new Date(appointmentData.date).toLocaleString()}
+          Servicio: ${appointmentData.service}
+          Mensaje: ${appointmentData.message || "N/A"}
+        `
+      });
+      await emailService.sendEmail({
+        to: appointmentData.email,
+        subject: "Solicitud de cita recibida - Eva P\xE9rez",
+        text: `
+Hola ${appointmentData.name},
+
+Gracias por solicitar una cita. He recibido tu petici\xF3n para el d\xEDa ${new Date(appointmentData.date).toLocaleDateString()} a las ${new Date(appointmentData.date).toLocaleTimeString()}.
+
+Tu cita est\xE1 actualmente en estado "Pendiente de confirmaci\xF3n". Revisar\xE9 mi agenda y te enviar\xE9 un correo de confirmaci\xF3n definitiva en breve.
+
+Detalles de la solicitud:
+- Servicio: ${appointmentData.service}
+- Fecha: ${new Date(appointmentData.date).toLocaleString()}
+
+Si necesitas modificar algo, por favor responde a este correo.
+
+Atentamente,
+Eva P\xE9rez
+Spa Manager & Wellness Consultant
+https://evaperez-wellness.com
+        `
+      });
+      return res.status(201).json({
+        success: true,
+        message: "Cita reservada correctamente",
+        data: savedAppointment
+      });
+    } catch (error) {
+      if (error instanceof import_zod2.z.ZodError) {
+        return res.status(400).json({
+          success: false,
+          message: "Datos de la cita inv\xE1lidos",
+          errors: error.errors
+        });
+      }
+      return res.status(500).json({
+        success: false,
+        message: "Error al procesar la solicitud de cita"
+      });
+    }
+  });
+  app2.get("/api/appointments/available", async (req, res) => {
+    try {
+      const dateParam = req.query.date;
+      if (!dateParam || typeof dateParam !== "string") {
+        return res.status(400).json({
+          success: false,
+          message: "Se requiere una fecha v\xE1lida"
+        });
+      }
+      const date = new Date(dateParam);
+      if (isNaN(date.getTime())) {
+        return res.status(400).json({
+          success: false,
+          message: "Formato de fecha inv\xE1lido"
+        });
+      }
+      const availableSlots = await storage.getAvailableSlots(date);
+      return res.status(200).json({
+        success: true,
+        data: availableSlots
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al obtener los horarios disponibles"
+      });
+    }
+  });
+  app2.get("/api/appointments", async (_req, res) => {
+    try {
+      const appointments2 = await storage.getAllAppointments();
+      return res.status(200).json({
+        success: true,
+        data: appointments2
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al obtener las citas"
+      });
+    }
+  });
+  app2.patch("/api/appointments/:id/status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      if (!status || !["pending", "confirmed", "cancelled"].includes(status)) {
+        return res.status(400).json({
+          success: false,
+          message: "Estado de cita inv\xE1lido"
+        });
+      }
+      const updatedAppointment = await storage.updateAppointmentStatus(id, status);
+      if (!updatedAppointment) {
+        return res.status(404).json({
+          success: false,
+          message: "Cita no encontrada"
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "Estado de la cita actualizado correctamente",
+        data: updatedAppointment
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Error al actualizar el estado de la cita"
+      });
+    }
+  });
+  app2.post("/api/articles/generate", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).send("Unauthorized");
+    }
+    try {
+      const { topic } = req.body;
+      if (!topic) {
+        return res.status(400).json({ success: false, message: "El tema es requerido" });
+      }
+      if (!process.env.OPENAI_API_KEY) {
+        return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
+      }
+      const openai = new import_openai.default({ apiKey: process.env.OPENAI_API_KEY });
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "Eres un experto redactor de contenido para un blog de wellness y hospitalidad de lujo. Genera un art\xEDculo en formato JSON con los siguientes campos: title, content (en markdown), excerpt, category, readTime (ej: '5 min read'). El contenido debe estar en ESPA\xD1OL. El tono debe ser profesional, sofisticado y persuasivo, enfocado en hoteles de lujo y estrategias de bienestar."
+          },
+          {
+            role: "user",
+            content: `Escribe un art\xEDculo sobre: ${topic}`
+          }
+        ],
+        response_format: { type: "json_object" }
+      });
+      const content = JSON.parse(completion.choices[0].message.content || "{}");
+      const slug = content.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
+      const article = await storage.createArticle({
+        slug,
+        title: content.title,
+        content: content.content,
+        excerpt: content.excerpt,
+        image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80",
+        // Placeholder or use an image search API if available
+        category: content.category,
+        readTime: content.readTime,
+        date: (/* @__PURE__ */ new Date()).toISOString(),
+        language: "es"
+      });
+      return res.status(201).json({ success: true, data: article });
+    } catch (error) {
+      console.error("Error generating article:", error);
+      return res.status(500).json({ success: false, message: "Error generando el art\xEDculo" });
+    }
+  });
+  app2.get("/api/articles", async (_req, res) => {
+    try {
+      const articles2 = await storage.getAllArticles();
+      res.json(articles2);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener art\xEDculos" });
+    }
+  });
+  app2.get("/api/articles/:slug", async (req, res) => {
+    try {
+      const article = await storage.getArticleBySlug(req.params.slug);
+      if (!article) {
+        return res.status(404).json({ message: "Art\xEDculo no encontrado" });
+      }
+      res.json(article);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener el art\xEDculo" });
+    }
+  });
+  app2.patch("/api/articles/:id", async (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    try {
+      const id = parseInt(req.params.id);
+      const updatedArticle = await storage.updateArticle(id, req.body);
+      if (!updatedArticle) {
+        return res.status(404).json({ message: "Art\xEDculo no encontrado" });
+      }
+      res.json(updatedArticle);
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar el art\xEDculo" });
+    }
+  });
+  const httpServer = (0, import_http.createServer)(app2);
+  return httpServer;
+}
+
+// server/vite.ts
+var import_express2 = __toESM(require("express"), 1);
+var import_fs = __toESM(require("fs"), 1);
+var import_path = __toESM(require("path"), 1);
+var import_vite = require("vite");
+var import_meta = {};
+var viteLogger = (0, import_vite.createLogger)();
+function log(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: true
+  };
+  const vite = await (0, import_vite.createServer)({
+    server: serverOptions,
+    appType: "custom",
+    configFile: import_path.default.resolve(import_meta.dirname, "..", "vite.config.ts"),
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    }
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = import_path.default.resolve(
+        import_meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await import_fs.default.promises.readFile(clientTemplate, "utf-8");
+      template = await vite.transformIndexHtml(url, template);
+      const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
+      const { html: appHtml } = await render(url);
+      const html = template.replace(
+        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
+        `<div id="root">${appHtml}</div>`
+      );
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic(app2) {
+  const distPath = import_path.default.resolve(process.cwd(), "dist", "public");
+  if (!import_fs.default.existsSync(distPath)) {
+    console.error(`[serveStatic] Error: Build directory not found at ${distPath}`);
+    console.error(`[serveStatic] CWD: ${process.cwd()}`);
+    try {
+      const distRoot = import_path.default.resolve(process.cwd(), "dist");
+      if (import_fs.default.existsSync(distRoot)) {
+        console.error(`[serveStatic] Contents of ${distRoot}:`, import_fs.default.readdirSync(distRoot));
+      } else {
+        console.error(`[serveStatic] ${distRoot} does not exist.`);
+      }
+    } catch (e) {
+      console.error("[serveStatic] Error listing dist:", e);
+    }
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(import_express2.default.static(distPath));
+  app2.use("*", async (req, res, next) => {
+    try {
+      const template = import_fs.default.readFileSync(import_path.default.resolve(distPath, "index.html"), "utf-8");
+      const serverEntryPath = import_path.default.resolve(process.cwd(), "dist", "server", "entry-server.js");
+      if (!import_fs.default.existsSync(serverEntryPath)) {
+        res.sendFile(import_path.default.resolve(distPath, "index.html"));
+        return;
+      }
+      const { render } = await import("file://" + serverEntryPath);
+      const { html: appHtml } = await render(req.originalUrl);
+      const html = template.replace(
+        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
+        `<div id="root">${appHtml}</div>`
+      );
+      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+    } catch (e) {
+      next(e);
+    }
+  });
+}
+
+// server/auth.ts
+var import_passport = __toESM(require("passport"), 1);
+var import_passport_local = require("passport-local");
+var import_express_session3 = __toESM(require("express-session"), 1);
+var import_crypto = require("crypto");
+var import_util = require("util");
+
+// server/storage.ts
+var import_express_session2 = __toESM(require("express-session"), 1);
+
 // server/db.ts
 var import_serverless = require("@neondatabase/serverless");
 var import_neon_serverless = require("drizzle-orm/neon-serverless");
 var import_ws = __toESM(require("ws"), 1);
 import_serverless.neonConfig.webSocketConstructor = import_ws.default;
+var pool;
+var db;
 if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?"
-  );
+  console.warn("\u26A0\uFE0F DATABASE_URL not set - database features will be limited");
+  console.warn("\u26A0\uFE0F Sessions will use memory store");
+  pool = new import_serverless.Pool({ connectionString: "postgresql://dummy:dummy@localhost:5432/dummy" });
+  db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
+} else {
+  pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
+  db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
 }
-var pool = new import_serverless.Pool({ connectionString: process.env.DATABASE_URL });
-var db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
 
 // server/storage.ts
 var import_drizzle_orm = require("drizzle-orm");
 var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
-var PgSessionStore = (0, import_connect_pg_simple.default)(import_express_session.default);
+var PgSessionStore = (0, import_connect_pg_simple.default)(import_express_session2.default);
 var DatabaseStorage = class {
   sessionStore;
   constructor() {
-    this.sessionStore = new PgSessionStore({
-      pool,
-      createTableIfMissing: true
-    });
+    try {
+      this.sessionStore = new PgSessionStore({
+        pool,
+        createTableIfMissing: true
+      });
+      console.log("\u2713 Using PostgreSQL session store");
+    } catch (error) {
+      console.warn("\u26A0 PostgreSQL session store unavailable, using memory store:", error);
+      console.warn("\u26A0 Sessions will be lost on server restart");
+      try {
+        const createMemoryStore = require("memorystore");
+        const MemoryStore = createMemoryStore(import_express_session2.default);
+        this.sessionStore = new MemoryStore({
+          checkPeriod: 864e5
+          // prune expired entries every 24h
+        });
+      } catch (memError) {
+        console.error("\u274C Cannot load memorystore, using default session store");
+        this.sessionStore = new import_express_session2.default.MemoryStore();
+      }
+    }
   }
   // User methods
   async getUser(id) {
@@ -317,596 +905,9 @@ var DatabaseStorage = class {
     return updatedArticle;
   }
 };
-var storage = new DatabaseStorage();
-
-// server/routes.ts
-var import_zod2 = require("zod");
-
-// server/api/chat.ts
-var import_openai = __toESM(require("openai"), 1);
-var openai = null;
-if (process.env.OPENAI_API_KEY) {
-  openai = new import_openai.default({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-}
-var contextInfo = `
-Eva P\xE9rez: Experta en Estrategia de Hospitalidad y Bienestar de Lujo (>20 a\xF1os exp).
-Misi\xF3n: Transformar \xE1reas wellness de hoteles en motores de rentabilidad estrat\xE9gica.
-
-Servicios:
-1. Consultor\xEDa: Viabilidad, concepto, diferenciaci\xF3n.
-2. Gesti\xF3n de Proyectos: Dise\xF1o, proveedores, ejecuci\xF3n.
-3. Revenue Management: Pricing, fidelizaci\xF3n, KPIs.
-4. Formaci\xF3n: Liderazgo, protocolos de excelencia.
-
-Propuesta de Valor: Aumento RevPAR, gasto medio y satisfacci\xF3n del cliente. Hotel Wellness como activo financiero.
-
-Instrucciones ESTRAT\xC9GICAS (Lead Generation):
-- Rol: Asistente virtual experto y persuasivo.
-- Objetivo Principal: CAPTAR LEADS (emails). No solo informes, \xA1vende el siguiente paso!
-- T\xE1ctica: Si el usuario pregunta por precios, servicios espec\xEDficos o muestra inter\xE9s real, NO des toda la informaci\xF3n de golpe.
-- Acci\xF3n Clave: Ofr\xE9cele enviarle un "Dossier Ejecutivo" o la "Gu\xEDa de Rentabilidad" por email.
-- Ejemplo: "Para darte un presupuesto exacto, puedo enviarte nuestro Dossier de Servicios y un caso de \xE9xito similar al tuyo. \xBFMe facilitas tu correo electr\xF3nico?"
-- Idioma: Responde en el idioma del usuario.
-`;
-async function handleChatRequest(req, res) {
-  try {
-    const { messages } = req.body;
-    if (!messages || !Array.isArray(messages)) {
-      return res.status(400).json({ error: "Se requiere un array de mensajes" });
-    }
-    const systemMessage = {
-      role: "system",
-      content: contextInfo
-    };
-    if (!openai) {
-      return res.status(503).json({
-        error: "El servicio de chat no est\xE1 disponible en este momento (Falta configuraci\xF3n de OpenAI)",
-        details: "OPENAI_API_KEY no est\xE1 definida"
-      });
-    }
-    const chatCompletion = await openai.chat.completions.create({
-      model: "gpt-4o",
-      // El modelo más reciente de OpenAI
-      messages: [systemMessage, ...messages],
-      max_tokens: 500,
-      temperature: 0.7
-    });
-    res.json({
-      response: chatCompletion.choices[0].message,
-      usage: chatCompletion.usage
-    });
-  } catch (err) {
-    const error = err;
-    console.error("Error en la API de chat:", error);
-    res.status(500).json({
-      error: "Error al procesar la solicitud del chat",
-      details: error.message || "Error desconocido"
-    });
-  }
-}
-
-// server/services/email.ts
-var import_nodemailer = __toESM(require("nodemailer"), 1);
-var EmailService = class {
-  transporter;
-  constructor() {
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      if (process.env.EMAIL_SERVICE) {
-        this.transporter = import_nodemailer.default.createTransport({
-          service: process.env.EMAIL_SERVICE,
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-          }
-        });
-      } else {
-        this.transporter = import_nodemailer.default.createTransport({
-          host: process.env.SMTP_HOST || "smtp.gmail.com",
-          port: parseInt(process.env.SMTP_PORT || "587"),
-          secure: process.env.SMTP_SECURE === "true",
-          // true for 465, false for other ports
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-          }
-        });
-      }
-    } else {
-      this.transporter = import_nodemailer.default.createTransport({
-        jsonTransport: true
-      });
-    }
-  }
-  async sendEmail(options) {
-    try {
-      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        console.log("---------------------------------------------------");
-        console.log("\u{1F4E7} [MOCK EMAIL SERVICE] Email would be sent:");
-        console.log(`From: ${process.env.EMAIL_FROM || "noreply@example.com"}`);
-        console.log(`To: ${options.to}`);
-        console.log(`Subject: ${options.subject}`);
-        console.log(`Text: ${options.text}`);
-        console.log("---------------------------------------------------");
-        return true;
-      }
-      const result = await this.transporter.sendMail({
-        from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-        to: options.to,
-        subject: options.subject,
-        text: options.text,
-        html: options.html
-      });
-      console.log(`\u2705 Email sent successfully to ${options.to}`);
-      console.log(`Message ID: ${result.messageId}`);
-      return true;
-    } catch (error) {
-      console.error("\u274C Error sending email:", error);
-      return false;
-    }
-  }
-};
-var emailService = new EmailService();
-
-// server/routes.ts
-var import_express_rate_limit = __toESM(require("express-rate-limit"), 1);
-var limiter = (0, import_express_rate_limit.default)({
-  windowMs: 15 * 60 * 1e3,
-  // 15 minutes
-  max: 100,
-  // limit each IP to 100 requests per windowMs
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: "Too many requests from this IP, please try again later"
-});
-var authLimiter = (0, import_express_rate_limit.default)({
-  windowMs: 60 * 60 * 1e3,
-  // 1 hour
-  max: 5,
-  // 5 failed attempts
-  message: "Too many login attempts, please try again after an hour"
-});
-function sanitizeInput(text2) {
-  if (!text2) return "";
-  return text2.replace(/[<>]/g, "").trim();
-}
-async function registerRoutes(app2) {
-  app2.use("/resources", import_express.default.static("resources"));
-  app2.get("/health", (_req, res) => {
-    res.status(200).json({ status: "ok", uptime: process.uptime() });
-  });
-  app2.post("/api/contact", limiter, async (req, res) => {
-    if (req.body) {
-      if (typeof req.body.message === "string") req.body.message = sanitizeInput(req.body.message);
-      if (typeof req.body.name === "string") req.body.name = sanitizeInput(req.body.name);
-      if (typeof req.body.company === "string") req.body.company = sanitizeInput(req.body.company);
-    }
-    try {
-      const contactData = contactSchema.parse(req.body);
-      const savedContact = await storage.createContact(contactData);
-      await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
-        // Replace with actual admin email or env var
-        subject: `Nuevo mensaje de contacto: ${contactData.name}`,
-        text: `
-          Nombre: ${contactData.name}
-          Email: ${contactData.email}
-          Empresa: ${contactData.company || "N/A"}
-          Servicio: ${contactData.service}
-          Mensaje: ${contactData.message}
-        `
-      });
-      await emailService.sendEmail({
-        to: contactData.email,
-        subject: "Hemos recibido tu mensaje - Eva P\xE9rez",
-        text: `
-Hola ${contactData.name},
-
-Gracias por contactar conmigo. He recibido tu mensaje correctamente.
-
-Revisar\xE9 tu consulta sobre "${contactData.service}" y me pondr\xE9 en contacto contigo lo antes posible, normalmente en un plazo de 24-48 horas laborables.
-
-Atentamente,
-Eva P\xE9rez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
-        `
-      });
-      return res.status(200).json({
-        success: true,
-        message: "Mensaje enviado correctamente",
-        data: savedContact
-      });
-    } catch (error) {
-      if (error instanceof import_zod2.z.ZodError) {
-        return res.status(400).json({
-          success: false,
-          message: "Datos del formulario inv\xE1lidos",
-          errors: error.errors
-        });
-      }
-      return res.status(500).json({
-        success: false,
-        message: "Error al procesar la solicitud"
-      });
-    }
-  });
-  app2.post("/api/newsletter", limiter, async (req, res) => {
-    try {
-      const newsletterData = newsletterSchema.parse(req.body);
-      const savedSubscription = await storage.createNewsletterSubscription(newsletterData);
-      await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
-        subject: `Nueva suscripci\xF3n a newsletter: ${newsletterData.email}`,
-        text: `Se ha suscrito un nuevo usuario: ${newsletterData.email}`
-      });
-      await emailService.sendEmail({
-        to: newsletterData.email,
-        subject: "\xA1Bienvenido/a a la comunidad de Eva P\xE9rez! + Tu E-Book gratuito",
-        text: `
-Hola,
-
-Gracias por suscribirte a mi newsletter. Me alegra mucho tenerte aqu\xED.
-
-Como regalo de bienvenida, aqu\xED tienes tu E-Book gratuito:
-"C\xF3mo implementar IA en tu spa hotelero en 30 d\xEDas"
-
-\u{1F4E5} Descarga aqu\xED: https://evaperez-wellness.com/resources/ebook-ia-spa-infographic.html
-
-Este E-Book incluye:
-\u2713 Pasos concretos para implementar IA en tu spa
-\u2713 Plantilla de implementaci\xF3n lista para usar
-\u2713 Casos de uso reales y aplicables
-
-A partir de ahora recibir\xE1s consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gesti\xF3n de spas.
-
-Si tienes alguna pregunta o tema que te gustar\xEDa que tratara, no dudes en responder a este correo.
-
-Atentamente,
-Eva P\xE9rez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
-        `
-      });
-      return res.status(200).json({
-        success: true,
-        message: "Suscripci\xF3n completada correctamente",
-        data: savedSubscription
-      });
-    } catch (error) {
-      if (error instanceof import_zod2.z.ZodError) {
-        return res.status(400).json({
-          success: false,
-          message: "Email inv\xE1lido",
-          errors: error.errors
-        });
-      }
-      return res.status(500).json({
-        success: false,
-        message: "Error al procesar la suscripci\xF3n"
-      });
-    }
-  });
-  app2.post("/api/chat", limiter, handleChatRequest);
-  app2.post("/api/appointments", async (req, res) => {
-    try {
-      const appointmentData = appointmentSchema.parse(req.body);
-      const savedAppointment = await storage.createAppointment(appointmentData);
-      await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
-        subject: `Nueva cita reservada: ${appointmentData.name}`,
-        text: `
-          Nombre: ${appointmentData.name}
-          Email: ${appointmentData.email}
-          Tel\xE9fono: ${appointmentData.phone || "N/A"}
-          Empresa: ${appointmentData.company || "N/A"}
-          Fecha: ${new Date(appointmentData.date).toLocaleString()}
-          Servicio: ${appointmentData.service}
-          Mensaje: ${appointmentData.message || "N/A"}
-        `
-      });
-      await emailService.sendEmail({
-        to: appointmentData.email,
-        subject: "Solicitud de cita recibida - Eva P\xE9rez",
-        text: `
-Hola ${appointmentData.name},
-
-Gracias por solicitar una cita. He recibido tu petici\xF3n para el d\xEDa ${new Date(appointmentData.date).toLocaleDateString()} a las ${new Date(appointmentData.date).toLocaleTimeString()}.
-
-Tu cita est\xE1 actualmente en estado "Pendiente de confirmaci\xF3n". Revisar\xE9 mi agenda y te enviar\xE9 un correo de confirmaci\xF3n definitiva en breve.
-
-Detalles de la solicitud:
-- Servicio: ${appointmentData.service}
-- Fecha: ${new Date(appointmentData.date).toLocaleString()}
-
-Si necesitas modificar algo, por favor responde a este correo.
-
-Atentamente,
-Eva P\xE9rez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
-        `
-      });
-      return res.status(201).json({
-        success: true,
-        message: "Cita reservada correctamente",
-        data: savedAppointment
-      });
-    } catch (error) {
-      if (error instanceof import_zod2.z.ZodError) {
-        return res.status(400).json({
-          success: false,
-          message: "Datos de la cita inv\xE1lidos",
-          errors: error.errors
-        });
-      }
-      return res.status(500).json({
-        success: false,
-        message: "Error al procesar la solicitud de cita"
-      });
-    }
-  });
-  app2.get("/api/appointments/available", async (req, res) => {
-    try {
-      const dateParam = req.query.date;
-      if (!dateParam || typeof dateParam !== "string") {
-        return res.status(400).json({
-          success: false,
-          message: "Se requiere una fecha v\xE1lida"
-        });
-      }
-      const date = new Date(dateParam);
-      if (isNaN(date.getTime())) {
-        return res.status(400).json({
-          success: false,
-          message: "Formato de fecha inv\xE1lido"
-        });
-      }
-      const availableSlots = await storage.getAvailableSlots(date);
-      return res.status(200).json({
-        success: true,
-        data: availableSlots
-      });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Error al obtener los horarios disponibles"
-      });
-    }
-  });
-  app2.get("/api/appointments", async (_req, res) => {
-    try {
-      const appointments2 = await storage.getAllAppointments();
-      return res.status(200).json({
-        success: true,
-        data: appointments2
-      });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Error al obtener las citas"
-      });
-    }
-  });
-  app2.patch("/api/appointments/:id/status", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const { status } = req.body;
-      if (!status || !["pending", "confirmed", "cancelled"].includes(status)) {
-        return res.status(400).json({
-          success: false,
-          message: "Estado de cita inv\xE1lido"
-        });
-      }
-      const updatedAppointment = await storage.updateAppointmentStatus(id, status);
-      if (!updatedAppointment) {
-        return res.status(404).json({
-          success: false,
-          message: "Cita no encontrada"
-        });
-      }
-      return res.status(200).json({
-        success: true,
-        message: "Estado de la cita actualizado correctamente",
-        data: updatedAppointment
-      });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Error al actualizar el estado de la cita"
-      });
-    }
-  });
-  app2.post("/api/articles/generate", async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).send("Unauthorized");
-    }
-    try {
-      const { topic } = req.body;
-      if (!topic) {
-        return res.status(400).json({ success: false, message: "El tema es requerido" });
-      }
-      if (!process.env.OPENAI_API_KEY) {
-        return res.status(503).json({ success: false, message: "OpenAI API key no configurada" });
-      }
-      const openai2 = new import_openai2.default({ apiKey: process.env.OPENAI_API_KEY });
-      const completion = await openai2.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-          {
-            role: "system",
-            content: "Eres un experto redactor de contenido para un blog de wellness y hospitalidad de lujo. Genera un art\xEDculo en formato JSON con los siguientes campos: title, content (en markdown), excerpt, category, readTime (ej: '5 min read'). El contenido debe estar en ESPA\xD1OL. El tono debe ser profesional, sofisticado y persuasivo, enfocado en hoteles de lujo y estrategias de bienestar."
-          },
-          {
-            role: "user",
-            content: `Escribe un art\xEDculo sobre: ${topic}`
-          }
-        ],
-        response_format: { type: "json_object" }
-      });
-      const content = JSON.parse(completion.choices[0].message.content || "{}");
-      const slug = content.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
-      const article = await storage.createArticle({
-        slug,
-        title: content.title,
-        content: content.content,
-        excerpt: content.excerpt,
-        image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80",
-        // Placeholder or use an image search API if available
-        category: content.category,
-        readTime: content.readTime,
-        date: (/* @__PURE__ */ new Date()).toISOString(),
-        language: "es"
-      });
-      return res.status(201).json({ success: true, data: article });
-    } catch (error) {
-      console.error("Error generating article:", error);
-      return res.status(500).json({ success: false, message: "Error generando el art\xEDculo" });
-    }
-  });
-  app2.get("/api/articles", async (_req, res) => {
-    try {
-      const articles2 = await storage.getAllArticles();
-      res.json(articles2);
-    } catch (error) {
-      res.status(500).json({ message: "Error al obtener art\xEDculos" });
-    }
-  });
-  app2.get("/api/articles/:slug", async (req, res) => {
-    try {
-      const article = await storage.getArticleBySlug(req.params.slug);
-      if (!article) {
-        return res.status(404).json({ message: "Art\xEDculo no encontrado" });
-      }
-      res.json(article);
-    } catch (error) {
-      res.status(500).json({ message: "Error al obtener el art\xEDculo" });
-    }
-  });
-  app2.patch("/api/articles/:id", async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    try {
-      const id = parseInt(req.params.id);
-      const updatedArticle = await storage.updateArticle(id, req.body);
-      if (!updatedArticle) {
-        return res.status(404).json({ message: "Art\xEDculo no encontrado" });
-      }
-      res.json(updatedArticle);
-    } catch (error) {
-      res.status(500).json({ message: "Error al actualizar el art\xEDculo" });
-    }
-  });
-  const httpServer = (0, import_http.createServer)(app2);
-  return httpServer;
-}
-
-// server/vite.ts
-var import_express2 = __toESM(require("express"), 1);
-var import_fs = __toESM(require("fs"), 1);
-var import_path = __toESM(require("path"), 1);
-var import_vite = require("vite");
-var import_meta = {};
-var viteLogger = (0, import_vite.createLogger)();
-function log(message, source = "express") {
-  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true
-  });
-  console.log(`${formattedTime} [${source}] ${message}`);
-}
-async function setupVite(app2, server) {
-  const serverOptions = {
-    middlewareMode: true,
-    hmr: { server },
-    allowedHosts: true
-  };
-  const vite = await (0, import_vite.createServer)({
-    server: serverOptions,
-    appType: "custom",
-    configFile: import_path.default.resolve(__dirname, "..", "vite.config.ts"),
-    customLogger: {
-      ...viteLogger,
-      error: (msg, options) => {
-        viteLogger.error(msg, options);
-        process.exit(1);
-      }
-    }
-  });
-  app2.use(vite.middlewares);
-  app2.use("*", async (req, res, next) => {
-    const url = req.originalUrl;
-    try {
-      const clientTemplate = import_path.default.resolve(
-        import_meta.dirname,
-        "..",
-        "client",
-        "index.html"
-      );
-      let template = await import_fs.default.promises.readFile(clientTemplate, "utf-8");
-      template = await vite.transformIndexHtml(url, template);
-      const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
-      const { html: appHtml } = await render(url);
-      const html = template.replace(
-        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
-        `<div id="root">${appHtml}</div>`
-      );
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      vite.ssrFixStacktrace(e);
-      next(e);
-    }
-  });
-}
-function serveStatic(app2) {
-  const distPath = import_path.default.resolve(process.cwd(), "dist", "public");
-  if (!import_fs.default.existsSync(distPath)) {
-    console.error(`[serveStatic] Error: Build directory not found at ${distPath}`);
-    console.error(`[serveStatic] CWD: ${process.cwd()}`);
-    try {
-      const distRoot = import_path.default.resolve(process.cwd(), "dist");
-      if (import_fs.default.existsSync(distRoot)) {
-        console.error(`[serveStatic] Contents of ${distRoot}:`, import_fs.default.readdirSync(distRoot));
-      } else {
-        console.error(`[serveStatic] ${distRoot} does not exist.`);
-      }
-    } catch (e) {
-      console.error("[serveStatic] Error listing dist:", e);
-    }
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
-  }
-  app2.use(import_express2.default.static(distPath));
-  app2.use("*", async (req, res, next) => {
-    try {
-      const template = import_fs.default.readFileSync(import_path.default.resolve(distPath, "index.html"), "utf-8");
-      const serverEntryPath = import_path.default.resolve(process.cwd(), "dist", "server", "entry-server.js");
-      if (!import_fs.default.existsSync(serverEntryPath)) {
-        res.sendFile(import_path.default.resolve(distPath, "index.html"));
-        return;
-      }
-      const { render } = await import("file://" + serverEntryPath);
-      const { html: appHtml } = await render(req.originalUrl);
-      const html = template.replace(
-        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
-        `<div id="root">${appHtml}</div>`
-      );
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      next(e);
-    }
-  });
-}
+var storage2 = new DatabaseStorage();
 
 // server/auth.ts
-var import_passport = __toESM(require("passport"), 1);
-var import_passport_local = require("passport-local");
-var import_express_session2 = __toESM(require("express-session"), 1);
-var import_crypto = require("crypto");
-var import_util = require("util");
 var scryptAsync = (0, import_util.promisify)(import_crypto.scrypt);
 async function hashPassword(password) {
   const salt = (0, import_crypto.randomBytes)(16).toString("hex");
@@ -924,17 +925,17 @@ function setupAuth(app2) {
     secret: process.env.SESSION_SECRET || "super_secret_key_change_in_prod",
     resave: false,
     saveUninitialized: false,
-    store: storage.sessionStore
+    store: storage2.sessionStore
   };
   if (app2.get("env") === "production") {
     app2.set("trust proxy", 1);
   }
-  app2.use((0, import_express_session2.default)(sessionSettings));
+  app2.use((0, import_express_session3.default)(sessionSettings));
   app2.use(import_passport.default.initialize());
   app2.use(import_passport.default.session());
   import_passport.default.use(
     new import_passport_local.Strategy(async (username, password, done) => {
-      const user = await storage.getUserByUsername(username);
+      const user = await storage2.getUserByUsername(username);
       if (!user || !await comparePasswords(password, user.password)) {
         return done(null, false);
       } else {
@@ -944,7 +945,7 @@ function setupAuth(app2) {
   );
   import_passport.default.serializeUser((user, done) => done(null, user.id));
   import_passport.default.deserializeUser(async (id, done) => {
-    const user = await storage.getUser(id);
+    const user = await storage2.getUser(id);
     done(null, user);
   });
   app2.post("/api/login", import_passport.default.authenticate("local"), (req, res) => {
@@ -952,12 +953,12 @@ function setupAuth(app2) {
   });
   app2.post("/api/register", async (req, res, next) => {
     try {
-      const existingUser = await storage.getUserByUsername(req.body.username);
+      const existingUser = await storage2.getUserByUsername(req.body.username);
       if (existingUser) {
         return res.status(400).send("Username already exists");
       }
       const hashedPassword = await hashPassword(req.body.password);
-      const user = await storage.createUser({
+      const user = await storage2.createUser({
         ...req.body,
         password: hashedPassword
       });
@@ -1023,26 +1024,59 @@ app.use((req, res, next) => {
   next();
 });
 (async () => {
-  setupAuth(app);
-  const server = await registerRoutes(app);
-  app.use((err, _req, res, _next) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-    res.status(status).json({ message });
-    throw err;
-  });
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+  try {
+    console.log("");
+    console.log("\u{1F680} ================================");
+    console.log("\u{1F680} PersonalBrandSpa MINIMAL VERSION");
+    console.log("\u{1F680} ================================");
+    console.log(`Environment: ${app.get("env")}`);
+    console.log(`Node: ${process.version}`);
+    console.log(`Platform: ${process.platform}`);
+    console.log("");
+    console.log("\u2705 Database: DISABLED (memory only)");
+    console.log("\u2705 Email: DISABLED (console only)");
+    console.log("\u2705 OpenAI: DISABLED");
+    console.log("");
+    setupAuth(app);
+    const server = await registerRoutes(app);
+    app.use((err, _req, res, _next) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      res.status(status).json({ message });
+      console.error("\u274C Error:", message);
+    });
+    const environment = app.get("env");
+    if (environment === "development") {
+      console.log("Setting up Vite dev server...");
+      await setupVite(app, server);
+    } else {
+      console.log("\u{1F4C1} Serving static files from dist/public");
+      serveStatic(app);
+    }
+    const port = parseInt(process.env.PORT || "5000", 10);
+    server.listen(port, () => {
+      console.log("");
+      console.log("\u2705 ================================");
+      console.log(`\u2705 SERVER STARTED SUCCESSFULLY!`);
+      console.log(`\u2705 Port: ${port}`);
+      console.log(`\u2705 URL: http://localhost:${port}`);
+      console.log("\u2705 ================================");
+      console.log("");
+      console.log("\u26A0\uFE0F  REMEMBER: This is a minimal version");
+      console.log("\u26A0\uFE0F  - No database (data in memory only)");
+      console.log("\u26A0\uFE0F  - No emails sent (logged to console)");
+      console.log("\u26A0\uFE0F  - No AI chatbot");
+      console.log("");
+    });
+  } catch (error) {
+    console.error("");
+    console.error("\u274C ================================");
+    console.error("\u274C FATAL STARTUP ERROR");
+    console.error("\u274C ================================");
+    console.error(error);
+    console.error("");
+    process.exit(1);
   }
-  const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen({
-    port,
-    host: "0.0.0.0"
-  }, () => {
-    log(`serving on port ${port}`);
-  });
 })();
 process.on("uncaughtException", (err) => {
   console.error("Uncaught Exception:", err);
@@ -1050,3 +1084,4 @@ process.on("uncaughtException", (err) => {
 process.on("unhandledRejection", (reason, promise) => {
   console.error("Unhandled Rejection at:", promise, "reason:", reason);
 });
+//# sourceMappingURL=index.cjs.map
