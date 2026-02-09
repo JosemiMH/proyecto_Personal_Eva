@@ -22,13 +22,13 @@ export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
-    allowedHosts: true as true,
+    allowedHosts: true,
   };
 
   const vite = await createViteServer({
     server: serverOptions,
     appType: "custom",
-    configFile: path.resolve(import.meta.dirname, "..", "vite.config.ts"),
+    configFile: path.resolve(__dirname, "..", "vite.config.ts"),
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
@@ -44,7 +44,7 @@ export async function setupVite(app: Express, server: Server) {
 
     try {
       const clientTemplate = path.resolve(
-        import.meta.dirname,
+        __dirname,
         "..",
         "client",
         "index.html",
@@ -68,8 +68,8 @@ export async function setupVite(app: Express, server: Server) {
       );
 
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      vite.ssrFixStacktrace(e as Error);
+    } catch (e: any) {
+      vite.ssrFixStacktrace(e);
       next(e);
     }
   });

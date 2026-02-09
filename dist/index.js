@@ -28,15 +28,15 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 
 // server/index.ts
 var import_config = require("dotenv/config");
-var import_express3 = __toESM(require("express"), 1);
+var import_express3 = __toESM(require("express"));
 
 // server/routes.ts
-var import_express = __toESM(require("express"), 1);
+var import_express = __toESM(require("express"));
 var import_http = require("http");
-var import_openai = __toESM(require("openai"), 1);
+var import_openai = __toESM(require("openai"));
 
 // server/storage-minimal.ts
-var import_express_session = __toESM(require("express-session"), 1);
+var import_express_session = __toESM(require("express-session"));
 var MinimalStorage = class {
   sessionStore;
   // In-memory storage
@@ -246,7 +246,7 @@ var insertArticleSchema = (0, import_drizzle_zod.createInsertSchema)(articles).p
 
 // server/routes.ts
 var import_zod2 = require("zod");
-var import_express_rate_limit = __toESM(require("express-rate-limit"), 1);
+var import_express_rate_limit = __toESM(require("express-rate-limit"));
 var limiter = (0, import_express_rate_limit.default)({
   windowMs: 15 * 60 * 1e3,
   // 15 minutes
@@ -605,11 +605,10 @@ https://evaperez-wellness.com
 }
 
 // server/vite.ts
-var import_express2 = __toESM(require("express"), 1);
-var import_fs = __toESM(require("fs"), 1);
-var import_path = __toESM(require("path"), 1);
+var import_express2 = __toESM(require("express"));
+var import_fs = __toESM(require("fs"));
+var import_path = __toESM(require("path"));
 var import_vite = require("vite");
-var import_meta = {};
 var viteLogger = (0, import_vite.createLogger)();
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
@@ -629,7 +628,7 @@ async function setupVite(app2, server) {
   const vite = await (0, import_vite.createServer)({
     server: serverOptions,
     appType: "custom",
-    configFile: import_path.default.resolve(import_meta.dirname, "..", "vite.config.ts"),
+    configFile: import_path.default.resolve(__dirname, "..", "vite.config.ts"),
     customLogger: {
       ...viteLogger,
       error: (msg, options) => {
@@ -643,7 +642,7 @@ async function setupVite(app2, server) {
     const url = req.originalUrl;
     try {
       const clientTemplate = import_path.default.resolve(
-        import_meta.dirname,
+        __dirname,
         "..",
         "client",
         "index.html"
@@ -705,19 +704,19 @@ function serveStatic(app2) {
 }
 
 // server/auth.ts
-var import_passport = __toESM(require("passport"), 1);
+var import_passport = __toESM(require("passport"));
 var import_passport_local = require("passport-local");
-var import_express_session3 = __toESM(require("express-session"), 1);
+var import_express_session3 = __toESM(require("express-session"));
 var import_crypto = require("crypto");
 var import_util = require("util");
 
 // server/storage.ts
-var import_express_session2 = __toESM(require("express-session"), 1);
+var import_express_session2 = __toESM(require("express-session"));
 
 // server/db.ts
 var import_serverless = require("@neondatabase/serverless");
 var import_neon_serverless = require("drizzle-orm/neon-serverless");
-var import_ws = __toESM(require("ws"), 1);
+var import_ws = __toESM(require("ws"));
 import_serverless.neonConfig.webSocketConstructor = import_ws.default;
 var pool;
 var db;
@@ -733,7 +732,7 @@ if (!process.env.DATABASE_URL) {
 
 // server/storage.ts
 var import_drizzle_orm = require("drizzle-orm");
-var import_connect_pg_simple = __toESM(require("connect-pg-simple"), 1);
+var import_connect_pg_simple = __toESM(require("connect-pg-simple"));
 var PgSessionStore = (0, import_connect_pg_simple.default)(import_express_session2.default);
 var DatabaseStorage = class {
   sessionStore;
@@ -983,7 +982,7 @@ function setupAuth(app2) {
 }
 
 // server/index.ts
-var import_helmet = __toESM(require("helmet"), 1);
+var import_helmet = __toESM(require("helmet"));
 var app = (0, import_express3.default)();
 app.use((0, import_helmet.default)({
   contentSecurityPolicy: {
@@ -1054,7 +1053,7 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
     const port = parseInt(process.env.PORT || "5000", 10);
-    server.listen(port, "0.0.0.0", () => {
+    server.listen(port, () => {
       console.log("");
       console.log("\u2705 ================================");
       console.log(`\u2705 SERVER STARTED SUCCESSFULLY!`);
