@@ -16,43 +16,43 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[900px] max-h-[95vh] flex flex-col font-poppins p-0 overflow-hidden border-none shadow-2xl bg-white">
-                <div className="relative h-80 w-full shrink-0 group">
+            <DialogContent className="sm:max-w-[900px] w-[95vw] max-h-[90vh] flex flex-col font-poppins p-0 overflow-hidden border-none shadow-2xl bg-white text-charcoal z-[60]">
+                <div className="relative h-64 md:h-80 w-full shrink-0 group bg-gray-100">
                     <img
                         src={project.image}
                         alt={typeof project.title === 'object' ? project.title[language] : project.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-8">
-                        <div className="w-full">
-                            <div className="flex justify-between items-end mb-2">
-                                <Badge className="bg-turquoise hover:bg-turquoise-dark text-white border-none text-sm px-3 py-1 shadow-sm backdrop-blur-sm">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8">
+                        <div className="w-full relative z-10">
+                            <div className="flex justify-between items-end mb-3">
+                                <Badge className="bg-turquoise hover:bg-turquoise-dark text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm backdrop-blur-sm">
                                     {typeof project.categoryName === 'object' ? project.categoryName[language] : project.categoryName}
                                 </Badge>
                             </div>
-                            <DialogTitle className="font-playfair text-3xl md:text-4xl text-white font-bold drop-shadow-lg leading-tight">
+                            <DialogTitle className="font-playfair text-2xl md:text-4xl text-white font-bold drop-shadow-md leading-tight">
                                 {typeof project.title === 'object' ? project.title[language] : project.title}
                             </DialogTitle>
                         </div>
                     </div>
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-all border border-white/10"
+                        className="absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg"
                         aria-label="Close modal"
                         title="Close"
                     >
-                        <i className="fas fa-times text-lg w-6 h-6 flex items-center justify-center"></i>
+                        <i className="fas fa-times text-lg w-5 h-5 flex items-center justify-center"></i>
                     </button>
                 </div>
 
-                <ScrollArea className="flex-grow">
-                    <div className="p-8 space-y-10">
+                <ScrollArea className="flex-grow bg-white">
+                    <div className="p-6 md:p-8 space-y-8 md:space-y-10 pb-10">
                         <div>
-                            <h4 className="font-playfair text-2xl font-bold text-charcoal mb-4 flex items-center gap-3">
+                            <h4 className="font-playfair text-xl md:text-2xl font-bold text-charcoal mb-4 flex items-center gap-3">
                                 <span className="w-8 h-1 bg-turquoise rounded-full block"></span>
                                 {language === 'es' ? 'Sobre el Proyecto' : 'About the Project'}
                             </h4>
-                            <DialogDescription className="text-base md:text-lg text-charcoal-light leading-relaxed whitespace-pre-line font-light">
+                            <DialogDescription className="text-base text-charcoal-light leading-relaxed whitespace-pre-line font-light">
                                 {project.longDescription
                                     ? (typeof project.longDescription === 'object' ? project.longDescription[language] : project.longDescription)
                                     : (typeof project.description === 'object' ? project.description[language] : project.description)
@@ -60,15 +60,15 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                             </DialogDescription>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                                <h4 className="font-playfair font-bold text-xl text-charcoal mb-6 flex items-center gap-3 border-b border-gray-100 pb-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                            <div className="bg-white p-5 md:p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                                <h4 className="font-playfair font-bold text-lg md:text-xl text-charcoal mb-5 flex items-center gap-3 border-b border-gray-100 pb-3">
                                     <div className="bg-turquoise/10 p-2 rounded-lg">
                                         <i className="fas fa-trophy text-turquoise"></i>
                                     </div>
                                     {language === 'es' ? 'Logros Destacados' : 'Key Highlights'}
                                 </h4>
-                                <ul className="space-y-4">
+                                <ul className="space-y-3 md:space-y-4">
                                     {(typeof project.highlights === 'object' ?
                                         project.highlights[language] :
                                         project.highlights
@@ -84,14 +84,14 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                             </div>
 
                             {project.results && (
-                                <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                                    <h4 className="font-playfair font-bold text-xl text-charcoal mb-6 flex items-center gap-3 border-b border-gray-100 pb-3">
+                                <div className="bg-white p-5 md:p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                                    <h4 className="font-playfair font-bold text-lg md:text-xl text-charcoal mb-5 flex items-center gap-3 border-b border-gray-100 pb-3">
                                         <div className="bg-turquoise/10 p-2 rounded-lg">
                                             <i className="fas fa-chart-line text-turquoise"></i>
                                         </div>
                                         {language === 'es' ? 'Resultados' : 'Results'}
                                     </h4>
-                                    <ul className="space-y-4">
+                                    <ul className="space-y-3 md:space-y-4">
                                         {(typeof project.results === 'object' ?
                                             project.results[language] :
                                             project.results
