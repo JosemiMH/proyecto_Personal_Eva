@@ -1,12 +1,12 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { Project } from "@/types";
 
 interface ProjectModalProps {
     isOpen: boolean;
     onClose: () => void;
-    project: any;
+    project: Project | null;
 }
 
 const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
@@ -22,18 +22,18 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                 <div className="relative h-64 md:h-80 w-full shrink-0 bg-gray-900">
                     <img
                         src={project.image}
-                        alt={typeof project.title === 'object' ? project.title[language] : project.title}
+                        alt={project.title[language]}
                         className="w-full h-full object-cover opacity-90"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8">
                         <div className="w-full relative z-10">
                             <div className="flex justify-between items-end mb-3">
                                 <Badge className="bg-turquoise text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm">
-                                    {typeof project.categoryName === 'object' ? project.categoryName[language] : project.categoryName}
+                                    {project.categoryName[language]}
                                 </Badge>
                             </div>
                             <DialogTitle className="font-playfair text-2xl md:text-4xl text-white font-bold drop-shadow-md leading-tight">
-                                {typeof project.title === 'object' ? project.title[language] : project.title}
+                                {project.title[language]}
                             </DialogTitle>
                         </div>
                     </div>
@@ -58,14 +58,12 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                             </h4>
 
                             <DialogDescription className="text-lg md:text-xl text-charcoal-light leading-relaxed font-light">
-                                {typeof project.description === 'object' ? project.description[language] : project.description}
+                                {project.description[language]}
                             </DialogDescription>
 
                             <div className="prose prose-lg text-charcoal-light max-w-none">
                                 <p className="whitespace-pre-line leading-relaxed">
-                                    {project.longDescription
-                                        ? (typeof project.longDescription === 'object' ? project.longDescription[language] : project.longDescription)
-                                        : ''}
+                                    {project.longDescription[language]}
                                 </p>
                             </div>
                         </div>
@@ -79,10 +77,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                                     {language === 'es' ? 'Desafíos & Soluciones' : 'Challenges & Solutions'}
                                 </h4>
                                 <ul className="space-y-3">
-                                    {(typeof project.highlights === 'object' ?
-                                        project.highlights[language] :
-                                        project.highlights
-                                    ).map((highlight: string, index: number) => (
+                                    {project.highlights[language].map((highlight, index) => (
                                         <li key={index} className="flex items-start gap-3">
                                             <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0"></div>
                                             <span className="text-charcoal-light leading-relaxed">{highlight}</span>
@@ -98,10 +93,7 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                                     {language === 'es' ? 'Logros Destacados' : 'Key Achievements'}
                                 </h4>
                                 <ul className="space-y-3">
-                                    {(typeof project.results === 'object' ?
-                                        project.results[language] :
-                                        project.results
-                                    ).map((result: string, index: number) => (
+                                    {project.results[language].map((result, index) => (
                                         <li key={index} className="flex items-start gap-3">
                                             <i className="fas fa-star text-gold mt-1 shrink-0"></i>
                                             <span className="text-charcoal-light leading-relaxed">{result}</span>

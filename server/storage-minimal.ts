@@ -95,6 +95,11 @@ export class MinimalStorage {
         return null;
     }
 
+    async updateArticle(id: number, articleUpdate: any) {
+        console.log('📄 Article update not available (no database)');
+        return { id, ...articleUpdate };
+    }
+
     async getAllArticles() {
         return [];
     }

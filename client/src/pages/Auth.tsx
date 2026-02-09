@@ -1,3 +1,4 @@
+import PageTransition from "@/components/PageTransition";
 import { useAuth } from "../hooks/use-auth";
 import { useLocation } from "wouter";
 import { zodResolver } from "@hookform/resolvers/zod";

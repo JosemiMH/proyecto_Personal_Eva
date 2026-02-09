@@ -1,9 +1,10 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import React, { Suspense } from "react";
+import { AnimatePresence } from "framer-motion";
 
 import ResourcesPage from "@/components/Resources"; // Ensure this is imported if used directly or lazily
 // Restore missing imports
@@ -25,20 +26,37 @@ const AuthPage = React.lazy(() => import("@/pages/Auth"));
 // const ResourcesPage = React.lazy(() => import("@/components/Resources")); // If using lazy, comment out check above
 
 function Router() {
+  const [location] = useLocation();
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/terms" component={Terms} />
-        <Route path="/cookies" component={Cookies} />
-        <Route path="/booking" component={Booking} />
-        <Route path="/auth" component={AuthPage} />
-        <ProtectedRoute path="/admin" component={Admin} />
-        <Route path="/resources" component={ResourcesPage} />
-        {/* Fallback to 404 */}
-        <Route component={NotFound} />
-      </Switch>
+      <AnimatePresence mode="wait">
+        <Switch location={location} key={location}>
+          <Route path="/">
+            <Home />
+          </Route>
+          <Route path="/privacy">
+            <Privacy />
+          </Route>
+          <Route path="/terms">
+            <Terms />
+          </Route>
+          <Route path="/cookies">
+            <Cookies />
+          </Route>
+          <Route path="/booking">
+            <Booking />
+          </Route>
+          <Route path="/auth">
+            <AuthPage />
+          </Route>
+          <ProtectedRoute path="/admin" component={Admin} />
+          <Route path="/resources">
+            <ResourcesPage />
+          </Route>
+          {/* Fallback to 404 */}
+          <Route component={NotFound} />
+        </Switch>
+      </AnimatePresence>
     </Suspense>
   );
 }

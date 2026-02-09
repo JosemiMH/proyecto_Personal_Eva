@@ -3,13 +3,14 @@ import { motion } from 'framer-motion';
 import { services } from '@/lib/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ServiceModal from './ServiceModal';
+import { Service } from '@/types';
 
 const Services = () => {
   const { t, language } = useLanguage();
-  const [selectedService, setSelectedService] = useState<any>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = (service: any) => {
+  const handleOpenModal = (service: Service) => {
     setSelectedService(service);
     setIsModalOpen(true);
   };
@@ -69,16 +70,13 @@ const Services = () => {
                 <i className={`fas ${service.icon} text-turquoise text-2xl`}></i>
               </div>
               <h4 className="font-playfair text-xl font-bold text-charcoal mb-4">
-                {typeof service.title === 'object' ? service.title[language] : service.title}
+                {service.title[language]}
               </h4>
               <p className="text-charcoal-light mb-4 line-clamp-3">
-                {typeof service.description === 'object' ? service.description[language] : service.description}
+                {service.description[language]}
               </p>
               <ul className="space-y-2 mb-6">
-                {(typeof service.features === 'object' ?
-                  service.features[language] :
-                  service.features
-                ).map((feature, featureIndex) => (
+                {service.features[language].map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start">
                     <i className="fas fa-check text-turquoise mt-1 mr-2"></i>
                     <span className="text-sm text-charcoal-light">{feature}</span>

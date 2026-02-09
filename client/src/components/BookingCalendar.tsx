@@ -317,7 +317,7 @@ const BookingCalendar = () => {
                         {t('booking.complete')}
                       </CardTitle>
                       <CardDescription>
-                        {t('booking.details')} {format(date!, 'PPP', { locale: dateLocale })} {t('booking.at')} {format(selectedSlot.start, 'HH:mm')}
+                        {t('booking.details')} {format(date!, 'PPP', { locale: dateLocale })} {language === 'es' ? 'a las' : 'at'} {format(selectedSlot.start, 'HH:mm')}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>

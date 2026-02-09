@@ -1,16 +1,16 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Service } from "@/types";
 
 interface ServiceModalProps {
     isOpen: boolean;
     onClose: () => void;
-    service: any;
+    service: Service | null;
 }
 
 const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
-    const { language, t } = useLanguage();
+    const { language } = useLanguage();
 
     if (!service) return null;
 
@@ -23,7 +23,7 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
                     </div>
                     <div>
                         <DialogTitle className="font-playfair text-2xl md:text-3xl font-bold text-charcoal">
-                            {typeof service.title === 'object' ? service.title[language] : service.title}
+                            {service.title[language]}
                         </DialogTitle>
                     </div>
                 </div>
@@ -32,8 +32,8 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
                     <div className="p-6 md:p-8 space-y-6">
                         <DialogDescription className="text-base text-charcoal-light leading-relaxed">
                             {service.longDescription
-                                ? (typeof service.longDescription === 'object' ? service.longDescription[language] : service.longDescription)
-                                : (typeof service.description === 'object' ? service.description[language] : service.description)
+                                ? service.longDescription[language]
+                                : service.description[language]
                             }
                         </DialogDescription>
 
@@ -43,10 +43,7 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
                                 {language === 'es' ? 'Características Clave' : 'Key Features'}
                             </h4>
                             <ul className="space-y-3">
-                                {(typeof service.features === 'object' ?
-                                    service.features[language] :
-                                    service.features
-                                ).map((feature: string, index: number) => (
+                                {service.features[language].map((feature, index) => (
                                     <li key={index} className="flex items-start gap-3">
                                         <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0"></div>
                                         <span className="text-charcoal-light">{feature}</span>

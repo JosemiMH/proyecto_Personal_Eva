@@ -1,5 +1,7 @@
+import { Project, Service, BlogPost } from '@/types';
+
 // Services
-export const services = [
+export const services: Service[] = [
   {
     icon: 'fa-search',
     title: {
@@ -147,7 +149,7 @@ export const services = [
 ];
 
 // Portfolio items - Proyectos reales de Eva Pérez
-export const portfolioItems = [
+export const portfolioItems: Project[] = [
   {
     title: {
       es: 'Cadena Paradores de España',
@@ -658,7 +660,7 @@ export const resources = [
 ];
 
 // Blog posts
-export const blogPosts = [
+export const blogPosts: BlogPost[] = [
   {
     title: {
       es: "El Secreto de la Longevidad: Cómo los Hoteles de Lujo Están Innovando en Bienestar",

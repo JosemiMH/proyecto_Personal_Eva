@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import PageTransition from "@/components/PageTransition";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -71,47 +72,49 @@ const Home = () => {
 
 
   return (
-    <div className="font-poppins text-charcoal bg-white">
-      <SEO
-        title="Consultoría Wellness & Spa de Lujo"
-        description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas y hospitalidad de lujo."
-      />
-      <Header />
-      <section id="home">
-        <Hero />
-      </section>
-      <section id="about">
-        <About />
-      </section>
-      <section id="services">
-        <Services />
-      </section>
+    <PageTransition>
+      <div className="font-poppins text-charcoal bg-white">
+        <SEO
+          title="Consultoría Wellness & Spa de Lujo"
+          description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas y hospitalidad de lujo."
+        />
+        <Header />
+        <section id="home">
+          <Hero />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="services">
+          <Services />
+        </section>
 
-      <section id="cta">
-        <CallToAction />
-      </section>
-      <section id="portfolio">
-        <Portfolio />
-      </section>
-      <section id="testimonials">
-        <Testimonials />
-      </section>
-      <section id="resources">
-        <Resources />
-      </section>
-      <section id="blog">
-        <Blog />
-      </section>
-      <section id="contact">
-        <Contact />
-      </section>
-      <section id="newsletter">
-        <Newsletter />
-      </section>
-      <Footer />
-      <ScrollToTop />
-      <EbookPopup />
-    </div>
+        <section id="cta">
+          <CallToAction />
+        </section>
+        <section id="portfolio">
+          <Portfolio />
+        </section>
+        <section id="testimonials">
+          <Testimonials />
+        </section>
+        <section id="resources">
+          <Resources />
+        </section>
+        <section id="blog">
+          <Blog />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
+        <section id="newsletter">
+          <Newsletter />
+        </section>
+        <Footer />
+        <ScrollToTop />
+        <EbookPopup />
+      </div>
+    </PageTransition>
   );
 };
 

@@ -3,16 +3,17 @@ import { motion } from 'framer-motion';
 import { portfolioItems } from '@/lib/constants';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ProjectModal from './ProjectModal';
+import { Project } from '@/types';
 
 type FilterCategory = 'all' | 'paradores' | 'eurostars' | 'hg' | 'melia' | 'axel' | 'independientes';
 
 const Portfolio = () => {
   const { t, language } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = (project: any) => {
+  const handleOpenModal = (project: Project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
   };
@@ -148,23 +149,23 @@ const Portfolio = () => {
               <div className="relative h-64">
                 <img
                   src={item.image}
-                  alt={typeof item.title === 'object' ? item.title[language] : ""}
+                  alt={item.title[language]}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
                   <div className="p-4">
                     <span className="text-xs font-medium bg-turquoise text-white px-2 py-1 rounded">
-                      {typeof item.categoryName === 'object' ? item.categoryName[language] : item.categoryName}
+                      {item.categoryName[language]}
                     </span>
                   </div>
                 </div>
               </div>
               <div className="p-6 bg-white">
                 <h4 className="font-playfair text-xl font-bold text-charcoal mb-2">
-                  {typeof item.title === 'object' ? item.title[language] : item.title}
+                  {item.title[language]}
                 </h4>
                 <p className="text-charcoal-light text-sm mb-4 line-clamp-3">
-                  {typeof item.description === 'object' ? item.description[language] : item.description}
+                  {item.description[language]}
                 </p>
                 <button
                   onClick={() => handleOpenModal(item)}
