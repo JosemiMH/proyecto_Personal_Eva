@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Rentabilidad para tu Spa | Eva Pérez - EPM Wellness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --turquoise: #2A9D8F;
+            --turquoise-dark: #1F7A6F;
+            --gold: #C8AD8D;
+            --gold-light: #D4BFA3;
+            --charcoal: #2C3E50;
+            --charcoal-light: #4A5568;
+            --cream: #FAF8F5;
+            --white: #FFFFFF;
+            --border: #E8E0D8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--charcoal);
+            background: var(--cream);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ebook-container {
+            max-width: 780px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 0 60px rgba(0,0,0,0.08);
+        }
+
+        /* ===== COVER ===== */
+        .cover {
+            background: linear-gradient(135deg, var(--charcoal) 0%, #1a2a3a 50%, var(--turquoise-dark) 100%);
+            color: var(--white);
+            padding: 80px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(42,157,143,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cover::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(200,173,141,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: rgba(200,173,141,0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 8px 24px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 1.15rem;
+            opacity: 0.85;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-author {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 25px;
+            display: inline-block;
+        }
+
+        .cover-author .name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gold-light);
+        }
+
+        .cover-author .title {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            padding: 60px 50px;
+        }
+
+        .intro {
+            font-size: 1.05rem;
+            color: var(--charcoal-light);
+            border-left: 3px solid var(--turquoise);
+            padding-left: 25px;
+            margin-bottom: 50px;
+            line-height: 1.8;
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--turquoise) 0%, var(--turquoise-dark) 100%);
+            color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .point {
+            margin-bottom: 45px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .point:last-of-type {
+            border-bottom: none;
+        }
+
+        .point-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .point h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .point p {
+            color: var(--charcoal-light);
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #f0faf8 0%, #e6f7f4 100%);
+            border: 1px solid rgba(42,157,143,0.15);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 16px;
+        }
+
+        .tip-box strong {
+            color: var(--turquoise-dark);
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .tip-box p {
+            color: var(--charcoal-light);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .formula-box {
+            background: var(--charcoal);
+            color: var(--white);
+            border-radius: 10px;
+            padding: 18px 24px;
+            margin: 16px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-highlight {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--white);
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist-section {
+            background: linear-gradient(135deg, #faf6f1 0%, #f5ede4 100%);
+            padding: 50px;
+            margin: 0;
+        }
+
+        .checklist-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            text-align: center;
+            color: var(--charcoal);
+            margin-bottom: 10px;
+        }
+
+        .checklist-section .subtitle {
+            text-align: center;
+            color: var(--charcoal-light);
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: var(--white);
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .check-icon {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--turquoise);
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checklist-item span {
+            font-size: 0.9rem;
+            color: var(--charcoal-light);
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--turquoise) 0%, var(--turquoise-dark) 100%);
+            color: var(--white);
+            padding: 50px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--white);
+            color: var(--turquoise-dark);
+            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* ===== FOOTER ===== */
+        .ebook-footer {
+            background: var(--charcoal);
+            color: rgba(255,255,255,0.7);
+            padding: 30px 50px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .ebook-footer .brand {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-light);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .ebook-footer a {
+            color: var(--turquoise);
+            text-decoration: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .cover { padding: 50px 30px; }
+            .cover h1 { font-size: 2rem; }
+            .content { padding: 40px 25px; }
+            .checklist-section { padding: 35px 25px; }
+            .checklist-grid { grid-template-columns: 1fr; }
+            .cta-section { padding: 40px 25px; }
+            .ebook-footer { padding: 25px; }
+        }
+
+        @media print {
+            body { background: white; }
+            .ebook-container { box-shadow: none; }
+            .cta-section { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="ebook-container">
+
+    <!-- COVER -->
+    <div class="cover">
+        <div class="cover-badge">Guía Exclusiva 2025</div>
+        <h1>10 Puntos Críticos<br>para Aumentar la<br>Rentabilidad de tu Spa</h1>
+        <h2>Una guía práctica para directores de spa y hoteles<br>que buscan resultados medibles en 30 días</h2>
+        <div class="cover-author">
+            <div class="name">Eva Pérez</div>
+            <div class="title">Gerente de Proyectos SPA & Wellness · +20 años de experiencia</div>
+        </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="content">
+        <p class="intro">
+            Después de más de 20 años trabajando con cadenas hoteleras como Paradores, Eurostars, AXEL Hotels y HG Hoteles, he identificado <strong>10 puntos críticos</strong> que determinan si un spa hotelero es un centro de costes o un verdadero motor de ingresos. Esta guía te ofrece un diagnóstico rápido y acciones concretas para cada uno.
+        </p>
+
+        <!-- PUNTO 1 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">1</span>
+                <h3>RevPATH: Tu Métrica Norte</h3>
+            </div>
+            <p>El <strong>Revenue Per Available Treatment Hour</strong> (RevPATH) es el equivalente del RevPAR hotelero aplicado al spa. Si no lo mides, estás navegando a ciegas.</p>
+            <div class="formula-box">
+                RevPATH = Ingresos Totales Spa / (Horas Disponibles × Nº Cabinas)
+            </div>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Calcula tu RevPATH actual. Un spa hotelero bien gestionado debería tener un RevPATH de entre 35€ y 65€. Si estás por debajo de 25€, hay un problema de ocupación o pricing.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 2 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">2</span>
+                <h3>Ratio de Venta de Retail</h3>
+            </div>
+            <p>Los productos de retail son la fuente de ingresos más infravalorada del spa. Un equipo bien formado convierte cada tratamiento en una oportunidad de venta consultiva.</p>
+            <p><strong>Meta:</strong> El retail debería representar al menos el <span class="stat-highlight">20-25%</span> de los ingresos totales del spa.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Forma a tus terapeutas en "prescripción de rutinas" en lugar de "venta de productos". El cliente compra la solución a su necesidad, no un bote de crema.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 3 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">3</span>
+                <h3>Ocupación de Cabinas vs. Horarios Pico</h3>
+            </div>
+            <p>Un spa con un 40% de ocupación media puede parecer ineficiente, pero si todo se concentra en 3 horas, estás perdiendo ingresos por saturación y por horarios muertos.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Implementa precios dinámicos: descuentos del 15-20% en horarios "valle" (10:00-12:00) y precios premium en horarios pico (17:00-20:00). Los hoteles ya lo hacen con habitaciones, ¿por qué no tu spa?</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 4 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">4</span>
+                <h3>Ratio de Captación del Huésped</h3>
+            </div>
+            <p>¿Qué porcentaje de los huéspedes del hotel utiliza el spa? En muchos hoteles este ratio no supera el <span class="stat-highlight">8-12%</span>, cuando debería estar por encima del 25%.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Trabaja con recepción para que mencione el spa en cada check-in. Ofrece un "tratamiento bienvenida" de 15 minutos gratuito. El coste es mínimo y la conversión posterior supera el 30%.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 5 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">5</span>
+                <h3>Ticket Medio y Up-Selling</h3>
+            </div>
+            <p>El ticket medio por visita es uno de los indicadores más fáciles de mejorar. La clave está en la experiencia "añadida" que no se percibe como venta.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Crea 3 niveles por tratamiento (Esencial, Premium, Signature). El 60% de los clientes elegirá la opción intermedia, incrementando tu ticket medio un 20-30%.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 6 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">6</span>
+                <h3>Productividad del Equipo Terapéutico</h3>
+            </div>
+            <p>Un terapeuta debería estar realizando tratamientos el <span class="stat-highlight">70-75%</span> de su jornada laboral. El resto se destina a preparación, limpieza y formación. Si está por debajo del 60%, hay un problema de planificación.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Implementa un sistema de turnos flexible que se adapte a la demanda real. Usa los datos de los últimos 3 meses para predecir picos y ajustar la plantilla.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 7 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">7</span>
+                <h3>Carta de Tratamientos Estratégica</h3>
+            </div>
+            <p>Una carta de 50+ tratamientos puede parecer completa, pero confunde al cliente y complica la operación. Menos es más cuando se diseña con estrategia.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Aplica la regla 80/20: identifica los tratamientos que generan el 80% de ingresos. Elimina los que no se venden y sustituye por "tratamientos firma" exclusivos de tu spa que justifiquen un precio premium.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 8 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">8</span>
+                <h3>Experiencia Pre y Post Tratamiento</h3>
+            </div>
+            <p>El 70% de la percepción de valor del cliente se forma fuera de la cabina de tratamiento: la acogida, el ritual de bienvenida, la zona de aguas, el follow-up posterior.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Diseña un "journey del cliente" de 5 pasos: bienvenida con infusión → consulta personalizada → pre-tratamiento en zona húmeda → tratamiento → degustación de cierre con recomendaciones. Así se justifica el precio y se genera fidelización.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 9 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">9</span>
+                <h3>Integración Digital y Reservas Online</h3>
+            </div>
+            <p>Si tu spa no tiene un sistema de reservas online integrado con el PMS del hotel, estás perdiendo entre un <span class="stat-highlight">15-25%</span> de reservas potenciales. El huésped moderno quiere reservar a las 11 de la noche desde su móvil.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Implementa un sistema de reservas 24/7 con disponibilidad en tiempo real. Añade un chatbot con IA para responder preguntas frecuentes y capturar leads fuera de horario.</p>
+            </div>
+        </div>
+
+        <!-- PUNTO 10 -->
+        <div class="point">
+            <div class="point-header">
+                <span class="section-number">10</span>
+                <h3>Programa de Fidelización Específico</h3>
+            </div>
+            <p>Captar un cliente nuevo cuesta 5-7 veces más que retener uno existente. Sin embargo, pocos spas hoteleros tienen un programa de fidelización propio diferenciado del programa del hotel.</p>
+            <div class="tip-box">
+                <strong>💡 Acción inmediata</strong>
+                <p>Crea un programa tipo "Club Wellness" con beneficios exclusivos: acceso prioritario, descuentos en retail, tratamientos sorpresa en cumpleaños y acceso a eventos de bienestar. La inversión es mínima comparada con el incremento en repetición.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="checklist-section">
+        <h2>Tu Auditoría Rápida</h2>
+        <p class="subtitle">Imprime esta página y evalúa tu spa punto por punto</p>
+        <div class="checklist-grid">
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Calculo mi RevPATH mensualmente</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>El retail supera el 20% de ingresos</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Tengo precios dinámicos por franja horaria</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>+25% de huéspedes usan el spa</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Ofrezco 3 niveles por tratamiento</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Productividad terapeutas >70%</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Carta optimizada con tratamientos firma</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Journey del cliente en 5 pasos</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Reservas online 24/7 activas</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check-icon"></div>
+                <span>Programa de fidelización propio</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2>¿Necesitas ayuda para implementar estos cambios?</h2>
+        <p>Agenda una consulta estratégica gratuita de 30 minutos y analicemos juntos la rentabilidad de tu spa.</p>
+        <a href="https://epmwellness.com/#booking" class="cta-button">Reservar Consulta Gratuita</a>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="ebook-footer">
+        <div class="brand">Eva Pérez · EPM Wellness</div>
+        <p>Gerente de Proyectos SPA & Wellness · Especialista en Optimización de Ingresos</p>
+        <p style="margin-top: 8px;"><a href="https://epmwellness.com">epmwellness.com</a> · <a href="mailto:epm@epmwellness.com">epm@epmwellness.com</a></p>
+        <p style="margin-top: 15px; font-size: 0.75rem; opacity: 0.5;">© 2025 Eva Pérez. Todos los derechos reservados. Este material es exclusivo para suscriptores.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

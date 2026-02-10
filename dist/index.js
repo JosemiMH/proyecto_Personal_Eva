@@ -506,7 +506,6 @@ async function registerRoutes(app2) {
       const savedContact = await storage.createContact(contactData);
       await emailService.sendEmail({
         to: "epm@epmwellness.com",
-        // Replace with actual admin email or env var
         subject: `Nuevo mensaje de contacto: ${contactData.name}`,
         text: `
           Nombre: ${contactData.name}
@@ -528,8 +527,8 @@ Revisar\xE9 tu consulta sobre "${contactData.service}" y me pondr\xE9 en contact
 
 Atentamente,
 Eva P\xE9rez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
+Gerente de Proyectos SPA & Wellness
+https://epmwellness.com
         `
       });
       return res.status(200).json({
@@ -562,21 +561,22 @@ https://evaperez-wellness.com
       });
       await emailService.sendEmail({
         to: newsletterData.email,
-        subject: "\xA1Bienvenido/a a la comunidad de Eva P\xE9rez! + Tu E-Book gratuito",
+        subject: "Tu Gu\xEDa Gratuita: 10 Puntos Cr\xEDticos para la Rentabilidad de tu Spa",
         text: `
 Hola,
 
-Gracias por suscribirte a mi newsletter. Me alegra mucho tenerte aqu\xED.
+Gracias por suscribirte a la comunidad de Eva P\xE9rez - EPM Wellness. Me alegra mucho tenerte aqu\xED.
 
-Como regalo de bienvenida, aqu\xED tienes tu E-Book gratuito:
-"C\xF3mo implementar IA en tu spa hotelero en 30 d\xEDas"
+Como regalo de bienvenida, aqu\xED tienes tu Gu\xEDa de Rentabilidad gratuita:
+"10 Puntos Cr\xEDticos para Aumentar la Rentabilidad de tu Spa"
 
-\u{1F4E5} Descarga aqu\xED: https://evaperez-wellness.com/resources/ebook-ia-spa-infographic.html
+\u{1F4E5} Descarga aqu\xED: https://epmwellness.com/resources/guia-rentabilidad-spa.html
 
-Este E-Book incluye:
-\u2713 Pasos concretos para implementar IA en tu spa
-\u2713 Plantilla de implementaci\xF3n lista para usar
-\u2713 Casos de uso reales y aplicables
+Esta gu\xEDa incluye:
+\u2713 El indicador clave que todo director de spa debe conocer (RevPATH)
+\u2713 10 acciones concretas para aumentar tus ingresos en 30 d\xEDas
+\u2713 Plantilla de auditor\xEDa r\xE1pida lista para imprimir
+\u2713 Estrategias de up-selling, fidelizaci\xF3n y pricing din\xE1mico
 
 A partir de ahora recibir\xE1s consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gesti\xF3n de spas.
 
@@ -584,8 +584,86 @@ Si tienes alguna pregunta o tema que te gustar\xEDa que tratara, no dudes en res
 
 Atentamente,
 Eva P\xE9rez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
+Gerente de Proyectos SPA & Wellness
+https://epmwellness.com
+        `,
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background-color:#FAF8F5;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#FAF8F5;padding:30px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+        
+        <!-- HEADER -->
+        <tr><td style="background:linear-gradient(135deg,#2C3E50,#1F7A6F);padding:40px 40px 35px;text-align:center;">
+          <p style="color:#C8AD8D;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin:0 0 15px;">EPM Wellness</p>
+          <h1 style="color:#ffffff;font-size:26px;font-weight:700;margin:0 0 10px;line-height:1.3;">\xA1Bienvenido/a a la comunidad!</h1>
+          <p style="color:rgba(255,255,255,0.8);font-size:15px;margin:0;">Tu gu\xEDa exclusiva est\xE1 lista para descargar</p>
+        </td></tr>
+
+        <!-- BODY -->
+        <tr><td style="padding:40px;">
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 20px;">Hola,</p>
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 25px;">Gracias por unirte a la comunidad de <strong>Eva P\xE9rez - EPM Wellness</strong>. Me alegra mucho tenerte aqu\xED.</p>
+          
+          <!-- EBOOK CARD -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#f0faf8,#e6f7f4);border:1px solid rgba(42,157,143,0.15);border-radius:12px;margin-bottom:30px;">
+            <tr><td style="padding:30px;">
+              <p style="color:#1F7A6F;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin:0 0 10px;">\u{1F4E5} Tu gu\xEDa gratuita</p>
+              <h2 style="color:#2C3E50;font-size:20px;font-weight:700;margin:0 0 12px;line-height:1.3;">10 Puntos Cr\xEDticos para Aumentar la Rentabilidad de tu Spa</h2>
+              <p style="color:#4A5568;font-size:14px;line-height:1.6;margin:0 0 20px;">Una gu\xEDa pr\xE1ctica con acciones concretas para directores de spa y hoteles que buscan resultados medibles.</p>
+              <table cellpadding="0" cellspacing="0"><tr><td style="background:#2A9D8F;border-radius:8px;padding:14px 30px;">
+                <a href="https://epmwellness.com/resources/guia-rentabilidad-spa.html" style="color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;display:block;">Descargar Gu\xEDa Ahora \u2192</a>
+              </td></tr></table>
+            </td></tr>
+          </table>
+
+          <!-- WHAT'S INSIDE -->
+          <p style="color:#2C3E50;font-size:15px;font-weight:600;margin:0 0 15px;">Lo que encontrar\xE1s:</p>
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:30px;">
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 El indicador clave que todo director de spa debe conocer (RevPATH)</td></tr>
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 10 acciones concretas para aumentar ingresos en 30 d\xEDas</td></tr>
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 Estrategias de up-selling, pricing din\xE1mico y fidelizaci\xF3n</td></tr>
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 Plantilla de auditor\xEDa r\xE1pida lista para imprimir</td></tr>
+          </table>
+
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 15px;">A partir de ahora recibir\xE1s contenido exclusivo sobre estrategia de hospitalidad, bienestar de lujo y gesti\xF3n de spas.</p>
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0;">Si tienes alguna pregunta, no dudes en responder directamente a este correo.</p>
+        </td></tr>
+
+        <!-- SIGNATURE -->
+        <tr><td style="padding:0 40px 40px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #E8E0D8;padding-top:25px;">
+            <tr>
+              <td style="vertical-align:top;">
+                <p style="color:#2C3E50;font-size:15px;font-weight:600;margin:0;">Eva P\xE9rez</p>
+                <p style="color:#4A5568;font-size:13px;margin:4px 0 0;">Gerente de Proyectos SPA & Wellness</p>
+                <p style="color:#2A9D8F;font-size:13px;margin:4px 0 0;">
+                  <a href="https://epmwellness.com" style="color:#2A9D8F;text-decoration:none;">epmwellness.com</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- FOOTER -->
+        <tr><td style="background:#2C3E50;padding:25px 40px;text-align:center;">
+          <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0;line-height:1.6;">
+            Recibes este email porque te suscribiste a la comunidad de EPM Wellness.<br>
+            \xA9 2025 Eva P\xE9rez \xB7 EPM Wellness \xB7 <a href="https://epmwellness.com" style="color:#2A9D8F;text-decoration:none;">epmwellness.com</a>
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
         `
       });
       return res.status(200).json({
@@ -643,8 +721,8 @@ Si necesitas modificar algo, por favor responde a este correo.
 
 Atentamente,
 Eva P\xE9rez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
+Gerente de Proyectos SPA & Wellness
+https://epmwellness.com
         `
       });
       return res.status(201).json({

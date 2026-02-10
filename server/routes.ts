@@ -61,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send email notification
       await emailService.sendEmail({
-        to: "epm@epmwellness.com", // Replace with actual admin email or env var
+        to: "epm@epmwellness.com",
         subject: `Nuevo mensaje de contacto: ${contactData.name}`,
         text: `
           Nombre: ${contactData.name}
@@ -85,8 +85,8 @@ Revisaré tu consulta sobre "${contactData.service}" y me pondré en contacto co
 
 Atentamente,
 Eva Pérez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
+Gerente de Proyectos SPA & Wellness
+https://epmwellness.com
         `,
       });
 
@@ -127,21 +127,22 @@ https://evaperez-wellness.com
       // Send welcome email to user with ebook
       await emailService.sendEmail({
         to: newsletterData.email,
-        subject: "¡Bienvenido/a a la comunidad de Eva Pérez! + Tu E-Book gratuito",
+        subject: "Tu Guía Gratuita: 10 Puntos Críticos para la Rentabilidad de tu Spa",
         text: `
 Hola,
 
-Gracias por suscribirte a mi newsletter. Me alegra mucho tenerte aquí.
+Gracias por suscribirte a la comunidad de Eva Pérez - EPM Wellness. Me alegra mucho tenerte aquí.
 
-Como regalo de bienvenida, aquí tienes tu E-Book gratuito:
-"Cómo implementar IA en tu spa hotelero en 30 días"
+Como regalo de bienvenida, aquí tienes tu Guía de Rentabilidad gratuita:
+"10 Puntos Críticos para Aumentar la Rentabilidad de tu Spa"
 
-📥 Descarga aquí: https://evaperez-wellness.com/resources/ebook-ia-spa-infographic.html
+📥 Descarga aquí: https://epmwellness.com/resources/guia-rentabilidad-spa.html
 
-Este E-Book incluye:
-✓ Pasos concretos para implementar IA en tu spa
-✓ Plantilla de implementación lista para usar
-✓ Casos de uso reales y aplicables
+Esta guía incluye:
+✓ El indicador clave que todo director de spa debe conocer (RevPATH)
+✓ 10 acciones concretas para aumentar tus ingresos en 30 días
+✓ Plantilla de auditoría rápida lista para imprimir
+✓ Estrategias de up-selling, fidelización y pricing dinámico
 
 A partir de ahora recibirás consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gestión de spas.
 
@@ -149,8 +150,86 @@ Si tienes alguna pregunta o tema que te gustaría que tratara, no dudes en respo
 
 Atentamente,
 Eva Pérez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
+Gerente de Proyectos SPA & Wellness
+https://epmwellness.com
+        `,
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background-color:#FAF8F5;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#FAF8F5;padding:30px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+        
+        <!-- HEADER -->
+        <tr><td style="background:linear-gradient(135deg,#2C3E50,#1F7A6F);padding:40px 40px 35px;text-align:center;">
+          <p style="color:#C8AD8D;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin:0 0 15px;">EPM Wellness</p>
+          <h1 style="color:#ffffff;font-size:26px;font-weight:700;margin:0 0 10px;line-height:1.3;">¡Bienvenido/a a la comunidad!</h1>
+          <p style="color:rgba(255,255,255,0.8);font-size:15px;margin:0;">Tu guía exclusiva está lista para descargar</p>
+        </td></tr>
+
+        <!-- BODY -->
+        <tr><td style="padding:40px;">
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 20px;">Hola,</p>
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 25px;">Gracias por unirte a la comunidad de <strong>Eva Pérez - EPM Wellness</strong>. Me alegra mucho tenerte aquí.</p>
+          
+          <!-- EBOOK CARD -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#f0faf8,#e6f7f4);border:1px solid rgba(42,157,143,0.15);border-radius:12px;margin-bottom:30px;">
+            <tr><td style="padding:30px;">
+              <p style="color:#1F7A6F;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin:0 0 10px;">📥 Tu guía gratuita</p>
+              <h2 style="color:#2C3E50;font-size:20px;font-weight:700;margin:0 0 12px;line-height:1.3;">10 Puntos Críticos para Aumentar la Rentabilidad de tu Spa</h2>
+              <p style="color:#4A5568;font-size:14px;line-height:1.6;margin:0 0 20px;">Una guía práctica con acciones concretas para directores de spa y hoteles que buscan resultados medibles.</p>
+              <table cellpadding="0" cellspacing="0"><tr><td style="background:#2A9D8F;border-radius:8px;padding:14px 30px;">
+                <a href="https://epmwellness.com/resources/guia-rentabilidad-spa.html" style="color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;display:block;">Descargar Guía Ahora →</a>
+              </td></tr></table>
+            </td></tr>
+          </table>
+
+          <!-- WHAT'S INSIDE -->
+          <p style="color:#2C3E50;font-size:15px;font-weight:600;margin:0 0 15px;">Lo que encontrarás:</p>
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:30px;">
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">✅ El indicador clave que todo director de spa debe conocer (RevPATH)</td></tr>
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">✅ 10 acciones concretas para aumentar ingresos en 30 días</td></tr>
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">✅ Estrategias de up-selling, pricing dinámico y fidelización</td></tr>
+            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">✅ Plantilla de auditoría rápida lista para imprimir</td></tr>
+          </table>
+
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 15px;">A partir de ahora recibirás contenido exclusivo sobre estrategia de hospitalidad, bienestar de lujo y gestión de spas.</p>
+          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0;">Si tienes alguna pregunta, no dudes en responder directamente a este correo.</p>
+        </td></tr>
+
+        <!-- SIGNATURE -->
+        <tr><td style="padding:0 40px 40px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #E8E0D8;padding-top:25px;">
+            <tr>
+              <td style="vertical-align:top;">
+                <p style="color:#2C3E50;font-size:15px;font-weight:600;margin:0;">Eva Pérez</p>
+                <p style="color:#4A5568;font-size:13px;margin:4px 0 0;">Gerente de Proyectos SPA & Wellness</p>
+                <p style="color:#2A9D8F;font-size:13px;margin:4px 0 0;">
+                  <a href="https://epmwellness.com" style="color:#2A9D8F;text-decoration:none;">epmwellness.com</a>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- FOOTER -->
+        <tr><td style="background:#2C3E50;padding:25px 40px;text-align:center;">
+          <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0;line-height:1.6;">
+            Recibes este email porque te suscribiste a la comunidad de EPM Wellness.<br>
+            © 2025 Eva Pérez · EPM Wellness · <a href="https://epmwellness.com" style="color:#2A9D8F;text-decoration:none;">epmwellness.com</a>
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
         `,
       });
 
@@ -219,8 +298,8 @@ Si necesitas modificar algo, por favor responde a este correo.
 
 Atentamente,
 Eva Pérez
-Spa Manager & Wellness Consultant
-https://evaperez-wellness.com
+Gerente de Proyectos SPA & Wellness
+https://epmwellness.com
         `,
       });
 
