@@ -663,6 +663,61 @@ export const resources = [
 export const blogPosts: BlogPost[] = [
   {
     title: {
+      es: "Tendencias Spa 2026: Del 'Mimo' a la Longevidad Científica",
+      en: "Spa Trends 2026: From 'Pampering' to Scientific Longevity"
+    },
+    excerpt: {
+      es: "Descubre las 5 tendencias que definirán el bienestar de lujo en 2026. Aviso para navegantes: si solo vendes masajes, te estás quedando atrás.",
+      en: "Discover the 5 trends that will define luxury wellness in 2026. Warning: if you're only selling massages, you're falling behind."
+    },
+    image: "/attached_assets/blog_longevity_luxury_spa_v2.png",
+    date: {
+      es: "10 Febrero, 2026",
+      en: "February 10, 2026"
+    },
+    category: {
+      es: "Tendencias",
+      en: "Trends"
+    },
+    readTime: {
+      es: "5 min lectura",
+      en: "5 min read"
+    },
+    content: {
+      es: [
+        "El mundo del wellness está cambiando a una velocidad vertiginosa. Lo que en 2024 era 'innovador', en 2026 será el estándar básico. Como consultora estratégica, mi trabajo es diferenciar entre modas pasajeras y cambios estructurales de mercado. Aquí te presento las 5 tendencias que realmente impactarán en la cuenta de resultados de los hoteles de lujo.",
+        "**1. La Era de la Longevidad Femenina**",
+        "Por fin, el sector deja de tratar a las mujeres como 'hombres pequeños'. En 2026, veremos programas clínicos diseñados específicamente para la biología femenina: optimización hormonal, gestión de la menopausia como una etapa de poder (no de declive) y salud ovárica. Los spas que ofrezcan programas de 'Longevity for Her' con respaldo médico captarán al segmento de mercado con mayor poder adquisitivo.",
+        "**2. 'Social Wellness' vs. Soledad**",
+        "La pandemia de soledad global ha creado una contra-tendencia: la socialización saludable. Los huéspedes ya no quieren encerrarse en una cabina oscura por 60 minutos. Buscan clubes de baño romanos modernos, saunas comunitarias de diseño y experiencias de contraste (frío/calor) en grupo. El spa se convierte en el nuevo club social, reemplazando al bar del hotel.",
+        "**3. Dormir es el Nuevo Lujo (Clinical Sleep)**",
+        "Ya no basta con una carta de almohadas. Los programas de sueño de 2026 incluyen diagnósticos clínicos de apnea, colchones con IA que regulan la temperatura en tiempo real y terapias de luz circadiana. Los hoteles que garanticen 'el mejor sueño de tu vida' con datos que lo respalden, podrán cobrar un premium significativo por habitación.",
+        "**4. Biohacking Estético**",
+        "La belleza se fusiona con la biotecnología. Olvida los tratamientos faciales superficiales. Hablamos de exosomas, terapia con células madre y láseres fríos que regeneran el colágeno a nivel celular. El cliente de lujo busca resultados visibles inmediatos y salud dérmica a largo plazo, no solo 'sentirse bien'.",
+        "**5. La Integración de la IA Invisible**",
+        "La tecnología no reemplazará al terapeuta, lo potenciará. Imagina un sistema que ajusta la música, la temperatura y la aromaterapia de la cabina basándose en la variabilidad de la frecuencia cardíaca (VFC) del cliente en tiempo real. Hiper-personalización automática para asegurar una relajación profunda.",
+        "**¿Está tu spa preparado para 2026?**",
+        "Adaptarse a estas tendencias no requiere necesariamente una reforma millonaria, pero sí un cambio de mentalidad y estrategia. Si quieres analizar cómo integrar estos conceptos en tu menú de servicios actual para aumentar tu ticket medio, hablemos."
+      ],
+      en: [
+        "The wellness world is changing at breakneck speed. What was 'innovative' in 2024 will be the basic standard in 2026. As a strategic consultant, my job is to differentiate between passing fads and structural market changes. Here are the 5 trends that will truly impact the bottom line of luxury hotels.",
+        "**1. The Era of Female Longevity**",
+        "Finally, the sector stops treating women like 'small men'. In 2026, we will see clinical programs designed specifically for female biology: hormonal optimization, menopause management as a stage of power (not decline), and ovarian health. Spas offering medically-backed 'Longevity for Her' programs will capture the market segment with the highest purchasing power.",
+        "**2. 'Social Wellness' vs. Loneliness**",
+        "The global loneliness pandemic has created a counter-trend: healthy socialization. Guests no longer want to lock themselves in a dark room for 60 minutes. They seek modern Roman bath clubs, designer communal saunas, and group contrast (hot/cold) experiences. The spa becomes the new social club, replacing the hotel bar.",
+        "**3. Sleep is the New Luxury (Clinical Sleep)**",
+        "A pillow menu is no longer enough. 2026 sleep programs include clinical apnea diagnostics, AI mattresses that regulate temperature in real-time, and circadian light therapies. Hotels that guarantee 'the best sleep of your life' with backing data can charge a significant room premium.",
+        "**4. Aesthetic Biohacking**",
+        "Beauty fuses with biotechnology. Forget superficial facials. We are talking about exosomes, stem cell therapy, and cold lasers that regenerate collagen at a cellular level. The luxury client seeks immediate visible results and long-term dermal health, not just 'feeling good'.",
+        "**5. Invisible AI Integration**",
+        "Technology will not replace the therapist; it will empower them. Imagine a system that adjusts the room's music, temperature, and aromatherapy based on the client's Heart Rate Variability (HRV) in real-time. Automatic hyper-personalization to ensure deep relaxation.",
+        "**Is your spa ready for 2026?**",
+        "Adapting to these trends doesn't necessarily require a million-dollar renovation, but it does require a shift in mindset and strategy. If you want to analyze how to integrate these concepts into your current service menu to increase your average ticket, let's talk."
+      ]
+    }
+  },
+  {
+    title: {
       es: "El Secreto de la Longevidad: Cómo los Hoteles de Lujo Están Innovando en Bienestar",
       en: "The Secret of Longevity: How Luxury Hotels Are Innovating in Wellness"
     },
