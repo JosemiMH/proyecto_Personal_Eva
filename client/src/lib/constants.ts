@@ -985,8 +985,8 @@ export const blogPosts: BlogPost[] = [
     },
     image: "/attached_assets/blog_wow_effect_spa.png",
     date: {
-      es: "25 Marzo, 2025",
-      en: "March 25, 2025"
+      es: "20 Diciembre, 2025",
+      en: "December 20, 2025"
     },
     category: {
       es: "Tendencias",
