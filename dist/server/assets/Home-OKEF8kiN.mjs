@@ -875,7 +875,7 @@ const Blog = () => {
   const { data: apiArticles, isLoading } = useQuery({
     queryKey: ["/api/articles"]
   });
-  const articles = blogPosts.map((post, index) => ({
+  const articles = apiArticles ? apiArticles.filter((article) => article.language === (language === "es" ? "es" : "en")) : blogPosts.map((post, index) => ({
     id: index + 1e3,
     slug: `post-${index}`,
     title: post.title[language],

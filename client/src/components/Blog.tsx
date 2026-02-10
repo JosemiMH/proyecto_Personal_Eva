@@ -37,18 +37,20 @@ const Blog = () => {
     queryKey: ['/api/articles'],
   });
 
-  // Use local constants as the primary source of truth
-  const articles = (blogPosts as BlogPost[]).map((post, index) => ({
-    id: index + 1000,
-    slug: `post-${index}`,
-    title: post.title[language],
-    content: post.content[language].join('\n\n'),
-    excerpt: post.excerpt[language],
-    image: post.image,
-    category: post.category[language],
-    readTime: post.readTime[language],
-    date: new Date().toISOString()
-  }));
+  // Prioritize API data from database
+  const articles = apiArticles
+    ? apiArticles.filter(article => article.language === (language === 'es' ? 'es' : 'en'))
+    : (blogPosts as BlogPost[]).map((post, index) => ({
+      id: index + 1000,
+      slug: `post-${index}`,
+      title: post.title[language],
+      content: post.content[language].join('\n\n'),
+      excerpt: post.excerpt[language],
+      image: post.image,
+      category: post.category[language],
+      readTime: post.readTime[language],
+      date: new Date().toISOString()
+    }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
