@@ -4,7 +4,7 @@ import type { Express } from "express";
 import OpenAI from "openai";
 
 // Minimal imports - no database
-import { storage } from "./storage-minimal";
+import { storage } from "./storage";
 import { emailService } from "./email-minimal";
 
 // Schemas still needed for validation

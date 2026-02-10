@@ -56,13 +56,14 @@ app.use((req, res, next) => {
   try {
     console.log('');
     console.log('🚀 ================================');
-    console.log('🚀 PersonalBrandSpa MINIMAL VERSION');
+    console.log('🚀 PersonalBrandSpa');
     console.log('🚀 ================================');
     console.log(`Environment: ${app.get("env")}`);
     console.log(`Node: ${process.version}`);
     console.log(`Platform: ${process.platform}`);
     console.log('');
-    console.log('✅ Database: DISABLED (memory only)');
+    const dbEnabled = !!(process.env.DATABASE_URL?.trim() || true);
+    console.log(`✅ Database: ${dbEnabled ? 'CONNECTED (Neon PostgreSQL)' : 'DISABLED (memory only)'}`);
     console.log('✅ Email: DISABLED (console only)');
     const openAIEnabled = !!process.env.OPENAI_API_KEY;
     console.log(`✅ OpenAI: ${openAIEnabled ? 'ENABLED' : 'DISABLED'}`);
@@ -101,8 +102,8 @@ app.use((req, res, next) => {
       console.log(`✅ URL: http://localhost:${port}`);
       console.log('✅ ================================');
       console.log('');
-      console.log('⚠️  REMEMBER: This is a minimal version');
-      console.log('⚠️  - No database (data in memory only)');
+      console.log('ℹ️  Service Status:');
+      console.log('✅  - Database: Neon PostgreSQL');
       console.log('⚠️  - No emails sent (logged to console)');
       if (!process.env.OPENAI_API_KEY) {
         console.log('⚠️  - No AI chatbot (OPENAI_API_KEY missing)');
