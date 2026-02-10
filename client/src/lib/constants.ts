@@ -774,8 +774,8 @@ export const blogPosts: BlogPost[] = [
     },
     image: "/assets/new_gen/blog_ai.png",
     date: {
-      es: "15 Enero, 2025",
-      en: "January 15, 2025"
+      es: "18 Diciembre, 2025",
+      en: "December 18, 2025"
     },
     category: {
       es: "Tecnología",
