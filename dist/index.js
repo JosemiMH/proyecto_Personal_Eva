@@ -561,30 +561,32 @@ https://epmwellness.com
       });
       await emailService.sendEmail({
         to: newsletterData.email,
-        subject: "Tu Gu\xEDa Gratuita: 10 Puntos Cr\xEDticos para la Rentabilidad de tu Spa",
+        subject: "Estrategia de Rentabilidad (Gu\xEDa Ejecutiva 2025)",
         text: `
 Hola,
 
-Gracias por suscribirte a la comunidad de Eva P\xE9rez - EPM Wellness. Me alegra mucho tenerte aqu\xED.
+Bienvenido/a a la red profesional de Eva P\xE9rez - EPM Wellness.
 
-Como regalo de bienvenida, aqu\xED tienes tu Gu\xEDa de Rentabilidad gratuita:
-"10 Puntos Cr\xEDticos para Aumentar la Rentabilidad de tu Spa"
+Aqu\xED tienes acceso directo a la "Gu\xEDa de Estrategia de Rentabilidad para Spas Hoteleros (Edici\xF3n 2025)":
 
-\u{1F4E5} Descarga aqu\xED: https://epmwellness.com/resources/guia-rentabilidad-spa.html
+\u{1F4E5} Descargar Gu\xEDa Ejecutiva: https://epmwellness.com/resources/guia-rentabilidad-spa.html
 
-Esta gu\xEDa incluye:
-\u2713 El indicador clave que todo director de spa debe conocer (RevPATH)
-\u2713 10 acciones concretas para aumentar tus ingresos en 30 d\xEDas
-\u2713 Plantilla de auditor\xEDa r\xE1pida lista para imprimir
-\u2713 Estrategias de up-selling, fidelizaci\xF3n y pricing din\xE1mico
+No es un documento te\xF3rico. Es la hoja de ruta exacta que utilizo en mis auditor\xEDas con cadenas como Paradores o Meli\xE1 para transformar centros de bienestar en activos de alto rendimiento.
 
-A partir de ahora recibir\xE1s consejos exclusivos sobre estrategia de hospitalidad, bienestar de lujo y gesti\xF3n de spas.
+Puntos clave que encontrar\xE1s:
+1. El c\xE1lculo real de RevPATH (y por qu\xE9 la ocupaci\xF3n es una m\xE9trica vanidosa).
+2. C\xF3mo estructurar tu men\xFA de servicios para la rentabilidad.
+3. El ratio cr\xEDtico de venta retail que separa un buen spa de uno excelente.
 
-Si tienes alguna pregunta o tema que te gustar\xEDa que tratara, no dudes en responder a este correo.
+Mi sugerencia:
+Revisa el Punto 1 de la gu\xEDa hoy mismo. Si tus m\xE9tricas no est\xE1n donde deber\xEDan, responde a este correo.
+
+Me reservo unos huecos cada mes para sesiones de diagn\xF3stico estrat\xE9gico con propietarios y directores. Si hay encaje, podemos agendar una breve llamada.
 
 Atentamente,
+
 Eva P\xE9rez
-Gerente de Proyectos SPA & Wellness
+Gerente de Proyectos & Consultora Estrat\xE9gica
 https://epmwellness.com
         `,
         html: `
@@ -594,68 +596,65 @@ https://epmwellness.com
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin:0;padding:0;background-color:#FAF8F5;font-family:'Helvetica Neue',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#FAF8F5;padding:30px 0;">
+<body style="margin:0;padding:0;background-color:#F3F4F6;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#F3F4F6;padding:40px 0;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.06);">
+      <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:2px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
         
-        <!-- HEADER -->
-        <tr><td style="background:linear-gradient(135deg,#2C3E50,#1F7A6F);padding:40px 40px 35px;text-align:center;">
-          <p style="color:#C8AD8D;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin:0 0 15px;">EPM Wellness</p>
-          <h1 style="color:#ffffff;font-size:26px;font-weight:700;margin:0 0 10px;line-height:1.3;">\xA1Bienvenido/a a la comunidad!</h1>
-          <p style="color:rgba(255,255,255,0.8);font-size:15px;margin:0;">Tu gu\xEDa exclusiva est\xE1 lista para descargar</p>
+        <!-- HEADER SIMPLE & ELEGANT -->
+        <tr><td style="background:#1F2937;padding:30px 40px;text-align:left;">
+          <p style="color:#D4BFA3;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 5px;font-weight:600;">EPM Wellness</p>
+          <h1 style="color:#ffffff;font-size:22px;font-weight:400;margin:0;letter-spacing:0.5px;font-family:Georgia,serif;">Estrategia & Rentabilidad</h1>
         </td></tr>
 
         <!-- BODY -->
-        <tr><td style="padding:40px;">
-          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 20px;">Hola,</p>
-          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 25px;">Gracias por unirte a la comunidad de <strong>Eva P\xE9rez - EPM Wellness</strong>. Me alegra mucho tenerte aqu\xED.</p>
+        <tr><td style="padding:40px 40px 30px;">
+          <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 20px;">Hola,</p>
+          <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 20px;">Bienvenido/a a mi red profesional. Gracias por tu inter\xE9s en optimizar la gesti\xF3n de tu centro wellness.</p>
           
-          <!-- EBOOK CARD -->
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#f0faf8,#e6f7f4);border:1px solid rgba(42,157,143,0.15);border-radius:12px;margin-bottom:30px;">
-            <tr><td style="padding:30px;">
-              <p style="color:#1F7A6F;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin:0 0 10px;">\u{1F4E5} Tu gu\xEDa gratuita</p>
-              <h2 style="color:#2C3E50;font-size:20px;font-weight:700;margin:0 0 12px;line-height:1.3;">10 Puntos Cr\xEDticos para Aumentar la Rentabilidad de tu Spa</h2>
-              <p style="color:#4A5568;font-size:14px;line-height:1.6;margin:0 0 20px;">Una gu\xEDa pr\xE1ctica con acciones concretas para directores de spa y hoteles que buscan resultados medibles.</p>
-              <table cellpadding="0" cellspacing="0"><tr><td style="background:#2A9D8F;border-radius:8px;padding:14px 30px;">
-                <a href="https://epmwellness.com/resources/guia-rentabilidad-spa.html" style="color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;display:block;">Descargar Gu\xEDa Ahora \u2192</a>
-              </td></tr></table>
+          <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 25px;">Aqu\xED tienes acceso directo a la <strong>Gu\xEDa de Estrategia de Rentabilidad (Edici\xF3n 2025)</strong>. No es teor\xEDa acad\xE9mica; es la metodolog\xEDa exacta que aplico en mis consultor\xEDas para cadenas de lujo.</p>
+
+          <!-- CALLOUT -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#F9FAFB;border-left:4px solid #D4BFA3;margin-bottom:25px;">
+            <tr><td style="padding:20px;">
+              <p style="color:#111827;font-size:15px;font-weight:600;margin:0 0 10px;font-family:Georgia,serif;">En esta gu\xEDa ejecutiva:</p>
+              <ul style="margin:0;padding-left:20px;color:#4B5563;font-size:14px;line-height:1.6;">
+                <li style="margin-bottom:5px;">RevPATH: Por qu\xE9 la ocupaci\xF3n es una m\xE9trica incompleta.</li>
+                <li style="margin-bottom:5px;">Ingenier\xEDa de Men\xFA para maximizar el margen.</li>
+                <li>Productividad real del equipo terap\xE9utico.</li>
+              </ul>
             </td></tr>
           </table>
 
-          <!-- WHAT'S INSIDE -->
-          <p style="color:#2C3E50;font-size:15px;font-weight:600;margin:0 0 15px;">Lo que encontrar\xE1s:</p>
+          <!-- BUTTON -->
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:30px;">
-            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 El indicador clave que todo director de spa debe conocer (RevPATH)</td></tr>
-            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 10 acciones concretas para aumentar ingresos en 30 d\xEDas</td></tr>
-            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 Estrategias de up-selling, pricing din\xE1mico y fidelizaci\xF3n</td></tr>
-            <tr><td style="padding:8px 0;color:#4A5568;font-size:14px;">\u2705 Plantilla de auditor\xEDa r\xE1pida lista para imprimir</td></tr>
+            <tr><td align="center">
+              <a href="https://epmwellness.com/resources/guia-rentabilidad-spa.html" style="background:#1F2937;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:14px 28px;border-radius:2px;display:inline-block;letter-spacing:0.5px;text-transform:uppercase;">Descargar Gu\xEDa Ejecutiva</a>
+            </td></tr>
           </table>
 
-          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0 0 15px;">A partir de ahora recibir\xE1s contenido exclusivo sobre estrategia de hospitalidad, bienestar de lujo y gesti\xF3n de spas.</p>
-          <p style="color:#4A5568;font-size:15px;line-height:1.7;margin:0;">Si tienes alguna pregunta, no dudes en responder directamente a este correo.</p>
+          <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 20px;"><strong>Mi sugerencia personal:</strong><br>
+          Revisa el <strong>Punto 01 (RevPATH)</strong> hoy mismo. Es donde encuentro el 80% de las fugas de rentabilidad en mis auditor\xEDas iniciales.</p>
+
+          <p style="color:#374151;font-size:16px;line-height:1.6;margin:0 0 0;">Si al leerlo identificas que hay margen de mejora en tu spa, <strong>responde a este correo</strong>. Me reservo huecos espec\xEDficos cada mes para sesiones de diagn\xF3stico con propietarios y directores.</p>
         </td></tr>
 
         <!-- SIGNATURE -->
         <tr><td style="padding:0 40px 40px;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #E8E0D8;padding-top:25px;">
-            <tr>
-              <td style="vertical-align:top;">
-                <p style="color:#2C3E50;font-size:15px;font-weight:600;margin:0;">Eva P\xE9rez</p>
-                <p style="color:#4A5568;font-size:13px;margin:4px 0 0;">Gerente de Proyectos SPA & Wellness</p>
-                <p style="color:#2A9D8F;font-size:13px;margin:4px 0 0;">
-                  <a href="https://epmwellness.com" style="color:#2A9D8F;text-decoration:none;">epmwellness.com</a>
-                </p>
-              </td>
-            </tr>
-          </table>
+          <div style="border-top:1px solid #E5E7EB;margin-top:10px;padding-top:20px;">
+            <p style="color:#111827;font-size:16px;font-weight:600;margin:0;font-family:Georgia,serif;">Eva P\xE9rez</p>
+            <p style="color:#6B7280;font-size:13px;margin:4px 0 0;text-transform:uppercase;letter-spacing:1px;">Gerente de Proyectos & Consultora Estrat\xE9gica</p>
+            <p style="color:#D4BFA3;font-size:13px;margin:8px 0 0;">
+              <a href="https://epmwellness.com" style="color:#D4BFA3;text-decoration:none;">epmwellness.com</a>
+            </p>
+          </div>
         </td></tr>
 
         <!-- FOOTER -->
-        <tr><td style="background:#2C3E50;padding:25px 40px;text-align:center;">
-          <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0;line-height:1.6;">
-            Recibes este email porque te suscribiste a la comunidad de EPM Wellness.<br>
-            \xA9 2025 Eva P\xE9rez \xB7 EPM Wellness \xB7 <a href="https://epmwellness.com" style="color:#2A9D8F;text-decoration:none;">epmwellness.com</a>
+        <tr><td style="background:#F3F4F6;padding:20px 40px;text-align:center;border-top:1px solid #E5E7EB;">
+          <p style="color:#9CA3AF;font-size:11px;margin:0;line-height:1.5;">
+            \xA9 2025 Eva P\xE9rez \xB7 EPM Wellness<br>
+            Este correo se envi\xF3 a ${newsletterData.email} porque solicitaste nuestra gu\xEDa profesional.
           </p>
         </td></tr>
 
