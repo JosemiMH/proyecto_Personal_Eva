@@ -869,6 +869,48 @@ https://epmwellness.com
       res.status(500).json({ message: "Error al obtener art\xEDculos" });
     }
   });
+  app2.get("/sitemap.xml", async (_req, res) => {
+    try {
+      const articles2 = await storage.getAllArticles();
+      const baseUrl = "https://evaperez-wellness.com";
+      const staticPages = [
+        "",
+        "#sobre-mi",
+        "#servicios",
+        "#ia-wellness",
+        "#portfolio",
+        "#testimonios",
+        "#blog",
+        "#contacto",
+        "privacy",
+        "terms"
+      ];
+      const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Static Pages -->
+  ${staticPages.map((page) => `
+  <url>
+    <loc>${baseUrl}/${page}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>${page === "" ? "1.0" : "0.8"}</priority>
+  </url>`).join("")}
+
+  <!-- Blog Posts -->
+  ${articles2.map((article) => `
+  <url>
+    <loc>${baseUrl}/blog/${article.slug}</loc>
+    <lastmod>${new Date(article.date).toISOString().split("T")[0]}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>`).join("")}
+</urlset>`;
+      res.header("Content-Type", "application/xml");
+      res.send(sitemap);
+    } catch (error) {
+      console.error("Sitemap generation error:", error);
+      res.status(500).send("Error generating sitemap");
+    }
+  });
   app2.get("/api/articles/:slug", async (req, res) => {
     try {
       const article = await storage.getArticleBySlug(req.params.slug);

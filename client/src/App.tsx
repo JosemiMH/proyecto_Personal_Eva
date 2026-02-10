@@ -23,6 +23,7 @@ const Cookies = React.lazy(() => import("@/pages/Cookies"));
 const Booking = React.lazy(() => import("@/pages/Booking"));
 const Admin = React.lazy(() => import("@/pages/Admin"));
 const AuthPage = React.lazy(() => import("@/pages/Auth"));
+const BlogPostPage = React.lazy(() => import("@/pages/BlogPostPage"));
 // const ResourcesPage = React.lazy(() => import("@/components/Resources")); // If using lazy, comment out check above
 
 function Router() {
@@ -53,6 +54,7 @@ function Router() {
           <Route path="/resources">
             <ResourcesPage />
           </Route>
+          <Route path="/blog/:slug" component={BlogPostPage} />
           {/* Fallback to 404 */}
           <Route component={NotFound} />
         </Switch>

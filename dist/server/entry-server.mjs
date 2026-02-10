@@ -2269,13 +2269,14 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-OKEF8kiN.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-CRrs_ckZ.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
 const Booking = React__default.lazy(() => import("./assets/Booking-B1IX4RUx.mjs"));
 const Admin = React__default.lazy(() => import("./assets/Admin-Ch3qVOtN.mjs"));
 const AuthPage = React__default.lazy(() => import("./assets/Auth-jiNbsEYK.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-lhMD5fOm.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
@@ -2287,6 +2288,7 @@ function Router() {
     /* @__PURE__ */ jsx(Route, { path: "/auth", children: /* @__PURE__ */ jsx(AuthPage, {}) }),
     /* @__PURE__ */ jsx(ProtectedRoute, { path: "/admin", component: Admin }),
     /* @__PURE__ */ jsx(Route, { path: "/resources", children: /* @__PURE__ */ jsx(Resources, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/blog/:slug", component: BlogPostPage }),
     /* @__PURE__ */ jsx(Route, { component: NotFound })
   ] }, location) }) });
 }

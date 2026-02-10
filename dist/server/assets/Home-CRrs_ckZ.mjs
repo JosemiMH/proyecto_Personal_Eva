@@ -1,29 +1,30 @@
-import { jsxs, jsx, Fragment } from "react/jsx-runtime";
+import { jsxs, jsx } from "react/jsx-runtime";
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { u as useLanguage, c as cn, D as Dialog, a as DialogContent, b as DialogTitle, d as DialogDescription, B as Button, s as services, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
-import { ArrowRight, Tag, X, Calendar } from "lucide-react";
+import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { useQuery } from "@tanstack/react-query";
-import ReactMarkdown from "react-markdown";
+import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-Qkbd4gOm.mjs";
 import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, T as Textarea, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DYB6wbGn.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { Helmet } from "react-helmet-async";
-import "wouter";
+import { S as SEO } from "./SEO-DhGfO5vh.mjs";
 import "react-icons/fa";
 import "react-dom/server";
 import "@radix-ui/react-toast";
 import "clsx";
 import "tailwind-merge";
+import "react-markdown";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
+import "react-helmet-async";
 import "@radix-ui/react-label";
 import "react-day-picker";
 import "@radix-ui/react-select";
@@ -871,7 +872,6 @@ const Testimonials = () => {
 };
 const Blog = () => {
   const { t, language } = useLanguage();
-  const [selectedArticle, setSelectedArticle] = useState(null);
   const { data: apiArticles, isLoading } = useQuery({
     queryKey: ["/api/articles"]
   });
@@ -906,127 +906,71 @@ const Blog = () => {
   if (isLoading) {
     return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsx("div", { className: "container mx-auto px-4 text-center", children: /* @__PURE__ */ jsx("div", { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-turquoise mx-auto" }) }) });
   }
-  return /* @__PURE__ */ jsxs("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: [
-    /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
-      /* @__PURE__ */ jsxs(
-        motion.div,
-        {
-          className: "text-center max-w-3xl mx-auto mb-20",
-          initial: { opacity: 0, y: 20 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true },
-          transition: { duration: 0.6 },
-          children: [
-            /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("blog.title") }),
-            /* @__PURE__ */ jsx("h3", { className: "font-playfair text-4xl md:text-5xl font-bold text-charcoal mb-6 leading-tight", children: t("blog.subtitle") }),
-            /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-lg", children: t("blog.description") })
-          ]
-        }
-      ),
-      /* @__PURE__ */ jsx(
-        motion.div,
-        {
-          className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]",
-          variants: containerVariants,
-          initial: "hidden",
-          whileInView: "visible",
-          viewport: { once: true },
-          children: articles == null ? void 0 : articles.map((post, index) => /* @__PURE__ */ jsxs(
-            motion.div,
-            {
-              className: `group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 ? "md:col-span-2 lg:col-span-2" : ""} ${index === 3 ? "md:col-span-2 lg:col-span-1" : ""}`,
-              variants: itemVariants,
-              onClick: () => setSelectedArticle(post),
-              children: [
-                /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
-                  /* @__PURE__ */ jsx(
-                    OptimizedImage,
-                    {
-                      src: post.image,
-                      alt: post.title,
-                      className: "w-full h-full transition-transform duration-700 group-hover:scale-110",
-                      objectFit: "cover",
-                      priority: index < 2
-                    }
-                  ),
-                  /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" })
-                ] }),
-                /* @__PURE__ */ jsx("div", { className: "absolute inset-0 p-8 flex flex-col justify-end", children: /* @__PURE__ */ jsxs("div", { className: "transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500", children: [
-                  /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider", children: [
-                    /* @__PURE__ */ jsxs("span", { className: "bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1", children: [
-                      /* @__PURE__ */ jsx(Tag, { className: "w-3 h-3" }),
-                      post.category
-                    ] }),
-                    /* @__PURE__ */ jsx("span", { children: "•" }),
-                    /* @__PURE__ */ jsx("span", { children: new Date(post.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US") })
+  return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+    /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        className: "text-center max-w-3xl mx-auto mb-20",
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 },
+        children: [
+          /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("blog.title") }),
+          /* @__PURE__ */ jsx("h3", { className: "font-playfair text-4xl md:text-5xl font-bold text-charcoal mb-6 leading-tight", children: t("blog.subtitle") }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-lg", children: t("blog.description") })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]",
+        variants: containerVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true },
+        children: articles == null ? void 0 : articles.map((post, index) => /* @__PURE__ */ jsx(Link, { href: `/blog/${post.slug}`, children: /* @__PURE__ */ jsx("a", { className: `block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 ? "md:col-span-2 lg:col-span-2" : ""} ${index === 3 ? "md:col-span-2 lg:col-span-1" : ""}`, children: /* @__PURE__ */ jsxs(
+          motion.div,
+          {
+            className: "h-full w-full",
+            variants: itemVariants,
+            children: [
+              /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
+                /* @__PURE__ */ jsx(
+                  OptimizedImage,
+                  {
+                    src: post.image,
+                    alt: post.title,
+                    className: "w-full h-full transition-transform duration-700 group-hover:scale-110",
+                    objectFit: "cover",
+                    priority: index < 2
+                  }
+                ),
+                /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" })
+              ] }),
+              /* @__PURE__ */ jsx("div", { className: "absolute inset-0 p-8 flex flex-col justify-end", children: /* @__PURE__ */ jsxs("div", { className: "transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500", children: [
+                /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider", children: [
+                  /* @__PURE__ */ jsxs("span", { className: "bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1", children: [
+                    /* @__PURE__ */ jsx(Tag, { className: "w-3 h-3" }),
+                    post.category
                   ] }),
-                  /* @__PURE__ */ jsx("h4", { className: `font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`, children: post.title }),
-                  /* @__PURE__ */ jsx("p", { className: "text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100", children: post.excerpt }),
-                  /* @__PURE__ */ jsxs(
-                    "button",
-                    {
-                      className: "inline-flex items-center text-white font-medium group/link",
-                      onClick: (e) => {
-                        e.stopPropagation();
-                        setSelectedArticle(post);
-                      },
-                      children: [
-                        /* @__PURE__ */ jsx("span", { className: "border-b border-turquoise pb-1 group-hover/link:border-white transition-colors", children: t("blog.readArticle") }),
-                        /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" })
-                      ]
-                    }
-                  )
-                ] }) })
-              ]
-            },
-            post.id
-          ))
-        }
-      )
-    ] }),
-    /* @__PURE__ */ jsx(Dialog, { open: !!selectedArticle, onOpenChange: (open) => !open && setSelectedArticle(null), children: /* @__PURE__ */ jsx(DialogContent, { className: "max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 bg-white border-none shadow-2xl z-[60]", children: selectedArticle && /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsxs("div", { className: "relative h-64 md:h-96 w-full shrink-0", children: [
-        /* @__PURE__ */ jsx(
-          OptimizedImage,
-          {
-            src: selectedArticle.image,
-            alt: selectedArticle.title,
-            className: "w-full h-full",
-            objectFit: "cover",
-            priority: true
+                  /* @__PURE__ */ jsx("span", { children: "•" }),
+                  /* @__PURE__ */ jsx("span", { children: new Date(post.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US") })
+                ] }),
+                /* @__PURE__ */ jsx("h4", { className: `font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`, children: post.title }),
+                /* @__PURE__ */ jsx("p", { className: "text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100", children: post.excerpt }),
+                /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center text-white font-medium group/link", children: [
+                  /* @__PURE__ */ jsx("span", { className: "border-b border-turquoise pb-1 group-hover/link:border-white transition-colors", children: t("blog.readArticle") }),
+                  /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" })
+                ] })
+              ] }) })
+            ]
           }
-        ),
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" }),
-        /* @__PURE__ */ jsx(
-          "button",
-          {
-            onClick: () => setSelectedArticle(null),
-            className: "absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg",
-            "aria-label": "Close",
-            children: /* @__PURE__ */ jsx(X, { className: "w-5 h-5" })
-          }
-        ),
-        /* @__PURE__ */ jsxs("div", { className: "absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white", children: [
-          /* @__PURE__ */ jsx("div", { className: "flex items-center gap-4 mb-3 text-sm font-medium uppercase tracking-wider", children: /* @__PURE__ */ jsxs("span", { className: "bg-turquoise/90 px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1", children: [
-            /* @__PURE__ */ jsx(Tag, { className: "w-3 h-3" }),
-            selectedArticle.category
-          ] }) }),
-          /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-4xl font-bold leading-tight", children: selectedArticle.title })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxs("div", { className: "p-6 md:p-8", children: [
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2 text-charcoal-light mb-6 text-sm", children: [
-          /* @__PURE__ */ jsx(Calendar, { className: "w-4 h-4" }),
-          new Date(selectedArticle.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-          })
-        ] }),
-        /* @__PURE__ */ jsx("div", { className: "prose prose-lg prose-headings:font-playfair prose-headings:text-charcoal prose-p:text-charcoal-light prose-a:text-turquoise hover:prose-a:text-turquoise-dark max-w-none", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: selectedArticle.content }) })
-      ] })
-    ] }) }) })
-  ] });
+        ) }) }, post.id))
+      }
+    )
+  ] }) });
 };
 const Tabs = TabsPrimitive.Root;
 const TabsList = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
@@ -1531,29 +1475,6 @@ const EbookPopup = () => {
     }
   ) });
 };
-function SEO({ title, description, image, url }) {
-  const siteUrl = "https://evaperez-wellness.com";
-  const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
-  const defaultImage = `${siteUrl}/og-image.jpg`;
-  const metaImage = image || defaultImage;
-  return /* @__PURE__ */ jsxs(Helmet, { children: [
-    /* @__PURE__ */ jsxs("title", { children: [
-      title,
-      " | Eva Pérez - Wellness & Hospitality Strategy"
-    ] }),
-    /* @__PURE__ */ jsx("meta", { name: "description", content: description }),
-    /* @__PURE__ */ jsx("meta", { property: "og:type", content: "website" }),
-    /* @__PURE__ */ jsx("meta", { property: "og:url", content: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "og:title", content: title }),
-    /* @__PURE__ */ jsx("meta", { property: "og:description", content: description }),
-    /* @__PURE__ */ jsx("meta", { property: "og:image", content: metaImage }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:card", content: "summary_large_image" }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:url", content: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:title", content: title }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:description", content: description }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:image", content: metaImage })
-  ] });
-}
 const Home = () => {
   useEffect(() => {
     const handleAnchorClick = (e) => {

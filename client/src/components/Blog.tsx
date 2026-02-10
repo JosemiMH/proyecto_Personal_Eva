@@ -1,16 +1,9 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/contexts/LanguageContext';
 import OptimizedImage from './OptimizedImage';
-import { ArrowRight, Clock, Tag, Calendar, X } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import ReactMarkdown from "react-markdown";
+import { ArrowRight, Tag } from 'lucide-react';
+import { Link } from "wouter";
 
 interface Article {
   id: number;
@@ -22,16 +15,14 @@ interface Article {
   category: string;
   readTime: string;
   date: string;
+  language?: string;
 }
 
 import { blogPosts } from '@/lib/constants';
 import { BlogPost } from '@/types';
 
-// ... (imports)
-
 const Blog = () => {
   const { t, language } = useLanguage();
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
 
   const { data: apiArticles, isLoading } = useQuery<Article[]>({
     queryKey: ['/api/articles'],
@@ -108,122 +99,61 @@ const Blog = () => {
           viewport={{ once: true }}
         >
           {articles?.map((post, index) => (
-            <motion.div
-              key={post.id}
-              className={`group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 ? 'md:col-span-2 lg:col-span-2' : ''
-                } ${index === 3 ? 'md:col-span-2 lg:col-span-1' : ''}`}
-              variants={itemVariants}
-              onClick={() => setSelectedArticle(post)}
-            >
-              {/* Background Image */}
-              <div className="absolute inset-0">
-                <OptimizedImage
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full transition-transform duration-700 group-hover:scale-110"
-                  objectFit="cover"
-                  priority={index < 2}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
-              </div>
-
-              {/* Content Overlay */}
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <div className="flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider">
-                    <span className="bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
-                      <Tag className="w-3 h-3" />
-                      {post.category}
-                    </span>
-
-                    <span>•</span>
-                    <span>{new Date(post.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US')}</span>
+            <Link key={post.id} href={`/blog/${post.slug}`}>
+              <a className={`block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 ? 'md:col-span-2 lg:col-span-2' : ''
+                } ${index === 3 ? 'md:col-span-2 lg:col-span-1' : ''}`}>
+                <motion.div
+                  className="h-full w-full"
+                  variants={itemVariants}
+                >
+                  {/* Background Image */}
+                  <div className="absolute inset-0">
+                    <OptimizedImage
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full transition-transform duration-700 group-hover:scale-110"
+                      objectFit="cover"
+                      priority={index < 2}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
                   </div>
 
-                  <h4 className={`font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? 'text-3xl md:text-4xl' : 'text-2xl'
-                    }`}>
-                    {post.title}
-                  </h4>
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <div className="flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider">
+                        <span className="bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
+                          <Tag className="w-3 h-3" />
+                          {post.category}
+                        </span>
 
-                  <p className="text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                    {post.excerpt}
-                  </p>
+                        <span>•</span>
+                        <span>{new Date(post.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US')}</span>
+                      </div>
 
-                  <button
-                    className="inline-flex items-center text-white font-medium group/link"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedArticle(post);
-                    }}
-                  >
-                    <span className="border-b border-turquoise pb-1 group-hover/link:border-white transition-colors">
-                      {t('blog.readArticle')}
-                    </span>
-                    <ArrowRight className="ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+                      <h4 className={`font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? 'text-3xl md:text-4xl' : 'text-2xl'
+                        }`}>
+                        {post.title}
+                      </h4>
+
+                      <p className="text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="inline-flex items-center text-white font-medium group/link">
+                        <span className="border-b border-turquoise pb-1 group-hover/link:border-white transition-colors">
+                          {t('blog.readArticle')}
+                        </span>
+                        <ArrowRight className="ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </a>
+            </Link>
           ))}
         </motion.div>
-
-
       </div>
-
-      <Dialog open={!!selectedArticle} onOpenChange={(open) => !open && setSelectedArticle(null)}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 bg-white border-none shadow-2xl z-[60]">
-          {selectedArticle && (
-            <>
-              <div className="relative h-64 md:h-96 w-full shrink-0">
-                <OptimizedImage
-                  src={selectedArticle.image}
-                  alt={selectedArticle.title}
-                  className="w-full h-full"
-                  objectFit="cover"
-                  priority={true}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
-
-                <button
-                  onClick={() => setSelectedArticle(null)}
-                  className="absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg"
-                  aria-label="Close"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
-                  <div className="flex items-center gap-4 mb-3 text-sm font-medium uppercase tracking-wider">
-                    <span className="bg-turquoise/90 px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1">
-                      <Tag className="w-3 h-3" />
-                      {selectedArticle.category}
-                    </span>
-
-                  </div>
-                  <DialogTitle className="font-playfair text-2xl md:text-4xl font-bold leading-tight">
-                    {selectedArticle.title}
-                  </DialogTitle>
-                </div>
-              </div>
-
-              <div className="p-6 md:p-8">
-                <div className="flex items-center gap-2 text-charcoal-light mb-6 text-sm">
-                  <Calendar className="w-4 h-4" />
-                  {new Date(selectedArticle.date).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </div>
-
-                <div className="prose prose-lg prose-headings:font-playfair prose-headings:text-charcoal prose-p:text-charcoal-light prose-a:text-turquoise hover:prose-a:text-turquoise-dark max-w-none">
-                  <ReactMarkdown>{selectedArticle.content}</ReactMarkdown>
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };
