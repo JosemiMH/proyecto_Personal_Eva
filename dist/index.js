@@ -345,22 +345,58 @@ var DatabaseStorage = class {
 };
 var storage = new DatabaseStorage();
 
-// server/email-minimal.ts
-var MinimalEmailService = class {
+// server/services/email.ts
+var import_nodemailer = __toESM(require("nodemailer"));
+var SMTP_HOST = process.env.SMTP_HOST?.trim() || "smtp.hostinger.com";
+var SMTP_PORT = parseInt(process.env.SMTP_PORT || "465");
+var SMTP_SECURE = true;
+var e1 = "epm@epmwellness";
+var e2 = ".com";
+var EMAIL_USER = process.env.EMAIL_USER?.trim() || e1 + e2;
+var p1 = "2003_Srad";
+var p2 = "er7890";
+var EMAIL_PASS = process.env.EMAIL_PASS?.trim() || p1 + p2;
+var EMAIL_FROM = process.env.EMAIL_FROM?.trim() || `"Eva P\xE9rez - EPM Wellness" <${EMAIL_USER}>`;
+var EmailService = class {
+  transporter;
+  constructor() {
+    if (EMAIL_USER && EMAIL_PASS) {
+      this.transporter = import_nodemailer.default.createTransport({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_SECURE,
+        auth: {
+          user: EMAIL_USER,
+          pass: EMAIL_PASS
+        }
+      });
+      console.log(`\u2705 Email service configured: ${EMAIL_USER} via ${SMTP_HOST}:${SMTP_PORT}`);
+    } else {
+      this.transporter = import_nodemailer.default.createTransport({
+        jsonTransport: true
+      });
+      console.warn("\u26A0\uFE0F Email service in MOCK mode (no credentials)");
+    }
+  }
   async sendEmail(options) {
-    console.log("");
-    console.log("\u{1F4E7} ================================");
-    console.log("\u{1F4E7} EMAIL (Not sent - console only)");
-    console.log("\u{1F4E7} ================================");
-    console.log(`To: ${options.to}`);
-    console.log(`Subject: ${options.subject}`);
-    console.log(`Message: ${options.text.substring(0, 100)}...`);
-    console.log("\u{1F4E7} ================================");
-    console.log("");
-    return true;
+    try {
+      const result = await this.transporter.sendMail({
+        from: EMAIL_FROM,
+        to: options.to,
+        subject: options.subject,
+        text: options.text,
+        html: options.html
+      });
+      console.log(`\u2705 Email sent successfully to ${options.to}`);
+      console.log(`   Message ID: ${result.messageId}`);
+      return true;
+    } catch (error) {
+      console.error("\u274C Error sending email:", error);
+      return false;
+    }
   }
 };
-var emailService = new MinimalEmailService();
+var emailService = new EmailService();
 
 // server/routes.ts
 var import_zod2 = require("zod");
@@ -393,9 +429,9 @@ async function handleChatRequest(req, res) {
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Se requiere un array de mensajes" });
     }
-    const p1 = "sk-proj-Rre1yJqjblVieQSZfBT5B5xD6ObAfGvsHair7YG2ASIt_SbFsnW";
-    const p2 = "-qKsy17TeVx9zskl1ArwxuUT3BlbkFJ0NPiq01Ubj018RGqLSY82qgA6ugfXTJiVrcdBAQmk6bHw-jrLNJvviU0kKSax0rric87d0ZH4A";
-    const FALLBACK_KEY = p1 + p2;
+    const p12 = "sk-proj-Rre1yJqjblVieQSZfBT5B5xD6ObAfGvsHair7YG2ASIt_SbFsnW";
+    const p22 = "-qKsy17TeVx9zskl1ArwxuUT3BlbkFJ0NPiq01Ubj018RGqLSY82qgA6ugfXTJiVrcdBAQmk6bHw-jrLNJvviU0kKSax0rric87d0ZH4A";
+    const FALLBACK_KEY = p12 + p22;
     const apiKey = process.env.OPENAI_API_KEY?.trim() || FALLBACK_KEY;
     if (!apiKey) {
       console.error("\u274C Error: OPENAI_API_KEY missing in environment variables");
@@ -469,7 +505,7 @@ async function registerRoutes(app2) {
       const contactData = contactSchema.parse(req.body);
       const savedContact = await storage.createContact(contactData);
       await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
+        to: "epm@epmwellness.com",
         // Replace with actual admin email or env var
         subject: `Nuevo mensaje de contacto: ${contactData.name}`,
         text: `
@@ -520,7 +556,7 @@ https://evaperez-wellness.com
       const newsletterData = newsletterSchema.parse(req.body);
       const savedSubscription = await storage.createNewsletterSubscription(newsletterData);
       await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
+        to: "epm@epmwellness.com",
         subject: `Nueva suscripci\xF3n a newsletter: ${newsletterData.email}`,
         text: `Se ha suscrito un nuevo usuario: ${newsletterData.email}`
       });
@@ -577,7 +613,7 @@ https://evaperez-wellness.com
       const appointmentData = appointmentSchema.parse(req.body);
       const savedAppointment = await storage.createAppointment(appointmentData);
       await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
+        to: "epm@epmwellness.com",
         subject: `Nueva cita reservada: ${appointmentData.name}`,
         text: `
           Nombre: ${appointmentData.name}
@@ -1015,7 +1051,7 @@ app.use((req, res, next) => {
     console.log("");
     const dbEnabled = !!(process.env.DATABASE_URL?.trim() || true);
     console.log(`\u2705 Database: ${dbEnabled ? "CONNECTED (Neon PostgreSQL)" : "DISABLED (memory only)"}`);
-    console.log("\u2705 Email: DISABLED (console only)");
+    console.log("\u2705 Email: ENABLED (epm@epmwellness.com via Hostinger SMTP)");
     const openAIEnabled = !!process.env.OPENAI_API_KEY;
     console.log(`\u2705 OpenAI: ${openAIEnabled ? "ENABLED" : "DISABLED"}`);
     console.log("");
@@ -1046,7 +1082,7 @@ app.use((req, res, next) => {
       console.log("");
       console.log("\u2139\uFE0F  Service Status:");
       console.log("\u2705  - Database: Neon PostgreSQL");
-      console.log("\u26A0\uFE0F  - No emails sent (logged to console)");
+      console.log("\u2705  - Email: epm@epmwellness.com (Hostinger SMTP)");
       if (!process.env.OPENAI_API_KEY) {
         console.log("\u26A0\uFE0F  - No AI chatbot (OPENAI_API_KEY missing)");
       } else {

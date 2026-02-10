@@ -3,9 +3,9 @@ import { createServer, type Server } from "http";
 import type { Express } from "express";
 import OpenAI from "openai";
 
-// Minimal imports - no database
+// Database and email services
 import { storage } from "./storage";
-import { emailService } from "./email-minimal";
+import { emailService } from "./services/email";
 
 // Schemas still needed for validation
 import {
@@ -61,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Send email notification
       await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com", // Replace with actual admin email or env var
+        to: "epm@epmwellness.com", // Replace with actual admin email or env var
         subject: `Nuevo mensaje de contacto: ${contactData.name}`,
         text: `
           Nombre: ${contactData.name}
@@ -119,7 +119,7 @@ https://evaperez-wellness.com
 
       // Send email notification
       await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
+        to: "epm@epmwellness.com",
         subject: `Nueva suscripción a newsletter: ${newsletterData.email}`,
         text: `Se ha suscrito un nuevo usuario: ${newsletterData.email}`,
       });
@@ -187,7 +187,7 @@ https://evaperez-wellness.com
 
       // Send email notification
       await emailService.sendEmail({
-        to: "eva@evaperez-wellness.com",
+        to: "epm@epmwellness.com",
         subject: `Nueva cita reservada: ${appointmentData.name}`,
         text: `
           Nombre: ${appointmentData.name}

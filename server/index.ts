@@ -64,7 +64,7 @@ app.use((req, res, next) => {
     console.log('');
     const dbEnabled = !!(process.env.DATABASE_URL?.trim() || true);
     console.log(`✅ Database: ${dbEnabled ? 'CONNECTED (Neon PostgreSQL)' : 'DISABLED (memory only)'}`);
-    console.log('✅ Email: DISABLED (console only)');
+    console.log('✅ Email: ENABLED (epm@epmwellness.com via Hostinger SMTP)');
     const openAIEnabled = !!process.env.OPENAI_API_KEY;
     console.log(`✅ OpenAI: ${openAIEnabled ? 'ENABLED' : 'DISABLED'}`);
     console.log('');
@@ -104,7 +104,7 @@ app.use((req, res, next) => {
       console.log('');
       console.log('ℹ️  Service Status:');
       console.log('✅  - Database: Neon PostgreSQL');
-      console.log('⚠️  - No emails sent (logged to console)');
+      console.log('✅  - Email: epm@epmwellness.com (Hostinger SMTP)');
       if (!process.env.OPENAI_API_KEY) {
         console.log('⚠️  - No AI chatbot (OPENAI_API_KEY missing)');
       } else {
