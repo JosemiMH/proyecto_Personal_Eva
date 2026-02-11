@@ -1016,24 +1016,8 @@ function serveStatic(app2) {
     );
   }
   app2.use(import_express2.default.static(distPath));
-  app2.use("*", async (req, res, next) => {
-    try {
-      const template = import_fs.default.readFileSync(import_path.default.resolve(distPath, "index.html"), "utf-8");
-      const serverEntryPath = import_path.default.resolve(process.cwd(), "dist", "server", "entry-server.js");
-      if (!import_fs.default.existsSync(serverEntryPath)) {
-        res.sendFile(import_path.default.resolve(distPath, "index.html"));
-        return;
-      }
-      const { render } = await import("file://" + serverEntryPath);
-      const { html: appHtml } = await render(req.originalUrl);
-      const html = template.replace(
-        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
-        `<div id="root">${appHtml}</div>`
-      );
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      next(e);
-    }
+  app2.use("*", (_req, res) => {
+    res.sendFile(import_path.default.resolve(distPath, "index.html"));
   });
 }
 
