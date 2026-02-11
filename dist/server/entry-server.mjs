@@ -2306,14 +2306,14 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-DiZs0jKR.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-CYjAx2vu.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
 const Booking = React__default.lazy(() => import("./assets/Booking-CsbVZjR7.mjs"));
 const Admin = React__default.lazy(() => import("./assets/Admin-DMne4oS_.mjs"));
 const AuthPage = React__default.lazy(() => import("./assets/Auth-BJnxNbdk.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-B6gmineJ.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BK54ysoq.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [

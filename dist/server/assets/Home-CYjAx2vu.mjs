@@ -5,7 +5,7 @@ import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
-import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-I378xtyD.mjs";
+import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-BxRqD-Yp.mjs";
 import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { useQuery } from "@tanstack/react-query";

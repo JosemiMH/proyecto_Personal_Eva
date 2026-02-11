@@ -43,7 +43,7 @@ function AuditModal({ children }) {
         path: "/api/contact",
         body: values
       });
-      return res.json();
+      return res;
     },
     onSuccess: () => {
       toast({
