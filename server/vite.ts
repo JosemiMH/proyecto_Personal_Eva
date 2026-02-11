@@ -98,33 +98,8 @@ export function serveStatic(app: Express) {
   app.use(express.static(distPath));
 
   // SSR for production
-  app.use("*", async (req, res, next) => {
-    try {
-      const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
-
-      // In production, we import the built server entry
-      const serverEntryPath = path.resolve(process.cwd(), "dist", "server", "entry-server.js");
-
-      if (!fs.existsSync(serverEntryPath)) {
-        // Fallback to client-side rendering if server build is missing, simpler handling
-        res.sendFile(path.resolve(distPath, "index.html"));
-        return;
-      }
-
-      // Dynamic import of the server bundle
-      const { render } = await import("file://" + serverEntryPath);
-
-      const { html: appHtml } = await render(req.originalUrl);
-
-      // Robust replacement: handle both unminified (with comment) and minified (empty div) scenarios
-      const html = template.replace(
-        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
-        `<div id="root">${appHtml}</div>`
-      );
-
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      next(e);
-    }
+  // SPA fallback for production (SSR disabled to prevent build issues)
+  app.use("*", (_req, res) => {
+    res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
