@@ -129,7 +129,19 @@ export type TranslationKey =
   | 'chatbot.title'
   | 'chatbot.subtitle'
   | 'chatbot.suggestions'
-  | 'chatbot.disclaimer';
+  | 'chatbot.disclaimer'
+
+  // Audit Modal
+  | 'audit.title'
+  | 'audit.subtitle'
+  | 'audit.description'
+  | 'audit.name'
+  | 'audit.email'
+  | 'audit.phone'
+  | 'audit.hotel'
+  | 'audit.challenge'
+  | 'audit.submit'
+  | 'audit.success';
 
 // Definición de las traducciones
 export const translations: Record<Language, Record<TranslationKey, string>> = {
@@ -269,6 +281,18 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'chatbot.subtitle': 'Experta en estrategia wellness',
     'chatbot.suggestions': 'Puedes preguntar sobre:',
     'chatbot.disclaimer': 'Potenciado por IA para información general.',
+
+    // Audit Modal
+    'audit.title': 'Solicitar Auditoría Gratuita',
+    'audit.subtitle': 'Descubre el potencial oculto de tu spa',
+    'audit.description': 'Déjame tus datos y analizaremos juntos cómo transformar tu área wellness en un motor de rentabilidad.',
+    'audit.name': 'Nombre completo',
+    'audit.email': 'Email corporativo',
+    'audit.phone': 'WhatsApp / Teléfono',
+    'audit.hotel': 'Nombre del Hotel / Spa',
+    'audit.challenge': 'Principal desafío actual',
+    'audit.submit': 'Solicitar Auditoría',
+    'audit.success': '¡Solicitud recibida! Te contactaré en breve.',
   },
   en: {
     'header.about': 'About me',
@@ -406,5 +430,17 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
     'chatbot.subtitle': 'Wellness strategy expert',
     'chatbot.suggestions': 'You can ask about:',
     'chatbot.disclaimer': 'Powered by AI for general information.',
+
+    // Audit Modal
+    'audit.title': 'Request Free Audit',
+    'audit.subtitle': 'Discover your spa\'s hidden potential',
+    'audit.description': 'Leave your details and we will analyze together how to transform your wellness area into a profitability engine.',
+    'audit.name': 'Full name',
+    'audit.email': 'Work email',
+    'audit.phone': 'WhatsApp / Phone',
+    'audit.hotel': 'Hotel / Spa Name',
+    'audit.challenge': 'Main current challenge',
+    'audit.submit': 'Request Audit',
+    'audit.success': 'Request received! I will contact you shortly.',
   }
 };

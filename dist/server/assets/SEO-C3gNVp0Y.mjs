@@ -1,5 +1,18 @@
-import { jsxs, jsx } from "react/jsx-runtime";
+import { jsx, jsxs } from "react/jsx-runtime";
+import { h as cn } from "../entry-server.mjs";
 import { Helmet } from "react-helmet-async";
+function Skeleton({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      className: cn("animate-pulse rounded-md bg-muted", className),
+      ...props
+    }
+  );
+}
 function SEO({ title, description, image, url }) {
   const siteUrl = "https://evaperez-wellness.com";
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
@@ -24,5 +37,6 @@ function SEO({ title, description, image, url }) {
   ] });
 }
 export {
-  SEO as S
+  Skeleton as S,
+  SEO as a
 };

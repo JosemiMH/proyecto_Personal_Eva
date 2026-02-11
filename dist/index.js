@@ -1118,6 +1118,8 @@ function setupAuth(app2) {
 }
 
 // server/index.ts
+var import_fs2 = __toESM(require("fs"));
+var import_path2 = __toESM(require("path"));
 var import_helmet = __toESM(require("helmet"));
 var app = (0, import_express3.default)();
 app.use((0, import_helmet.default)({
@@ -1136,7 +1138,7 @@ app.use(import_express3.default.json());
 app.use(import_express3.default.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   const start = Date.now();
-  const path2 = req.path;
+  const path3 = req.path;
   let capturedJsonResponse = void 0;
   const originalResJson = res.json;
   res.json = function(bodyJson, ...args) {
@@ -1145,8 +1147,8 @@ app.use((req, res, next) => {
   };
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path2.startsWith("/api")) {
-      let logLine = `${req.method} ${path2} ${res.statusCode} in ${duration}ms`;
+    if (path3.startsWith("/api")) {
+      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
@@ -1176,6 +1178,29 @@ app.use((req, res, next) => {
     console.log("");
     setupAuth(app);
     const server = await registerRoutes(app);
+    app.get("/blog/:slug", async (req, res, next) => {
+      try {
+        const slug = req.params.slug;
+        const article = await storage.getArticleBySlug(slug);
+        if (!article) {
+          return next();
+        }
+        const isDev = app.get("env") === "development";
+        const templatePath = isDev ? import_path2.default.join(process.cwd(), "client", "index.html") : import_path2.default.join(process.cwd(), "dist", "public", "index.html");
+        let template = await import_fs2.default.promises.readFile(templatePath, "utf-8");
+        const title = `${article.title} | Eva P\xE9rez`;
+        const description = article.excerpt || "Art\xEDculo de Eva P\xE9rez - Wellness & Hospitality Strategy";
+        const image = article.image.startsWith("http") ? article.image : `https://evaperez-wellness.com${article.image}`;
+        const url = `https://evaperez-wellness.com/blog/${article.slug}`;
+        template = template.replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`).replace(/<meta name="description"[\s\S]*?\/>/, `<meta name="description" content="${description}" />`).replace(/<meta property="og:title"[\s\S]*?\/>/, `<meta property="og:title" content="${title}" />`).replace(/<meta property="og:description"[\s\S]*?\/>/, `<meta property="og:description" content="${description}" />`).replace(/<meta property="og:image"[\s\S]*?\/>/, `<meta property="og:image" content="${image}" />`).replace(/<meta property="og:url"[\s\S]*?\/>/, `<meta property="og:url" content="${url}" />`).replace(/<meta property="twitter:title"[\s\S]*?\/>/, `<meta property="twitter:title" content="${title}" />`).replace(/<meta property="twitter:description"[\s\S]*?\/>/, `<meta property="twitter:description" content="${description}" />`).replace(/<meta property="twitter:image"[\s\S]*?\/>/, `<meta property="twitter:image" content="${image}" />`).replace(/<meta property="twitter:url"[\s\S]*?\/>/, `<meta property="twitter:url" content="${url}" />`);
+        if (isDev) {
+        }
+        res.status(200).set({ "Content-Type": "text/html" }).end(template);
+      } catch (error) {
+        console.error("SEO middleware error:", error);
+        next();
+      }
+    });
     app.use((err, _req, res, _next) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";

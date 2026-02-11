@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/contexts/LanguageContext';
 import OptimizedImage from './OptimizedImage';
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight, Tag } from 'lucide-react';
 import { Link } from "wouter";
 import { useMemo } from 'react';
@@ -75,8 +76,19 @@ const Blog = () => {
   if (isLoading) {
     return (
       <section id="blog" className="py-20 md:py-32 bg-gray-50 relative">
-        <div className="container mx-auto px-4 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-turquoise mx-auto"></div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <Skeleton className="h-4 w-24 mx-auto mb-3" />
+            <Skeleton className="h-12 w-3/4 mx-auto mb-6" />
+            <Skeleton className="h-6 w-1/2 mx-auto" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className={`h-full rounded-2xl overflow-hidden shadow-lg ${i === 1 ? 'md:col-span-2 lg:col-span-2' : ''} ${i === 4 ? 'md:col-span-2 lg:col-span-1' : ''}`}>
+                <Skeleton className="h-full w-full" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );

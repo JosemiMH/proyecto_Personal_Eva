@@ -4,18 +4,18 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { u as useLanguage, c as cn, D as Dialog, a as DialogContent, b as DialogTitle, d as DialogDescription, B as Button, s as services, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
-import { ArrowRight, Tag, X } from "lucide-react";
-import { cva } from "class-variance-authority";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { u as useLanguage, a as useToast, b as apiRequest, D as Dialog, c as DialogTrigger, d as DialogContent, e as DialogHeader, f as DialogTitle, g as DialogDescription, B as Button, s as services, h as cn, p as portfolioItems, t as testimonials, i as blogPosts, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-Qkbd4gOm.mjs";
-import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, T as Textarea, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DYB6wbGn.mjs";
+import { z } from "zod";
+import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-D9zzjR2O.mjs";
+import { T as Textarea, S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-OBlsS8J3.mjs";
+import { Loader2, ArrowRight, Tag, X } from "lucide-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { S as Skeleton, a as SEO } from "./SEO-C3gNVp0Y.mjs";
+import { cva } from "class-variance-authority";
+import { Link } from "wouter";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { S as SEO } from "./SEO-DhGfO5vh.mjs";
 import "react-icons/fa";
 import "react-dom/server";
 import "@radix-ui/react-toast";
@@ -34,6 +34,146 @@ import "date-fns";
 import "date-fns/locale";
 const heroImageEs = "/assets/hero-es-kbcuNBxT.png";
 const heroImageEn = "/assets/hero-en-81kcQctz.jpg";
+function AuditModal({ children }) {
+  const { t } = useLanguage();
+  const { toast } = useToast();
+  const [open, setOpen] = useState(false);
+  const formSchema2 = z.object({
+    name: z.string().min(2, "Name required"),
+    email: z.string().email("Invalid email"),
+    phone: z.string().optional(),
+    company: z.string().min(2, "Company required"),
+    // Using company field for Hotel/Spa name
+    message: z.string().min(5, "Challenge details required"),
+    // Using message for Challenge
+    service: z.string().default("Auditoría Estratégica"),
+    privacy: z.literal(true)
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      message: "",
+      service: "Auditoría Estratégica",
+      privacy: true
+    }
+  });
+  const mutation = useMutation({
+    mutationFn: async (values) => {
+      const res = await apiRequest({
+        method: "POST",
+        path: "/api/contact",
+        body: values
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: t("audit.success"),
+        variant: "default"
+      });
+      setOpen(false);
+      form.reset();
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
+    }
+  });
+  function onSubmit(values) {
+    mutation.mutate(values);
+  }
+  return /* @__PURE__ */ jsxs(Dialog, { open, onOpenChange: setOpen, children: [
+    /* @__PURE__ */ jsx(DialogTrigger, { asChild: true, children }),
+    /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[500px] max-h-[90vh] overflow-y-auto", children: [
+      /* @__PURE__ */ jsxs(DialogHeader, { children: [
+        /* @__PURE__ */ jsx(DialogTitle, { children: t("audit.title") }),
+        /* @__PURE__ */ jsx(DialogDescription, { children: t("audit.description") })
+      ] }),
+      /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4 py-4", children: [
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "name",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.name") }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Eva Pérez", ...field }) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ jsx(
+            FormField,
+            {
+              control: form.control,
+              name: "email",
+              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                /* @__PURE__ */ jsx(FormLabel, { children: t("audit.email") }),
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "eva@example.com", ...field }) }),
+                /* @__PURE__ */ jsx(FormMessage, {})
+              ] })
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            FormField,
+            {
+              control: form.control,
+              name: "phone",
+              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                /* @__PURE__ */ jsx(FormLabel, { children: t("audit.phone") }),
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "+34 600...", ...field }) }),
+                /* @__PURE__ */ jsx(FormMessage, {})
+              ] })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "company",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.hotel") }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Grand Hotel & Spa...", ...field }) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "message",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.challenge") }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                Textarea,
+                {
+                  placeholder: t("audit.subtitle"),
+                  className: "resize-none",
+                  ...field
+                }
+              ) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsxs(Button, { type: "submit", className: "w-full bg-turquoise hover:bg-turquoise-dark text-white", disabled: mutation.isPending, children: [
+          mutation.isPending && /* @__PURE__ */ jsx(Loader2, { className: "mr-2 h-4 w-4 animate-spin" }),
+          t("audit.submit")
+        ] })
+      ] }) })
+    ] })
+  ] });
+}
 const Hero = () => {
   const { language, t } = useLanguage();
   const { isMobile, isTablet, isDesktop } = useDeviceDetect();
@@ -76,14 +216,13 @@ const Hero = () => {
           ] }),
           /* @__PURE__ */ jsx("p", { className: `text-white opacity-80 ${isMobile ? "text-xs mb-6" : isTablet ? "text-sm mb-5 max-w-sm" : "text-sm mb-6 max-w-md"}`, children: language === "es" ? "Más de 20 años de experiencia optimizando operaciones, formando equipos excepcionales y elevando la satisfacción del cliente." : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction." }),
           /* @__PURE__ */ jsxs("div", { className: `gap-3 ${isMobile ? "flex flex-col w-full" : "flex flex-row"}`, children: [
-            /* @__PURE__ */ jsx(
-              "a",
+            /* @__PURE__ */ jsx(AuditModal, { children: /* @__PURE__ */ jsx(
+              "button",
               {
-                href: "#contact",
-                className: `bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center ${isMobile ? "px-6 py-3 text-sm w-full" : isTablet ? "px-7 py-2.5 text-sm" : "px-8 py-3 text-base"}`,
+                className: `bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center cursor-pointer ${isMobile ? "px-6 py-3 text-sm w-full" : isTablet ? "px-7 py-2.5 text-sm" : "px-8 py-3 text-base"}`,
                 children: t("hero.ctaPrimary")
               }
-            ),
+            ) }),
             /* @__PURE__ */ jsx(
               "a",
               {
@@ -99,18 +238,6 @@ const Hero = () => {
   ] });
 };
 const evaSpeakingImage = "/assets/hero-en-81kcQctz.jpg";
-function Skeleton({
-  className,
-  ...props
-}) {
-  return /* @__PURE__ */ jsx(
-    "div",
-    {
-      className: cn("animate-pulse rounded-md bg-muted", className),
-      ...props
-    }
-  );
-}
 const OptimizedImage = ({
   src,
   alt,
@@ -483,7 +610,7 @@ const CallToAction = () => {
           /* @__PURE__ */ jsx("h2", { className: "font-playfair text-2xl md:text-3xl font-bold mb-4", children: content[language].title }),
           /* @__PURE__ */ jsx("p", { className: "text-white/90 text-lg", children: content[language].description })
         ] }),
-        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx("a", { href: "#contact", className: "inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded", children: content[language].button }) })
+        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(AuditModal, { children: /* @__PURE__ */ jsx("button", { className: "inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded cursor-pointer", children: content[language].button }) }) })
       ]
     }
   ) }) });
@@ -910,7 +1037,14 @@ const Blog = () => {
     }
   };
   if (isLoading) {
-    return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsx("div", { className: "container mx-auto px-4 text-center", children: /* @__PURE__ */ jsx("div", { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-turquoise mx-auto" }) }) });
+    return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+      /* @__PURE__ */ jsxs("div", { className: "text-center max-w-3xl mx-auto mb-20", children: [
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-24 mx-auto mb-3" }),
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-12 w-3/4 mx-auto mb-6" }),
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-1/2 mx-auto" })
+      ] }),
+      /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]", children: [1, 2, 3, 4, 5, 6].map((i) => /* @__PURE__ */ jsx("div", { className: `h-full rounded-2xl overflow-hidden shadow-lg ${i === 1 ? "md:col-span-2 lg:col-span-2" : ""} ${i === 4 ? "md:col-span-2 lg:col-span-1" : ""}`, children: /* @__PURE__ */ jsx(Skeleton, { className: "h-full w-full" }) }, i)) })
+    ] }) });
   }
   const BlogGrid = ({ articles, delay = 0 }) => /* @__PURE__ */ jsx(
     motion.div,

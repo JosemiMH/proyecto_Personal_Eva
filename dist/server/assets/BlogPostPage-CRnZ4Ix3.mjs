@@ -2,7 +2,7 @@ import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
-import { S as SEO } from "./SEO-DhGfO5vh.mjs";
+import { S as Skeleton, a as SEO } from "./SEO-C3gNVp0Y.mjs";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import "react-dom/server";
@@ -25,7 +25,24 @@ function BlogPostPage() {
     enabled: !!slug
   });
   if (isLoading) {
-    return /* @__PURE__ */ jsx("div", { className: "min-h-screen pt-24 flex items-center justify-center", children: /* @__PURE__ */ jsx("div", { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-primary" }) });
+    return /* @__PURE__ */ jsx("div", { className: "min-h-screen pt-24 pb-16 bg-background", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 max-w-4xl", children: [
+      /* @__PURE__ */ jsx(Skeleton, { className: "h-10 w-32 mb-8" }),
+      /* @__PURE__ */ jsxs("div", { className: "space-y-6", children: [
+        /* @__PURE__ */ jsx(Skeleton, { className: "aspect-video w-full rounded-2xl" }),
+        /* @__PURE__ */ jsxs("div", { className: "flex gap-4", children: [
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-24 rounded-full" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-32" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-24" })
+        ] }),
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-12 w-3/4" }),
+        /* @__PURE__ */ jsxs("div", { className: "space-y-4 mt-8", children: [
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-5/6" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" })
+        ] })
+      ] })
+    ] }) });
   }
   if (!article) {
     return /* @__PURE__ */ jsxs("div", { className: "min-h-screen pt-24 container mx-auto px-4 text-center", children: [

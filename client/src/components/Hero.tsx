@@ -3,6 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import heroImageEs from '@/assets/images/hero-es.png';
 import heroImageEn from '@/assets/images/hero-en.jpg';
 import { useDeviceDetect } from '@/hooks/useDeviceDetect';
+import { AuditModal } from './AuditModal';
 
 const Hero = () => {
   const { language, t } = useLanguage();
@@ -99,17 +100,18 @@ const Hero = () => {
               : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction."}
           </p>
           <div className={`gap-3 ${isMobile ? 'flex flex-col w-full' : 'flex flex-row'}`}>
-            <a
-              href="#contact"
-              className={`bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center ${isMobile
-                ? 'px-6 py-3 text-sm w-full'
-                : isTablet
-                  ? 'px-7 py-2.5 text-sm'
-                  : 'px-8 py-3 text-base'
-                }`}
-            >
-              {t('hero.ctaPrimary')}
-            </a>
+            <AuditModal>
+              <button
+                className={`bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center cursor-pointer ${isMobile
+                  ? 'px-6 py-3 text-sm w-full'
+                  : isTablet
+                    ? 'px-7 py-2.5 text-sm'
+                    : 'px-8 py-3 text-base'
+                  }`}
+              >
+                {t('hero.ctaPrimary')}
+              </button>
+            </AuditModal>
             <a
               href="#portfolio"
               className={`bg-white hover:bg-gray-100 text-turquoise-dark font-medium rounded transition-colors inline-block text-center ${isMobile

@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { AuditModal } from './AuditModal';
 
 const CallToAction = () => {
   const { language } = useLanguage();
-  
+
   // Contenido traducido
   const content = {
     es: {
@@ -21,7 +22,7 @@ const CallToAction = () => {
   return (
     <section className="py-16 md:py-20 bg-turquoise text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="flex flex-col md:flex-row items-center justify-between gap-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -37,9 +38,11 @@ const CallToAction = () => {
             </p>
           </div>
           <div>
-            <a href="#contact" className="inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded">
-              {content[language].button}
-            </a>
+            <AuditModal>
+              <button className="inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded cursor-pointer">
+                {content[language].button}
+              </button>
+            </AuditModal>
           </div>
         </motion.div>
       </div>

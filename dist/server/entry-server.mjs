@@ -1102,8 +1102,8 @@ const blogPosts = [
     },
     image: "/assets/new_gen/blog_ai.png",
     date: {
-      es: "15 Enero, 2025",
-      en: "January 15, 2025"
+      es: "18 Diciembre, 2025",
+      en: "December 18, 2025"
     },
     category: {
       es: "Tecnología",
@@ -1313,8 +1313,8 @@ const blogPosts = [
     },
     image: "/attached_assets/blog_wow_effect_spa.png",
     date: {
-      es: "25 Marzo, 2025",
-      en: "March 25, 2025"
+      es: "20 Diciembre, 2025",
+      en: "December 20, 2025"
     },
     category: {
       es: "Tendencias",
@@ -1475,7 +1475,18 @@ const translations = {
     "chatbot.title": "Asistente Virtual",
     "chatbot.subtitle": "Experta en estrategia wellness",
     "chatbot.suggestions": "Puedes preguntar sobre:",
-    "chatbot.disclaimer": "Potenciado por IA para información general."
+    "chatbot.disclaimer": "Potenciado por IA para información general.",
+    // Audit Modal
+    "audit.title": "Solicitar Auditoría Gratuita",
+    "audit.subtitle": "Descubre el potencial oculto de tu spa",
+    "audit.description": "Déjame tus datos y analizaremos juntos cómo transformar tu área wellness en un motor de rentabilidad.",
+    "audit.name": "Nombre completo",
+    "audit.email": "Email corporativo",
+    "audit.phone": "WhatsApp / Teléfono",
+    "audit.hotel": "Nombre del Hotel / Spa",
+    "audit.challenge": "Principal desafío actual",
+    "audit.submit": "Solicitar Auditoría",
+    "audit.success": "¡Solicitud recibida! Te contactaré en breve."
   },
   en: {
     "header.about": "About me",
@@ -1601,7 +1612,18 @@ const translations = {
     "chatbot.title": "Virtual Assistant",
     "chatbot.subtitle": "Wellness strategy expert",
     "chatbot.suggestions": "You can ask about:",
-    "chatbot.disclaimer": "Powered by AI for general information."
+    "chatbot.disclaimer": "Powered by AI for general information.",
+    // Audit Modal
+    "audit.title": "Request Free Audit",
+    "audit.subtitle": "Discover your spa's hidden potential",
+    "audit.description": "Leave your details and we will analyze together how to transform your wellness area into a profitability engine.",
+    "audit.name": "Full name",
+    "audit.email": "Work email",
+    "audit.phone": "WhatsApp / Phone",
+    "audit.hotel": "Hotel / Spa Name",
+    "audit.challenge": "Main current challenge",
+    "audit.submit": "Request Audit",
+    "audit.success": "Request received! I will contact you shortly."
   }
 };
 const defaultValue = {
@@ -1634,6 +1656,7 @@ const LanguageProvider = ({ children }) => {
   return /* @__PURE__ */ jsx(LanguageContext.Provider, { value: { language, setLanguage, t }, children });
 };
 const Dialog = DialogPrimitive.Root;
+const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
 const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Overlay,
@@ -1669,6 +1692,20 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
   )
 ] }));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
+const DialogHeader = ({
+  className,
+  ...props
+}) => /* @__PURE__ */ jsx(
+  "div",
+  {
+    className: cn(
+      "flex flex-col space-y-1.5 text-center sm:text-left",
+      className
+    ),
+    ...props
+  }
+);
+DialogHeader.displayName = "DialogHeader";
 const DialogTitle = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Title,
   {
@@ -2269,14 +2306,14 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-C6qSWSxX.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-DelXodhF.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-B1IX4RUx.mjs"));
-const Admin = React__default.lazy(() => import("./assets/Admin-Ch3qVOtN.mjs"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-jiNbsEYK.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-lhMD5fOm.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-C2_Veo_b.mjs"));
+const Admin = React__default.lazy(() => import("./assets/Admin-BSE3IzcO.mjs"));
+const AuthPage = React__default.lazy(() => import("./assets/Auth-BUjTvzUn.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-CRnZ4Ix3.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
@@ -2319,22 +2356,24 @@ export {
   Dialog as D,
   Resources as R,
   ScrollToTop as S,
-  DialogContent as a,
-  DialogTitle as b,
-  cn as c,
-  DialogDescription as d,
-  blogPosts as e,
-  useToast as f,
-  apiRequest as g,
-  buttonVariants as h,
-  CardHeader as i,
-  CardTitle as j,
-  CardDescription as k,
-  CardContent as l,
-  CardFooter as m,
-  toast as n,
-  useAuth as o,
+  useToast as a,
+  apiRequest as b,
+  DialogTrigger as c,
+  DialogContent as d,
+  DialogHeader as e,
+  DialogTitle as f,
+  DialogDescription as g,
+  cn as h,
+  blogPosts as i,
+  buttonVariants as j,
+  CardHeader as k,
+  CardTitle as l,
+  CardDescription as m,
+  CardContent as n,
+  CardFooter as o,
   portfolioItems as p,
+  toast as q,
+  useAuth as r,
   render,
   services as s,
   testimonials as t,

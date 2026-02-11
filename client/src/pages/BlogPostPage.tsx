@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLanguage } from "@/contexts/LanguageContext";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import type { Article } from "@shared/schema";
@@ -20,8 +21,25 @@ export default function BlogPostPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen pt-24 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <div className="min-h-screen pt-24 pb-16 bg-background">
+                <div className="container mx-auto px-4 max-w-4xl">
+                    <Skeleton className="h-10 w-32 mb-8" />
+                    <div className="space-y-6">
+                        <Skeleton className="aspect-video w-full rounded-2xl" />
+                        <div className="flex gap-4">
+                            <Skeleton className="h-6 w-24 rounded-full" />
+                            <Skeleton className="h-6 w-32" />
+                            <Skeleton className="h-6 w-24" />
+                        </div>
+                        <Skeleton className="h-12 w-3/4" />
+                        <div className="space-y-4 mt-8">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-5/6" />
+                            <Skeleton className="h-4 w-full" />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
