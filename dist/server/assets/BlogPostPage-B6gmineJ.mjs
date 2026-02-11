@@ -2,7 +2,7 @@ import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
-import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-_0ahTmwL.mjs";
+import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-I378xtyD.mjs";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import "react-dom/server";

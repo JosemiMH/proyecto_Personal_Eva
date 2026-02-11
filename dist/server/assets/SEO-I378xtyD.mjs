@@ -54,9 +54,28 @@ function AuditModal({ children }) {
       form.reset();
     },
     onError: (error) => {
+      let errorMessage = "Something went wrong. Please try again.";
+      if (error.message) {
+        const jsonStart = error.message.indexOf("{");
+        if (jsonStart !== -1) {
+          try {
+            const jsonStr = error.message.substring(jsonStart);
+            const data = JSON.parse(jsonStr);
+            if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+              errorMessage = data.errors[0].message;
+            } else if (data.message) {
+              errorMessage = data.message;
+            }
+          } catch (e) {
+            errorMessage = error.message;
+          }
+        } else {
+          errorMessage = error.message;
+        }
+      }
       toast({
         title: "Error",
-        description: error.message || "Something went wrong. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     }
