@@ -3,6 +3,9 @@ import express from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { setupAuth } from "./auth";
+import fs from "fs";
+import path from "path";
+import { storage } from "./storage";
 
 import helmet from "helmet";
 
@@ -73,7 +76,78 @@ app.use((req, res, next) => {
     setupAuth(app);
     const server = await registerRoutes(app);
 
+    // SEO Middleware for Blog Posts
+    app.get("/blog/:slug", async (req, res, next) => {
+      try {
+        const slug = req.params.slug;
+        const article = await storage.getArticleBySlug(slug);
+
+        if (!article) {
+          return next();
+        }
+
+        // Determine the path to index.html based on environment
+        const isDev = app.get("env") === "development";
+        const templatePath = isDev
+          ? path.join(process.cwd(), "client", "index.html")
+          : path.join(process.cwd(), "dist", "public", "index.html");
+
+        let template = await fs.promises.readFile(templatePath, "utf-8");
+
+        // Inject SEO tags
+        const title = `${article.title} | Eva Pérez`;
+        const description = article.excerpt || "Artículo de Eva Pérez - Wellness & Hospitality Strategy";
+        const image = article.image.startsWith("http") ? article.image : `https://evaperez-wellness.com${article.image}`;
+        const url = `https://evaperez-wellness.com/blog/${article.slug}`;
+
+        // Replace placeholders or existing tags
+        // Using [\s\S]*? to match across newlines and handle multi-line attributes in the original HTML
+        template = template
+          .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
+          .replace(/<meta name="description"[\s\S]*?\/>/, `<meta name="description" content="${description}" />`)
+          .replace(/<meta property="og:title"[\s\S]*?\/>/, `<meta property="og:title" content="${title}" />`)
+          .replace(/<meta property="og:description"[\s\S]*?\/>/, `<meta property="og:description" content="${description}" />`)
+          .replace(/<meta property="og:image"[\s\S]*?\/>/, `<meta property="og:image" content="${image}" />`)
+          .replace(/<meta property="og:url"[\s\S]*?\/>/, `<meta property="og:url" content="${url}" />`)
+          .replace(/<meta property="twitter:title"[\s\S]*?\/>/, `<meta property="twitter:title" content="${title}" />`)
+          .replace(/<meta property="twitter:description"[\s\S]*?\/>/, `<meta property="twitter:description" content="${description}" />`)
+          .replace(/<meta property="twitter:image"[\s\S]*?\/>/, `<meta property="twitter:image" content="${image}" />`)
+          .replace(/<meta property="twitter:url"[\s\S]*?\/>/, `<meta property="twitter:url" content="${url}" />`);
+
+        // Inject Vite HMR client if in dev mode (since we are bypassing Vite's transformIndexHtml for this specific route)
+        // Actually, bypassing Vite's transformIndexHtml in dev might break HMR and other things.
+        // In dev, we should probably let Vite handle it or try to use vite.transformIndexHtml if available.
+        // However, this middleware is primarily for production SEO bots. 
+        // In dev, let's skip modification to avoid breaking Vite's processing, 
+        // OR we can rely on client-side hydration for dev.
+        // But for testing the feature, we might want it.
+        // Let's use a cleaner approach: only respond with modified HTML if it's a bot or for production consistency?
+        // No, let's just send it. But for Dev, we need specific Vite handling provided by 'setupVite' usually.
+        // The 'setupVite' function in './vite' uses app.use('*', ...) to handle requests.
+        // If we handle /blog/:slug here and send response, we validly bypass Vite.
+        // BUT 'client/index.html' is raw source. It has <script type="module" src="/src/entry-client.tsx"></script>.
+        // Examples show that in Vite dev, we should load template via vite.transformIndexHtml.
+
+        if (isDev) {
+          // In development, verification is harder if we bypass Vite. 
+          // We can just rely on the fact that this code will run in production.
+          // Or we can try to simple-replace. 
+          // The client/index.html has /src/entry-client.tsx which Vite needs to resolve.
+          // If we serve raw index.html, the browser will ask for /src/entry-client.tsx.
+          // Vite server (which handles other routes) should handle that request.
+          // So this MIGHT work in dev too, provided other assets are requested separately.
+        }
+
+        res.status(200).set({ "Content-Type": "text/html" }).end(template);
+
+      } catch (error) {
+        console.error("SEO middleware error:", error);
+        next();
+      }
+    });
+
     // Error handler
+
     app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";

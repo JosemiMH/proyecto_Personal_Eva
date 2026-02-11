@@ -2269,7 +2269,7 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-CRrs_ckZ.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-C6qSWSxX.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
