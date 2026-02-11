@@ -3,9 +3,10 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Check, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
-import { h as cn, j as buttonVariants, u as useLanguage, C as Card, k as CardHeader, l as CardTitle, m as CardDescription, n as CardContent, o as CardFooter, B as Button, b as apiRequest, q as toast } from "../entry-server.mjs";
-import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage, f as FormDescription } from "./input-D9zzjR2O.mjs";
+import { d as cn, h as buttonVariants, u as useLanguage, C as Card, i as CardHeader, j as CardTitle, k as CardDescription, l as CardContent, m as CardFooter, B as Button, g as apiRequest, n as toast } from "../entry-server.mjs";
+import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage, f as FormDescription } from "./input-CpzPiKMZ.mjs";
 import * as SelectPrimitive from "@radix-ui/react-select";
+import { T as Textarea } from "./textarea-CYyNOJWu.mjs";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,22 +15,6 @@ import { z } from "zod";
 import { addDays, format, isBefore } from "date-fns";
 import { es, enUS } from "date-fns/locale";
 import { AnimatePresence, motion } from "framer-motion";
-const Textarea = React.forwardRef(
-  ({ className, ...props }, ref) => {
-    return /* @__PURE__ */ jsx(
-      "textarea",
-      {
-        className: cn(
-          "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        ),
-        ref,
-        ...props
-      }
-    );
-  }
-);
-Textarea.displayName = "Textarea";
 const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   CheckboxPrimitive.Root,
   {
@@ -600,7 +585,6 @@ export {
   BookingCalendar as B,
   Checkbox as C,
   Select as S,
-  Textarea as T,
   SelectTrigger as a,
   SelectValue as b,
   SelectContent as c,

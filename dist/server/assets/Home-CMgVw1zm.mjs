@@ -4,17 +4,18 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { u as useLanguage, a as useToast, b as apiRequest, D as Dialog, c as DialogTrigger, d as DialogContent, e as DialogHeader, f as DialogTitle, g as DialogDescription, B as Button, s as services, h as cn, p as portfolioItems, t as testimonials, i as blogPosts, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-D9zzjR2O.mjs";
-import { T as Textarea, S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-OBlsS8J3.mjs";
-import { Loader2, ArrowRight, Tag, X } from "lucide-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { S as Skeleton, a as SEO } from "./SEO-C3gNVp0Y.mjs";
+import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
+import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-BLEvTsK8.mjs";
+import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-CpzPiKMZ.mjs";
+import { T as Textarea } from "./textarea-CYyNOJWu.mjs";
+import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DNyuQkst.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import "react-icons/fa";
 import "react-dom/server";
@@ -34,146 +35,6 @@ import "date-fns";
 import "date-fns/locale";
 const heroImageEs = "/assets/hero-es-kbcuNBxT.png";
 const heroImageEn = "/assets/hero-en-81kcQctz.jpg";
-function AuditModal({ children }) {
-  const { t } = useLanguage();
-  const { toast } = useToast();
-  const [open, setOpen] = useState(false);
-  const formSchema2 = z.object({
-    name: z.string().min(2, "Name required"),
-    email: z.string().email("Invalid email"),
-    phone: z.string().optional(),
-    company: z.string().min(2, "Company required"),
-    // Using company field for Hotel/Spa name
-    message: z.string().min(5, "Challenge details required"),
-    // Using message for Challenge
-    service: z.string().default("Auditoría Estratégica"),
-    privacy: z.literal(true)
-  });
-  const form = useForm({
-    resolver: zodResolver(formSchema2),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      message: "",
-      service: "Auditoría Estratégica",
-      privacy: true
-    }
-  });
-  const mutation = useMutation({
-    mutationFn: async (values) => {
-      const res = await apiRequest({
-        method: "POST",
-        path: "/api/contact",
-        body: values
-      });
-      return res.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: t("audit.success"),
-        variant: "default"
-      });
-      setOpen(false);
-      form.reset();
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive"
-      });
-    }
-  });
-  function onSubmit(values) {
-    mutation.mutate(values);
-  }
-  return /* @__PURE__ */ jsxs(Dialog, { open, onOpenChange: setOpen, children: [
-    /* @__PURE__ */ jsx(DialogTrigger, { asChild: true, children }),
-    /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[500px] max-h-[90vh] overflow-y-auto", children: [
-      /* @__PURE__ */ jsxs(DialogHeader, { children: [
-        /* @__PURE__ */ jsx(DialogTitle, { children: t("audit.title") }),
-        /* @__PURE__ */ jsx(DialogDescription, { children: t("audit.description") })
-      ] }),
-      /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4 py-4", children: [
-        /* @__PURE__ */ jsx(
-          FormField,
-          {
-            control: form.control,
-            name: "name",
-            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.name") }),
-              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Eva Pérez", ...field }) }),
-              /* @__PURE__ */ jsx(FormMessage, {})
-            ] })
-          }
-        ),
-        /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-          /* @__PURE__ */ jsx(
-            FormField,
-            {
-              control: form.control,
-              name: "email",
-              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-                /* @__PURE__ */ jsx(FormLabel, { children: t("audit.email") }),
-                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "eva@example.com", ...field }) }),
-                /* @__PURE__ */ jsx(FormMessage, {})
-              ] })
-            }
-          ),
-          /* @__PURE__ */ jsx(
-            FormField,
-            {
-              control: form.control,
-              name: "phone",
-              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-                /* @__PURE__ */ jsx(FormLabel, { children: t("audit.phone") }),
-                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "+34 600...", ...field }) }),
-                /* @__PURE__ */ jsx(FormMessage, {})
-              ] })
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsx(
-          FormField,
-          {
-            control: form.control,
-            name: "company",
-            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.hotel") }),
-              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Grand Hotel & Spa...", ...field }) }),
-              /* @__PURE__ */ jsx(FormMessage, {})
-            ] })
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          FormField,
-          {
-            control: form.control,
-            name: "message",
-            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.challenge") }),
-              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
-                Textarea,
-                {
-                  placeholder: t("audit.subtitle"),
-                  className: "resize-none",
-                  ...field
-                }
-              ) }),
-              /* @__PURE__ */ jsx(FormMessage, {})
-            ] })
-          }
-        ),
-        /* @__PURE__ */ jsxs(Button, { type: "submit", className: "w-full bg-turquoise hover:bg-turquoise-dark text-white", disabled: mutation.isPending, children: [
-          mutation.isPending && /* @__PURE__ */ jsx(Loader2, { className: "mr-2 h-4 w-4 animate-spin" }),
-          t("audit.submit")
-        ] })
-      ] }) })
-    ] })
-  ] });
-}
 const Hero = () => {
   const { language, t } = useLanguage();
   const { isMobile, isTablet, isDesktop } = useDeviceDetect();

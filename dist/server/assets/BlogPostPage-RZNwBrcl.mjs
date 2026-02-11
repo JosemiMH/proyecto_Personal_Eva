@@ -2,7 +2,7 @@ import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
-import { S as Skeleton, a as SEO } from "./SEO-C3gNVp0Y.mjs";
+import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-BLEvTsK8.mjs";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import "react-dom/server";
@@ -16,6 +16,12 @@ import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
 import "react-icons/fa";
 import "react-helmet-async";
+import "react-hook-form";
+import "@hookform/resolvers/zod";
+import "zod";
+import "./input-CpzPiKMZ.mjs";
+import "@radix-ui/react-label";
+import "./textarea-CYyNOJWu.mjs";
 function BlogPostPage() {
   const [, params] = useRoute("/blog/:slug");
   const slug = params == null ? void 0 : params.slug;
@@ -117,9 +123,12 @@ function BlogPostPage() {
         ] }),
         /* @__PURE__ */ jsx("h1", { className: "text-4xl md:text-5xl font-playfair font-bold text-foreground leading-tight", children: article.title }),
         /* @__PURE__ */ jsx("div", { className: "prose prose-lg dark:prose-invert max-w-none font-sans leading-relaxed", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: article.content }) }),
-        /* @__PURE__ */ jsx("div", { className: "mt-12 pt-8 border-t", children: /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center", children: [
-          /* @__PURE__ */ jsx("p", { className: "text-muted-foreground italic", children: language === "es" ? "¿Te ha interesado este artículo? Hablemos de cómo aplicar estas estrategias en tu negocio." : "Found this article interesting? Let's talk about how to apply these strategies to your business." }),
-          /* @__PURE__ */ jsx(Link, { href: "/#contacto", children: /* @__PURE__ */ jsx(Button, { size: "lg", children: language === "es" ? "Contactar" : "Contact Me" }) })
+        /* @__PURE__ */ jsx("div", { className: "mt-12 p-8 bg-muted/30 rounded-2xl border border-primary/10", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row gap-6 items-center justify-between", children: [
+          /* @__PURE__ */ jsxs("div", { className: "space-y-2 text-center md:text-left", children: [
+            /* @__PURE__ */ jsx("h3", { className: "text-xl font-playfair font-bold text-foreground", children: language === "es" ? "¿Tu Spa está alcanzando su máximo potencial?" : "Is your Spa reaching its full potential?" }),
+            /* @__PURE__ */ jsx("p", { className: "text-muted-foreground", children: language === "es" ? "Solicita una auditoría estratégica gratuita y descubre oportunidades ocultas de rentabilidad." : "Request a free strategic audit and discover hidden profitability opportunities." })
+          ] }),
+          /* @__PURE__ */ jsx(AuditModal, { children: /* @__PURE__ */ jsx(Button, { size: "lg", className: "shrink-0 bg-primary text-primary-foreground hover:bg-primary/90", children: language === "es" ? "Solicitar Auditoría" : "Request Audit" }) })
         ] }) })
       ] })
     ] }) })

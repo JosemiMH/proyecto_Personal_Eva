@@ -2306,14 +2306,14 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-DelXodhF.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-CMgVw1zm.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-C2_Veo_b.mjs"));
-const Admin = React__default.lazy(() => import("./assets/Admin-BSE3IzcO.mjs"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-BUjTvzUn.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-CRnZ4Ix3.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-CsbVZjR7.mjs"));
+const Admin = React__default.lazy(() => import("./assets/Admin-DMne4oS_.mjs"));
+const AuthPage = React__default.lazy(() => import("./assets/Auth-BJnxNbdk.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-RZNwBrcl.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
@@ -2356,24 +2356,24 @@ export {
   Dialog as D,
   Resources as R,
   ScrollToTop as S,
-  useToast as a,
-  apiRequest as b,
-  DialogTrigger as c,
-  DialogContent as d,
-  DialogHeader as e,
-  DialogTitle as f,
-  DialogDescription as g,
-  cn as h,
-  blogPosts as i,
-  buttonVariants as j,
-  CardHeader as k,
-  CardTitle as l,
-  CardDescription as m,
-  CardContent as n,
-  CardFooter as o,
+  DialogContent as a,
+  DialogTitle as b,
+  DialogDescription as c,
+  cn as d,
+  blogPosts as e,
+  useToast as f,
+  apiRequest as g,
+  buttonVariants as h,
+  CardHeader as i,
+  CardTitle as j,
+  CardDescription as k,
+  CardContent as l,
+  CardFooter as m,
+  toast as n,
+  useAuth as o,
   portfolioItems as p,
-  toast as q,
-  useAuth as r,
+  DialogTrigger as q,
+  DialogHeader as r,
   render,
   services as s,
   testimonials as t,

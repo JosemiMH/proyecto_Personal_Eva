@@ -8,6 +8,8 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import type { Article } from "@shared/schema";
 import ReactMarkdown from "react-markdown";
+import { AuditModal } from "@/components/AuditModal";
+
 
 export default function BlogPostPage() {
     const [, params] = useRoute("/blog/:slug");
@@ -150,19 +152,24 @@ export default function BlogPostPage() {
                             <ReactMarkdown>{article.content}</ReactMarkdown>
                         </div>
 
-                        <div className="mt-12 pt-8 border-t">
-                            <div className="flex justify-between items-center">
-                                <p className="text-muted-foreground italic">
-                                    {language === 'es'
-                                        ? "¿Te ha interesado este artículo? Hablemos de cómo aplicar estas estrategias en tu negocio."
-                                        : "Found this article interesting? Let's talk about how to apply these strategies to your business."
-                                    }
-                                </p>
-                                <Link href="/#contacto">
-                                    <Button size="lg">
-                                        {language === 'es' ? 'Contactar' : 'Contact Me'}
+                        <div className="mt-12 p-8 bg-muted/30 rounded-2xl border border-primary/10">
+                            <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+                                <div className="space-y-2 text-center md:text-left">
+                                    <h3 className="text-xl font-playfair font-bold text-foreground">
+                                        {language === 'es' ? '¿Tu Spa está alcanzando su máximo potencial?' : 'Is your Spa reaching its full potential?'}
+                                    </h3>
+                                    <p className="text-muted-foreground">
+                                        {language === 'es'
+                                            ? "Solicita una auditoría estratégica gratuita y descubre oportunidades ocultas de rentabilidad."
+                                            : "Request a free strategic audit and discover hidden profitability opportunities."
+                                        }
+                                    </p>
+                                </div>
+                                <AuditModal>
+                                    <Button size="lg" className="shrink-0 bg-primary text-primary-foreground hover:bg-primary/90">
+                                        {language === 'es' ? 'Solicitar Auditoría' : 'Request Audit'}
                                     </Button>
-                                </Link>
+                                </AuditModal>
                             </div>
                         </div>
                     </div>
