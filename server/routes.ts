@@ -60,7 +60,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const savedContact = await storage.createContact(contactData);
 
       // Send email notification
-      await emailService.sendEmail({
+      const emailSent = await emailService.sendEmail({
         to: "epm@epmwellness.com",
         subject: `Nuevo mensaje de contacto: ${contactData.name}`,
         text: `
@@ -72,8 +72,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         `,
       });
 
-      // Send auto-response to user
-      await emailService.sendEmail({
+      if (!emailSent) {
+        console.error("Failed to send notification email");
+        throw new Error("No se pudo enviar el correo de notificación. Por favor verifica los logs del servidor.");
+      }
+
+      // Send auto-response to user (fire and forget, don't fail if this fails?)
+      // Actually, if the first one succeeded, we assume SMTP is fine. 
+      // But let's log it.
+      emailService.sendEmail({
         to: contactData.email,
         subject: "Hemos recibido tu mensaje - Eva Pérez",
         text: `

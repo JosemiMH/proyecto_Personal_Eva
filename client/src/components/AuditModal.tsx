@@ -76,10 +76,10 @@ export function AuditModal({ children }: AuditModalProps) {
             setOpen(false);
             form.reset();
         },
-        onError: () => {
+        onError: (error) => {
             toast({
                 title: "Error",
-                description: "Something went wrong. Please try again.",
+                description: error.message || "Something went wrong. Please try again.",
                 variant: "destructive",
             });
         },
