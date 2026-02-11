@@ -34,7 +34,7 @@ export const contactSchema = z.object({
   email: z.string().email({ message: 'Por favor introduce un email válido' }),
   company: z.string().optional(),
   service: z.string({ required_error: 'Por favor selecciona un servicio' }),
-  message: z.string().min(10, { message: 'Tu mensaje debe tener al menos 10 caracteres' }),
+  message: z.string().min(5, { message: 'Tu mensaje debe tener al menos 5 caracteres' }),
   privacy: z.boolean().refine(val => val === true, {
     message: 'Debes aceptar la política de privacidad',
   }),

@@ -77,9 +77,34 @@ export function AuditModal({ children }: AuditModalProps) {
             form.reset();
         },
         onError: (error) => {
+            let errorMessage = "Something went wrong. Please try again.";
+
+            if (error.message) {
+                // queryClient throws "Status: Body", so we look for the JSON start
+                const jsonStart = error.message.indexOf('{');
+                if (jsonStart !== -1) {
+                    try {
+                        const jsonStr = error.message.substring(jsonStart);
+                        const data = JSON.parse(jsonStr);
+
+                        // Zod validation error structure
+                        if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+                            errorMessage = data.errors[0].message;
+                        } else if (data.message) {
+                            errorMessage = data.message;
+                        }
+                    } catch (e) {
+                        // usage of raw message if parsing fails
+                        errorMessage = error.message;
+                    }
+                } else {
+                    errorMessage = error.message;
+                }
+            }
+
             toast({
                 title: "Error",
-                description: error.message || "Something went wrong. Please try again.",
+                description: errorMessage,
                 variant: "destructive",
             });
         },
