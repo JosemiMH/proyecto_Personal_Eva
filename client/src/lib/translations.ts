@@ -156,9 +156,9 @@ export const translations: Record<Language, Record<TranslationKey, string>> = {
 
     'about.title': 'Sobre mí',
     'about.subtitle': 'Eva Pérez: Spa Manager y Consultora de Wellness',
-    'about.experience': 'Con más de 20 años de experiencia en el sector del wellness y la gestión de spas, he dedicado mi carrera a transformar espacios de bienestar en experiencias rentables y memorables.',
-    'about.approach': 'Mi enfoque integral abarca desde la optimización de operaciones y formación de equipos hasta el diseño de experiencias únicas para el cliente y la implementación de estrategias de rentabilidad.',
-    'about.speaker': 'Además, como ponente internacional, comparto regularmente mi conocimiento en conferencias y eventos del sector, donde transmito las mejores prácticas y tendencias en gestión de spas y bienestar.',
+    'about.experience': 'Soy Eva Pérez, Spa Manager y Wellness Consultant con más de 20 años de experiencia. He dedicado mi carrera a gestionar Spas de lujo y transformar áreas de Wellness en negocios rentables.',
+    'about.approach': 'Como Consultora de Wellness, mi enfoque abarca desde la optimización de operaciones para Spa Managers hasta el diseño de experiencias. Eva Pérez garantiza resultados en la gestión de su Spa.',
+    'about.speaker': 'Además, como Eva Pérez, ponente internacional, comparto regularmente mi conocimiento como Wellness Consultant en conferencias, transmitiendo las mejores prácticas de un Spa Manager exitoso.',
     'about.stats.years': 'Años de experiencia en el sector',
     'about.stats.projects': 'Proyectos exitosos completados',
     'about.stats.conferences': 'Conferencias impartidas',

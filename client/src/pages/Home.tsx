@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import PageTransition from "@/components/PageTransition";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
@@ -18,6 +19,7 @@ import EbookPopup from "@/components/EbookPopup";
 import SEO from "@/components/SEO";
 
 const Home = () => {
+  const { language } = useLanguage();
   // Handle smooth scrolling for anchor links
   useEffect(() => {
     const handleAnchorClick = (e: MouseEvent) => {
@@ -75,7 +77,9 @@ const Home = () => {
     <PageTransition>
       <div className="font-poppins text-charcoal bg-white">
         <SEO
-          title="Consultoría Wellness & Spa de Lujo | Eva Pérez - Wellness & Hospitality Strategy"
+          title={language === 'es'
+            ? "Eva Pérez | Consultora Wellness & Spa Manager para Hoteles de Lujo"
+            : "Eva Pérez | Wellness Consultant & Spa Manager for Luxury Hotels"}
           description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
         />
         <Header />

@@ -63,8 +63,8 @@ const Hero = () => {
               : 'text-3xl lg:text-4xl mb-4'
             }`}>
             {language === 'es'
-              ? "Consultoría Estratégica de Wellness y Spa para Hoteles de Lujo"
-              : "Strategic Wellness & Spa Consulting for Luxury Hotels"}
+              ? "Eva Pérez: Consultora de Wellness & Spa Manager para Hoteles de Lujo"
+              : "Eva Pérez: Wellness Consultant & Spa Manager for Luxury Hotels"}
           </h1>
           <p className={`text-white opacity-90 border-l-4 border-white/70 ${isMobile
             ? 'text-sm mb-4 pl-3'

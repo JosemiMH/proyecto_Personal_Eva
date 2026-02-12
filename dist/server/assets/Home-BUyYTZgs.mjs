@@ -1,10 +1,10 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import * as React from "react";
 import { useState, useEffect, useRef, useMemo } from "react";
+import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
 import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-DbT9ZaSb.mjs";
 import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
@@ -17,7 +17,6 @@ import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormCont
 import { T as Textarea } from "./textarea-CYyNOJWu.mjs";
 import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DNyuQkst.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import "react-icons/fa";
 import "react-dom/server";
 import "@radix-ui/react-toast";
 import "clsx";
@@ -25,6 +24,7 @@ import "tailwind-merge";
 import "react-markdown";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
+import "react-icons/fa";
 import "react-helmet-async";
 import "@radix-ui/react-label";
 import "react-day-picker";
@@ -69,7 +69,7 @@ const Hero = () => {
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.6 },
         children: [
-          /* @__PURE__ */ jsx("h1", { className: `font-playfair font-bold text-white leading-tight text-shadow ${isMobile ? "text-2xl mb-2" : isTablet ? "text-2xl md:text-3xl mb-3" : "text-3xl lg:text-4xl mb-4"}`, children: language === "es" ? "Consultoría Estratégica de Wellness y Spa para Hoteles de Lujo" : "Strategic Wellness & Spa Consulting for Luxury Hotels" }),
+          /* @__PURE__ */ jsx("h1", { className: `font-playfair font-bold text-white leading-tight text-shadow ${isMobile ? "text-2xl mb-2" : isTablet ? "text-2xl md:text-3xl mb-3" : "text-3xl lg:text-4xl mb-4"}`, children: language === "es" ? "Eva Pérez: Consultora de Wellness & Spa Manager para Hoteles de Lujo" : "Eva Pérez: Wellness Consultant & Spa Manager for Luxury Hotels" }),
           /* @__PURE__ */ jsx("p", { className: `text-white opacity-90 border-l-4 border-white/70 ${isMobile ? "text-sm mb-4 pl-3" : isTablet ? "text-base mb-3 pl-4 max-w-md" : "text-lg mb-4 pl-5 max-w-lg"}`, children: language === "es" ? "En un motor de crecimiento estratégico, rentable y alineado con la experiencia de lujo." : "Into a strategic growth engine, profitable and aligned with the luxury experience." }),
           /* @__PURE__ */ jsxs("div", { className: isMobile ? "mb-4" : isTablet ? "mb-3" : "mb-4", children: [
             /* @__PURE__ */ jsx("p", { className: `text-white uppercase tracking-wider font-semibold ${isMobile ? "text-xs" : "text-sm"}`, children: language === "es" ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo" : "Expert in Luxury Hospitality & Wellness Strategy" }),
@@ -1497,6 +1497,7 @@ const EbookPopup = () => {
   ) });
 };
 const Home = () => {
+  const { language } = useLanguage();
   useEffect(() => {
     const handleAnchorClick = (e) => {
       const target = e.target;
@@ -1539,7 +1540,7 @@ const Home = () => {
     /* @__PURE__ */ jsx(
       SEO,
       {
-        title: "Consultoría Wellness & Spa de Lujo | Eva Pérez - Wellness & Hospitality Strategy",
+        title: language === "es" ? "Eva Pérez | Consultora Wellness & Spa Manager para Hoteles de Lujo" : "Eva Pérez | Wellness Consultant & Spa Manager for Luxury Hotels",
         description: "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
       }
     ),
