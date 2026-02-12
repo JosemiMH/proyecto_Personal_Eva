@@ -25,6 +25,24 @@ app.use(helmet({
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Middleware para redirección www
+app.use((req, res, next) => {
+  if (req.headers.host && req.headers.host.slice(0, 4) !== 'www.' && !req.headers.host.includes('localhost') && !req.headers.host.includes('replit')) {
+    const newHost = 'www.' + req.headers.host;
+    return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+  }
+  next();
+});
+
+// Cache control para archivos estáticos
+app.use((req, res, next) => {
+  if (req.url.match(/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); // 1 año
+  }
+  next();
+});
+
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;

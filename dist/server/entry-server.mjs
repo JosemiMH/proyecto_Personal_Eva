@@ -2306,7 +2306,13 @@ const ScrollToTop = () => {
     }
   ) });
 };
-const Home = React__default.lazy(() => import("./assets/Home-CYjAx2vu.mjs"));
+function PageLoader() {
+  return /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center bg-background/80 mobile-safe-area", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center gap-4", children: [
+    /* @__PURE__ */ jsx(Loader2, { className: "h-12 w-12 animate-spin text-primary" }),
+    /* @__PURE__ */ jsx("p", { className: "text-muted-foreground animate-pulse text-sm font-medium", children: "Cargando experiencia..." })
+  ] }) });
+}
+const Home = React__default.lazy(() => import("./assets/Home-DbECBAMv.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
@@ -2316,7 +2322,7 @@ const AuthPage = React__default.lazy(() => import("./assets/Auth-BJnxNbdk.mjs"))
 const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BK54ysoq.mjs"));
 function Router() {
   const [location] = useLocation();
-  return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center", children: "Loading..." }), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
+  return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
     /* @__PURE__ */ jsx(Route, { path: "/", children: /* @__PURE__ */ jsx(Home, {}) }),
     /* @__PURE__ */ jsx(Route, { path: "/privacy", children: /* @__PURE__ */ jsx(Privacy, {}) }),
     /* @__PURE__ */ jsx(Route, { path: "/terms", children: /* @__PURE__ */ jsx(Terms, {}) }),

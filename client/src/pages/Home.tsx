@@ -75,8 +75,8 @@ const Home = () => {
     <PageTransition>
       <div className="font-poppins text-charcoal bg-white">
         <SEO
-          title="Consultoría Wellness & Spa de Lujo"
-          description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas y hospitalidad de lujo."
+          title="Consultoría Wellness & Spa de Lujo | Eva Pérez - Wellness & Hospitality Strategy"
+          description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
         />
         <Header />
         <section id="home">

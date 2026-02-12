@@ -26,10 +26,12 @@ const AuthPage = React.lazy(() => import("@/pages/Auth"));
 const BlogPostPage = React.lazy(() => import("@/pages/BlogPostPage"));
 // const ResourcesPage = React.lazy(() => import("@/components/Resources")); // If using lazy, comment out check above
 
+import PageLoader from "@/components/PageLoader";
+
 function Router() {
   const [location] = useLocation();
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={<PageLoader />}>
       <AnimatePresence mode="wait">
         <Switch location={location} key={location}>
           <Route path="/">

@@ -69,7 +69,7 @@ const Hero = () => {
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.6 },
         children: [
-          /* @__PURE__ */ jsx("h1", { className: `font-playfair font-bold text-white leading-tight text-shadow ${isMobile ? "text-2xl mb-2" : isTablet ? "text-2xl md:text-3xl mb-3" : "text-3xl lg:text-4xl mb-4"}`, children: language === "es" ? "Asesoro a hoteles en la transformación de su área de Wellness" : "I advise hotels on transforming their Wellness area" }),
+          /* @__PURE__ */ jsx("h1", { className: `font-playfair font-bold text-white leading-tight text-shadow ${isMobile ? "text-2xl mb-2" : isTablet ? "text-2xl md:text-3xl mb-3" : "text-3xl lg:text-4xl mb-4"}`, children: language === "es" ? "Consultoría Estratégica de Wellness y Spa para Hoteles de Lujo" : "Strategic Wellness & Spa Consulting for Luxury Hotels" }),
           /* @__PURE__ */ jsx("p", { className: `text-white opacity-90 border-l-4 border-white/70 ${isMobile ? "text-sm mb-4 pl-3" : isTablet ? "text-base mb-3 pl-4 max-w-md" : "text-lg mb-4 pl-5 max-w-lg"}`, children: language === "es" ? "En un motor de crecimiento estratégico, rentable y alineado con la experiencia de lujo." : "Into a strategic growth engine, profitable and aligned with the luxury experience." }),
           /* @__PURE__ */ jsxs("div", { className: isMobile ? "mb-4" : isTablet ? "mb-3" : "mb-4", children: [
             /* @__PURE__ */ jsx("p", { className: `text-white uppercase tracking-wider font-semibold ${isMobile ? "text-xs" : "text-sm"}`, children: language === "es" ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo" : "Expert in Luxury Hospitality & Wellness Strategy" }),
@@ -1539,8 +1539,8 @@ const Home = () => {
     /* @__PURE__ */ jsx(
       SEO,
       {
-        title: "Consultoría Wellness & Spa de Lujo",
-        description: "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas y hospitalidad de lujo."
+        title: "Consultoría Wellness & Spa de Lujo | Eva Pérez - Wellness & Hospitality Strategy",
+        description: "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
       }
     ),
     /* @__PURE__ */ jsx(Header, {}),
