@@ -1,1 +1,0 @@
-import{j as a,m as t}from"./index-CFkbJ9S2.js";const n={initial:{opacity:0,y:20,scale:.98},in:{opacity:1,y:0,scale:1},out:{opacity:0,y:-20,scale:.98}},s={type:"tween",ease:"anticipate",duration:.4},o=({children:i})=>a.jsx(t.div,{initial:"initial",animate:"in",exit:"out",variants:n,transition:s,className:"w-full",children:i});export{o as P};

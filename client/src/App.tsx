@@ -54,7 +54,7 @@ function Router() {
           </Route>
           <ProtectedRoute path="/admin" component={Admin} />
           <Route path="/resources">
-            <ResourcesPage />
+            <ResourcesPage isPage={true} />
           </Route>
           <Route path="/blog/:slug" component={BlogPostPage} />
           {/* Fallback to 404 */}

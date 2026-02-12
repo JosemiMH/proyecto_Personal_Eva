@@ -10,7 +10,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const Resources = () => {
+interface ResourcesProps {
+  isPage?: boolean;
+}
+
+const Resources = ({ isPage = false }: ResourcesProps) => {
   const { t, language } = useLanguage();
   const [selectedResource, setSelectedResource] = useState<typeof resources[0] | null>(null);
 
@@ -33,8 +37,11 @@ const Resources = () => {
     }
   };
 
+  const TitleTag = isPage ? 'h1' : 'h2';
+  const SubtitleTag = isPage ? 'h2' : 'h3';
+
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className={`py-16 md:py-24 bg-white ${isPage ? 'pt-32' : ''}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
@@ -43,10 +50,10 @@ const Resources = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">{t('resources.title')}</h2>
-          <h3 className="font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6">
+          <TitleTag className="text-sm uppercase tracking-wider text-turquoise font-medium mb-3">{t('resources.title')}</TitleTag>
+          <SubtitleTag className="font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6">
             {t('resources.subtitle')}
-          </h3>
+          </SubtitleTag>
           <p className="text-charcoal-light">
             {language === 'es'
               ? 'Accede a guías y recursos exclusivos para optimizar la gestión de tu spa. Lectura directa y práctica.'

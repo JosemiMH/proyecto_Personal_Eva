@@ -1727,7 +1727,7 @@ const DialogDescription = React.forwardRef(({ className, ...props }, ref) => /* 
   }
 ));
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
-const Resources = () => {
+const Resources = ({ isPage = false }) => {
   const { t, language } = useLanguage();
   const [selectedResource, setSelectedResource] = useState(null);
   const containerVariants = {
@@ -1747,7 +1747,9 @@ const Resources = () => {
       transition: { duration: 0.5 }
     }
   };
-  return /* @__PURE__ */ jsx("section", { className: "py-16 md:py-24 bg-white", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+  const TitleTag = isPage ? "h1" : "h2";
+  const SubtitleTag = isPage ? "h2" : "h3";
+  return /* @__PURE__ */ jsx("section", { className: `py-16 md:py-24 bg-white ${isPage ? "pt-32" : ""}`, children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
     /* @__PURE__ */ jsxs(
       motion.div,
       {
@@ -1757,8 +1759,8 @@ const Resources = () => {
         viewport: { once: true },
         transition: { duration: 0.6 },
         children: [
-          /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("resources.title") }),
-          /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("resources.subtitle") }),
+          /* @__PURE__ */ jsx(TitleTag, { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("resources.title") }),
+          /* @__PURE__ */ jsx(SubtitleTag, { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("resources.subtitle") }),
           /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: language === "es" ? "Accede a guías y recursos exclusivos para optimizar la gestión de tu spa. Lectura directa y práctica." : "Access exclusive guides and resources to optimize your spa management. Direct and practical reading." })
         ]
       }
@@ -2330,7 +2332,7 @@ function Router() {
     /* @__PURE__ */ jsx(Route, { path: "/booking", children: /* @__PURE__ */ jsx(Booking, {}) }),
     /* @__PURE__ */ jsx(Route, { path: "/auth", children: /* @__PURE__ */ jsx(AuthPage, {}) }),
     /* @__PURE__ */ jsx(ProtectedRoute, { path: "/admin", component: Admin }),
-    /* @__PURE__ */ jsx(Route, { path: "/resources", children: /* @__PURE__ */ jsx(Resources, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/resources", children: /* @__PURE__ */ jsx(Resources, { isPage: true }) }),
     /* @__PURE__ */ jsx(Route, { path: "/blog/:slug", component: BlogPostPage }),
     /* @__PURE__ */ jsx(Route, { component: NotFound })
   ] }, location) }) });
