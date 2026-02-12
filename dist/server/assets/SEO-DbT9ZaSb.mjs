@@ -181,7 +181,7 @@ function Skeleton({
   );
 }
 function SEO({ title, description, image, url }) {
-  const siteUrl = "https://evaperez-wellness.com";
+  const siteUrl = "https://www.epmwellness.com";
   const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
   const defaultImage = `${siteUrl}/og-image.jpg`;
   const metaImage = image || defaultImage;

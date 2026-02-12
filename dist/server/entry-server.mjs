@@ -2314,14 +2314,14 @@ function PageLoader() {
     /* @__PURE__ */ jsx("p", { className: "text-muted-foreground animate-pulse text-sm font-medium", children: "Cargando experiencia..." })
   ] }) });
 }
-const Home = React__default.lazy(() => import("./assets/Home-DbECBAMv.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-mLfU9Q5Y.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
 const Booking = React__default.lazy(() => import("./assets/Booking-CsbVZjR7.mjs"));
 const Admin = React__default.lazy(() => import("./assets/Admin-DMne4oS_.mjs"));
 const AuthPage = React__default.lazy(() => import("./assets/Auth-BJnxNbdk.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BK54ysoq.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-DaTKbDHe.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [

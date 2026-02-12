@@ -876,7 +876,7 @@ https://epmwellness.com
   app2.get("/sitemap.xml", async (_req, res) => {
     try {
       const articles2 = await storage.getAllArticles();
-      const baseUrl = "https://evaperez-wellness.com";
+      const baseUrl = "https://www.epmwellness.com";
       const staticPages = [
         "",
         "#sobre-mi",
@@ -1191,8 +1191,8 @@ app.use((req, res, next) => {
         let template = await import_fs2.default.promises.readFile(templatePath, "utf-8");
         const title = `${article.title} | Eva P\xE9rez`;
         const description = article.excerpt || "Art\xEDculo de Eva P\xE9rez - Wellness & Hospitality Strategy";
-        const image = article.image.startsWith("http") ? article.image : `https://evaperez-wellness.com${article.image}`;
-        const url = `https://evaperez-wellness.com/blog/${article.slug}`;
+        const image = article.image.startsWith("http") ? article.image : `https://www.epmwellness.com${article.image}`;
+        const url = `https://www.epmwellness.com/blog/${article.slug}`;
         template = template.replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`).replace(/<meta name="description"[\s\S]*?\/>/, `<meta name="description" content="${description}" />`).replace(/<meta property="og:title"[\s\S]*?\/>/, `<meta property="og:title" content="${title}" />`).replace(/<meta property="og:description"[\s\S]*?\/>/, `<meta property="og:description" content="${description}" />`).replace(/<meta property="og:image"[\s\S]*?\/>/, `<meta property="og:image" content="${image}" />`).replace(/<meta property="og:url"[\s\S]*?\/>/, `<meta property="og:url" content="${url}" />`).replace(/<meta property="twitter:title"[\s\S]*?\/>/, `<meta property="twitter:title" content="${title}" />`).replace(/<meta property="twitter:description"[\s\S]*?\/>/, `<meta property="twitter:description" content="${description}" />`).replace(/<meta property="twitter:image"[\s\S]*?\/>/, `<meta property="twitter:image" content="${image}" />`).replace(/<meta property="twitter:url"[\s\S]*?\/>/, `<meta property="twitter:url" content="${url}" />`);
         if (isDev) {
         }

@@ -69,7 +69,7 @@ export default function BlogPostPage() {
     // (e.g. 'tendencias...' vs 'spa-trends...'), the slug determines the content.
     // We don't need to filter by language here, just render what we fetched.
 
-    const siteUrl = "https://evaperez-wellness.com";
+    const siteUrl = "https://www.epmwellness.com";
     const postUrl = `/blog/${article.slug}`;
 
     // Structured Data (Article Schema)

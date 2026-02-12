@@ -492,7 +492,7 @@ https://epmwellness.com
     try {
       const articles = await storage.getAllArticles();
 
-      const baseUrl = 'https://evaperez-wellness.com';
+      const baseUrl = 'https://www.epmwellness.com';
       const staticPages = [
         '',
         '#sobre-mi',

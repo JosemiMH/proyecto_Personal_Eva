@@ -4,7 +4,7 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://evaperez-wellness.com/</loc>
+    <loc>https://www.epmwellness.com/</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -12,7 +12,7 @@
 
   <!-- About Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#sobre-mi</loc>
+    <loc>https://www.epmwellness.com/#sobre-mi</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -20,7 +20,7 @@
 
   <!-- Services Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#servicios</loc>
+    <loc>https://www.epmwellness.com/#servicios</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -28,7 +28,7 @@
 
   <!-- AI for Wellness Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#ia-wellness</loc>
+    <loc>https://www.epmwellness.com/#ia-wellness</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -36,7 +36,7 @@
 
   <!-- Portfolio Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#portfolio</loc>
+    <loc>https://www.epmwellness.com/#portfolio</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -44,7 +44,7 @@
 
   <!-- Testimonials Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#testimonios</loc>
+    <loc>https://www.epmwellness.com/#testimonios</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -52,7 +52,7 @@
 
   <!-- Blog Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#blog</loc>
+    <loc>https://www.epmwellness.com/#blog</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -60,7 +60,7 @@
 
   <!-- Contact Section -->
   <url>
-    <loc>https://evaperez-wellness.com/#contacto</loc>
+    <loc>https://www.epmwellness.com/#contacto</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -68,7 +68,7 @@
 
   <!-- Privacy Policy -->
   <url>
-    <loc>https://evaperez-wellness.com/privacy</loc>
+    <loc>https://www.epmwellness.com/privacy</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -76,7 +76,7 @@
 
   <!-- Terms of Service -->
   <url>
-    <loc>https://evaperez-wellness.com/terms</loc>
+    <loc>https://www.epmwellness.com/terms</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

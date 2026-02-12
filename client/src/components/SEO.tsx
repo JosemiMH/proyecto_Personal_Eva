@@ -8,7 +8,7 @@ interface SEOProps {
 }
 
 export default function SEO({ title, description, image, url }: SEOProps) {
-    const siteUrl = 'https://evaperez-wellness.com'; // Replace with actual domain
+    const siteUrl = 'https://www.epmwellness.com'; // Replace with actual domain
     const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
     const defaultImage = `${siteUrl}/og-image.jpg`; // Ensure this exists or use a variable
     const metaImage = image || defaultImage;

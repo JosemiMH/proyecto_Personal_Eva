@@ -115,8 +115,8 @@ app.use((req, res, next) => {
         // Inject SEO tags
         const title = `${article.title} | Eva Pérez`;
         const description = article.excerpt || "Artículo de Eva Pérez - Wellness & Hospitality Strategy";
-        const image = article.image.startsWith("http") ? article.image : `https://evaperez-wellness.com${article.image}`;
-        const url = `https://evaperez-wellness.com/blog/${article.slug}`;
+        const image = article.image.startsWith("http") ? article.image : `https://www.epmwellness.com${article.image}`;
+        const url = `https://www.epmwellness.com/blog/${article.slug}`;
 
         // Replace placeholders or existing tags
         // Using [\s\S]*? to match across newlines and handle multi-line attributes in the original HTML

@@ -7,7 +7,7 @@ Disallow: /auth/
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://evaperez-wellness.com/sitemap.xml
+Sitemap: https://www.epmwellness.com/sitemap.xml
 
 # Crawl-delay (optional, adjust if needed)
 # Crawl-delay: 10
