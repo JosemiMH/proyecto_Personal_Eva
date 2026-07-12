@@ -14,6 +14,7 @@ import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/contexts/LanguageContext';
 import BookingCalendar from '@/components/BookingCalendar';
+import { trackEvent } from '@/lib/analytics';
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -72,6 +73,7 @@ const Contact = () => {
         method: 'POST',
         body: data
       });
+      trackEvent('generate_lead', { lead_type: 'contact', service: data.service });
 
       toast({
         title: language === 'es' ? "Mensaje enviado" : "Message sent",

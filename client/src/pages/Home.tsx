@@ -80,7 +80,10 @@ const Home = () => {
           title={language === 'es'
             ? "Eva Pérez | Consultora Wellness & Spa Manager para Hoteles de Lujo"
             : "Eva Pérez | Wellness Consultant & Spa Manager for Luxury Hotels"}
-          description="Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
+          description={language === 'es'
+            ? "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
+            : "Transform your hotel with profitable wellness strategies. Eva Pérez specialises in spa management, consulting and luxury hospitality."}
+          language={language}
         />
         <Header />
         <section id="home">

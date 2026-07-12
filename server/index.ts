@@ -132,6 +132,11 @@ app.use((req, res, next) => {
           .replace(/<meta property="twitter:image"[\s\S]*?\/>/, `<meta property="twitter:image" content="${image}" />`)
           .replace(/<meta property="twitter:url"[\s\S]*?\/>/, `<meta property="twitter:url" content="${url}" />`);
 
+        template = template.replace(
+          /<link rel="canonical"[^>]*\/>/,
+          `<link rel="canonical" href="${url}" />`
+        );
+
         // Inject Vite HMR client if in dev mode (since we are bypassing Vite's transformIndexHtml for this specific route)
         // Actually, bypassing Vite's transformIndexHtml in dev might break HMR and other things.
         // In dev, we should probably let Vite handle it or try to use vite.transformIndexHtml if available.

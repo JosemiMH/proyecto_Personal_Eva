@@ -495,15 +495,10 @@ https://epmwellness.com
       const baseUrl = 'https://www.epmwellness.com';
       const staticPages = [
         '',
-        '#sobre-mi',
-        '#servicios',
-        '#ia-wellness',
-        '#portfolio',
-        '#testimonios',
-        '#blog',
-        '#contacto',
         'privacy',
-        'terms'
+        'terms',
+        'cookies',
+        'resources'
       ];
 
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

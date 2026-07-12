@@ -101,6 +101,8 @@ export default function BlogPostPage() {
                 description={article.excerpt}
                 image={article.image}
                 url={postUrl}
+                type="article"
+                language={article.language === 'en' ? 'en' : 'es'}
             />
 
             {/* JSON-LD for this specific article */}

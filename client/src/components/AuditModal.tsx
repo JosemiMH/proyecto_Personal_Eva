@@ -26,6 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { trackEvent } from "@/lib/analytics";
 
 interface AuditModalProps {
     children: React.ReactNode;
@@ -69,6 +70,7 @@ export function AuditModal({ children }: AuditModalProps) {
             return res;
         },
         onSuccess: () => {
+            trackEvent('generate_lead', { lead_type: 'strategic_audit' });
             toast({
                 title: t('audit.success'),
                 variant: "default",

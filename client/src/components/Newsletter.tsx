@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trackEvent } from '@/lib/analytics';
 
 const Newsletter = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,6 +42,8 @@ const Newsletter = () => {
         path: '/api/newsletter',
         body: data
       });
+      trackEvent('sign_up', { method: 'newsletter' });
+      trackEvent('ebook_download', { resource: 'guia-rentabilidad-spa' });
 
       toast({
         title: language === 'es' ? "¡Guía enviada!" : "Guide sent!",

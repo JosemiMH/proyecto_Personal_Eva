@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { loadGoogleTagManager, updateConsent } from '@/lib/analytics';
 
 const CookieConsent = () => {
   const [showConsent, setShowConsent] = useState(false);
@@ -10,10 +11,16 @@ const CookieConsent = () => {
 
   useEffect(() => {
     // Comprobar si el usuario ya ha aceptado las cookies
-    const hasConsent = localStorage.getItem('cookieConsent');
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent === 'accepted' || consent === 'true') {
+      localStorage.setItem('cookieConsent', 'accepted');
+      updateConsent(true);
+      loadGoogleTagManager();
+      return;
+    }
     
     // Si no hay consentimiento, mostrar el banner después de un pequeño retraso
-    if (!hasConsent) {
+    if (!consent) {
       const timer = setTimeout(() => {
         setShowConsent(true);
       }, 1500); // Mostrar después de 1.5 segundos
@@ -23,7 +30,15 @@ const CookieConsent = () => {
   }, []);
 
   const acceptCookies = () => {
-    localStorage.setItem('cookieConsent', 'true');
+    localStorage.setItem('cookieConsent', 'accepted');
+    updateConsent(true);
+    loadGoogleTagManager();
+    setShowConsent(false);
+  };
+
+  const rejectCookies = () => {
+    localStorage.setItem('cookieConsent', 'rejected');
+    updateConsent(false);
     setShowConsent(false);
   };
 
@@ -52,10 +67,10 @@ const CookieConsent = () => {
               <Button 
                 variant="outline" 
                 size="sm"
-                onClick={() => setShowConsent(false)}
+                onClick={rejectCookies}
                 className="border-gray-300 text-charcoal hover:bg-gray-100 hover:text-charcoal"
               >
-                {language === 'es' ? 'Más tarde' : 'Later'}
+                {language === 'es' ? 'Rechazar' : 'Reject'}
               </Button>
               <Button 
                 size="sm"

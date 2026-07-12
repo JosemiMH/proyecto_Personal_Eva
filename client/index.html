@@ -5,26 +5,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JHDQ3ZHMYZ"></script>
+  <!-- Consent Mode defaults to denied. GTM is loaded only after explicit consent. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-JHDQ3ZHMYZ');
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
   </script>
-
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-KGMBTXN2');</script>
-  <!-- End Google Tag Manager -->
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/generated-icon.png" />
@@ -33,50 +25,47 @@
   <!-- Theme Color -->
   <meta name="theme-color" content="#4A9B8E" />
 
-  <!-- Meta descripción y keywords gestionadas por React Helmet en cada página -->
-  <!-- <meta name="description" content="..." /> -->
-  <!-- <meta name="keywords" content="..." /> -->
+  <title>Eva Pérez | Consultora Wellness para Hoteles de Lujo</title>
+  <meta name="description" content="Consultoría estratégica y gestión de spas para hoteles de lujo. Mejora la rentabilidad, las operaciones y la experiencia wellness con Eva Pérez." />
   <meta name="author" content="Eva Pérez" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://evaperez-wellness.com/" />
-  <meta property="og:title" content="Eva Pérez | Spa Manager & Wellness Consultant" />
+  <meta property="og:url" content="https://www.epmwellness.com/" />
+  <meta property="og:title" content="Eva Pérez | Consultora Wellness para Hoteles de Lujo" />
   <meta property="og:description"
     content="Estrategia de Hospitalidad y Bienestar de Lujo. Transformando áreas wellness en motores de rentabilidad." />
-  <meta property="og:image" content="/assets/eva-perez-profile.jpg" />
+  <meta property="og:image" content="https://www.epmwellness.com/og-image.jpg" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://evaperez-wellness.com/" />
-  <meta property="twitter:title" content="Eva Pérez | Spa Manager & Wellness Consultant" />
+  <meta property="twitter:url" content="https://www.epmwellness.com/" />
+  <meta property="twitter:title" content="Eva Pérez | Consultora Wellness para Hoteles de Lujo" />
   <meta property="twitter:description"
     content="Estrategia de Hospitalidad y Bienestar de Lujo. Transformando áreas wellness en motores de rentabilidad." />
-  <meta property="twitter:image" content="/assets/eva-perez-profile.jpg" />
+  <meta property="twitter:image" content="https://www.epmwellness.com/og-image.jpg" />
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://evaperez-wellness.com/" />
+  <link rel="canonical" href="https://www.epmwellness.com/" />
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Eva Pérez",
-    "jobTitle": "Spa Manager & Wellness Consultant",
+    "name": "Eva Pérez Montes",
+    "alternateName": "EPM Wellness",
+    "jobTitle": "Spa & Wellness Consultant",
     "description": "Experta en Estrategia de Hospitalidad y Bienestar de Lujo con más de 20 años de experiencia",
-    "url": "https://evaperez-wellness.com/",
-    "image": "https://evaperez-wellness.com/assets/eva-perez-profile.jpg",
-    "email": "eva@evaperez-wellness.com",
-    "telephone": "+34-XXX-XXX-XXX",
+    "url": "https://www.epmwellness.com/",
+    "image": "https://www.epmwellness.com/og-image.jpg",
+    "email": "epm@epmwellness.com",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "ES"
     },
     "sameAs": [
-      "https://www.linkedin.com/in/eva-perez-wellness",
-      "https://twitter.com/evaperezwellness",
-      "https://www.instagram.com/evaperez.wellness"
+      "https://es.linkedin.com/in/evaperez-spa-consultant"
     ],
     "knowsAbout": [
       "Spa Management",
@@ -94,7 +83,6 @@
   }
   </script>
 
-  <!-- <title>Eva Pérez | Spa Manager & Wellness Consultant</title> -->
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
     rel="stylesheet">
@@ -102,10 +90,6 @@
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGMBTXN2" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
   <div id="root"><!--app-html--></div>
   <script type="module" src="/src/entry-client.tsx"></script>
   <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->

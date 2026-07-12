@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import { trackEvent } from '@/lib/analytics';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -56,6 +57,8 @@ const EbookPopup = () => {
         method: 'POST',
         body: { email: data.email }
       });
+      trackEvent('sign_up', { method: 'ebook_popup' });
+      trackEvent('ebook_download', { resource: 'guia-rentabilidad-spa' });
 
       setIsSuccess(true);
 

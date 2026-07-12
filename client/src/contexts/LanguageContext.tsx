@@ -42,6 +42,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   useEffect(() => {
     // Save language preference
     localStorage.setItem('language', language);
+    document.documentElement.lang = language;
   }, [language]);
 
   const t = (key: TranslationKey): string => {
