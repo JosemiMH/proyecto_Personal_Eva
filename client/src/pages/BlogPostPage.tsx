@@ -9,6 +9,7 @@ import { Link } from "wouter";
 import type { Article } from "@shared/schema";
 import ReactMarkdown from "react-markdown";
 import { AuditModal } from "@/components/AuditModal";
+import { useEffect } from "react";
 
 
 export default function BlogPostPage() {
@@ -20,6 +21,17 @@ export default function BlogPostPage() {
         queryKey: [`/api/articles/${slug}`],
         enabled: !!slug,
     });
+
+    const articleLanguage = article?.language === 'en' ? 'en' : 'es';
+
+    useEffect(() => {
+        if (!article) return;
+
+        document.documentElement.lang = articleLanguage;
+        return () => {
+            document.documentElement.lang = language;
+        };
+    }, [article, articleLanguage, language]);
 
     if (isLoading) {
         return (
@@ -86,9 +98,9 @@ export default function BlogPostPage() {
         "publisher": {
             "@type": "Person",
             "name": "Eva Pérez",
-            "logo": {
+            "image": {
                 "@type": "ImageObject",
-                "url": `${siteUrl}/generated-icon.png`
+                "url": `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`
             }
         },
         "description": article.excerpt
@@ -102,7 +114,7 @@ export default function BlogPostPage() {
                 image={article.image}
                 url={postUrl}
                 type="article"
-                language={article.language === 'en' ? 'en' : 'es'}
+                language={articleLanguage}
             />
 
             {/* JSON-LD for this specific article */}

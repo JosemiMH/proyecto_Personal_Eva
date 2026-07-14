@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">EPM Wellness</title>
+  <desc id="description">Monograma de Eva Pérez Montes</desc>
+  <rect width="512" height="512" rx="104" fill="#1f2937" />
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#d4bfa3" stroke-width="12" />
+  <text x="256" y="286" text-anchor="middle" font-family="Georgia, serif" font-size="132" font-weight="700" letter-spacing="8" fill="#ffffff">EPM</text>
+  <path d="M172 336h168" stroke="#4a9b8e" stroke-width="14" stroke-linecap="round" />
+</svg>

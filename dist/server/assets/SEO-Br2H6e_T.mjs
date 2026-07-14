@@ -184,7 +184,7 @@ function Skeleton({
 function SEO({ title, description, image, url = "/", type = "website", noIndex = false, language = "es" }) {
   const siteUrl = "https://www.epmwellness.com";
   const fullUrl = new URL(url, siteUrl).toString();
-  const defaultImage = `${siteUrl}/og-image.jpg`;
+  const defaultImage = `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`;
   const metaImage = image ? new URL(image, siteUrl).toString() : defaultImage;
   const finalTitle = title.includes("Eva Pérez") ? title : `${title} | Eva Pérez`;
   return /* @__PURE__ */ jsxs(Helmet, { children: [

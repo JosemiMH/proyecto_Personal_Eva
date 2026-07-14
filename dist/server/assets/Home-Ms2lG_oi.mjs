@@ -5,7 +5,7 @@ import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c 
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
 import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-CIg8HmWp.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-CT6mfmv9.mjs";
+import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-Br2H6e_T.mjs";
 import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { useQuery } from "@tanstack/react-query";

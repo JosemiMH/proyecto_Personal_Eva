@@ -2,11 +2,11 @@ import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
-import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-CT6mfmv9.mjs";
+import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-Br2H6e_T.mjs";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { useEffect } from "react";
 import "react-dom/server";
-import "react";
 import "@radix-ui/react-toast";
 import "class-variance-authority";
 import "clsx";
@@ -30,6 +30,14 @@ function BlogPostPage() {
     queryKey: [`/api/articles/${slug}`],
     enabled: !!slug
   });
+  const articleLanguage = (article == null ? void 0 : article.language) === "en" ? "en" : "es";
+  useEffect(() => {
+    if (!article) return;
+    document.documentElement.lang = articleLanguage;
+    return () => {
+      document.documentElement.lang = language;
+    };
+  }, [article, articleLanguage, language]);
   if (isLoading) {
     return /* @__PURE__ */ jsx("div", { className: "min-h-screen pt-24 pb-16 bg-background", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 max-w-4xl", children: [
       /* @__PURE__ */ jsx(Skeleton, { className: "h-10 w-32 mb-8" }),
@@ -74,9 +82,9 @@ function BlogPostPage() {
     "publisher": {
       "@type": "Person",
       "name": "Eva Pérez",
-      "logo": {
+      "image": {
         "@type": "ImageObject",
-        "url": `${siteUrl}/generated-icon.png`
+        "url": `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`
       }
     },
     "description": article.excerpt
@@ -90,7 +98,7 @@ function BlogPostPage() {
         image: article.image,
         url: postUrl,
         type: "article",
-        language: article.language === "en" ? "en" : "es"
+        language: articleLanguage
       }
     ),
     /* @__PURE__ */ jsx("script", { type: "application/ld+json", children: JSON.stringify(structuredData) }),

@@ -14,11 +14,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://replit.com", "https://*.replit.com", "https://cdnjs.cloudflare.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://www.googletagmanager.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
-      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://*.replit.com"],
-      connectSrc: ["'self'", "ws:", "wss:", "https://*.replit.com"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://*.google-analytics.com", "https://www.googletagmanager.com"],
+      connectSrc: ["'self'", "ws:", "wss:", "https://*.google-analytics.com", "https://*.analytics.google.com", "https://www.googletagmanager.com"],
     },
   },
 }));
@@ -117,24 +117,27 @@ app.use((req, res, next) => {
         const description = article.excerpt || "Artículo de Eva Pérez - Wellness & Hospitality Strategy";
         const image = article.image.startsWith("http") ? article.image : `https://www.epmwellness.com${article.image}`;
         const url = `https://www.epmwellness.com/blog/${article.slug}`;
+        const articleLanguage = article.language === "en" ? "en" : "es";
 
         // Replace placeholders or existing tags
         // Using [\s\S]*? to match across newlines and handle multi-line attributes in the original HTML
         template = template
-          .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
-          .replace(/<meta name="description"[\s\S]*?\/>/, `<meta name="description" content="${description}" />`)
-          .replace(/<meta property="og:title"[\s\S]*?\/>/, `<meta property="og:title" content="${title}" />`)
-          .replace(/<meta property="og:description"[\s\S]*?\/>/, `<meta property="og:description" content="${description}" />`)
-          .replace(/<meta property="og:image"[\s\S]*?\/>/, `<meta property="og:image" content="${image}" />`)
-          .replace(/<meta property="og:url"[\s\S]*?\/>/, `<meta property="og:url" content="${url}" />`)
-          .replace(/<meta property="twitter:title"[\s\S]*?\/>/, `<meta property="twitter:title" content="${title}" />`)
-          .replace(/<meta property="twitter:description"[\s\S]*?\/>/, `<meta property="twitter:description" content="${description}" />`)
-          .replace(/<meta property="twitter:image"[\s\S]*?\/>/, `<meta property="twitter:image" content="${image}" />`)
-          .replace(/<meta property="twitter:url"[\s\S]*?\/>/, `<meta property="twitter:url" content="${url}" />`);
+          .replace(/<html[^>]*lang="[^"]*"[^>]*>/, `<html lang="${articleLanguage}">`)
+          .replace(/<title[^>]*>[\s\S]*?<\/title>/, `<title data-rh="true">${title}</title>`)
+          .replace(/<meta[^>]*name="description"[\s\S]*?\/>/, `<meta data-rh="true" name="description" content="${description}" />`)
+          .replace(/<meta[^>]*property="og:type"[\s\S]*?\/>/, `<meta data-rh="true" property="og:type" content="article" />`)
+          .replace(/<meta[^>]*property="og:title"[\s\S]*?\/>/, `<meta data-rh="true" property="og:title" content="${title}" />`)
+          .replace(/<meta[^>]*property="og:description"[\s\S]*?\/>/, `<meta data-rh="true" property="og:description" content="${description}" />`)
+          .replace(/<meta[^>]*property="og:image"[\s\S]*?\/>/, `<meta data-rh="true" property="og:image" content="${image}" />`)
+          .replace(/<meta[^>]*property="og:url"[\s\S]*?\/>/, `<meta data-rh="true" property="og:url" content="${url}" />`)
+          .replace(/<meta[^>]*property="twitter:title"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:title" content="${title}" />`)
+          .replace(/<meta[^>]*property="twitter:description"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:description" content="${description}" />`)
+          .replace(/<meta[^>]*property="twitter:image"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:image" content="${image}" />`)
+          .replace(/<meta[^>]*property="twitter:url"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:url" content="${url}" />`);
 
         template = template.replace(
-          /<link rel="canonical"[^>]*\/>/,
-          `<link rel="canonical" href="${url}" />`
+          /<link[^>]*rel="canonical"[^>]*\/>/,
+          `<link data-rh="true" rel="canonical" href="${url}" />`
         );
 
         // Inject Vite HMR client if in dev mode (since we are bypassing Vite's transformIndexHtml for this specific route)

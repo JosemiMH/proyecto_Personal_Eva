@@ -1649,7 +1649,9 @@ const LanguageProvider = ({ children }) => {
   }, []);
   useEffect(() => {
     localStorage.setItem("language", language);
-    document.documentElement.lang = language;
+    if (!window.location.pathname.startsWith("/blog/")) {
+      document.documentElement.lang = language;
+    }
   }, [language]);
   const t = (key) => {
     return translations[language][key] || key;
@@ -2355,14 +2357,14 @@ function PageLoader() {
     /* @__PURE__ */ jsx("p", { className: "text-muted-foreground animate-pulse text-sm font-medium", children: "Cargando experiencia..." })
   ] }) });
 }
-const Home = React__default.lazy(() => import("./assets/Home-UfY4J9hz.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-Ms2lG_oi.mjs"));
 const Privacy = React__default.lazy(() => import("./assets/Privacy-CM2mbJYe.mjs"));
 const Terms = React__default.lazy(() => import("./assets/Terms-BtPTlI2P.mjs"));
 const Cookies = React__default.lazy(() => import("./assets/Cookies-Bcj8r_k_.mjs"));
 const Booking = React__default.lazy(() => import("./assets/Booking-B9MkrQXv.mjs"));
 const Admin = React__default.lazy(() => import("./assets/Admin-al8A5HOJ.mjs"));
 const AuthPage = React__default.lazy(() => import("./assets/Auth-CToQffJV.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BMZWyR74.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-CCg_eC7i.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
