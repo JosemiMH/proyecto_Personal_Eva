@@ -10,68 +10,26 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- About Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#sobre-mi</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Services Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#servicios</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- AI for Wellness Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#ia-wellness</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Portfolio Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#portfolio</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Testimonials Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#testimonios</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Blog Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#blog</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Contact Section -->
-  <url>
-    <loc>https://www.epmwellness.com/#contacto</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- Privacy Policy -->
   <url>
     <loc>https://www.epmwellness.com/privacy</loc>
     <lastmod>2025-12-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://www.epmwellness.com/cookies</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://www.epmwellness.com/resources</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <!-- Terms of Service -->

@@ -1,7 +1,7 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useEffect } from "react";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
-import { B as BookingCalendar } from "./BookingCalendar-DNyuQkst.mjs";
+import { B as BookingCalendar } from "./BookingCalendar-DtA95y9o.mjs";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
 import { motion } from "framer-motion";
 import { Link } from "wouter";

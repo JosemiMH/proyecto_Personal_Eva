@@ -2,7 +2,7 @@ import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
-import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-DbT9ZaSb.mjs";
+import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-CT6mfmv9.mjs";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import "react-dom/server";
@@ -88,7 +88,9 @@ function BlogPostPage() {
         title: article.title,
         description: article.excerpt,
         image: article.image,
-        url: postUrl
+        url: postUrl,
+        type: "article",
+        language: article.language === "en" ? "en" : "es"
       }
     ),
     /* @__PURE__ */ jsx("script", { type: "application/ld+json", children: JSON.stringify(structuredData) }),

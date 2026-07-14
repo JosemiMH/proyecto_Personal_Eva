@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState } from "react";
-import { u as useLanguage, f as useToast, g as apiRequest, D as Dialog, q as DialogTrigger, a as DialogContent, r as DialogHeader, b as DialogTitle, c as DialogDescription, B as Button, d as cn } from "../entry-server.mjs";
+import { u as useLanguage, f as useToast, h as trackEvent, g as apiRequest, D as Dialog, r as DialogTrigger, a as DialogContent, v as DialogHeader, b as DialogTitle, c as DialogDescription, B as Button, d as cn } from "../entry-server.mjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -46,6 +46,7 @@ function AuditModal({ children }) {
       return res;
     },
     onSuccess: () => {
+      trackEvent("generate_lead", { lead_type: "strategic_audit" });
       toast({
         title: t("audit.success"),
         variant: "default"
@@ -180,25 +181,26 @@ function Skeleton({
     }
   );
 }
-function SEO({ title, description, image, url }) {
+function SEO({ title, description, image, url = "/", type = "website", noIndex = false, language = "es" }) {
   const siteUrl = "https://www.epmwellness.com";
-  const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
+  const fullUrl = new URL(url, siteUrl).toString();
   const defaultImage = `${siteUrl}/og-image.jpg`;
-  const metaImage = image || defaultImage;
+  const metaImage = image ? new URL(image, siteUrl).toString() : defaultImage;
+  const finalTitle = title.includes("Eva Pérez") ? title : `${title} | Eva Pérez`;
   return /* @__PURE__ */ jsxs(Helmet, { children: [
-    /* @__PURE__ */ jsxs("title", { children: [
-      title,
-      " | Eva Pérez - Wellness & Hospitality Strategy"
-    ] }),
+    /* @__PURE__ */ jsx("html", { lang: language }),
+    /* @__PURE__ */ jsx("title", { children: finalTitle }),
     /* @__PURE__ */ jsx("meta", { name: "description", content: description }),
-    /* @__PURE__ */ jsx("meta", { property: "og:type", content: "website" }),
+    /* @__PURE__ */ jsx("meta", { name: "robots", content: noIndex ? "noindex,nofollow" : "index,follow,max-image-preview:large" }),
+    /* @__PURE__ */ jsx("link", { rel: "canonical", href: fullUrl }),
+    /* @__PURE__ */ jsx("meta", { property: "og:type", content: type }),
     /* @__PURE__ */ jsx("meta", { property: "og:url", content: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "og:title", content: title }),
+    /* @__PURE__ */ jsx("meta", { property: "og:title", content: finalTitle }),
     /* @__PURE__ */ jsx("meta", { property: "og:description", content: description }),
     /* @__PURE__ */ jsx("meta", { property: "og:image", content: metaImage }),
     /* @__PURE__ */ jsx("meta", { property: "twitter:card", content: "summary_large_image" }),
     /* @__PURE__ */ jsx("meta", { property: "twitter:url", content: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:title", content: title }),
+    /* @__PURE__ */ jsx("meta", { property: "twitter:title", content: finalTitle }),
     /* @__PURE__ */ jsx("meta", { property: "twitter:description", content: description }),
     /* @__PURE__ */ jsx("meta", { property: "twitter:image", content: metaImage })
   ] });

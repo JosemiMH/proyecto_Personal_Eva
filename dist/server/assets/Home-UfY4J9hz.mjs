@@ -1,11 +1,11 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import * as React from "react";
 import { useState, useEffect, useRef, useMemo } from "react";
-import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
+import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, h as trackEvent, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
-import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
+import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-CIg8HmWp.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-DbT9ZaSb.mjs";
+import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-CT6mfmv9.mjs";
 import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-CpzPiKMZ.mjs";
 import { T as Textarea } from "./textarea-CYyNOJWu.mjs";
-import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DNyuQkst.mjs";
+import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DtA95y9o.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import "react-dom/server";
 import "@radix-ui/react-toast";
@@ -37,7 +37,7 @@ const heroImageEs = "/assets/hero-es-kbcuNBxT.png";
 const heroImageEn = "/assets/hero-en-81kcQctz.jpg";
 const Hero = () => {
   const { language, t } = useLanguage();
-  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
+  const { isMobile, isTablet } = useDeviceDetect();
   const heroImage = language === "es" ? heroImageEs : heroImageEn;
   return /* @__PURE__ */ jsxs("div", { className: `relative overflow-hidden ${isMobile ? "h-[100dvh] pt-0 pb-0" : isTablet ? "pt-44 pb-24" : "pt-56 pb-32"}`, children: [
     /* @__PURE__ */ jsxs("div", { className: "absolute inset-0 z-0", children: [
@@ -1071,6 +1071,7 @@ const Contact = () => {
         method: "POST",
         body: data
       });
+      trackEvent("generate_lead", { lead_type: "contact", service: data.service });
       toast({
         title: language === "es" ? "Mensaje enviado" : "Message sent",
         description: language === "es" ? "Gracias por contactar. Te responderé a la brevedad." : "Thank you for contacting me. I will respond shortly."
@@ -1307,6 +1308,8 @@ const Newsletter = () => {
         path: "/api/newsletter",
         body: data
       });
+      trackEvent("sign_up", { method: "newsletter" });
+      trackEvent("ebook_download", { resource: "guia-rentabilidad-spa" });
       toast({
         title: language === "es" ? "¡Guía enviada!" : "Guide sent!",
         description: language === "es" ? "Revisa tu email para descargar la Guía de Rentabilidad." : "Check your email to download the Profitability Guide."
@@ -1402,6 +1405,8 @@ const EbookPopup = () => {
         method: "POST",
         body: { email: data.email }
       });
+      trackEvent("sign_up", { method: "ebook_popup" });
+      trackEvent("ebook_download", { resource: "guia-rentabilidad-spa" });
       setIsSuccess(true);
       toast({
         title: language === "es" ? "¡Gracias por tu interés!" : "Thank you for your interest!",
@@ -1541,7 +1546,8 @@ const Home = () => {
       SEO,
       {
         title: language === "es" ? "Eva Pérez | Consultora Wellness & Spa Manager para Hoteles de Lujo" : "Eva Pérez | Wellness Consultant & Spa Manager for Luxury Hotels",
-        description: "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo."
+        description: language === "es" ? "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo." : "Transform your hotel with profitable wellness strategies. Eva Pérez specialises in spa management, consulting and luxury hospitality.",
+        language
       }
     ),
     /* @__PURE__ */ jsx(Header, {}),

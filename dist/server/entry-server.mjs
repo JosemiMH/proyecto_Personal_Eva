@@ -1649,6 +1649,7 @@ const LanguageProvider = ({ children }) => {
   }, []);
   useEffect(() => {
     localStorage.setItem("language", language);
+    document.documentElement.lang = language;
   }, [language]);
   const t = (key) => {
     return translations[language][key] || key;
@@ -1977,12 +1978,45 @@ const Button = React.forwardRef(
   }
 );
 Button.displayName = "Button";
+const GTM_ID = "GTM-KGMBTXN2";
+function updateConsent(granted) {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(...args) {
+    window.dataLayer.push(args);
+  };
+  window.gtag("consent", "update", {
+    ad_storage: granted ? "granted" : "denied",
+    analytics_storage: granted ? "granted" : "denied",
+    ad_user_data: granted ? "granted" : "denied",
+    ad_personalization: granted ? "granted" : "denied"
+  });
+}
+function loadGoogleTagManager() {
+  if (document.querySelector(`script[data-gtm-id="${GTM_ID}"]`)) return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+  const script = document.createElement("script");
+  script.async = true;
+  script.dataset.gtmId = GTM_ID;
+  script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+  document.head.appendChild(script);
+}
+function trackEvent(event, parameters = {}) {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event, ...parameters });
+}
 const CookieConsent = () => {
   const [showConsent, setShowConsent] = useState(false);
   const { language } = useLanguage();
   useEffect(() => {
-    const hasConsent = localStorage.getItem("cookieConsent");
-    if (!hasConsent) {
+    const consent = localStorage.getItem("cookieConsent");
+    if (consent === "accepted" || consent === "true") {
+      localStorage.setItem("cookieConsent", "accepted");
+      updateConsent(true);
+      loadGoogleTagManager();
+      return;
+    }
+    if (!consent) {
       const timer = setTimeout(() => {
         setShowConsent(true);
       }, 1500);
@@ -1990,7 +2024,14 @@ const CookieConsent = () => {
     }
   }, []);
   const acceptCookies = () => {
-    localStorage.setItem("cookieConsent", "true");
+    localStorage.setItem("cookieConsent", "accepted");
+    updateConsent(true);
+    loadGoogleTagManager();
+    setShowConsent(false);
+  };
+  const rejectCookies = () => {
+    localStorage.setItem("cookieConsent", "rejected");
+    updateConsent(false);
     setShowConsent(false);
   };
   return /* @__PURE__ */ jsx(AnimatePresence, { children: showConsent && /* @__PURE__ */ jsx(
@@ -2013,9 +2054,9 @@ const CookieConsent = () => {
             {
               variant: "outline",
               size: "sm",
-              onClick: () => setShowConsent(false),
+              onClick: rejectCookies,
               className: "border-gray-300 text-charcoal hover:bg-gray-100 hover:text-charcoal",
-              children: language === "es" ? "Más tarde" : "Later"
+              children: language === "es" ? "Rechazar" : "Reject"
             }
           ),
           /* @__PURE__ */ jsx(
@@ -2314,14 +2355,14 @@ function PageLoader() {
     /* @__PURE__ */ jsx("p", { className: "text-muted-foreground animate-pulse text-sm font-medium", children: "Cargando experiencia..." })
   ] }) });
 }
-const Home = React__default.lazy(() => import("./assets/Home-BUyYTZgs.mjs"));
-const Privacy = React__default.lazy(() => import("./assets/Privacy-DyeA4x6l.mjs"));
-const Terms = React__default.lazy(() => import("./assets/Terms-BM_d_WbZ.mjs"));
-const Cookies = React__default.lazy(() => import("./assets/Cookies-O1H_T_T-.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-CsbVZjR7.mjs"));
-const Admin = React__default.lazy(() => import("./assets/Admin-DMne4oS_.mjs"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-BJnxNbdk.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-DaTKbDHe.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-UfY4J9hz.mjs"));
+const Privacy = React__default.lazy(() => import("./assets/Privacy-CM2mbJYe.mjs"));
+const Terms = React__default.lazy(() => import("./assets/Terms-BtPTlI2P.mjs"));
+const Cookies = React__default.lazy(() => import("./assets/Cookies-Bcj8r_k_.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-B9MkrQXv.mjs"));
+const Admin = React__default.lazy(() => import("./assets/Admin-al8A5HOJ.mjs"));
+const AuthPage = React__default.lazy(() => import("./assets/Auth-CToQffJV.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BMZWyR74.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
@@ -2371,19 +2412,20 @@ export {
   blogPosts as e,
   useToast as f,
   apiRequest as g,
-  buttonVariants as h,
-  CardHeader as i,
-  CardTitle as j,
-  CardDescription as k,
-  CardContent as l,
-  CardFooter as m,
-  toast as n,
-  useAuth as o,
+  trackEvent as h,
+  buttonVariants as i,
+  CardHeader as j,
+  CardTitle as k,
+  CardDescription as l,
+  CardContent as m,
+  CardFooter as n,
+  toast as o,
   portfolioItems as p,
-  DialogTrigger as q,
-  DialogHeader as r,
+  useAuth as q,
+  DialogTrigger as r,
   render,
   services as s,
   testimonials as t,
-  useLanguage as u
+  useLanguage as u,
+  DialogHeader as v
 };

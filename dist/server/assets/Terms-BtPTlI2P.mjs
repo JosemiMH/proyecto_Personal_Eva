@@ -1,6 +1,6 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
-import { H as Header, F as Footer } from "./Footer-D6VhcrO9.mjs";
+import { H as Header, F as Footer } from "./Footer-CIg8HmWp.mjs";
 import { useEffect } from "react";
 import "framer-motion";
 import "../entry-server.mjs";

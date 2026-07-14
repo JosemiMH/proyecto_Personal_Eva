@@ -63,7 +63,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { t, language } = useLanguage();
-  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
+  const { isMobile, isTablet } = useDeviceDetect();
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
