@@ -1,5 +1,5 @@
 import { jsx, jsxs } from "react/jsx-runtime";
-import { q as useAuth, C as Card, j as CardHeader, k as CardTitle, l as CardDescription, m as CardContent, B as Button } from "../entry-server.mjs";
+import { r as useAuth, C as Card, k as CardHeader, l as CardTitle, m as CardDescription, n as CardContent, B as Button } from "../entry-server.mjs";
 import { useLocation } from "wouter";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,17 +8,20 @@ import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormCont
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import "react-dom/server";
+import "node:stream";
 import "@tanstack/react-query";
 import "@radix-ui/react-toast";
 import "class-variance-authority";
 import "clsx";
 import "tailwind-merge";
+import "react-fast-compare";
+import "invariant";
+import "shallowequal";
 import "framer-motion";
 import "react-markdown";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
 import "react-icons/fa";
-import "react-helmet-async";
 import "@radix-ui/react-label";
 const formSchema = z.object({
   username: z.string().min(1, "Username is required"),

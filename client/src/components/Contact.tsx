@@ -175,7 +175,12 @@ const Contact = () => {
                   <TabsTrigger value="message" className="text-base">
                     {language === 'es' ? 'Enviar mensaje' : 'Send message'}
                   </TabsTrigger>
-                  <TabsTrigger value="booking" className="text-base">
+                  <TabsTrigger
+                    value="booking"
+                    className="text-base"
+                    data-analytics-cta="open_booking"
+                    data-analytics-location="contact_tabs"
+                  >
                     {language === 'es' ? 'Reservar consulta' : 'Book consultation'}
                   </TabsTrigger>
                 </TabsList>

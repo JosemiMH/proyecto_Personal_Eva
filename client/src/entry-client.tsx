@@ -1,7 +1,10 @@
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
+import { queryClient } from "./lib/queryClient";
+import { seedQueryClient } from "./lib/ssrData";
+import { initInteractionTracking } from "./lib/analytics";
 
 // Custom CSS for specific design elements - same as main.tsx
 const style = document.createElement('style');
@@ -182,8 +185,20 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-createRoot(document.getElementById("root")!).render(
+seedQueryClient(queryClient, window.__INITIAL_QUERY_DATA__);
+initInteractionTracking();
+
+const rootElement = document.getElementById("root")!;
+const app = (
   <HelmetProvider>
-    <App />
+    <App queryClient={queryClient} />
   </HelmetProvider>
 );
+
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(rootElement, app);
+} else {
+  createRoot(rootElement).render(app);
+}
+
+delete window.__INITIAL_QUERY_DATA__;

@@ -1,7 +1,7 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useEffect } from "react";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
-import { B as BookingCalendar } from "./BookingCalendar-DtA95y9o.mjs";
+import { B as BookingCalendar } from "./BookingCalendar-p61CgeMJ.mjs";
 import { u as useLanguage, B as Button } from "../entry-server.mjs";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
@@ -21,14 +21,17 @@ import "zod";
 import "date-fns";
 import "date-fns/locale";
 import "react-dom/server";
+import "node:stream";
 import "@tanstack/react-query";
 import "@radix-ui/react-toast";
 import "clsx";
 import "tailwind-merge";
+import "react-fast-compare";
+import "invariant";
+import "shallowequal";
 import "react-markdown";
 import "@radix-ui/react-dialog";
 import "react-icons/fa";
-import "react-helmet-async";
 const Booking = () => {
   const { language } = useLanguage();
   useEffect(() => {

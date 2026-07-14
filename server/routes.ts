@@ -18,6 +18,7 @@ import { z } from "zod";
 import { ZodError } from "zod-validation-error"; // Keep this as it's used later
 import { handleChatRequest } from "./api/chat"; // Keep this as it's used later
 import rateLimit from "express-rate-limit";
+import { requireAuth } from "./auth";
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -27,10 +28,12 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again later"
 });
 
-const authLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // 5 failed attempts
-  message: "Too many login attempts, please try again after an hour"
+const bookingLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { message: "Too many booking attempts, please try again later" },
 });
 
 // Helper for sanitization
@@ -265,7 +268,7 @@ https://epmwellness.com
 
   // Appointment endpoints
   // 1. Crear una nueva cita
-  app.post('/api/appointments', async (req, res) => {
+  app.post('/api/appointments', bookingLimiter, async (req, res) => {
     try {
       const appointmentData = appointmentSchema.parse(req.body);
       const savedAppointment = await storage.createAppointment(appointmentData);
@@ -365,8 +368,8 @@ https://epmwellness.com
     }
   });
 
-  // 3. Obtener todas las citas (protegido con autenticación en un entorno real)
-  app.get('/api/appointments', async (_req, res) => {
+  // 3. Obtener todas las citas (solo administración autenticada)
+  app.get('/api/appointments', requireAuth, async (_req, res) => {
     try {
       const appointments = await storage.getAllAppointments();
 
@@ -383,10 +386,17 @@ https://epmwellness.com
   });
 
   // 4. Actualizar estado de una cita
-  app.patch('/api/appointments/:id/status', async (req, res) => {
+  app.patch('/api/appointments/:id/status', requireAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const { status } = req.body;
+
+      if (!Number.isInteger(id) || id <= 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Identificador de cita inválido"
+        });
+      }
 
       if (!status || !['pending', 'confirmed', 'cancelled'].includes(status)) {
         return res.status(400).json({

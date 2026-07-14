@@ -30,9 +30,10 @@ import { trackEvent } from "@/lib/analytics";
 
 interface AuditModalProps {
     children: React.ReactNode;
+    source?: string;
 }
 
-export function AuditModal({ children }: AuditModalProps) {
+export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
     const { t } = useLanguage();
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
@@ -116,8 +117,18 @@ export function AuditModal({ children }: AuditModalProps) {
         mutation.mutate(values);
     }
 
+    const handleOpenChange = (nextOpen: boolean) => {
+        if (nextOpen && !open) {
+            trackEvent('cta_click', {
+                cta_name: 'strategic_audit',
+                cta_location: source,
+            });
+        }
+        setOpen(nextOpen);
+    };
+
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>

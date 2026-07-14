@@ -179,7 +179,7 @@ export default function BlogPostPage() {
                                         }
                                     </p>
                                 </div>
-                                <AuditModal>
+                                <AuditModal source="blog_article">
                                     <Button size="lg" className="shrink-0 bg-primary text-primary-foreground hover:bg-primary/90">
                                         {language === 'es' ? 'Solicitar Auditoría' : 'Request Audit'}
                                     </Button>

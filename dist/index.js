@@ -469,8 +469,122 @@ async function handleChatRequest(req, res) {
 }
 
 // server/routes.ts
+var import_express_rate_limit2 = __toESM(require("express-rate-limit"));
+
+// server/auth.ts
+var import_passport = __toESM(require("passport"));
+var import_passport_local = require("passport-local");
+var import_express_session2 = __toESM(require("express-session"));
+var import_crypto = require("crypto");
+var import_util = require("util");
 var import_express_rate_limit = __toESM(require("express-rate-limit"));
-var limiter = (0, import_express_rate_limit.default)({
+var scryptAsync = (0, import_util.promisify)(import_crypto.scrypt);
+var loginLimiter = (0, import_express_rate_limit.default)({
+  windowMs: 60 * 60 * 1e3,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many login attempts, please try again later" }
+});
+function requireAuth(req, res, next) {
+  if (!req.isAuthenticated?.()) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
+}
+function withoutPassword(user) {
+  const { password: _password, ...safeUser } = user;
+  return safeUser;
+}
+async function hashPassword(password) {
+  const salt = (0, import_crypto.randomBytes)(16).toString("hex");
+  const buf = await scryptAsync(password, salt, 64);
+  return `${buf.toString("hex")}.${salt}`;
+}
+async function comparePasswords(supplied, stored) {
+  const [hashed, salt] = stored.split(".");
+  const hashedBuf = Buffer.from(hashed, "hex");
+  const suppliedBuf = await scryptAsync(supplied, salt, 64);
+  return (0, import_crypto.timingSafeEqual)(hashedBuf, suppliedBuf);
+}
+function setupAuth(app2) {
+  const configuredSecret = process.env.SESSION_SECRET?.trim();
+  const sessionSettings = {
+    secret: configuredSecret || (0, import_crypto.randomBytes)(32).toString("hex"),
+    resave: false,
+    saveUninitialized: false,
+    store: storage.sessionStore,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: app2.get("env") === "production",
+      maxAge: 8 * 60 * 60 * 1e3
+    }
+  };
+  if (!configuredSecret) {
+    console.warn("SESSION_SECRET is not configured; admin sessions will reset when the server restarts.");
+  }
+  if (app2.get("env") === "production") {
+    app2.set("trust proxy", 1);
+  }
+  app2.use((0, import_express_session2.default)(sessionSettings));
+  app2.use(import_passport.default.initialize());
+  app2.use(import_passport.default.session());
+  import_passport.default.use(
+    new import_passport_local.Strategy(async (username, password, done) => {
+      const user = await storage.getUserByUsername(username);
+      if (!user || !await comparePasswords(password, user.password)) {
+        return done(null, false);
+      } else {
+        return done(null, user);
+      }
+    })
+  );
+  import_passport.default.serializeUser((user, done) => done(null, user.id));
+  import_passport.default.deserializeUser(async (id, done) => {
+    const user = await storage.getUser(id);
+    done(null, user);
+  });
+  app2.post("/api/login", loginLimiter, import_passport.default.authenticate("local"), (req, res) => {
+    res.status(200).json(withoutPassword(req.user));
+  });
+  app2.post("/api/register", async (req, res, next) => {
+    if (app2.get("env") === "production" && !req.isAuthenticated()) {
+      return res.status(403).json({ message: "Administrator registration is disabled" });
+    }
+    try {
+      const credentials = insertUserSchema.parse(req.body);
+      const existingUser = await storage.getUserByUsername(credentials.username);
+      if (existingUser) {
+        return res.status(400).send("Username already exists");
+      }
+      const hashedPassword = await hashPassword(credentials.password);
+      const user = await storage.createUser({
+        ...credentials,
+        password: hashedPassword
+      });
+      req.login(user, (err) => {
+        if (err) return next(err);
+        res.status(201).json(withoutPassword(user));
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+  app2.post("/api/logout", (req, res, next) => {
+    req.logout((err) => {
+      if (err) return next(err);
+      res.sendStatus(200);
+    });
+  });
+  app2.get("/api/user", (req, res) => {
+    if (!req.isAuthenticated()) return res.sendStatus(401);
+    res.json(withoutPassword(req.user));
+  });
+}
+
+// server/routes.ts
+var limiter = (0, import_express_rate_limit2.default)({
   windowMs: 15 * 60 * 1e3,
   // 15 minutes
   max: 100,
@@ -479,12 +593,13 @@ var limiter = (0, import_express_rate_limit.default)({
   legacyHeaders: false,
   message: "Too many requests from this IP, please try again later"
 });
-var authLimiter = (0, import_express_rate_limit.default)({
+var bookingLimiter = (0, import_express_rate_limit2.default)({
   windowMs: 60 * 60 * 1e3,
   // 1 hour
-  max: 5,
-  // 5 failed attempts
-  message: "Too many login attempts, please try again after an hour"
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many booking attempts, please try again later" }
 });
 function sanitizeInput(text2) {
   if (!text2) return "";
@@ -689,7 +804,7 @@ https://epmwellness.com
     }
   });
   app2.post("/api/chat", limiter, handleChatRequest);
-  app2.post("/api/appointments", async (req, res) => {
+  app2.post("/api/appointments", bookingLimiter, async (req, res) => {
     try {
       const appointmentData = appointmentSchema.parse(req.body);
       const savedAppointment = await storage.createAppointment(appointmentData);
@@ -775,7 +890,7 @@ https://epmwellness.com
       });
     }
   });
-  app2.get("/api/appointments", async (_req, res) => {
+  app2.get("/api/appointments", requireAuth, async (_req, res) => {
     try {
       const appointments2 = await storage.getAllAppointments();
       return res.status(200).json({
@@ -789,10 +904,16 @@ https://epmwellness.com
       });
     }
   });
-  app2.patch("/api/appointments/:id/status", async (req, res) => {
+  app2.patch("/api/appointments/:id/status", requireAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const { status } = req.body;
+      if (!Number.isInteger(id) || id <= 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Identificador de cita inv\xE1lido"
+        });
+      }
       if (!status || !["pending", "confirmed", "cancelled"].includes(status)) {
         return res.status(400).json({
           success: false,
@@ -942,6 +1063,7 @@ https://epmwellness.com
 var import_express2 = __toESM(require("express"));
 var import_fs = __toESM(require("fs"));
 var import_path = __toESM(require("path"));
+var import_url = require("url");
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -951,15 +1073,120 @@ function log(message, source = "express") {
   });
   console.log(`${formattedTime} [${source}] ${message}`);
 }
+var clientRoutes = /* @__PURE__ */ new Set([
+  "/",
+  "/privacy",
+  "/terms",
+  "/cookies",
+  "/booking",
+  "/resources",
+  "/auth",
+  "/admin"
+]);
+var articleCache;
+function normalizePathname(pathname) {
+  if (!pathname || pathname === "/") return "/";
+  return pathname.replace(/\/+$/, "") || "/";
+}
+function getRequestPath(req) {
+  return new URL(req.originalUrl, "http://localhost").pathname;
+}
+async function getCachedArticles() {
+  const now = Date.now();
+  if (articleCache && articleCache.expiresAt > now) {
+    return articleCache.articles;
+  }
+  const articles2 = await storage.getAllArticles();
+  articleCache = {
+    articles: articles2,
+    expiresAt: now + 6e4
+  };
+  return articles2;
+}
+async function resolveSsrPage(pathname) {
+  const normalizedPath = normalizePathname(pathname);
+  if (normalizedPath === "/") {
+    try {
+      return {
+        status: 200,
+        initialData: { articles: await getCachedArticles() }
+      };
+    } catch (error) {
+      console.error("Unable to preload articles for SSR:", error);
+      return { status: 200, initialData: { articles: [] } };
+    }
+  }
+  if (normalizedPath.startsWith("/blog/")) {
+    const slug = normalizedPath.slice("/blog/".length);
+    if (!slug || slug.includes("/")) {
+      return { status: 404, initialData: {} };
+    }
+    const articles2 = await getCachedArticles();
+    const article = articles2.find((item) => item.slug === slug);
+    if (!article) {
+      return { status: 404, initialData: {} };
+    }
+    return {
+      status: 200,
+      initialData: {
+        article,
+        articleSlug: slug
+      }
+    };
+  }
+  if (clientRoutes.has(normalizedPath)) {
+    return { status: 200, initialData: {} };
+  }
+  return { status: 404, initialData: {} };
+}
+function serializeForInlineScript(value) {
+  return JSON.stringify(value).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+}
+function applyHelmet(template, helmetContext) {
+  const helmet2 = helmetContext?.helmet;
+  if (!helmet2) return template;
+  const title = helmet2.title?.toString?.() || "";
+  const meta = helmet2.meta?.toString?.() || "";
+  const link = helmet2.link?.toString?.() || "";
+  const script = helmet2.script?.toString?.() || "";
+  const style = helmet2.style?.toString?.() || "";
+  const noscript = helmet2.noscript?.toString?.() || "";
+  const headMarkup = [title, meta, link, script, style, noscript].filter(Boolean).join("\n");
+  let html = template;
+  if (title || meta || link) {
+    html = html.replace(/<title\b[^>]*\bdata-rh="true"[^>]*>[\s\S]*?<\/title>\s*/gi, "").replace(/<meta\b[^>]*\bdata-rh="true"[^>]*\/?>(?:\s*)/gi, "").replace(/<link\b[^>]*\bdata-rh="true"[^>]*\/?>(?:\s*)/gi, "");
+  }
+  const htmlAttributes = helmet2.htmlAttributes?.toString?.() || "";
+  if (htmlAttributes) {
+    html = html.replace(/<html\b[^>]*>/i, `<html ${htmlAttributes}>`);
+  }
+  if (headMarkup) {
+    html = html.replace("</head>", `${headMarkup}
+</head>`);
+  }
+  return html;
+}
+function renderDocument(template, appHtml, helmetContext, initialData) {
+  let html = template.replace(
+    /<div id="root">([\s\S]*?)<\/div>/,
+    `<div id="root">${appHtml}</div>`
+  );
+  html = applyHelmet(html, helmetContext);
+  if (Object.keys(initialData).length > 0) {
+    const initialDataScript = `<script id="__INITIAL_QUERY_DATA__">window.__INITIAL_QUERY_DATA__=${serializeForInlineScript(initialData)};<\/script>`;
+    html = html.replace("</head>", `${initialDataScript}
+</head>`);
+  }
+  return html;
+}
 async function setupVite(app2, server) {
   const { createServer: createViteServer, createLogger } = await import("vite");
   const viteLogger = createLogger();
-  const serverOptions = {
-    middlewareMode: true,
-    hmr: { server }
-  };
   const vite = await createViteServer({
-    server: serverOptions,
+    server: {
+      middlewareMode: true,
+      hmr: { server }
+    },
     appType: "custom",
     configFile: import_path.default.resolve(__dirname, "..", "vite.config.ts"),
     customLogger: {
@@ -972,137 +1199,53 @@ async function setupVite(app2, server) {
   });
   app2.use(vite.middlewares);
   app2.use("*", async (req, res, next) => {
-    const url = req.originalUrl;
     try {
-      const clientTemplate = import_path.default.resolve(
-        __dirname,
-        "..",
-        "client",
-        "index.html"
-      );
+      const clientTemplate = import_path.default.resolve(__dirname, "..", "client", "index.html");
       let template = await import_fs.default.promises.readFile(clientTemplate, "utf-8");
-      template = await vite.transformIndexHtml(url, template);
-      const { render } = await vite.ssrLoadModule("/src/entry-server.tsx");
-      const { html: appHtml } = await render(url);
-      const html = template.replace(
-        /<div id="root">(\s*<!--app-html-->\s*)?<\/div>/,
-        `<div id="root">${appHtml}</div>`
-      );
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
-    } catch (e) {
-      vite.ssrFixStacktrace(e);
-      next(e);
+      template = await vite.transformIndexHtml(req.originalUrl, template);
+      const requestPath = getRequestPath(req);
+      const page = await resolveSsrPage(requestPath);
+      const renderer = await vite.ssrLoadModule("/src/entry-server.tsx");
+      const rendered = await renderer.render(requestPath, page.initialData);
+      const html = renderDocument(template, rendered.html, rendered.helmetContext, page.initialData);
+      res.status(page.status).set({ "Content-Type": "text/html" }).end(html);
+    } catch (error) {
+      vite.ssrFixStacktrace(error);
+      next(error);
     }
   });
 }
 function serveStatic(app2) {
   const distPath = import_path.default.resolve(process.cwd(), "dist", "public");
-  if (!import_fs.default.existsSync(distPath)) {
-    console.error(`[serveStatic] Error: Build directory not found at ${distPath}`);
-    console.error(`[serveStatic] CWD: ${process.cwd()}`);
-    try {
-      const distRoot = import_path.default.resolve(process.cwd(), "dist");
-      if (import_fs.default.existsSync(distRoot)) {
-        console.error(`[serveStatic] Contents of ${distRoot}:`, import_fs.default.readdirSync(distRoot));
-      } else {
-        console.error(`[serveStatic] ${distRoot} does not exist.`);
-      }
-    } catch (e) {
-      console.error("[serveStatic] Error listing dist:", e);
-    }
+  const serverEntry = import_path.default.resolve(process.cwd(), "dist", "server", "entry-server.mjs");
+  if (!import_fs.default.existsSync(distPath) || !import_fs.default.existsSync(serverEntry)) {
     throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
+      "Production build is incomplete: both dist/public and dist/server/entry-server.mjs are required"
     );
   }
-  app2.use(import_express2.default.static(distPath));
-  app2.use("*", (_req, res) => {
-    res.sendFile(import_path.default.resolve(distPath, "index.html"));
-  });
-}
-
-// server/auth.ts
-var import_passport = __toESM(require("passport"));
-var import_passport_local = require("passport-local");
-var import_express_session2 = __toESM(require("express-session"));
-var import_crypto = require("crypto");
-var import_util = require("util");
-var scryptAsync = (0, import_util.promisify)(import_crypto.scrypt);
-async function hashPassword(password) {
-  const salt = (0, import_crypto.randomBytes)(16).toString("hex");
-  const buf = await scryptAsync(password, salt, 64);
-  return `${buf.toString("hex")}.${salt}`;
-}
-async function comparePasswords(supplied, stored) {
-  const [hashed, salt] = stored.split(".");
-  const hashedBuf = Buffer.from(hashed, "hex");
-  const suppliedBuf = await scryptAsync(supplied, salt, 64);
-  return (0, import_crypto.timingSafeEqual)(hashedBuf, suppliedBuf);
-}
-function setupAuth(app2) {
-  const sessionSettings = {
-    secret: process.env.SESSION_SECRET || "super_secret_key_change_in_prod",
-    resave: false,
-    saveUninitialized: false,
-    store: storage.sessionStore
+  const template = import_fs.default.readFileSync(import_path.default.resolve(distPath, "index.html"), "utf-8");
+  const rendererUrl = (0, import_url.pathToFileURL)(serverEntry).href;
+  let rendererPromise;
+  const getRenderer = () => {
+    rendererPromise ??= import(rendererUrl);
+    return rendererPromise;
   };
-  if (app2.get("env") === "production") {
-    app2.set("trust proxy", 1);
-  }
-  app2.use((0, import_express_session2.default)(sessionSettings));
-  app2.use(import_passport.default.initialize());
-  app2.use(import_passport.default.session());
-  import_passport.default.use(
-    new import_passport_local.Strategy(async (username, password, done) => {
-      const user = await storage.getUserByUsername(username);
-      if (!user || !await comparePasswords(password, user.password)) {
-        return done(null, false);
-      } else {
-        return done(null, user);
-      }
-    })
-  );
-  import_passport.default.serializeUser((user, done) => done(null, user.id));
-  import_passport.default.deserializeUser(async (id, done) => {
-    const user = await storage.getUser(id);
-    done(null, user);
-  });
-  app2.post("/api/login", import_passport.default.authenticate("local"), (req, res) => {
-    res.status(200).json(req.user);
-  });
-  app2.post("/api/register", async (req, res, next) => {
+  app2.use(import_express2.default.static(distPath, { index: false }));
+  app2.use("*", async (req, res, next) => {
     try {
-      const existingUser = await storage.getUserByUsername(req.body.username);
-      if (existingUser) {
-        return res.status(400).send("Username already exists");
-      }
-      const hashedPassword = await hashPassword(req.body.password);
-      const user = await storage.createUser({
-        ...req.body,
-        password: hashedPassword
-      });
-      req.login(user, (err) => {
-        if (err) return next(err);
-        res.status(201).json(user);
-      });
-    } catch (err) {
-      next(err);
+      const requestPath = getRequestPath(req);
+      const page = await resolveSsrPage(requestPath);
+      const renderer = await getRenderer();
+      const rendered = await renderer.render(requestPath, page.initialData);
+      const html = renderDocument(template, rendered.html, rendered.helmetContext, page.initialData);
+      res.status(page.status).set({ "Content-Type": "text/html" }).end(html);
+    } catch (error) {
+      next(error);
     }
-  });
-  app2.post("/api/logout", (req, res, next) => {
-    req.logout((err) => {
-      if (err) return next(err);
-      res.sendStatus(200);
-    });
-  });
-  app2.get("/api/user", (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    res.json(req.user);
   });
 }
 
 // server/index.ts
-var import_fs2 = __toESM(require("fs"));
-var import_path2 = __toESM(require("path"));
 var import_helmet = __toESM(require("helmet"));
 var app = (0, import_express3.default)();
 app.use((0, import_helmet.default)({
@@ -1134,8 +1277,8 @@ app.use((req, res, next) => {
 });
 app.use((req, res, next) => {
   const start = Date.now();
-  const path3 = req.path;
-  let capturedJsonResponse = void 0;
+  const requestPath = req.path;
+  let capturedJsonResponse;
   const originalResJson = res.json;
   res.json = function(bodyJson, ...args) {
     capturedJsonResponse = bodyJson;
@@ -1143,8 +1286,8 @@ app.use((req, res, next) => {
   };
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (path3.startsWith("/api")) {
-      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
+    if (requestPath.startsWith("/api")) {
+      let logLine = `${req.method} ${requestPath} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
@@ -1174,53 +1317,28 @@ app.use((req, res, next) => {
     console.log("");
     setupAuth(app);
     const server = await registerRoutes(app);
-    app.get("/blog/:slug", async (req, res, next) => {
-      try {
-        const slug = req.params.slug;
-        const article = await storage.getArticleBySlug(slug);
-        if (!article) {
-          return next();
-        }
-        const isDev = app.get("env") === "development";
-        const templatePath = isDev ? import_path2.default.join(process.cwd(), "client", "index.html") : import_path2.default.join(process.cwd(), "dist", "public", "index.html");
-        let template = await import_fs2.default.promises.readFile(templatePath, "utf-8");
-        const title = `${article.title} | Eva P\xE9rez`;
-        const description = article.excerpt || "Art\xEDculo de Eva P\xE9rez - Wellness & Hospitality Strategy";
-        const image = article.image.startsWith("http") ? article.image : `https://www.epmwellness.com${article.image}`;
-        const url = `https://www.epmwellness.com/blog/${article.slug}`;
-        const articleLanguage = article.language === "en" ? "en" : "es";
-        template = template.replace(/<html[^>]*lang="[^"]*"[^>]*>/, `<html lang="${articleLanguage}">`).replace(/<title[^>]*>[\s\S]*?<\/title>/, `<title data-rh="true">${title}</title>`).replace(/<meta[^>]*name="description"[\s\S]*?\/>/, `<meta data-rh="true" name="description" content="${description}" />`).replace(/<meta[^>]*property="og:type"[\s\S]*?\/>/, `<meta data-rh="true" property="og:type" content="article" />`).replace(/<meta[^>]*property="og:title"[\s\S]*?\/>/, `<meta data-rh="true" property="og:title" content="${title}" />`).replace(/<meta[^>]*property="og:description"[\s\S]*?\/>/, `<meta data-rh="true" property="og:description" content="${description}" />`).replace(/<meta[^>]*property="og:image"[\s\S]*?\/>/, `<meta data-rh="true" property="og:image" content="${image}" />`).replace(/<meta[^>]*property="og:url"[\s\S]*?\/>/, `<meta data-rh="true" property="og:url" content="${url}" />`).replace(/<meta[^>]*property="twitter:title"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:title" content="${title}" />`).replace(/<meta[^>]*property="twitter:description"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:description" content="${description}" />`).replace(/<meta[^>]*property="twitter:image"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:image" content="${image}" />`).replace(/<meta[^>]*property="twitter:url"[\s\S]*?\/>/, `<meta data-rh="true" property="twitter:url" content="${url}" />`);
-        template = template.replace(
-          /<link[^>]*rel="canonical"[^>]*\/>/,
-          `<link data-rh="true" rel="canonical" href="${url}" />`
-        );
-        if (isDev) {
-        }
-        res.status(200).set({ "Content-Type": "text/html" }).end(template);
-      } catch (error) {
-        console.error("SEO middleware error:", error);
-        next();
-      }
-    });
-    app.use((err, _req, res, _next) => {
-      const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
-      res.status(status).json({ message });
-      console.error("\u274C Error:", message);
+    app.use("/api", (_req, res) => {
+      res.status(404).json({ message: "API endpoint not found" });
     });
     const environment = app.get("env");
     if (environment === "development") {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
     } else {
-      console.log("\u{1F4C1} Serving static files from dist/public");
+      console.log("\u{1F4C1} Serving static files from dist/public with SSR");
       serveStatic(app);
     }
+    app.use((err, _req, res, _next) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+      res.status(status).json({ message });
+      console.error("\u274C Error:", message);
+    });
     const port = parseInt(process.env.PORT || "5000", 10);
     server.listen(port, () => {
       console.log("");
       console.log("\u2705 ================================");
-      console.log(`\u2705 SERVER STARTED SUCCESSFULLY!`);
+      console.log("\u2705 SERVER STARTED SUCCESSFULLY!");
       console.log(`\u2705 Port: ${port}`);
       console.log(`\u2705 URL: http://localhost:${port}`);
       console.log("\u2705 ================================");

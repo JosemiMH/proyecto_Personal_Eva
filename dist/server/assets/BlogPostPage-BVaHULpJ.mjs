@@ -1,21 +1,24 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { useRoute, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
-import { u as useLanguage, B as Button } from "../entry-server.mjs";
-import { S as Skeleton, a as SEO, A as AuditModal } from "./SEO-Br2H6e_T.mjs";
+import { u as useLanguage, B as Button, S as SEO } from "../entry-server.mjs";
+import { S as Skeleton, A as AuditModal } from "./skeleton-CdI0Ceul.mjs";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { useEffect } from "react";
 import "react-dom/server";
+import "node:stream";
 import "@radix-ui/react-toast";
 import "class-variance-authority";
 import "clsx";
 import "tailwind-merge";
+import "react-fast-compare";
+import "invariant";
+import "shallowequal";
 import "framer-motion";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
 import "react-icons/fa";
-import "react-helmet-async";
 import "react-hook-form";
 import "@hookform/resolvers/zod";
 import "zod";
@@ -138,7 +141,7 @@ function BlogPostPage() {
             /* @__PURE__ */ jsx("h3", { className: "text-xl font-playfair font-bold text-foreground", children: language === "es" ? "¿Tu Spa está alcanzando su máximo potencial?" : "Is your Spa reaching its full potential?" }),
             /* @__PURE__ */ jsx("p", { className: "text-muted-foreground", children: language === "es" ? "Solicita una auditoría estratégica gratuita y descubre oportunidades ocultas de rentabilidad." : "Request a free strategic audit and discover hidden profitability opportunities." })
           ] }),
-          /* @__PURE__ */ jsx(AuditModal, { children: /* @__PURE__ */ jsx(Button, { size: "lg", className: "shrink-0 bg-primary text-primary-foreground hover:bg-primary/90", children: language === "es" ? "Solicitar Auditoría" : "Request Audit" }) })
+          /* @__PURE__ */ jsx(AuditModal, { source: "blog_article", children: /* @__PURE__ */ jsx(Button, { size: "lg", className: "shrink-0 bg-primary text-primary-foreground hover:bg-primary/90", children: language === "es" ? "Solicitar Auditoría" : "Request Audit" }) })
         ] }) })
       ] })
     ] }) })

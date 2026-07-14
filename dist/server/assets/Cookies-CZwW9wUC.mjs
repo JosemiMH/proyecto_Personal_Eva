@@ -1,10 +1,11 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
-import { H as Header, F as Footer } from "./Footer-CIg8HmWp.mjs";
+import { H as Header, F as Footer } from "./Footer-gr533Xpo.mjs";
 import { useEffect } from "react";
 import "framer-motion";
 import "../entry-server.mjs";
 import "react-dom/server";
+import "node:stream";
 import "wouter";
 import "@tanstack/react-query";
 import "@radix-ui/react-toast";
@@ -12,11 +13,13 @@ import "class-variance-authority";
 import "lucide-react";
 import "clsx";
 import "tailwind-merge";
+import "react-fast-compare";
+import "invariant";
+import "shallowequal";
 import "react-markdown";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
 import "react-icons/fa";
-import "react-helmet-async";
 const Cookies = () => {
   useEffect(() => {
     window.scrollTo(0, 0);

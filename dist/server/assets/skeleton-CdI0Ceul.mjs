@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState } from "react";
-import { u as useLanguage, f as useToast, h as trackEvent, g as apiRequest, D as Dialog, r as DialogTrigger, a as DialogContent, v as DialogHeader, b as DialogTitle, c as DialogDescription, B as Button, d as cn } from "../entry-server.mjs";
+import { u as useLanguage, f as useToast, h as trackEvent, g as apiRequest, D as Dialog, v as DialogTrigger, a as DialogContent, w as DialogHeader, b as DialogTitle, c as DialogDescription, B as Button, d as cn } from "../entry-server.mjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,8 +8,7 @@ import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormCont
 import { T as Textarea } from "./textarea-CYyNOJWu.mjs";
 import { Loader2 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { Helmet } from "react-helmet-async";
-function AuditModal({ children }) {
+function AuditModal({ children, source = "unknown" }) {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -84,7 +83,16 @@ function AuditModal({ children }) {
   function onSubmit(values) {
     mutation.mutate(values);
   }
-  return /* @__PURE__ */ jsxs(Dialog, { open, onOpenChange: setOpen, children: [
+  const handleOpenChange = (nextOpen) => {
+    if (nextOpen && !open) {
+      trackEvent("cta_click", {
+        cta_name: "strategic_audit",
+        cta_location: source
+      });
+    }
+    setOpen(nextOpen);
+  };
+  return /* @__PURE__ */ jsxs(Dialog, { open, onOpenChange: handleOpenChange, children: [
     /* @__PURE__ */ jsx(DialogTrigger, { asChild: true, children }),
     /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[500px] max-h-[90vh] overflow-y-auto", children: [
       /* @__PURE__ */ jsxs(DialogHeader, { children: [
@@ -181,32 +189,7 @@ function Skeleton({
     }
   );
 }
-function SEO({ title, description, image, url = "/", type = "website", noIndex = false, language = "es" }) {
-  const siteUrl = "https://www.epmwellness.com";
-  const fullUrl = new URL(url, siteUrl).toString();
-  const defaultImage = `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`;
-  const metaImage = image ? new URL(image, siteUrl).toString() : defaultImage;
-  const finalTitle = title.includes("Eva Pérez") ? title : `${title} | Eva Pérez`;
-  return /* @__PURE__ */ jsxs(Helmet, { children: [
-    /* @__PURE__ */ jsx("html", { lang: language }),
-    /* @__PURE__ */ jsx("title", { children: finalTitle }),
-    /* @__PURE__ */ jsx("meta", { name: "description", content: description }),
-    /* @__PURE__ */ jsx("meta", { name: "robots", content: noIndex ? "noindex,nofollow" : "index,follow,max-image-preview:large" }),
-    /* @__PURE__ */ jsx("link", { rel: "canonical", href: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "og:type", content: type }),
-    /* @__PURE__ */ jsx("meta", { property: "og:url", content: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "og:title", content: finalTitle }),
-    /* @__PURE__ */ jsx("meta", { property: "og:description", content: description }),
-    /* @__PURE__ */ jsx("meta", { property: "og:image", content: metaImage }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:card", content: "summary_large_image" }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:url", content: fullUrl }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:title", content: finalTitle }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:description", content: description }),
-    /* @__PURE__ */ jsx("meta", { property: "twitter:image", content: metaImage })
-  ] });
-}
 export {
   AuditModal as A,
-  Skeleton as S,
-  SEO as a
+  Skeleton as S
 };

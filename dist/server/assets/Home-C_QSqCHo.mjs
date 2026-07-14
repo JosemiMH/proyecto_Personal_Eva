@@ -1,11 +1,11 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import * as React from "react";
 import { useState, useEffect, useRef, useMemo } from "react";
-import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, h as trackEvent, R as Resources, S as ScrollToTop } from "../entry-server.mjs";
+import { u as useLanguage, D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription, B as Button, s as services, d as cn, p as portfolioItems, t as testimonials, e as blogPosts, f as useToast, g as apiRequest, h as trackEvent, S as SEO, R as Resources, i as ScrollToTop } from "../entry-server.mjs";
 import { P as PageTransition } from "./PageTransition-BlTVvEHH.mjs";
-import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-CIg8HmWp.mjs";
+import { u as useDeviceDetect, e as evaProfileImage, H as Header, F as Footer } from "./Footer-gr533Xpo.mjs";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { A as AuditModal, S as Skeleton, a as SEO } from "./SEO-Br2H6e_T.mjs";
+import { A as AuditModal, S as Skeleton } from "./skeleton-CdI0Ceul.mjs";
 import { ArrowRight, Tag, X } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { useQuery } from "@tanstack/react-query";
@@ -15,17 +15,20 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { F as Form, a as FormField, b as FormItem, c as FormLabel, d as FormControl, I as Input, e as FormMessage } from "./input-CpzPiKMZ.mjs";
 import { T as Textarea } from "./textarea-CYyNOJWu.mjs";
-import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-DtA95y9o.mjs";
+import { S as Select, a as SelectTrigger, b as SelectValue, c as SelectContent, d as SelectItem, C as Checkbox, B as BookingCalendar } from "./BookingCalendar-p61CgeMJ.mjs";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import "react-dom/server";
+import "node:stream";
 import "@radix-ui/react-toast";
 import "clsx";
 import "tailwind-merge";
+import "react-fast-compare";
+import "invariant";
+import "shallowequal";
 import "react-markdown";
 import "@radix-ui/react-dialog";
 import "@radix-ui/react-slot";
 import "react-icons/fa";
-import "react-helmet-async";
 import "@radix-ui/react-label";
 import "react-day-picker";
 import "@radix-ui/react-select";
@@ -77,7 +80,7 @@ const Hero = () => {
           ] }),
           /* @__PURE__ */ jsx("p", { className: `text-white opacity-80 ${isMobile ? "text-xs mb-6" : isTablet ? "text-sm mb-5 max-w-sm" : "text-sm mb-6 max-w-md"}`, children: language === "es" ? "Más de 20 años de experiencia optimizando operaciones, formando equipos excepcionales y elevando la satisfacción del cliente." : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction." }),
           /* @__PURE__ */ jsxs("div", { className: `gap-3 ${isMobile ? "flex flex-col w-full" : "flex flex-row"}`, children: [
-            /* @__PURE__ */ jsx(AuditModal, { children: /* @__PURE__ */ jsx(
+            /* @__PURE__ */ jsx(AuditModal, { source: "hero_primary", children: /* @__PURE__ */ jsx(
               "button",
               {
                 className: `bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center cursor-pointer ${isMobile ? "px-6 py-3 text-sm w-full" : isTablet ? "px-7 py-2.5 text-sm" : "px-8 py-3 text-base"}`,
@@ -88,6 +91,8 @@ const Hero = () => {
               "a",
               {
                 href: "#portfolio",
+                "data-analytics-cta": "view_success_stories",
+                "data-analytics-location": "hero_secondary",
                 className: `bg-white hover:bg-gray-100 text-turquoise-dark font-medium rounded transition-colors inline-block text-center ${isMobile ? "px-6 py-3 text-sm w-full" : isTablet ? "px-7 py-2.5 text-sm" : "px-8 py-3 text-base"}`,
                 children: t("hero.ctaSecondary")
               }
@@ -471,7 +476,7 @@ const CallToAction = () => {
           /* @__PURE__ */ jsx("h2", { className: "font-playfair text-2xl md:text-3xl font-bold mb-4", children: content[language].title }),
           /* @__PURE__ */ jsx("p", { className: "text-white/90 text-lg", children: content[language].description })
         ] }),
-        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(AuditModal, { children: /* @__PURE__ */ jsx("button", { className: "inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded cursor-pointer", children: content[language].button }) }) })
+        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(AuditModal, { source: "mid_page_consultation", children: /* @__PURE__ */ jsx("button", { className: "inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded cursor-pointer", children: content[language].button }) }) })
       ]
     }
   ) }) });
@@ -1138,7 +1143,16 @@ const Contact = () => {
         children: /* @__PURE__ */ jsxs(Tabs, { defaultValue: "message", className: "bg-white rounded-lg shadow-md", children: [
           /* @__PURE__ */ jsx("div", { className: "p-4 border-b", children: /* @__PURE__ */ jsxs(TabsList, { className: "grid w-full grid-cols-2", children: [
             /* @__PURE__ */ jsx(TabsTrigger, { value: "message", className: "text-base", children: language === "es" ? "Enviar mensaje" : "Send message" }),
-            /* @__PURE__ */ jsx(TabsTrigger, { value: "booking", className: "text-base", children: language === "es" ? "Reservar consulta" : "Book consultation" })
+            /* @__PURE__ */ jsx(
+              TabsTrigger,
+              {
+                value: "booking",
+                className: "text-base",
+                "data-analytics-cta": "open_booking",
+                "data-analytics-location": "contact_tabs",
+                children: language === "es" ? "Reservar consulta" : "Book consultation"
+              }
+            )
           ] }) }),
           /* @__PURE__ */ jsx(TabsContent, { value: "message", className: "p-6", children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "bg-white", children: [
             /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 mb-6", children: [

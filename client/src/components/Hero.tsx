@@ -100,7 +100,7 @@ const Hero = () => {
               : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction."}
           </p>
           <div className={`gap-3 ${isMobile ? 'flex flex-col w-full' : 'flex flex-row'}`}>
-            <AuditModal>
+            <AuditModal source="hero_primary">
               <button
                 className={`bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center cursor-pointer ${isMobile
                   ? 'px-6 py-3 text-sm w-full'
@@ -114,6 +114,8 @@ const Hero = () => {
             </AuditModal>
             <a
               href="#portfolio"
+              data-analytics-cta="view_success_stories"
+              data-analytics-location="hero_secondary"
               className={`bg-white hover:bg-gray-100 text-turquoise-dark font-medium rounded transition-colors inline-block text-center ${isMobile
                 ? 'px-6 py-3 text-sm w-full'
                 : isTablet

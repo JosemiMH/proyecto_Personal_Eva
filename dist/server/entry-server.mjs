@@ -1,20 +1,27 @@
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+var _a, _b;
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
-import { renderToString } from "react-dom/server";
-import { Route, Redirect, Link, useLocation, Switch, Router as Router$1 } from "wouter";
+import { renderToPipeableStream } from "react-dom/server";
+import { PassThrough } from "node:stream";
+import { useLocation, Link, Route, Redirect, Switch, Router as Router$1 } from "wouter";
 import { QueryClient, useQuery, useMutation, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
-import React__default, { createContext, useContext, useState, useEffect, useRef, Suspense } from "react";
+import React__default, { Component, createContext, useContext, useState, useEffect, useRef, Suspense } from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva } from "class-variance-authority";
 import { X, AlertCircle, Loader2 } from "lucide-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import fastCompare from "react-fast-compare";
+import invariant from "invariant";
+import shallowEqual from "shallowequal";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Slot } from "@radix-ui/react-slot";
 import { FaArrowUp } from "react-icons/fa";
-import * as HelmetAsync from "react-helmet-async";
 async function throwIfResNotOk(res) {
   if (!res.ok) {
     const text = await res.text() || res.statusText;
@@ -33,7 +40,15 @@ async function apiRequest({
     credentials: "include"
   });
   await throwIfResNotOk(res);
-  return await res.json();
+  if (res.status === 204) {
+    return void 0;
+  }
+  const contentType = res.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    return await res.json();
+  }
+  const text = await res.text();
+  return text || void 0;
 }
 const getQueryFn = ({ on401: unauthorizedBehavior }) => async ({ queryKey }) => {
   const res = await fetch(queryKey[0], {
@@ -329,14 +344,1164 @@ const CardFooter = React.forwardRef(({ className, ...props }, ref) => /* @__PURE
   }
 ));
 CardFooter.displayName = "CardFooter";
+var TAG_NAMES = /* @__PURE__ */ ((TAG_NAMES2) => {
+  TAG_NAMES2["BASE"] = "base";
+  TAG_NAMES2["BODY"] = "body";
+  TAG_NAMES2["HEAD"] = "head";
+  TAG_NAMES2["HTML"] = "html";
+  TAG_NAMES2["LINK"] = "link";
+  TAG_NAMES2["META"] = "meta";
+  TAG_NAMES2["NOSCRIPT"] = "noscript";
+  TAG_NAMES2["SCRIPT"] = "script";
+  TAG_NAMES2["STYLE"] = "style";
+  TAG_NAMES2["TITLE"] = "title";
+  TAG_NAMES2["FRAGMENT"] = "Symbol(react.fragment)";
+  return TAG_NAMES2;
+})(TAG_NAMES || {});
+var SEO_PRIORITY_TAGS = {
+  link: { rel: ["amphtml", "canonical", "alternate"] },
+  script: { type: ["application/ld+json"] },
+  meta: {
+    charset: "",
+    name: ["generator", "robots", "description"],
+    property: [
+      "og:type",
+      "og:title",
+      "og:url",
+      "og:image",
+      "og:image:alt",
+      "og:description",
+      "twitter:url",
+      "twitter:title",
+      "twitter:description",
+      "twitter:image",
+      "twitter:image:alt",
+      "twitter:card",
+      "twitter:site"
+    ]
+  }
+};
+var VALID_TAG_NAMES = Object.values(TAG_NAMES);
+var REACT_TAG_MAP = {
+  accesskey: "accessKey",
+  charset: "charSet",
+  class: "className",
+  contenteditable: "contentEditable",
+  contextmenu: "contextMenu",
+  "http-equiv": "httpEquiv",
+  itemprop: "itemProp",
+  tabindex: "tabIndex"
+};
+var HTML_TAG_MAP = Object.entries(REACT_TAG_MAP).reduce(
+  (carry, [key, value]) => {
+    carry[value] = key;
+    return carry;
+  },
+  {}
+);
+var HELMET_ATTRIBUTE = "data-rh";
+var HELMET_PROPS = {
+  DEFAULT_TITLE: "defaultTitle",
+  DEFER: "defer",
+  ENCODE_SPECIAL_CHARACTERS: "encodeSpecialCharacters",
+  ON_CHANGE_CLIENT_STATE: "onChangeClientState",
+  TITLE_TEMPLATE: "titleTemplate",
+  PRIORITIZE_SEO_TAGS: "prioritizeSeoTags"
+};
+var getInnermostProperty = (propsList, property) => {
+  for (let i = propsList.length - 1; i >= 0; i -= 1) {
+    const props = propsList[i];
+    if (Object.prototype.hasOwnProperty.call(props, property)) {
+      return props[property];
+    }
+  }
+  return null;
+};
+var getTitleFromPropsList = (propsList) => {
+  let innermostTitle = getInnermostProperty(
+    propsList,
+    "title"
+    /* TITLE */
+  );
+  const innermostTemplate = getInnermostProperty(propsList, HELMET_PROPS.TITLE_TEMPLATE);
+  if (Array.isArray(innermostTitle)) {
+    innermostTitle = innermostTitle.join("");
+  }
+  if (innermostTemplate && innermostTitle) {
+    return innermostTemplate.replace(/%s/g, () => innermostTitle);
+  }
+  const innermostDefaultTitle = getInnermostProperty(propsList, HELMET_PROPS.DEFAULT_TITLE);
+  return innermostTitle || innermostDefaultTitle || void 0;
+};
+var getOnChangeClientState = (propsList) => getInnermostProperty(propsList, HELMET_PROPS.ON_CHANGE_CLIENT_STATE) || (() => {
+});
+var getAttributesFromPropsList = (tagType, propsList) => propsList.filter((props) => typeof props[tagType] !== "undefined").map((props) => props[tagType]).reduce((tagAttrs, current) => ({ ...tagAttrs, ...current }), {});
+var getBaseTagFromPropsList = (primaryAttributes, propsList) => propsList.filter((props) => typeof props[
+  "base"
+  /* BASE */
+] !== "undefined").map((props) => props[
+  "base"
+  /* BASE */
+]).reverse().reduce((innermostBaseTag, tag) => {
+  if (!innermostBaseTag.length) {
+    const keys = Object.keys(tag);
+    for (let i = 0; i < keys.length; i += 1) {
+      const attributeKey = keys[i];
+      const lowerCaseAttributeKey = attributeKey.toLowerCase();
+      if (primaryAttributes.indexOf(lowerCaseAttributeKey) !== -1 && tag[lowerCaseAttributeKey]) {
+        return innermostBaseTag.concat(tag);
+      }
+    }
+  }
+  return innermostBaseTag;
+}, []);
+var warn = (msg) => console && typeof console.warn === "function" && console.warn(msg);
+var getTagsFromPropsList = (tagName, primaryAttributes, propsList) => {
+  const approvedSeenTags = {};
+  return propsList.filter((props) => {
+    if (Array.isArray(props[tagName])) {
+      return true;
+    }
+    if (typeof props[tagName] !== "undefined") {
+      warn(
+        `Helmet: ${tagName} should be of type "Array". Instead found type "${typeof props[tagName]}"`
+      );
+    }
+    return false;
+  }).map((props) => props[tagName]).reverse().reduce((approvedTags, instanceTags) => {
+    const instanceSeenTags = {};
+    instanceTags.filter((tag) => {
+      let primaryAttributeKey;
+      const keys2 = Object.keys(tag);
+      for (let i = 0; i < keys2.length; i += 1) {
+        const attributeKey = keys2[i];
+        const lowerCaseAttributeKey = attributeKey.toLowerCase();
+        if (primaryAttributes.indexOf(lowerCaseAttributeKey) !== -1 && !(primaryAttributeKey === "rel" && tag[primaryAttributeKey].toLowerCase() === "canonical") && !(lowerCaseAttributeKey === "rel" && tag[lowerCaseAttributeKey].toLowerCase() === "stylesheet")) {
+          primaryAttributeKey = lowerCaseAttributeKey;
+        }
+        if (primaryAttributes.indexOf(attributeKey) !== -1 && (attributeKey === "innerHTML" || attributeKey === "cssText" || attributeKey === "itemprop")) {
+          primaryAttributeKey = attributeKey;
+        }
+      }
+      if (!primaryAttributeKey || !tag[primaryAttributeKey]) {
+        return false;
+      }
+      const value = tag[primaryAttributeKey].toLowerCase();
+      if (!approvedSeenTags[primaryAttributeKey]) {
+        approvedSeenTags[primaryAttributeKey] = {};
+      }
+      if (!instanceSeenTags[primaryAttributeKey]) {
+        instanceSeenTags[primaryAttributeKey] = {};
+      }
+      if (!approvedSeenTags[primaryAttributeKey][value]) {
+        instanceSeenTags[primaryAttributeKey][value] = true;
+        return true;
+      }
+      return false;
+    }).reverse().forEach((tag) => approvedTags.push(tag));
+    const keys = Object.keys(instanceSeenTags);
+    for (let i = 0; i < keys.length; i += 1) {
+      const attributeKey = keys[i];
+      const tagUnion = {
+        ...approvedSeenTags[attributeKey],
+        ...instanceSeenTags[attributeKey]
+      };
+      approvedSeenTags[attributeKey] = tagUnion;
+    }
+    return approvedTags;
+  }, []).reverse();
+};
+var getAnyTrueFromPropsList = (propsList, checkedTag) => {
+  if (Array.isArray(propsList) && propsList.length) {
+    for (let index = 0; index < propsList.length; index += 1) {
+      const prop = propsList[index];
+      if (prop[checkedTag]) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+var reducePropsToState = (propsList) => ({
+  baseTag: getBaseTagFromPropsList([
+    "href"
+    /* HREF */
+  ], propsList),
+  bodyAttributes: getAttributesFromPropsList("bodyAttributes", propsList),
+  defer: getInnermostProperty(propsList, HELMET_PROPS.DEFER),
+  encode: getInnermostProperty(propsList, HELMET_PROPS.ENCODE_SPECIAL_CHARACTERS),
+  htmlAttributes: getAttributesFromPropsList("htmlAttributes", propsList),
+  linkTags: getTagsFromPropsList(
+    "link",
+    [
+      "rel",
+      "href"
+      /* HREF */
+    ],
+    propsList
+  ),
+  metaTags: getTagsFromPropsList(
+    "meta",
+    [
+      "name",
+      "charset",
+      "http-equiv",
+      "property",
+      "itemprop"
+      /* ITEM_PROP */
+    ],
+    propsList
+  ),
+  noscriptTags: getTagsFromPropsList("noscript", [
+    "innerHTML"
+    /* INNER_HTML */
+  ], propsList),
+  onChangeClientState: getOnChangeClientState(propsList),
+  scriptTags: getTagsFromPropsList(
+    "script",
+    [
+      "src",
+      "innerHTML"
+      /* INNER_HTML */
+    ],
+    propsList
+  ),
+  styleTags: getTagsFromPropsList("style", [
+    "cssText"
+    /* CSS_TEXT */
+  ], propsList),
+  title: getTitleFromPropsList(propsList),
+  titleAttributes: getAttributesFromPropsList("titleAttributes", propsList),
+  prioritizeSeoTags: getAnyTrueFromPropsList(propsList, HELMET_PROPS.PRIORITIZE_SEO_TAGS)
+});
+var flattenArray = (possibleArray) => Array.isArray(possibleArray) ? possibleArray.join("") : possibleArray;
+var checkIfPropsMatch = (props, toMatch) => {
+  const keys = Object.keys(props);
+  for (let i = 0; i < keys.length; i += 1) {
+    if (toMatch[keys[i]] && toMatch[keys[i]].includes(props[keys[i]])) {
+      return true;
+    }
+  }
+  return false;
+};
+var prioritizer = (elementsList, propsToMatch) => {
+  if (Array.isArray(elementsList)) {
+    return elementsList.reduce(
+      (acc, elementAttrs) => {
+        if (checkIfPropsMatch(elementAttrs, propsToMatch)) {
+          acc.priority.push(elementAttrs);
+        } else {
+          acc.default.push(elementAttrs);
+        }
+        return acc;
+      },
+      { priority: [], default: [] }
+    );
+  }
+  return { default: elementsList, priority: [] };
+};
+var without = (obj, key) => {
+  return {
+    ...obj,
+    [key]: void 0
+  };
+};
+var SELF_CLOSING_TAGS = [
+  "noscript",
+  "script",
+  "style"
+  /* STYLE */
+];
+var encodeSpecialCharacters = (str, encode = true) => {
+  if (encode === false) {
+    return String(str);
+  }
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;");
+};
+var generateElementAttributesAsString = (attributes) => Object.keys(attributes).reduce((str, key) => {
+  const attr = typeof attributes[key] !== "undefined" ? `${key}="${attributes[key]}"` : `${key}`;
+  return str ? `${str} ${attr}` : attr;
+}, "");
+var generateTitleAsString = (type, title, attributes, encode) => {
+  const attributeString = generateElementAttributesAsString(attributes);
+  const flattenedTitle = flattenArray(title);
+  return attributeString ? `<${type} ${HELMET_ATTRIBUTE}="true" ${attributeString}>${encodeSpecialCharacters(
+    flattenedTitle,
+    encode
+  )}</${type}>` : `<${type} ${HELMET_ATTRIBUTE}="true">${encodeSpecialCharacters(
+    flattenedTitle,
+    encode
+  )}</${type}>`;
+};
+var generateTagsAsString = (type, tags, encode = true) => tags.reduce((str, t) => {
+  const tag = t;
+  const attributeHtml = Object.keys(tag).filter(
+    (attribute) => !(attribute === "innerHTML" || attribute === "cssText")
+  ).reduce((string, attribute) => {
+    const attr = typeof tag[attribute] === "undefined" ? attribute : `${attribute}="${encodeSpecialCharacters(tag[attribute], encode)}"`;
+    return string ? `${string} ${attr}` : attr;
+  }, "");
+  const tagContent = tag.innerHTML || tag.cssText || "";
+  const isSelfClosing = SELF_CLOSING_TAGS.indexOf(type) === -1;
+  return `${str}<${type} ${HELMET_ATTRIBUTE}="true" ${attributeHtml}${isSelfClosing ? `/>` : `>${tagContent}</${type}>`}`;
+}, "");
+var convertElementAttributesToReactProps = (attributes, initProps = {}) => Object.keys(attributes).reduce((obj, key) => {
+  const mapped = REACT_TAG_MAP[key];
+  obj[mapped || key] = attributes[key];
+  return obj;
+}, initProps);
+var generateTitleAsReactComponent = (_type, title, attributes) => {
+  const initProps = {
+    key: title,
+    [HELMET_ATTRIBUTE]: true
+  };
+  const props = convertElementAttributesToReactProps(attributes, initProps);
+  return [React__default.createElement("title", props, title)];
+};
+var generateTagsAsReactComponent = (type, tags) => tags.map((tag, i) => {
+  const mappedTag = {
+    key: i,
+    [HELMET_ATTRIBUTE]: true
+  };
+  Object.keys(tag).forEach((attribute) => {
+    const mapped = REACT_TAG_MAP[attribute];
+    const mappedAttribute = mapped || attribute;
+    if (mappedAttribute === "innerHTML" || mappedAttribute === "cssText") {
+      const content = tag.innerHTML || tag.cssText;
+      mappedTag.dangerouslySetInnerHTML = { __html: content };
+    } else {
+      mappedTag[mappedAttribute] = tag[attribute];
+    }
+  });
+  return React__default.createElement(type, mappedTag);
+});
+var getMethodsForTag = (type, tags, encode = true) => {
+  switch (type) {
+    case "title":
+      return {
+        toComponent: () => generateTitleAsReactComponent(type, tags.title, tags.titleAttributes),
+        toString: () => generateTitleAsString(type, tags.title, tags.titleAttributes, encode)
+      };
+    case "bodyAttributes":
+    case "htmlAttributes":
+      return {
+        toComponent: () => convertElementAttributesToReactProps(tags),
+        toString: () => generateElementAttributesAsString(tags)
+      };
+    default:
+      return {
+        toComponent: () => generateTagsAsReactComponent(type, tags),
+        toString: () => generateTagsAsString(type, tags, encode)
+      };
+  }
+};
+var getPriorityMethods = ({ metaTags, linkTags, scriptTags, encode }) => {
+  const meta = prioritizer(metaTags, SEO_PRIORITY_TAGS.meta);
+  const link = prioritizer(linkTags, SEO_PRIORITY_TAGS.link);
+  const script = prioritizer(scriptTags, SEO_PRIORITY_TAGS.script);
+  const priorityMethods = {
+    toComponent: () => [
+      ...generateTagsAsReactComponent("meta", meta.priority),
+      ...generateTagsAsReactComponent("link", link.priority),
+      ...generateTagsAsReactComponent("script", script.priority)
+    ],
+    toString: () => (
+      // generate all the tags as strings and concatenate them
+      `${getMethodsForTag("meta", meta.priority, encode)} ${getMethodsForTag(
+        "link",
+        link.priority,
+        encode
+      )} ${getMethodsForTag("script", script.priority, encode)}`
+    )
+  };
+  return {
+    priorityMethods,
+    metaTags: meta.default,
+    linkTags: link.default,
+    scriptTags: script.default
+  };
+};
+var mapStateOnServer = (props) => {
+  const {
+    baseTag,
+    bodyAttributes,
+    encode = true,
+    htmlAttributes,
+    noscriptTags,
+    styleTags,
+    title = "",
+    titleAttributes,
+    prioritizeSeoTags
+  } = props;
+  let { linkTags, metaTags, scriptTags } = props;
+  let priorityMethods = {
+    toComponent: () => {
+    },
+    toString: () => ""
+  };
+  if (prioritizeSeoTags) {
+    ({ priorityMethods, linkTags, metaTags, scriptTags } = getPriorityMethods(props));
+  }
+  return {
+    priority: priorityMethods,
+    base: getMethodsForTag("base", baseTag, encode),
+    bodyAttributes: getMethodsForTag("bodyAttributes", bodyAttributes, encode),
+    htmlAttributes: getMethodsForTag("htmlAttributes", htmlAttributes, encode),
+    link: getMethodsForTag("link", linkTags, encode),
+    meta: getMethodsForTag("meta", metaTags, encode),
+    noscript: getMethodsForTag("noscript", noscriptTags, encode),
+    script: getMethodsForTag("script", scriptTags, encode),
+    style: getMethodsForTag("style", styleTags, encode),
+    title: getMethodsForTag("title", { title, titleAttributes }, encode)
+  };
+};
+var server_default = mapStateOnServer;
+var instances = [];
+var isDocument = !!(typeof window !== "undefined" && window.document && window.document.createElement);
+var HelmetData = class {
+  constructor(context, canUseDOM) {
+    __publicField(this, "instances", []);
+    __publicField(this, "canUseDOM", isDocument);
+    __publicField(this, "context");
+    __publicField(this, "value", {
+      setHelmet: (serverState) => {
+        this.context.helmet = serverState;
+      },
+      helmetInstances: {
+        get: () => this.canUseDOM ? instances : this.instances,
+        add: (instance) => {
+          (this.canUseDOM ? instances : this.instances).push(instance);
+        },
+        remove: (instance) => {
+          const index = (this.canUseDOM ? instances : this.instances).indexOf(instance);
+          (this.canUseDOM ? instances : this.instances).splice(index, 1);
+        }
+      }
+    });
+    this.context = context;
+    this.canUseDOM = canUseDOM || false;
+    if (!canUseDOM) {
+      context.helmet = server_default({
+        baseTag: [],
+        bodyAttributes: {},
+        htmlAttributes: {},
+        linkTags: [],
+        metaTags: [],
+        noscriptTags: [],
+        scriptTags: [],
+        styleTags: [],
+        title: "",
+        titleAttributes: {}
+      });
+    }
+  }
+};
+var defaultValue$1 = {};
+var Context = React__default.createContext(defaultValue$1);
+var HelmetProvider = (_a = class extends Component {
+  constructor(props) {
+    super(props);
+    __publicField(this, "helmetData");
+    this.helmetData = new HelmetData(this.props.context || {}, _a.canUseDOM);
+  }
+  render() {
+    return /* @__PURE__ */ React__default.createElement(Context.Provider, { value: this.helmetData.value }, this.props.children);
+  }
+}, __publicField(_a, "canUseDOM", isDocument), _a);
+var updateTags = (type, tags) => {
+  const headElement = document.head || document.querySelector(
+    "head"
+    /* HEAD */
+  );
+  const tagNodes = headElement.querySelectorAll(`${type}[${HELMET_ATTRIBUTE}]`);
+  const oldTags = [].slice.call(tagNodes);
+  const newTags = [];
+  let indexToDelete;
+  if (tags && tags.length) {
+    tags.forEach((tag) => {
+      const newElement = document.createElement(type);
+      for (const attribute in tag) {
+        if (Object.prototype.hasOwnProperty.call(tag, attribute)) {
+          if (attribute === "innerHTML") {
+            newElement.innerHTML = tag.innerHTML;
+          } else if (attribute === "cssText") {
+            if (newElement.styleSheet) {
+              newElement.styleSheet.cssText = tag.cssText;
+            } else {
+              newElement.appendChild(document.createTextNode(tag.cssText));
+            }
+          } else {
+            const attr = attribute;
+            const value = typeof tag[attr] === "undefined" ? "" : tag[attr];
+            newElement.setAttribute(attribute, value);
+          }
+        }
+      }
+      newElement.setAttribute(HELMET_ATTRIBUTE, "true");
+      if (oldTags.some((existingTag, index) => {
+        indexToDelete = index;
+        return newElement.isEqualNode(existingTag);
+      })) {
+        oldTags.splice(indexToDelete, 1);
+      } else {
+        newTags.push(newElement);
+      }
+    });
+  }
+  oldTags.forEach((tag) => {
+    var _a2;
+    return (_a2 = tag.parentNode) == null ? void 0 : _a2.removeChild(tag);
+  });
+  newTags.forEach((tag) => headElement.appendChild(tag));
+  return {
+    oldTags,
+    newTags
+  };
+};
+var updateAttributes = (tagName, attributes) => {
+  const elementTag = document.getElementsByTagName(tagName)[0];
+  if (!elementTag) {
+    return;
+  }
+  const helmetAttributeString = elementTag.getAttribute(HELMET_ATTRIBUTE);
+  const helmetAttributes = helmetAttributeString ? helmetAttributeString.split(",") : [];
+  const attributesToRemove = [...helmetAttributes];
+  const attributeKeys = Object.keys(attributes);
+  for (const attribute of attributeKeys) {
+    const value = attributes[attribute] || "";
+    if (elementTag.getAttribute(attribute) !== value) {
+      elementTag.setAttribute(attribute, value);
+    }
+    if (helmetAttributes.indexOf(attribute) === -1) {
+      helmetAttributes.push(attribute);
+    }
+    const indexToSave = attributesToRemove.indexOf(attribute);
+    if (indexToSave !== -1) {
+      attributesToRemove.splice(indexToSave, 1);
+    }
+  }
+  for (let i = attributesToRemove.length - 1; i >= 0; i -= 1) {
+    elementTag.removeAttribute(attributesToRemove[i]);
+  }
+  if (helmetAttributes.length === attributesToRemove.length) {
+    elementTag.removeAttribute(HELMET_ATTRIBUTE);
+  } else if (elementTag.getAttribute(HELMET_ATTRIBUTE) !== attributeKeys.join(",")) {
+    elementTag.setAttribute(HELMET_ATTRIBUTE, attributeKeys.join(","));
+  }
+};
+var updateTitle = (title, attributes) => {
+  if (typeof title !== "undefined" && document.title !== title) {
+    document.title = flattenArray(title);
+  }
+  updateAttributes("title", attributes);
+};
+var commitTagChanges = (newState, cb) => {
+  const {
+    baseTag,
+    bodyAttributes,
+    htmlAttributes,
+    linkTags,
+    metaTags,
+    noscriptTags,
+    onChangeClientState,
+    scriptTags,
+    styleTags,
+    title,
+    titleAttributes
+  } = newState;
+  updateAttributes("body", bodyAttributes);
+  updateAttributes("html", htmlAttributes);
+  updateTitle(title, titleAttributes);
+  const tagUpdates = {
+    baseTag: updateTags("base", baseTag),
+    linkTags: updateTags("link", linkTags),
+    metaTags: updateTags("meta", metaTags),
+    noscriptTags: updateTags("noscript", noscriptTags),
+    scriptTags: updateTags("script", scriptTags),
+    styleTags: updateTags("style", styleTags)
+  };
+  const addedTags = {};
+  const removedTags = {};
+  Object.keys(tagUpdates).forEach((tagType) => {
+    const { newTags, oldTags } = tagUpdates[tagType];
+    if (newTags.length) {
+      addedTags[tagType] = newTags;
+    }
+    if (oldTags.length) {
+      removedTags[tagType] = tagUpdates[tagType].oldTags;
+    }
+  });
+  if (cb) {
+    cb();
+  }
+  onChangeClientState(newState, addedTags, removedTags);
+};
+var _helmetCallback = null;
+var handleStateChangeOnClient = (newState) => {
+  if (_helmetCallback) {
+    cancelAnimationFrame(_helmetCallback);
+  }
+  if (newState.defer) {
+    _helmetCallback = requestAnimationFrame(() => {
+      commitTagChanges(newState, () => {
+        _helmetCallback = null;
+      });
+    });
+  } else {
+    commitTagChanges(newState);
+    _helmetCallback = null;
+  }
+};
+var client_default = handleStateChangeOnClient;
+var HelmetDispatcher = class extends Component {
+  constructor() {
+    super(...arguments);
+    __publicField(this, "rendered", false);
+  }
+  shouldComponentUpdate(nextProps) {
+    return !shallowEqual(nextProps, this.props);
+  }
+  componentDidUpdate() {
+    this.emitChange();
+  }
+  componentWillUnmount() {
+    const { helmetInstances } = this.props.context;
+    helmetInstances.remove(this);
+    this.emitChange();
+  }
+  emitChange() {
+    const { helmetInstances, setHelmet } = this.props.context;
+    let serverState = null;
+    const state = reducePropsToState(
+      helmetInstances.get().map((instance) => {
+        const props = { ...instance.props };
+        delete props.context;
+        return props;
+      })
+    );
+    if (HelmetProvider.canUseDOM) {
+      client_default(state);
+    } else if (server_default) {
+      serverState = server_default(state);
+    }
+    setHelmet(serverState);
+  }
+  // componentWillMount will be deprecated
+  // for SSR, initialize on first render
+  // constructor is also unsafe in StrictMode
+  init() {
+    if (this.rendered) {
+      return;
+    }
+    this.rendered = true;
+    const { helmetInstances } = this.props.context;
+    helmetInstances.add(this);
+    this.emitChange();
+  }
+  render() {
+    this.init();
+    return null;
+  }
+};
+var Helmet = (_b = class extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !fastCompare(without(this.props, "helmetData"), without(nextProps, "helmetData"));
+  }
+  mapNestedChildrenToProps(child, nestedChildren) {
+    if (!nestedChildren) {
+      return null;
+    }
+    switch (child.type) {
+      case "script":
+      case "noscript":
+        return {
+          innerHTML: nestedChildren
+        };
+      case "style":
+        return {
+          cssText: nestedChildren
+        };
+      default:
+        throw new Error(
+          `<${child.type} /> elements are self-closing and can not contain children. Refer to our API for more information.`
+        );
+    }
+  }
+  flattenArrayTypeChildren(child, arrayTypeChildren, newChildProps, nestedChildren) {
+    return {
+      ...arrayTypeChildren,
+      [child.type]: [
+        ...arrayTypeChildren[child.type] || [],
+        {
+          ...newChildProps,
+          ...this.mapNestedChildrenToProps(child, nestedChildren)
+        }
+      ]
+    };
+  }
+  mapObjectTypeChildren(child, newProps, newChildProps, nestedChildren) {
+    switch (child.type) {
+      case "title":
+        return {
+          ...newProps,
+          [child.type]: nestedChildren,
+          titleAttributes: { ...newChildProps }
+        };
+      case "body":
+        return {
+          ...newProps,
+          bodyAttributes: { ...newChildProps }
+        };
+      case "html":
+        return {
+          ...newProps,
+          htmlAttributes: { ...newChildProps }
+        };
+      default:
+        return {
+          ...newProps,
+          [child.type]: { ...newChildProps }
+        };
+    }
+  }
+  mapArrayTypeChildrenToProps(arrayTypeChildren, newProps) {
+    let newFlattenedProps = { ...newProps };
+    Object.keys(arrayTypeChildren).forEach((arrayChildName) => {
+      newFlattenedProps = {
+        ...newFlattenedProps,
+        [arrayChildName]: arrayTypeChildren[arrayChildName]
+      };
+    });
+    return newFlattenedProps;
+  }
+  warnOnInvalidChildren(child, nestedChildren) {
+    invariant(
+      VALID_TAG_NAMES.some((name) => child.type === name),
+      typeof child.type === "function" ? `You may be attempting to nest <Helmet> components within each other, which is not allowed. Refer to our API for more information.` : `Only elements types ${VALID_TAG_NAMES.join(
+        ", "
+      )} are allowed. Helmet does not support rendering <${child.type}> elements. Refer to our API for more information.`
+    );
+    invariant(
+      !nestedChildren || typeof nestedChildren === "string" || Array.isArray(nestedChildren) && !nestedChildren.some((nestedChild) => typeof nestedChild !== "string"),
+      `Helmet expects a string as a child of <${child.type}>. Did you forget to wrap your children in braces? ( <${child.type}>{\`\`}</${child.type}> ) Refer to our API for more information.`
+    );
+    return true;
+  }
+  mapChildrenToProps(children, newProps) {
+    let arrayTypeChildren = {};
+    React__default.Children.forEach(children, (child) => {
+      if (!child || !child.props) {
+        return;
+      }
+      const { children: nestedChildren, ...childProps } = child.props;
+      const newChildProps = Object.keys(childProps).reduce((obj, key) => {
+        obj[HTML_TAG_MAP[key] || key] = childProps[key];
+        return obj;
+      }, {});
+      let { type } = child;
+      if (typeof type === "symbol") {
+        type = type.toString();
+      } else {
+        this.warnOnInvalidChildren(child, nestedChildren);
+      }
+      switch (type) {
+        case "Symbol(react.fragment)":
+          newProps = this.mapChildrenToProps(nestedChildren, newProps);
+          break;
+        case "link":
+        case "meta":
+        case "noscript":
+        case "script":
+        case "style":
+          arrayTypeChildren = this.flattenArrayTypeChildren(
+            child,
+            arrayTypeChildren,
+            newChildProps,
+            nestedChildren
+          );
+          break;
+        default:
+          newProps = this.mapObjectTypeChildren(child, newProps, newChildProps, nestedChildren);
+          break;
+      }
+    });
+    return this.mapArrayTypeChildrenToProps(arrayTypeChildren, newProps);
+  }
+  render() {
+    const { children, ...props } = this.props;
+    let newProps = { ...props };
+    let { helmetData } = props;
+    if (children) {
+      newProps = this.mapChildrenToProps(children, newProps);
+    }
+    if (helmetData && !(helmetData instanceof HelmetData)) {
+      const data = helmetData;
+      helmetData = new HelmetData(data.context, true);
+      delete newProps.helmetData;
+    }
+    return helmetData ? /* @__PURE__ */ React__default.createElement(HelmetDispatcher, { ...newProps, context: helmetData.value }) : /* @__PURE__ */ React__default.createElement(Context.Consumer, null, (context) => /* @__PURE__ */ React__default.createElement(HelmetDispatcher, { ...newProps, context }));
+  }
+}, __publicField(_b, "defaultProps", {
+  defer: true,
+  encodeSpecialCharacters: true,
+  prioritizeSeoTags: false
+}), _b);
+function SEO({ title, description, image, url = "/", type = "website", noIndex = false, language = "es" }) {
+  const siteUrl = "https://www.epmwellness.com";
+  const fullUrl = new URL(url, siteUrl).toString();
+  const defaultImage = `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`;
+  const metaImage = image ? new URL(image, siteUrl).toString() : defaultImage;
+  const finalTitle = title.includes("Eva Pérez") ? title : `${title} | Eva Pérez`;
+  return /* @__PURE__ */ jsxs(Helmet, { children: [
+    /* @__PURE__ */ jsx("html", { lang: language }),
+    /* @__PURE__ */ jsx("title", { children: finalTitle }),
+    /* @__PURE__ */ jsx("meta", { name: "description", content: description }),
+    /* @__PURE__ */ jsx("meta", { name: "robots", content: noIndex ? "noindex,nofollow" : "index,follow,max-image-preview:large" }),
+    /* @__PURE__ */ jsx("link", { rel: "canonical", href: fullUrl }),
+    /* @__PURE__ */ jsx("meta", { property: "og:type", content: type }),
+    /* @__PURE__ */ jsx("meta", { property: "og:url", content: fullUrl }),
+    /* @__PURE__ */ jsx("meta", { property: "og:title", content: finalTitle }),
+    /* @__PURE__ */ jsx("meta", { property: "og:description", content: description }),
+    /* @__PURE__ */ jsx("meta", { property: "og:image", content: metaImage }),
+    /* @__PURE__ */ jsx("meta", { property: "twitter:card", content: "summary_large_image" }),
+    /* @__PURE__ */ jsx("meta", { property: "twitter:url", content: fullUrl }),
+    /* @__PURE__ */ jsx("meta", { property: "twitter:title", content: finalTitle }),
+    /* @__PURE__ */ jsx("meta", { property: "twitter:description", content: description }),
+    /* @__PURE__ */ jsx("meta", { property: "twitter:image", content: metaImage })
+  ] });
+}
+const translations = {
+  es: {
+    "header.about": "Sobre mí",
+    "header.services": "Servicios",
+    "header.ai": "IA para Wellness",
+    "header.portfolio": "Portfolio",
+    "header.testimonials": "Testimonios",
+    "header.blog": "Blog",
+    "header.contact": "Contacto",
+    "about.title": "Sobre mí",
+    "about.subtitle": "Eva Pérez: Spa Manager y Consultora de Wellness",
+    "about.experience": "Soy Eva Pérez, Spa Manager y Wellness Consultant con más de 20 años de experiencia. He dedicado mi carrera a gestionar Spas de lujo y transformar áreas de Wellness en negocios rentables.",
+    "about.approach": "Como Consultora de Wellness, mi enfoque abarca desde la optimización de operaciones para Spa Managers hasta el diseño de experiencias. Eva Pérez garantiza resultados en la gestión de su Spa.",
+    "about.speaker": "Además, como Eva Pérez, ponente internacional, comparto regularmente mi conocimiento como Wellness Consultant en conferencias, transmitiendo las mejores prácticas de un Spa Manager exitoso.",
+    "about.stats.years": "Años de experiencia en el sector",
+    "about.stats.projects": "Proyectos exitosos completados",
+    "about.stats.conferences": "Conferencias impartidas",
+    "about.stats.trained": "Profesionales formados",
+    "about.stats.attendees": "Asistentes a conferencias",
+    "about.contact": "Contactar",
+    "about.portfolio": "Ver Portfolio",
+    "about.speakingCaption": "Eva Pérez durante una conferencia sobre gestión de spas",
+    "services.title": "Servicios",
+    "services.subtitle": "Soluciones Profesionales para el Sector Wellness",
+    "services.moreInfo": "Más información",
+    "services.strategy.title": "Consultoría Estratégica",
+    "services.strategy.description": "Análisis y diagnóstico de operaciones, desarrollo de planes estratégicos y asesoramiento para optimizar la rentabilidad de tu negocio wellness.",
+    "services.projects.title": "Gestión de Proyectos",
+    "services.projects.description": "Dirección integral en la creación o renovación de spas, desde la conceptualización hasta la implementación y puesta en marcha.",
+    "services.training.title": "Formación y Desarrollo",
+    "services.training.description": "Programas de capacitación a medida para equipos de trabajo en spas, enfocados en protocolos, ventas, servicio y gestión.",
+    "services.interim.title": "Interim Management",
+    "services.interim.description": "Dirección temporal de spas y centros wellness durante periodos de transición o para implementar proyectos específicos de mejora.",
+    "portfolio.title": "Portfolio",
+    "portfolio.subtitle": "Proyectos y Colaboraciones Destacadas",
+    "portfolio.description": "Una selección de casos de éxito que demuestran mi enfoque para transformar espacios wellness y optimizar su funcionamiento.",
+    "portfolio.viewCase": "Ver caso completo",
+    "portfolio.viewMore": "Ver más proyectos",
+    "portfolio.all": "Todos",
+    "portfolio.consulting": "Consultoría",
+    "portfolio.projects": "Proyectos",
+    "portfolio.training": "Formación",
+    "portfolio.interim": "Interim",
+    "testimonials.title": "Testimonios",
+    "testimonials.subtitle": "Lo que dicen mis clientes",
+    "testimonials.description": "Descubre cómo mis servicios han transformado negocios wellness y equipos profesionales.",
+    "blog.title": "Blog",
+    "blog.subtitle": "Últimos artículos y novedades",
+    "blog.description": "Artículos especializados sobre gestión de spas, tendencias del sector wellness y estrategias de optimización.",
+    "blog.readArticle": "Leer artículo",
+    "blog.viewAll": "Ver todos los artículos",
+    "blog.readMore": "Leer más",
+    "resources.title": "Recursos",
+    "resources.subtitle": "Herramientas y guías para profesionales del sector",
+    "resources.download": "Descargar",
+    "newsletter.title": "Suscríbete a mi newsletter",
+    "newsletter.subtitle": "Recibe mensualmente contenido exclusivo, consejos y las últimas tendencias en gestión de spas.",
+    "newsletter.subscribe": "Suscribirme",
+    "newsletter.sending": "Enviando...",
+    "newsletter.leadMagnetTitle": "Descarga GRATIS la Guía de Rentabilidad",
+    "newsletter.leadMagnetSubtitle": "Descubre los 10 puntos críticos para aumentar el margen de tu spa en 30 días. Incluye plantilla de auditoría.",
+    "newsletter.downloadButton": "Descargar Guía Ahora",
+    "header.bookAudit": "Solicitar Auditoría",
+    "hero.ctaPrimary": "Mejorar mi Spa Ahora",
+    "hero.ctaSecondary": "Ver Casos de Éxito",
+    "contact.title": "Contacto",
+    "contact.subtitle": "¿Hablamos sobre tu proyecto?",
+    "contact.description": "Completa el formulario y me pondré en contacto contigo para programar una consulta inicial gratuita donde podremos hablar sobre tus necesidades específicas.",
+    "contact.email": "Email",
+    "contact.phone": "Teléfono",
+    "contact.location": "Ubicación",
+    "contact.form.name": "Nombre",
+    "contact.form.email": "Email",
+    "contact.form.company": "Empresa/Organización",
+    "contact.form.service": "Servicio de interés",
+    "contact.form.message": "Mensaje",
+    "contact.form.privacy": "Acepto la política de privacidad y el tratamiento de mis datos para recibir comunicaciones.",
+    "contact.form.send": "Enviar mensaje",
+    "contact.form.sending": "Enviando...",
+    "footer.rights": "Todos los derechos reservados",
+    "footer.design": "Diseñado con",
+    "booking.title": "Reserva una consulta con Eva",
+    "booking.subtitle": "Selecciona una fecha y hora para tu consulta personalizada",
+    "booking.selectDate": "Selecciona una fecha",
+    "booking.chooseDay": "Elige el día para tu consulta",
+    "booking.weekendUnavailable": "Los fines de semana no están disponibles para reservas.",
+    "booking.selectTime": "Selecciona una hora",
+    "booking.availableTimes": "Horarios disponibles para el",
+    "booking.noSlots": "No hay horarios disponibles para esta fecha. Por favor, selecciona otro día.",
+    "booking.back": "Volver",
+    "booking.complete": "Completa tu reserva",
+    "booking.details": "Reservando para el",
+    "booking.fullName": "Nombre completo",
+    "booking.namePlaceholder": "Tu nombre",
+    "booking.email": "Email",
+    "booking.emailPlaceholder": "tu@email.com",
+    "booking.phone": "Teléfono (opcional)",
+    "booking.phonePlaceholder": "Tu teléfono",
+    "booking.company": "Empresa (opcional)",
+    "booking.companyPlaceholder": "Tu empresa",
+    "booking.service": "Servicio",
+    "booking.selectService": "Selecciona un servicio",
+    "booking.message": "Mensaje (opcional)",
+    "booking.messagePlaceholder": "Cuéntanos brevemente sobre tu proyecto o consulta",
+    "booking.privacy": "Acepto la política de privacidad",
+    "booking.privacyDesc": "Al marcar esta casilla, aceptas nuestra política de privacidad.",
+    "booking.confirm": "Confirmar reserva",
+    "booking.sending": "Enviando...",
+    "booking.successTitle": "¡Reserva completada!",
+    "booking.successDesc": "Tu cita ha sido reservada correctamente. Recibirás un email de confirmación.",
+    "booking.errorTitle": "Error en la reserva",
+    "booking.errorDesc": "No se pudo completar la reserva. Por favor, inténtalo de nuevo.",
+    "booking.fetchError": "No se pudieron cargar los horarios disponibles",
+    "booking.val.name": "El nombre debe tener al menos 2 caracteres",
+    "booking.val.email": "Por favor introduce un email válido",
+    "booking.val.service": "Por favor selecciona un servicio",
+    "booking.val.privacy": "Debes aceptar la política de privacidad",
+    "chatbot.welcome": "¡Hola! Soy el asistente virtual de Eva Pérez. ¿En qué estás interesado?",
+    "chatbot.error": "Lo siento, estoy teniendo problemas para conectarme.",
+    "chatbot.placeholder": "Escribe tu mensaje...",
+    "chatbot.send": "Enviar",
+    "chatbot.typing": "Escribiendo...",
+    "chatbot.title": "Asistente Virtual",
+    "chatbot.subtitle": "Experta en estrategia wellness",
+    "chatbot.suggestions": "Puedes preguntar sobre:",
+    "chatbot.disclaimer": "Potenciado por IA para información general.",
+    // Audit Modal
+    "audit.title": "Solicitar Auditoría Gratuita",
+    "audit.subtitle": "Descubre el potencial oculto de tu spa",
+    "audit.description": "Déjame tus datos y analizaremos juntos cómo transformar tu área wellness en un motor de rentabilidad.",
+    "audit.name": "Nombre completo",
+    "audit.email": "Email corporativo",
+    "audit.phone": "WhatsApp / Teléfono",
+    "audit.hotel": "Nombre del Hotel / Spa",
+    "audit.challenge": "Principal desafío actual",
+    "audit.submit": "Solicitar Auditoría",
+    "audit.success": "¡Solicitud recibida! Te contactaré en breve."
+  },
+  en: {
+    "header.about": "About me",
+    "header.services": "Services",
+    "header.ai": "AI for Wellness",
+    "header.portfolio": "Portfolio",
+    "header.testimonials": "Testimonials",
+    "header.blog": "Blog",
+    "header.contact": "Contact",
+    "about.title": "About me",
+    "about.subtitle": "Eva Pérez: Spa Manager & Wellness Consultant",
+    "about.experience": "With over 20 years of experience in the wellness sector and spa management, I have dedicated my career to transforming wellness spaces into profitable and memorable experiences.",
+    "about.approach": "My comprehensive approach ranges from operations optimization and team training to designing unique customer experiences and implementing profitability strategies.",
+    "about.speaker": "Additionally, as an international speaker, I regularly share my knowledge at conferences and industry events, where I convey best practices and trends in spa management and wellness.",
+    "about.stats.years": "Years of industry experience",
+    "about.stats.projects": "Successful projects completed",
+    "about.stats.conferences": "Conferences delivered",
+    "about.stats.trained": "Professionals trained",
+    "about.stats.attendees": "Conference attendees",
+    "about.contact": "Contact me",
+    "about.portfolio": "View Portfolio",
+    "about.speakingCaption": "Eva Pérez during a conference on spa management",
+    "services.title": "Services",
+    "services.subtitle": "Professional Solutions for the Wellness Sector",
+    "services.moreInfo": "More information",
+    "services.strategy.title": "Strategic Consulting",
+    "services.strategy.description": "Operations analysis and diagnosis, strategic plan development, and advisory services to optimize the profitability of your wellness business.",
+    "services.projects.title": "Project Management",
+    "services.projects.description": "Comprehensive management in the creation or renovation of spas, from conceptualization to implementation and launch.",
+    "services.training.title": "Training & Development",
+    "services.training.description": "Tailored training programs for spa teams, focused on protocols, sales, service, and management.",
+    "services.interim.title": "Interim Management",
+    "services.interim.description": "Temporary management of spas and wellness centers during transition periods or to implement specific improvement projects.",
+    "portfolio.title": "Portfolio",
+    "portfolio.subtitle": "Featured Projects and Collaborations",
+    "portfolio.description": "A selection of success cases that demonstrate my approach to transforming wellness spaces and optimizing their operation.",
+    "portfolio.viewCase": "View full case",
+    "portfolio.viewMore": "View more projects",
+    "portfolio.all": "All",
+    "portfolio.consulting": "Consulting",
+    "portfolio.projects": "Projects",
+    "portfolio.training": "Training",
+    "portfolio.interim": "Interim",
+    "testimonials.title": "Testimonials",
+    "testimonials.subtitle": "What my clients say",
+    "testimonials.description": "Discover how my services have transformed wellness businesses and professional teams.",
+    "blog.title": "Blog",
+    "blog.subtitle": "Latest articles and news",
+    "blog.description": "Specialized articles on spa management, wellness industry trends, and optimization strategies.",
+    "blog.readArticle": "Read article",
+    "blog.viewAll": "View all articles",
+    "blog.readMore": "Read more",
+    "resources.title": "Resources",
+    "resources.subtitle": "Tools and guides for industry professionals",
+    "resources.download": "Download",
+    "newsletter.title": "Subscribe to my newsletter",
+    "newsletter.subtitle": "Receive monthly exclusive content, tips, and the latest trends in spa management.",
+    "newsletter.subscribe": "Subscribe",
+    "newsletter.sending": "Sending...",
+    "newsletter.leadMagnetTitle": "Download FREE Profitability Guide",
+    "newsletter.leadMagnetSubtitle": "Discover 10 critical points to increase your spa margin in 30 days. Includes audit template.",
+    "newsletter.downloadButton": "Download Guide Now",
+    "header.bookAudit": "Request Audit",
+    "hero.ctaPrimary": "Improve my Spa Now",
+    "hero.ctaSecondary": "View Success Stories",
+    "contact.title": "Contact",
+    "contact.subtitle": "Let's talk about your project",
+    "contact.description": "Fill out the form and I will contact you to schedule a free initial consultation where we can discuss your specific needs.",
+    "contact.email": "Email",
+    "contact.phone": "Phone",
+    "contact.location": "Location",
+    "contact.form.name": "Name",
+    "contact.form.email": "Email",
+    "contact.form.company": "Company/Organization",
+    "contact.form.service": "Service of interest",
+    "contact.form.message": "Message",
+    "contact.form.privacy": "I accept the privacy policy and the processing of my data to receive communications.",
+    "contact.form.send": "Send message",
+    "contact.form.sending": "Sending...",
+    "footer.rights": "All rights reserved",
+    "footer.design": "Designed with",
+    "booking.title": "Book a consultation with Eva",
+    "booking.subtitle": "Select a date and time for your personalized consultation",
+    "booking.selectDate": "Select a date",
+    "booking.chooseDay": "Choose the day for your consultation",
+    "booking.weekendUnavailable": "Weekends are not available for bookings.",
+    "booking.selectTime": "Select a time",
+    "booking.availableTimes": "Available times for",
+    "booking.noSlots": "No available times for this date. Please select another day.",
+    "booking.back": "Back",
+    "booking.complete": "Complete your booking",
+    "booking.details": "Booking for",
+    "booking.fullName": "Full name",
+    "booking.namePlaceholder": "Your name",
+    "booking.email": "Email",
+    "booking.emailPlaceholder": "your@email.com",
+    "booking.phone": "Phone (optional)",
+    "booking.phonePlaceholder": "Your phone",
+    "booking.company": "Company (optional)",
+    "booking.companyPlaceholder": "Your company",
+    "booking.service": "Service",
+    "booking.selectService": "Select a service",
+    "booking.message": "Message (optional)",
+    "booking.messagePlaceholder": "Tell us briefly about your project or inquiry",
+    "booking.privacy": "I accept the privacy policy",
+    "booking.privacyDesc": "By checking this box, you agree to our privacy policy.",
+    "booking.confirm": "Confirm booking",
+    "booking.sending": "Sending...",
+    "booking.successTitle": "Booking completed!",
+    "booking.successDesc": "Your appointment has been booked successfully. You will receive a confirmation email.",
+    "booking.errorTitle": "Booking error",
+    "booking.errorDesc": "Could not complete the booking. Please try again.",
+    "booking.fetchError": "Could not load available time slots",
+    "booking.val.name": "Name must be at least 2 characters",
+    "booking.val.email": "Please enter a valid email address",
+    "booking.val.service": "Please select a service",
+    "booking.val.privacy": "You must accept the privacy policy",
+    "chatbot.welcome": "Hello! I am Eva Pérez's virtual assistant. What are you interested in?",
+    "chatbot.error": "I'm sorry, I'm having connection issues.",
+    "chatbot.placeholder": "Type your message...",
+    "chatbot.send": "Send",
+    "chatbot.typing": "Typing...",
+    "chatbot.title": "Virtual Assistant",
+    "chatbot.subtitle": "Wellness strategy expert",
+    "chatbot.suggestions": "You can ask about:",
+    "chatbot.disclaimer": "Powered by AI for general information.",
+    // Audit Modal
+    "audit.title": "Request Free Audit",
+    "audit.subtitle": "Discover your spa's hidden potential",
+    "audit.description": "Leave your details and we will analyze together how to transform your wellness area into a profitability engine.",
+    "audit.name": "Full name",
+    "audit.email": "Work email",
+    "audit.phone": "WhatsApp / Phone",
+    "audit.hotel": "Hotel / Spa Name",
+    "audit.challenge": "Main current challenge",
+    "audit.submit": "Request Audit",
+    "audit.success": "Request received! I will contact you shortly."
+  }
+};
+const defaultValue = {
+  language: "es",
+  setLanguage: () => {
+  },
+  t: (key) => key
+};
+const LanguageContext = createContext(defaultValue);
+const useLanguage = () => useContext(LanguageContext);
+const LanguageProvider = ({ children }) => {
+  const [language, setLanguage] = useState("es");
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage && (savedLanguage === "es" || savedLanguage === "en")) {
+      setLanguage(savedLanguage);
+    } else {
+      const browserLang = navigator.language.split("-")[0];
+      if (browserLang === "en") {
+        setLanguage("en");
+      }
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("language", language);
+    if (!window.location.pathname.startsWith("/blog/")) {
+      document.documentElement.lang = language;
+    }
+  }, [language]);
+  const t = (key) => {
+    return translations[language][key] || key;
+  };
+  return /* @__PURE__ */ jsx(LanguageContext.Provider, { value: { language, setLanguage, t }, children });
+};
 function NotFound() {
-  return /* @__PURE__ */ jsx("div", { className: "min-h-screen w-full flex items-center justify-center bg-gray-50", children: /* @__PURE__ */ jsx(Card, { className: "w-full max-w-md mx-4", children: /* @__PURE__ */ jsxs(CardContent, { className: "pt-6", children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex mb-4 gap-2", children: [
-      /* @__PURE__ */ jsx(AlertCircle, { className: "h-8 w-8 text-red-500" }),
-      /* @__PURE__ */ jsx("h1", { className: "text-2xl font-bold text-gray-900", children: "404 Page Not Found" })
-    ] }),
-    /* @__PURE__ */ jsx("p", { className: "mt-4 text-sm text-gray-600", children: "Did you forget to add the page to the router?" })
-  ] }) }) });
+  const [location] = useLocation();
+  const { language } = useLanguage();
+  const isSpanish = language === "es";
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: isSpanish ? "Página no encontrada" : "Page not found",
+        description: isSpanish ? "La página solicitada no existe o ha cambiado de dirección." : "The requested page does not exist or has moved.",
+        url: location,
+        noIndex: true,
+        language
+      }
+    ),
+    /* @__PURE__ */ jsx("main", { className: "min-h-screen w-full flex items-center justify-center bg-gray-50", children: /* @__PURE__ */ jsx(Card, { className: "w-full max-w-md mx-4", children: /* @__PURE__ */ jsxs(CardContent, { className: "pt-6", children: [
+      /* @__PURE__ */ jsxs("div", { className: "flex mb-4 gap-2", children: [
+        /* @__PURE__ */ jsx(AlertCircle, { className: "h-8 w-8 text-red-500" }),
+        /* @__PURE__ */ jsx("h1", { className: "text-2xl font-bold text-gray-900", children: isSpanish ? "404 · Página no encontrada" : "404 · Page not found" })
+      ] }),
+      /* @__PURE__ */ jsx("p", { className: "mt-4 text-sm text-gray-600", children: isSpanish ? "La dirección solicitada no existe o ha cambiado." : "The requested address does not exist or has moved." }),
+      /* @__PURE__ */ jsx(Link, { href: "/", className: "inline-block mt-6 text-turquoise hover:underline", children: isSpanish ? "Volver a la página principal" : "Return to the home page" })
+    ] }) }) })
+  ] });
 }
 const services = [
   {
@@ -1350,314 +2515,6 @@ const blogPosts = [
     }
   }
 ];
-const translations = {
-  es: {
-    "header.about": "Sobre mí",
-    "header.services": "Servicios",
-    "header.ai": "IA para Wellness",
-    "header.portfolio": "Portfolio",
-    "header.testimonials": "Testimonios",
-    "header.blog": "Blog",
-    "header.contact": "Contacto",
-    "about.title": "Sobre mí",
-    "about.subtitle": "Eva Pérez: Spa Manager y Consultora de Wellness",
-    "about.experience": "Soy Eva Pérez, Spa Manager y Wellness Consultant con más de 20 años de experiencia. He dedicado mi carrera a gestionar Spas de lujo y transformar áreas de Wellness en negocios rentables.",
-    "about.approach": "Como Consultora de Wellness, mi enfoque abarca desde la optimización de operaciones para Spa Managers hasta el diseño de experiencias. Eva Pérez garantiza resultados en la gestión de su Spa.",
-    "about.speaker": "Además, como Eva Pérez, ponente internacional, comparto regularmente mi conocimiento como Wellness Consultant en conferencias, transmitiendo las mejores prácticas de un Spa Manager exitoso.",
-    "about.stats.years": "Años de experiencia en el sector",
-    "about.stats.projects": "Proyectos exitosos completados",
-    "about.stats.conferences": "Conferencias impartidas",
-    "about.stats.trained": "Profesionales formados",
-    "about.stats.attendees": "Asistentes a conferencias",
-    "about.contact": "Contactar",
-    "about.portfolio": "Ver Portfolio",
-    "about.speakingCaption": "Eva Pérez durante una conferencia sobre gestión de spas",
-    "services.title": "Servicios",
-    "services.subtitle": "Soluciones Profesionales para el Sector Wellness",
-    "services.moreInfo": "Más información",
-    "services.strategy.title": "Consultoría Estratégica",
-    "services.strategy.description": "Análisis y diagnóstico de operaciones, desarrollo de planes estratégicos y asesoramiento para optimizar la rentabilidad de tu negocio wellness.",
-    "services.projects.title": "Gestión de Proyectos",
-    "services.projects.description": "Dirección integral en la creación o renovación de spas, desde la conceptualización hasta la implementación y puesta en marcha.",
-    "services.training.title": "Formación y Desarrollo",
-    "services.training.description": "Programas de capacitación a medida para equipos de trabajo en spas, enfocados en protocolos, ventas, servicio y gestión.",
-    "services.interim.title": "Interim Management",
-    "services.interim.description": "Dirección temporal de spas y centros wellness durante periodos de transición o para implementar proyectos específicos de mejora.",
-    "portfolio.title": "Portfolio",
-    "portfolio.subtitle": "Proyectos y Colaboraciones Destacadas",
-    "portfolio.description": "Una selección de casos de éxito que demuestran mi enfoque para transformar espacios wellness y optimizar su funcionamiento.",
-    "portfolio.viewCase": "Ver caso completo",
-    "portfolio.viewMore": "Ver más proyectos",
-    "portfolio.all": "Todos",
-    "portfolio.consulting": "Consultoría",
-    "portfolio.projects": "Proyectos",
-    "portfolio.training": "Formación",
-    "portfolio.interim": "Interim",
-    "testimonials.title": "Testimonios",
-    "testimonials.subtitle": "Lo que dicen mis clientes",
-    "testimonials.description": "Descubre cómo mis servicios han transformado negocios wellness y equipos profesionales.",
-    "blog.title": "Blog",
-    "blog.subtitle": "Últimos artículos y novedades",
-    "blog.description": "Artículos especializados sobre gestión de spas, tendencias del sector wellness y estrategias de optimización.",
-    "blog.readArticle": "Leer artículo",
-    "blog.viewAll": "Ver todos los artículos",
-    "blog.readMore": "Leer más",
-    "resources.title": "Recursos",
-    "resources.subtitle": "Herramientas y guías para profesionales del sector",
-    "resources.download": "Descargar",
-    "newsletter.title": "Suscríbete a mi newsletter",
-    "newsletter.subtitle": "Recibe mensualmente contenido exclusivo, consejos y las últimas tendencias en gestión de spas.",
-    "newsletter.subscribe": "Suscribirme",
-    "newsletter.sending": "Enviando...",
-    "newsletter.leadMagnetTitle": "Descarga GRATIS la Guía de Rentabilidad",
-    "newsletter.leadMagnetSubtitle": "Descubre los 10 puntos críticos para aumentar el margen de tu spa en 30 días. Incluye plantilla de auditoría.",
-    "newsletter.downloadButton": "Descargar Guía Ahora",
-    "header.bookAudit": "Solicitar Auditoría",
-    "hero.ctaPrimary": "Mejorar mi Spa Ahora",
-    "hero.ctaSecondary": "Ver Casos de Éxito",
-    "contact.title": "Contacto",
-    "contact.subtitle": "¿Hablamos sobre tu proyecto?",
-    "contact.description": "Completa el formulario y me pondré en contacto contigo para programar una consulta inicial gratuita donde podremos hablar sobre tus necesidades específicas.",
-    "contact.email": "Email",
-    "contact.phone": "Teléfono",
-    "contact.location": "Ubicación",
-    "contact.form.name": "Nombre",
-    "contact.form.email": "Email",
-    "contact.form.company": "Empresa/Organización",
-    "contact.form.service": "Servicio de interés",
-    "contact.form.message": "Mensaje",
-    "contact.form.privacy": "Acepto la política de privacidad y el tratamiento de mis datos para recibir comunicaciones.",
-    "contact.form.send": "Enviar mensaje",
-    "contact.form.sending": "Enviando...",
-    "footer.rights": "Todos los derechos reservados",
-    "footer.design": "Diseñado con",
-    "booking.title": "Reserva una consulta con Eva",
-    "booking.subtitle": "Selecciona una fecha y hora para tu consulta personalizada",
-    "booking.selectDate": "Selecciona una fecha",
-    "booking.chooseDay": "Elige el día para tu consulta",
-    "booking.weekendUnavailable": "Los fines de semana no están disponibles para reservas.",
-    "booking.selectTime": "Selecciona una hora",
-    "booking.availableTimes": "Horarios disponibles para el",
-    "booking.noSlots": "No hay horarios disponibles para esta fecha. Por favor, selecciona otro día.",
-    "booking.back": "Volver",
-    "booking.complete": "Completa tu reserva",
-    "booking.details": "Reservando para el",
-    "booking.fullName": "Nombre completo",
-    "booking.namePlaceholder": "Tu nombre",
-    "booking.email": "Email",
-    "booking.emailPlaceholder": "tu@email.com",
-    "booking.phone": "Teléfono (opcional)",
-    "booking.phonePlaceholder": "Tu teléfono",
-    "booking.company": "Empresa (opcional)",
-    "booking.companyPlaceholder": "Tu empresa",
-    "booking.service": "Servicio",
-    "booking.selectService": "Selecciona un servicio",
-    "booking.message": "Mensaje (opcional)",
-    "booking.messagePlaceholder": "Cuéntanos brevemente sobre tu proyecto o consulta",
-    "booking.privacy": "Acepto la política de privacidad",
-    "booking.privacyDesc": "Al marcar esta casilla, aceptas nuestra política de privacidad.",
-    "booking.confirm": "Confirmar reserva",
-    "booking.sending": "Enviando...",
-    "booking.successTitle": "¡Reserva completada!",
-    "booking.successDesc": "Tu cita ha sido reservada correctamente. Recibirás un email de confirmación.",
-    "booking.errorTitle": "Error en la reserva",
-    "booking.errorDesc": "No se pudo completar la reserva. Por favor, inténtalo de nuevo.",
-    "booking.fetchError": "No se pudieron cargar los horarios disponibles",
-    "booking.val.name": "El nombre debe tener al menos 2 caracteres",
-    "booking.val.email": "Por favor introduce un email válido",
-    "booking.val.service": "Por favor selecciona un servicio",
-    "booking.val.privacy": "Debes aceptar la política de privacidad",
-    "chatbot.welcome": "¡Hola! Soy el asistente virtual de Eva Pérez. ¿En qué estás interesado?",
-    "chatbot.error": "Lo siento, estoy teniendo problemas para conectarme.",
-    "chatbot.placeholder": "Escribe tu mensaje...",
-    "chatbot.send": "Enviar",
-    "chatbot.typing": "Escribiendo...",
-    "chatbot.title": "Asistente Virtual",
-    "chatbot.subtitle": "Experta en estrategia wellness",
-    "chatbot.suggestions": "Puedes preguntar sobre:",
-    "chatbot.disclaimer": "Potenciado por IA para información general.",
-    // Audit Modal
-    "audit.title": "Solicitar Auditoría Gratuita",
-    "audit.subtitle": "Descubre el potencial oculto de tu spa",
-    "audit.description": "Déjame tus datos y analizaremos juntos cómo transformar tu área wellness en un motor de rentabilidad.",
-    "audit.name": "Nombre completo",
-    "audit.email": "Email corporativo",
-    "audit.phone": "WhatsApp / Teléfono",
-    "audit.hotel": "Nombre del Hotel / Spa",
-    "audit.challenge": "Principal desafío actual",
-    "audit.submit": "Solicitar Auditoría",
-    "audit.success": "¡Solicitud recibida! Te contactaré en breve."
-  },
-  en: {
-    "header.about": "About me",
-    "header.services": "Services",
-    "header.ai": "AI for Wellness",
-    "header.portfolio": "Portfolio",
-    "header.testimonials": "Testimonials",
-    "header.blog": "Blog",
-    "header.contact": "Contact",
-    "about.title": "About me",
-    "about.subtitle": "Eva Pérez: Spa Manager & Wellness Consultant",
-    "about.experience": "With over 20 years of experience in the wellness sector and spa management, I have dedicated my career to transforming wellness spaces into profitable and memorable experiences.",
-    "about.approach": "My comprehensive approach ranges from operations optimization and team training to designing unique customer experiences and implementing profitability strategies.",
-    "about.speaker": "Additionally, as an international speaker, I regularly share my knowledge at conferences and industry events, where I convey best practices and trends in spa management and wellness.",
-    "about.stats.years": "Years of industry experience",
-    "about.stats.projects": "Successful projects completed",
-    "about.stats.conferences": "Conferences delivered",
-    "about.stats.trained": "Professionals trained",
-    "about.stats.attendees": "Conference attendees",
-    "about.contact": "Contact me",
-    "about.portfolio": "View Portfolio",
-    "about.speakingCaption": "Eva Pérez during a conference on spa management",
-    "services.title": "Services",
-    "services.subtitle": "Professional Solutions for the Wellness Sector",
-    "services.moreInfo": "More information",
-    "services.strategy.title": "Strategic Consulting",
-    "services.strategy.description": "Operations analysis and diagnosis, strategic plan development, and advisory services to optimize the profitability of your wellness business.",
-    "services.projects.title": "Project Management",
-    "services.projects.description": "Comprehensive management in the creation or renovation of spas, from conceptualization to implementation and launch.",
-    "services.training.title": "Training & Development",
-    "services.training.description": "Tailored training programs for spa teams, focused on protocols, sales, service, and management.",
-    "services.interim.title": "Interim Management",
-    "services.interim.description": "Temporary management of spas and wellness centers during transition periods or to implement specific improvement projects.",
-    "portfolio.title": "Portfolio",
-    "portfolio.subtitle": "Featured Projects and Collaborations",
-    "portfolio.description": "A selection of success cases that demonstrate my approach to transforming wellness spaces and optimizing their operation.",
-    "portfolio.viewCase": "View full case",
-    "portfolio.viewMore": "View more projects",
-    "portfolio.all": "All",
-    "portfolio.consulting": "Consulting",
-    "portfolio.projects": "Projects",
-    "portfolio.training": "Training",
-    "portfolio.interim": "Interim",
-    "testimonials.title": "Testimonials",
-    "testimonials.subtitle": "What my clients say",
-    "testimonials.description": "Discover how my services have transformed wellness businesses and professional teams.",
-    "blog.title": "Blog",
-    "blog.subtitle": "Latest articles and news",
-    "blog.description": "Specialized articles on spa management, wellness industry trends, and optimization strategies.",
-    "blog.readArticle": "Read article",
-    "blog.viewAll": "View all articles",
-    "blog.readMore": "Read more",
-    "resources.title": "Resources",
-    "resources.subtitle": "Tools and guides for industry professionals",
-    "resources.download": "Download",
-    "newsletter.title": "Subscribe to my newsletter",
-    "newsletter.subtitle": "Receive monthly exclusive content, tips, and the latest trends in spa management.",
-    "newsletter.subscribe": "Subscribe",
-    "newsletter.sending": "Sending...",
-    "newsletter.leadMagnetTitle": "Download FREE Profitability Guide",
-    "newsletter.leadMagnetSubtitle": "Discover 10 critical points to increase your spa margin in 30 days. Includes audit template.",
-    "newsletter.downloadButton": "Download Guide Now",
-    "header.bookAudit": "Request Audit",
-    "hero.ctaPrimary": "Improve my Spa Now",
-    "hero.ctaSecondary": "View Success Stories",
-    "contact.title": "Contact",
-    "contact.subtitle": "Let's talk about your project",
-    "contact.description": "Fill out the form and I will contact you to schedule a free initial consultation where we can discuss your specific needs.",
-    "contact.email": "Email",
-    "contact.phone": "Phone",
-    "contact.location": "Location",
-    "contact.form.name": "Name",
-    "contact.form.email": "Email",
-    "contact.form.company": "Company/Organization",
-    "contact.form.service": "Service of interest",
-    "contact.form.message": "Message",
-    "contact.form.privacy": "I accept the privacy policy and the processing of my data to receive communications.",
-    "contact.form.send": "Send message",
-    "contact.form.sending": "Sending...",
-    "footer.rights": "All rights reserved",
-    "footer.design": "Designed with",
-    "booking.title": "Book a consultation with Eva",
-    "booking.subtitle": "Select a date and time for your personalized consultation",
-    "booking.selectDate": "Select a date",
-    "booking.chooseDay": "Choose the day for your consultation",
-    "booking.weekendUnavailable": "Weekends are not available for bookings.",
-    "booking.selectTime": "Select a time",
-    "booking.availableTimes": "Available times for",
-    "booking.noSlots": "No available times for this date. Please select another day.",
-    "booking.back": "Back",
-    "booking.complete": "Complete your booking",
-    "booking.details": "Booking for",
-    "booking.fullName": "Full name",
-    "booking.namePlaceholder": "Your name",
-    "booking.email": "Email",
-    "booking.emailPlaceholder": "your@email.com",
-    "booking.phone": "Phone (optional)",
-    "booking.phonePlaceholder": "Your phone",
-    "booking.company": "Company (optional)",
-    "booking.companyPlaceholder": "Your company",
-    "booking.service": "Service",
-    "booking.selectService": "Select a service",
-    "booking.message": "Message (optional)",
-    "booking.messagePlaceholder": "Tell us briefly about your project or inquiry",
-    "booking.privacy": "I accept the privacy policy",
-    "booking.privacyDesc": "By checking this box, you agree to our privacy policy.",
-    "booking.confirm": "Confirm booking",
-    "booking.sending": "Sending...",
-    "booking.successTitle": "Booking completed!",
-    "booking.successDesc": "Your appointment has been booked successfully. You will receive a confirmation email.",
-    "booking.errorTitle": "Booking error",
-    "booking.errorDesc": "Could not complete the booking. Please try again.",
-    "booking.fetchError": "Could not load available time slots",
-    "booking.val.name": "Name must be at least 2 characters",
-    "booking.val.email": "Please enter a valid email address",
-    "booking.val.service": "Please select a service",
-    "booking.val.privacy": "You must accept the privacy policy",
-    "chatbot.welcome": "Hello! I am Eva Pérez's virtual assistant. What are you interested in?",
-    "chatbot.error": "I'm sorry, I'm having connection issues.",
-    "chatbot.placeholder": "Type your message...",
-    "chatbot.send": "Send",
-    "chatbot.typing": "Typing...",
-    "chatbot.title": "Virtual Assistant",
-    "chatbot.subtitle": "Wellness strategy expert",
-    "chatbot.suggestions": "You can ask about:",
-    "chatbot.disclaimer": "Powered by AI for general information.",
-    // Audit Modal
-    "audit.title": "Request Free Audit",
-    "audit.subtitle": "Discover your spa's hidden potential",
-    "audit.description": "Leave your details and we will analyze together how to transform your wellness area into a profitability engine.",
-    "audit.name": "Full name",
-    "audit.email": "Work email",
-    "audit.phone": "WhatsApp / Phone",
-    "audit.hotel": "Hotel / Spa Name",
-    "audit.challenge": "Main current challenge",
-    "audit.submit": "Request Audit",
-    "audit.success": "Request received! I will contact you shortly."
-  }
-};
-const defaultValue = {
-  language: "es",
-  setLanguage: () => {
-  },
-  t: (key) => key
-};
-const LanguageContext = createContext(defaultValue);
-const useLanguage = () => useContext(LanguageContext);
-const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState("es");
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem("language");
-    if (savedLanguage && (savedLanguage === "es" || savedLanguage === "en")) {
-      setLanguage(savedLanguage);
-    } else {
-      const browserLang = navigator.language.split("-")[0];
-      if (browserLang === "en") {
-        setLanguage("en");
-      }
-    }
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("language", language);
-    if (!window.location.pathname.startsWith("/blog/")) {
-      document.documentElement.lang = language;
-    }
-  }, [language]);
-  const t = (key) => {
-    return translations[language][key] || key;
-  };
-  return /* @__PURE__ */ jsx(LanguageContext.Provider, { value: { language, setLanguage, t }, children });
-};
 const Dialog = DialogPrimitive.Root;
 const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
@@ -1850,12 +2707,11 @@ function AuthProvider({ children }) {
   });
   const loginMutation = useMutation({
     mutationFn: async (credentials) => {
-      const res = await apiRequest({
+      return await apiRequest({
         method: "POST",
         path: "/api/login",
         body: credentials
       });
-      return await res.json();
     },
     onSuccess: (user2) => {
       queryClient.setQueryData(["/api/user"], user2);
@@ -1870,12 +2726,11 @@ function AuthProvider({ children }) {
   });
   const registerMutation = useMutation({
     mutationFn: async (credentials) => {
-      const res = await apiRequest({
+      return await apiRequest({
         method: "POST",
         path: "/api/register",
         body: credentials
       });
-      return await res.json();
     },
     onSuccess: (user2) => {
       queryClient.setQueryData(["/api/user"], user2);
@@ -1930,7 +2785,7 @@ function useAuth() {
 }
 function ProtectedRoute({
   path,
-  component: Component
+  component: Component2
 }) {
   const { user, isLoading } = useAuth();
   if (isLoading) {
@@ -1939,7 +2794,7 @@ function ProtectedRoute({
   if (!user) {
     return /* @__PURE__ */ jsx(Route, { path, children: /* @__PURE__ */ jsx(Redirect, { to: "/auth" }) });
   }
-  return /* @__PURE__ */ jsx(Route, { path, component: Component });
+  return /* @__PURE__ */ jsx(Route, { path, component: Component2 });
 }
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -2005,7 +2860,11 @@ function loadGoogleTagManager() {
 }
 function trackEvent(event, parameters = {}) {
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event, ...parameters });
+  window.dataLayer.push({
+    event,
+    page_path: window.location.pathname,
+    ...parameters
+  });
 }
 const CookieConsent = () => {
   const [showConsent, setShowConsent] = useState(false);
@@ -2138,6 +2997,14 @@ const ChatBot = () => {
     sendMessage
   } = useChatbot();
   const chatContainerRef = useRef(null);
+  const hasTrackedOpen = useRef(false);
+  const openChat = (source) => {
+    if (!hasTrackedOpen.current) {
+      trackEvent("chat_start", { source, language });
+      hasTrackedOpen.current = true;
+    }
+    setIsOpen(true);
+  };
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -2170,7 +3037,7 @@ const ChatBot = () => {
               "button",
               {
                 className: "text-turquoise text-xs mt-1 hover:underline",
-                onClick: () => setIsOpen(true),
+                onClick: () => openChat("prompt"),
                 children: language === "es" ? "Chatea conmigo" : "Chat with me"
               }
             )
@@ -2181,7 +3048,7 @@ const ChatBot = () => {
               className: "bg-turquoise text-white rounded-full p-4 shadow-lg flex items-center justify-center",
               whileHover: { scale: 1.1 },
               whileTap: { scale: 0.9 },
-              onClick: () => setIsOpen(true),
+              onClick: () => openChat("floating_button"),
               "aria-label": language === "es" ? "Abrir chat" : "Open chat",
               children: /* @__PURE__ */ jsx(
                 "svg",
@@ -2357,14 +3224,14 @@ function PageLoader() {
     /* @__PURE__ */ jsx("p", { className: "text-muted-foreground animate-pulse text-sm font-medium", children: "Cargando experiencia..." })
   ] }) });
 }
-const Home = React__default.lazy(() => import("./assets/Home-Ms2lG_oi.mjs"));
-const Privacy = React__default.lazy(() => import("./assets/Privacy-CM2mbJYe.mjs"));
-const Terms = React__default.lazy(() => import("./assets/Terms-BtPTlI2P.mjs"));
-const Cookies = React__default.lazy(() => import("./assets/Cookies-Bcj8r_k_.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-B9MkrQXv.mjs"));
-const Admin = React__default.lazy(() => import("./assets/Admin-al8A5HOJ.mjs"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-CToQffJV.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-CCg_eC7i.mjs"));
+const Home = React__default.lazy(() => import("./assets/Home-C_QSqCHo.mjs"));
+const Privacy = React__default.lazy(() => import("./assets/Privacy-BkViBhF6.mjs"));
+const Terms = React__default.lazy(() => import("./assets/Terms-NaHIx8ZX.mjs"));
+const Cookies = React__default.lazy(() => import("./assets/Cookies-CZwW9wUC.mjs"));
+const Booking = React__default.lazy(() => import("./assets/Booking-DclkPP2l.mjs"));
+const Admin = React__default.lazy(() => import("./assets/Admin-DQ2c9lvX.mjs"));
+const AuthPage = React__default.lazy(() => import("./assets/Auth-CkoXnTFC.mjs"));
+const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BVaHULpJ.mjs"));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
@@ -2390,23 +3257,77 @@ function App({ queryClient: propsClient }) {
     /* @__PURE__ */ jsx(Toaster, {})
   ] }) }) });
 }
-const staticLocationHook = (path = "/") => () => [path, () => null];
-const { HelmetProvider } = HelmetAsync;
-function render(url) {
-  const hook = staticLocationHook(url);
-  const queryClient2 = new QueryClient();
+function seedQueryClient(queryClient2, initialData) {
+  if (!initialData) return;
+  if (initialData.articles) {
+    queryClient2.setQueryData(["/api/articles"], initialData.articles);
+  }
+  if (initialData.article && initialData.articleSlug) {
+    queryClient2.setQueryData(
+      [`/api/articles/${initialData.articleSlug}`],
+      initialData.article
+    );
+  }
+}
+function render(url, initialData = {}) {
+  const queryClient2 = new QueryClient({
+    defaultOptions: {
+      queries: {
+        queryFn: async () => {
+          throw new Error("Missing preloaded data for an SSR query");
+        },
+        staleTime: Infinity,
+        retry: false
+      }
+    }
+  });
+  seedQueryClient(queryClient2, initialData);
+  queryClient2.setQueryData(["/api/user"], null);
   const helmetContext = {};
-  const html = renderToString(
-    /* @__PURE__ */ jsx(HelmetProvider, { context: helmetContext, children: /* @__PURE__ */ jsx(Router$1, { hook, children: /* @__PURE__ */ jsx(App, { queryClient: queryClient2 }) }) })
-  );
-  return { html, helmetContext };
+  const app = /* @__PURE__ */ jsx(HelmetProvider, { context: helmetContext, children: /* @__PURE__ */ jsx(Router$1, { ssrPath: url, children: /* @__PURE__ */ jsx(App, { queryClient: queryClient2 }) }) });
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    let timeout;
+    const output = new PassThrough();
+    const chunks = [];
+    const finishWithError = (error) => {
+      if (settled) return;
+      settled = true;
+      if (timeout) clearTimeout(timeout);
+      queryClient2.clear();
+      reject(error instanceof Error ? error : new Error(String(error)));
+    };
+    output.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    output.on("error", finishWithError);
+    output.on("end", () => {
+      if (settled) return;
+      settled = true;
+      if (timeout) clearTimeout(timeout);
+      const html = Buffer.concat(chunks).toString("utf-8");
+      queryClient2.clear();
+      resolve({ html, helmetContext });
+    });
+    const stream = renderToPipeableStream(app, {
+      onAllReady() {
+        stream.pipe(output);
+      },
+      onShellError: finishWithError,
+      onError(error) {
+        console.error("SSR render error:", error);
+      }
+    });
+    timeout = setTimeout(() => {
+      stream.abort();
+      finishWithError(new Error("SSR render timed out"));
+    }, 15e3);
+  });
 }
 export {
   Button as B,
   Card as C,
   Dialog as D,
   Resources as R,
-  ScrollToTop as S,
+  SEO as S,
   DialogContent as a,
   DialogTitle as b,
   DialogDescription as c,
@@ -2415,19 +3336,20 @@ export {
   useToast as f,
   apiRequest as g,
   trackEvent as h,
-  buttonVariants as i,
-  CardHeader as j,
-  CardTitle as k,
-  CardDescription as l,
-  CardContent as m,
-  CardFooter as n,
-  toast as o,
+  ScrollToTop as i,
+  buttonVariants as j,
+  CardHeader as k,
+  CardTitle as l,
+  CardDescription as m,
+  CardContent as n,
+  CardFooter as o,
   portfolioItems as p,
-  useAuth as q,
-  DialogTrigger as r,
+  toast as q,
+  useAuth as r,
   render,
   services as s,
   testimonials as t,
   useLanguage as u,
-  DialogHeader as v
+  DialogTrigger as v,
+  DialogHeader as w
 };

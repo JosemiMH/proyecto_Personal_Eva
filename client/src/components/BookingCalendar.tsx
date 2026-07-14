@@ -18,6 +18,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'wouter';
+import { trackEvent } from '@/lib/analytics';
 
 
 interface AvailableSlot {
@@ -144,6 +145,16 @@ const BookingCalendar = () => {
       });
 
       if (result.success) {
+        trackEvent('generate_lead', {
+          lead_type: 'appointment',
+          service: values.service,
+          language,
+        });
+        trackEvent('book_appointment', {
+          service: values.service,
+          language,
+        });
+
         toast({
           title: t('booking.successTitle'),
           description: t('booking.successDesc'),

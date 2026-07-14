@@ -20,5 +20,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['esbuild'] // Force Vite to not try to optimize esbuild itself
-  }
+  },
+  ssr: {
+    // Package ships as CommonJS at runtime. Bundling it keeps named exports
+    // consistent between the browser build and Node SSR.
+    noExternal: ["react-helmet-async"],
+  },
 });

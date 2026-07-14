@@ -6,6 +6,7 @@ declare global {
 }
 
 const GTM_ID = 'GTM-KGMBTXN2';
+let interactionTrackingInitialized = false;
 
 export function updateConsent(granted: boolean) {
   window.dataLayer = window.dataLayer || [];
@@ -33,5 +34,44 @@ export function loadGoogleTagManager() {
 
 export function trackEvent(event: string, parameters: Record<string, unknown> = {}) {
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event, ...parameters });
+  window.dataLayer.push({
+    event,
+    page_path: window.location.pathname,
+    ...parameters,
+  });
+}
+
+export function initInteractionTracking() {
+  if (interactionTrackingInitialized || typeof document === 'undefined') return;
+  interactionTrackingInitialized = true;
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const actionable = event.target.closest<HTMLElement>('a,button');
+    if (!actionable) return;
+
+    const anchor = actionable instanceof HTMLAnchorElement ? actionable : null;
+    const href = anchor?.getAttribute('href') || '';
+    const location = actionable.closest('footer')
+      ? 'footer'
+      : actionable.closest('#contact')
+        ? 'contact'
+        : 'page';
+
+    if (href.startsWith('tel:')) {
+      trackEvent('click_to_call', { link_location: location });
+    } else if (href.startsWith('mailto:')) {
+      trackEvent('click_email', { link_location: location });
+    }
+
+    const cta = actionable.closest<HTMLElement>('[data-analytics-cta]');
+    const ctaName = cta?.dataset.analyticsCta;
+    if (ctaName) {
+      trackEvent('cta_click', {
+        cta_name: ctaName,
+        cta_location: cta.dataset.analyticsLocation || location,
+      });
+    }
+  }, { capture: true });
 }

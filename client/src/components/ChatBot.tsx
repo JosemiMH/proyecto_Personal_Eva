@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { useChatbot } from '@/hooks/useChatbot';
+import { trackEvent } from '@/lib/analytics';
 
 const ChatBot = () => {
   const { language, t } = useLanguage();
@@ -17,6 +18,15 @@ const ChatBot = () => {
   } = useChatbot();
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const hasTrackedOpen = useRef(false);
+
+  const openChat = (source: 'prompt' | 'floating_button') => {
+    if (!hasTrackedOpen.current) {
+      trackEvent('chat_start', { source, language });
+      hasTrackedOpen.current = true;
+    }
+    setIsOpen(true);
+  };
 
   // Auto-scroll al último mensaje
   useEffect(() => {
@@ -58,7 +68,7 @@ const ChatBot = () => {
             </p>
             <button
               className="text-turquoise text-xs mt-1 hover:underline"
-              onClick={() => setIsOpen(true)}
+              onClick={() => openChat('prompt')}
             >
               {language === 'es' ? 'Chatea conmigo' : 'Chat with me'}
             </button>
@@ -69,7 +79,7 @@ const ChatBot = () => {
           className="bg-turquoise text-white rounded-full p-4 shadow-lg flex items-center justify-center"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          onClick={() => setIsOpen(true)}
+          onClick={() => openChat('floating_button')}
           aria-label={language === 'es' ? 'Abrir chat' : 'Open chat'}
         >
           <svg

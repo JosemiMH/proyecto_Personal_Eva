@@ -147,6 +147,8 @@ const Header = () => {
                 "a",
                 {
                   href: "#contact",
+                  "data-analytics-cta": "request_audit",
+                  "data-analytics-location": "header_desktop",
                   className: `bg-turquoise text-white rounded hover:bg-turquoise-dark transition-colors ${isTablet ? "text-xs px-3 py-1.5 ml-1" : "text-sm px-4 py-2 ml-2"}`,
                   children: t("header.bookAudit")
                 }
@@ -218,6 +220,8 @@ const Header = () => {
                 "a",
                 {
                   href: "#contact",
+                  "data-analytics-cta": "request_audit",
+                  "data-analytics-location": "header_mobile",
                   className: `block text-turquoise font-medium border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
                   onClick: toggleMobileMenu,
                   children: t("header.bookAudit")
