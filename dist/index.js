@@ -1063,7 +1063,6 @@ https://epmwellness.com
 var import_express2 = __toESM(require("express"));
 var import_fs = __toESM(require("fs"));
 var import_path = __toESM(require("path"));
-var import_url = require("url");
 function log(message, source = "express") {
   const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -1217,31 +1216,12 @@ async function setupVite(app2, server) {
 }
 function serveStatic(app2) {
   const distPath = import_path.default.resolve(process.cwd(), "dist", "public");
-  const serverEntry = import_path.default.resolve(process.cwd(), "dist", "server", "entry-server.mjs");
-  if (!import_fs.default.existsSync(distPath) || !import_fs.default.existsSync(serverEntry)) {
-    throw new Error(
-      "Production build is incomplete: both dist/public and dist/server/entry-server.mjs are required"
-    );
+  if (!import_fs.default.existsSync(distPath)) {
+    throw new Error(`Production build is missing at ${distPath}`);
   }
-  const template = import_fs.default.readFileSync(import_path.default.resolve(distPath, "index.html"), "utf-8");
-  const rendererUrl = (0, import_url.pathToFileURL)(serverEntry).href;
-  let rendererPromise;
-  const getRenderer = () => {
-    rendererPromise ??= import(rendererUrl);
-    return rendererPromise;
-  };
-  app2.use(import_express2.default.static(distPath, { index: false }));
-  app2.use("*", async (req, res, next) => {
-    try {
-      const requestPath = getRequestPath(req);
-      const page = await resolveSsrPage(requestPath);
-      const renderer = await getRenderer();
-      const rendered = await renderer.render(requestPath, page.initialData);
-      const html = renderDocument(template, rendered.html, rendered.helmetContext, page.initialData);
-      res.status(page.status).set({ "Content-Type": "text/html" }).end(html);
-    } catch (error) {
-      next(error);
-    }
+  app2.use(import_express2.default.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(import_path.default.resolve(distPath, "index.html"));
   });
 }
 

@@ -1,7 +1,6 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { pathToFileURL } from "url";
 import { type Server } from "http";
 import { storage } from "./storage";
 
@@ -222,35 +221,13 @@ export async function setupVite(app: Express, server: Server) {
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(process.cwd(), "dist", "public");
-  const serverEntry = path.resolve(process.cwd(), "dist", "server", "entry-server.mjs");
 
-  if (!fs.existsSync(distPath) || !fs.existsSync(serverEntry)) {
-    throw new Error(
-      "Production build is incomplete: both dist/public and dist/server/entry-server.mjs are required",
-    );
+  if (!fs.existsSync(distPath)) {
+    throw new Error(`Production build is missing at ${distPath}`);
   }
 
-  const template = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
-  const rendererUrl = pathToFileURL(serverEntry).href;
-  let rendererPromise: Promise<SsrRenderer> | undefined;
-  const getRenderer = () => {
-    rendererPromise ??= import(rendererUrl) as Promise<SsrRenderer>;
-    return rendererPromise;
-  };
-
-  app.use(express.static(distPath, { index: false }));
-
-  app.use("*", async (req, res, next) => {
-    try {
-      const requestPath = getRequestPath(req);
-      const page = await resolveSsrPage(requestPath);
-      const renderer = await getRenderer();
-      const rendered = await renderer.render(requestPath, page.initialData);
-      const html = renderDocument(template, rendered.html, rendered.helmetContext, page.initialData);
-
-      res.status(page.status).set({ "Content-Type": "text/html" }).end(html);
-    } catch (error) {
-      next(error);
-    }
+  app.use(express.static(distPath));
+  app.use("*", (_req, res) => {
+    res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
