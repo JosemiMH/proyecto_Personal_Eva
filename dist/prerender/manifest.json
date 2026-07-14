@@ -1,0 +1,34 @@
+{
+  "routes": {
+    "/": "home.html",
+    "/privacy": "privacy.html",
+    "/terms": "terms.html",
+    "/cookies": "cookies.html",
+    "/booking": "booking.html",
+    "/resources": "resources.html"
+  },
+  "blogs": {
+    "the-math-of-wellness-calculating-the-roi-of-a-cryotherapy-cabin": "blog/the-math-of-wellness-calculating-the-roi-of-a-cryotherapy-cabin.html",
+    "la-matemtica-del-wellness-calculando-el-roi-de-una-cabina-de-crioterapia": "blog/la-matemtica-del-wellness-calculando-el-roi-de-una-cabina-de-crioterapia.html",
+    "ia-y-la-hiper-personalizacin-en-el-wellness": "blog/ia-y-la-hiper-personalizacin-en-el-wellness.html",
+    "el-secreto-de-la-longevidad-cmo-los-hoteles-de-lujo-estn-innovando-en-bienestar": "blog/el-secreto-de-la-longevidad-cmo-los-hoteles-de-lujo-estn-innovando-en-bienestar.html",
+    "wow-effect-redefining-the-luxury-spa-experience": "blog/wow-effect-redefining-the-luxury-spa-experience.html",
+    "efecto-wow-redefiniendo-la-experiencia-de-lujo-en-spas": "blog/efecto-wow-redefiniendo-la-experiencia-de-lujo-en-spas.html",
+    "menopause-adapting-the-spa-to-hormonal-health": "blog/menopause-adapting-the-spa-to-hormonal-health.html",
+    "menopausia-adaptando-el-spa-a-la-salud-hormonal": "blog/menopausia-adaptando-el-spa-a-la-salud-hormonal.html",
+    "mental-wellness-integrated-mindfulness": "blog/mental-wellness-integrated-mindfulness.html",
+    "bienestar-mental-y-mindfulness-integrado": "blog/bienestar-mental-y-mindfulness-integrado.html",
+    "eco-luxury-sustainability-as-a-premium-standard": "blog/eco-luxury-sustainability-as-a-premium-standard.html",
+    "eco-lujo-sostenibilidad-como-estndar-premium": "blog/eco-lujo-sostenibilidad-como-estndar-premium.html",
+    "the-longevity-revolution-biohacking": "blog/the-longevity-revolution-biohacking.html",
+    "la-revolucin-de-la-longevidad-y-el-biohacking": "blog/la-revolucin-de-la-longevidad-y-el-biohacking.html",
+    "ai-hyper-personalization-in-wellness": "blog/ai-hyper-personalization-in-wellness.html",
+    "the-secret-of-longevity-how-luxury-hotels-are-innovating-in-wellness": "blog/the-secret-of-longevity-how-luxury-hotels-are-innovating-in-wellness.html",
+    "spa-trends-2026-from-pampering-to-scientific-longevity": "blog/spa-trends-2026-from-pampering-to-scientific-longevity.html",
+    "tendencias-spa-2026-del-mimo-a-la-longevidad-cientfica": "blog/tendencias-spa-2026-del-mimo-a-la-longevidad-cientfica.html",
+    "healthspan-el-verdadero-lujo-del-bienestar-en-los-hoteles-de-elite": "blog/healthspan-el-verdadero-lujo-del-bienestar-en-los-hoteles-de-elite.html",
+    "diseno-biofilico-y-neuroarquitectura-el-futuro-de-los-espacios-wellness": "blog/diseno-biofilico-y-neuroarquitectura-el-futuro-de-los-espacios-wellness.html",
+    "el-roi-del-bienestar-en-la-hoteleria-de-lujo-un-estudio-profundo": "blog/el-roi-del-bienestar-en-la-hoteleria-de-lujo-un-estudio-profundo.html"
+  },
+  "notFound": "404.html"
+}

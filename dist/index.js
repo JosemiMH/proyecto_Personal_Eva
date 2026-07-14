@@ -1216,12 +1216,37 @@ async function setupVite(app2, server) {
 }
 function serveStatic(app2) {
   const distPath = import_path.default.resolve(process.cwd(), "dist", "public");
-  if (!import_fs.default.existsSync(distPath)) {
-    throw new Error(`Production build is missing at ${distPath}`);
+  const prerenderPath = import_path.default.resolve(process.cwd(), "dist", "prerender");
+  const manifestPath = import_path.default.resolve(prerenderPath, "manifest.json");
+  if (!import_fs.default.existsSync(distPath) || !import_fs.default.existsSync(manifestPath)) {
+    throw new Error("Production build is missing public or prerendered files");
   }
-  app2.use(import_express2.default.static(distPath));
-  app2.use("*", (_req, res) => {
+  const manifest = JSON.parse(import_fs.default.readFileSync(manifestPath, "utf8"));
+  const sendPrerendered = (res, next, filename, status = 200) => {
+    const absolutePath = import_path.default.resolve(prerenderPath, filename);
+    if (!absolutePath.startsWith(`${prerenderPath}${import_path.default.sep}`)) {
+      return next(new Error("Invalid prerendered file path"));
+    }
+    res.status(status).sendFile(absolutePath, (error) => {
+      if (error) next(error);
+    });
+  };
+  app2.use(import_express2.default.static(distPath, { index: false }));
+  for (const [route, filename] of Object.entries(manifest.routes)) {
+    app2.get(route, (_req, res, next) => sendPrerendered(res, next, filename));
+  }
+  app2.get("/blog/:slug", (req, res, next) => {
+    const filename = manifest.blogs[req.params.slug];
+    if (filename) {
+      return sendPrerendered(res, next, filename);
+    }
+    return sendPrerendered(res, next, manifest.notFound, 404);
+  });
+  app2.get(["/auth", "/admin"], (_req, res) => {
     res.sendFile(import_path.default.resolve(distPath, "index.html"));
+  });
+  app2.use("*", (_req, res, next) => {
+    sendPrerendered(res, next, manifest.notFound, 404);
   });
 }
 
@@ -1305,7 +1330,7 @@ app.use((req, res, next) => {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
     } else {
-      console.log("\u{1F4C1} Serving static files from dist/public with SSR");
+      console.log("\u{1F4C1} Serving static files with prerendered HTML");
       serveStatic(app);
     }
     app.use((err, _req, res, _next) => {

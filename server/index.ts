@@ -95,7 +95,7 @@ app.use((req, res, next) => {
       console.log("Setting up Vite dev server...");
       await setupVite(app, server);
     } else {
-      console.log("📁 Serving static files from dist/public with SSR");
+      console.log("📁 Serving static files with prerendered HTML");
       serveStatic(app);
     }
 

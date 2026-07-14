@@ -221,13 +221,52 @@ export async function setupVite(app: Express, server: Server) {
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(process.cwd(), "dist", "public");
+  const prerenderPath = path.resolve(process.cwd(), "dist", "prerender");
+  const manifestPath = path.resolve(prerenderPath, "manifest.json");
 
-  if (!fs.existsSync(distPath)) {
-    throw new Error(`Production build is missing at ${distPath}`);
+  if (!fs.existsSync(distPath) || !fs.existsSync(manifestPath)) {
+    throw new Error("Production build is missing public or prerendered files");
   }
 
-  app.use(express.static(distPath));
-  app.use("*", (_req, res) => {
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as {
+    routes: Record<string, string>;
+    blogs: Record<string, string>;
+    notFound: string;
+  };
+  const sendPrerendered = (
+    res: express.Response,
+    next: express.NextFunction,
+    filename: string,
+    status = 200,
+  ) => {
+    const absolutePath = path.resolve(prerenderPath, filename);
+    if (!absolutePath.startsWith(`${prerenderPath}${path.sep}`)) {
+      return next(new Error("Invalid prerendered file path"));
+    }
+    res.status(status).sendFile(absolutePath, (error) => {
+      if (error) next(error);
+    });
+  };
+
+  app.use(express.static(distPath, { index: false }));
+
+  for (const [route, filename] of Object.entries(manifest.routes)) {
+    app.get(route, (_req, res, next) => sendPrerendered(res, next, filename));
+  }
+
+  app.get("/blog/:slug", (req, res, next) => {
+    const filename = manifest.blogs[req.params.slug];
+    if (filename) {
+      return sendPrerendered(res, next, filename);
+    }
+    return sendPrerendered(res, next, manifest.notFound, 404);
+  });
+
+  app.get(["/auth", "/admin"], (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
+  });
+
+  app.use("*", (_req, res, next) => {
+    sendPrerendered(res, next, manifest.notFound, 404);
   });
 }

@@ -23,18 +23,18 @@ export default function SEO({ title, description, image, url = '/', type = 'webs
             <title>{finalTitle}</title>
             <meta name="description" content={description} />
             <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
-            <link rel="canonical" href={fullUrl} />
+            {!noIndex && <link rel="canonical" href={fullUrl} />}
 
             {/* Open Graph / Facebook */}
             <meta property="og:type" content={type} />
-            <meta property="og:url" content={fullUrl} />
+            {!noIndex && <meta property="og:url" content={fullUrl} />}
             <meta property="og:title" content={finalTitle} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={metaImage} />
 
             {/* Twitter */}
             <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:url" content={fullUrl} />
+            {!noIndex && <meta property="twitter:url" content={fullUrl} />}
             <meta property="twitter:title" content={finalTitle} />
             <meta property="twitter:description" content={description} />
             <meta property="twitter:image" content={metaImage} />
