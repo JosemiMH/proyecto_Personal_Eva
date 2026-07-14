@@ -5,23 +5,34 @@ var _a, _b;
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { renderToPipeableStream } from "react-dom/server";
 import { PassThrough } from "node:stream";
-import { useLocation, Link, Route, Redirect, Switch, Router as Router$1 } from "wouter";
+import { useLocation, Link, Route, Redirect, Switch, Router as Router$1, useRoute } from "wouter";
 import { QueryClient, useQuery, useMutation, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
-import React__default, { Component, createContext, useContext, useState, useEffect, useRef, Suspense } from "react";
+import React__default, { Component, createContext, useContext, useState, useEffect, useRef, Suspense, useMemo } from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva } from "class-variance-authority";
-import { X, AlertCircle, Loader2 } from "lucide-react";
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { X, AlertCircle, Loader2, ArrowRight, Tag, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ArrowLeft, Calendar as Calendar$1, Clock } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import { FormProvider, Controller, useFormContext, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { FaArrowUp, FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { DayPicker } from "react-day-picker";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import * as SeparatorPrimitive from "@radix-ui/react-separator";
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import { addDays, format, isBefore } from "date-fns";
+import { es, enUS } from "date-fns/locale";
 import fastCompare from "react-fast-compare";
 import invariant from "invariant";
 import shallowEqual from "shallowequal";
-import { motion, AnimatePresence } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Slot } from "@radix-ui/react-slot";
-import { FaArrowUp } from "react-icons/fa";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import * as LabelPrimitive from "@radix-ui/react-label";
 async function throwIfResNotOk(res) {
   if (!res.ok) {
     const text = await res.text() || res.statusText;
@@ -3224,26 +3235,26 @@ function PageLoader() {
     /* @__PURE__ */ jsx("p", { className: "text-muted-foreground animate-pulse text-sm font-medium", children: "Cargando experiencia..." })
   ] }) });
 }
-const Home = React__default.lazy(() => import("./assets/Home-C_QSqCHo.mjs"));
-const Privacy = React__default.lazy(() => import("./assets/Privacy-BkViBhF6.mjs"));
-const Terms = React__default.lazy(() => import("./assets/Terms-NaHIx8ZX.mjs"));
-const Cookies = React__default.lazy(() => import("./assets/Cookies-CZwW9wUC.mjs"));
-const Booking = React__default.lazy(() => import("./assets/Booking-DclkPP2l.mjs"));
-const Admin = React__default.lazy(() => import("./assets/Admin-DQ2c9lvX.mjs"));
-const AuthPage = React__default.lazy(() => import("./assets/Auth-CkoXnTFC.mjs"));
-const BlogPostPage = React__default.lazy(() => import("./assets/BlogPostPage-BVaHULpJ.mjs"));
+const Home$2 = React__default.lazy(() => Promise.resolve().then(() => Home$1));
+const Privacy$2 = React__default.lazy(() => Promise.resolve().then(() => Privacy$1));
+const Terms$2 = React__default.lazy(() => Promise.resolve().then(() => Terms$1));
+const Cookies$2 = React__default.lazy(() => Promise.resolve().then(() => Cookies$1));
+const Booking$2 = React__default.lazy(() => Promise.resolve().then(() => Booking$1));
+const Admin$2 = React__default.lazy(() => Promise.resolve().then(() => Admin$1));
+const AuthPage$1 = React__default.lazy(() => Promise.resolve().then(() => Auth));
+const BlogPostPage$2 = React__default.lazy(() => Promise.resolve().then(() => BlogPostPage$1));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
-    /* @__PURE__ */ jsx(Route, { path: "/", children: /* @__PURE__ */ jsx(Home, {}) }),
-    /* @__PURE__ */ jsx(Route, { path: "/privacy", children: /* @__PURE__ */ jsx(Privacy, {}) }),
-    /* @__PURE__ */ jsx(Route, { path: "/terms", children: /* @__PURE__ */ jsx(Terms, {}) }),
-    /* @__PURE__ */ jsx(Route, { path: "/cookies", children: /* @__PURE__ */ jsx(Cookies, {}) }),
-    /* @__PURE__ */ jsx(Route, { path: "/booking", children: /* @__PURE__ */ jsx(Booking, {}) }),
-    /* @__PURE__ */ jsx(Route, { path: "/auth", children: /* @__PURE__ */ jsx(AuthPage, {}) }),
-    /* @__PURE__ */ jsx(ProtectedRoute, { path: "/admin", component: Admin }),
+    /* @__PURE__ */ jsx(Route, { path: "/", children: /* @__PURE__ */ jsx(Home$2, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/privacy", children: /* @__PURE__ */ jsx(Privacy$2, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/terms", children: /* @__PURE__ */ jsx(Terms$2, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/cookies", children: /* @__PURE__ */ jsx(Cookies$2, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/booking", children: /* @__PURE__ */ jsx(Booking$2, {}) }),
+    /* @__PURE__ */ jsx(Route, { path: "/auth", children: /* @__PURE__ */ jsx(AuthPage$1, {}) }),
+    /* @__PURE__ */ jsx(ProtectedRoute, { path: "/admin", component: Admin$2 }),
     /* @__PURE__ */ jsx(Route, { path: "/resources", children: /* @__PURE__ */ jsx(Resources, { isPage: true }) }),
-    /* @__PURE__ */ jsx(Route, { path: "/blog/:slug", component: BlogPostPage }),
+    /* @__PURE__ */ jsx(Route, { path: "/blog/:slug", component: BlogPostPage$2 }),
     /* @__PURE__ */ jsx(Route, { component: NotFound })
   ] }, location) }) });
 }
@@ -3322,34 +3333,3311 @@ function render(url, initialData = {}) {
     }, 15e3);
   });
 }
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+    scale: 0.98
+  },
+  in: {
+    opacity: 1,
+    y: 0,
+    scale: 1
+  },
+  out: {
+    opacity: 0,
+    y: -20,
+    scale: 0.98
+  }
+};
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.4
+};
+const PageTransition = ({ children }) => {
+  return /* @__PURE__ */ jsx(
+    motion.div,
+    {
+      initial: "initial",
+      animate: "in",
+      exit: "out",
+      variants: pageVariants,
+      transition: pageTransition,
+      className: "w-full",
+      children
+    }
+  );
+};
+const evaProfileImage = "/assets/hero-es-kbcuNBxT.png";
+const spainFlag = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3e%3crect%20width='32'%20height='32'%20fill='%23F1BF00'%20/%3e%3crect%20width='32'%20height='8'%20fill='%23AA151B'%20y='0'%20/%3e%3crect%20width='32'%20height='8'%20fill='%23AA151B'%20y='24'%20/%3e%3c/svg%3e";
+const ukFlag = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3e%3crect%20width='32'%20height='32'%20fill='%23012169'/%3e%3cpath%20d='M0,0%20L32,32%20M32,0%20L0,32'%20stroke='%23fff'%20stroke-width='4'/%3e%3cpath%20d='M16,0%20L16,32%20M0,16%20L32,16'%20stroke='%23fff'%20stroke-width='8'/%3e%3cpath%20d='M16,0%20L16,32%20M0,16%20L32,16'%20stroke='%23C8102E'%20stroke-width='4'/%3e%3cpath%20d='M0,0%20L32,32%20M32,0%20L0,32'%20stroke='%23C8102E'%20stroke-width='2'/%3e%3c/svg%3e";
+const LanguageSwitcher = () => {
+  const { language, setLanguage } = useLanguage();
+  return /* @__PURE__ */ jsxs("div", { className: "flex items-center space-x-2", children: [
+    /* @__PURE__ */ jsx(
+      "button",
+      {
+        className: `w-8 h-8 flex items-center justify-center rounded-full overflow-hidden ${language === "es" ? "ring-2 ring-turquoise" : "ring-1 ring-gray-300"} hover:ring-2 hover:ring-turquoise transition-all`,
+        onClick: () => setLanguage("es"),
+        "aria-label": "Cambiar a español",
+        children: /* @__PURE__ */ jsx("img", { src: spainFlag, alt: "Bandera de España", className: "w-full h-full object-cover" })
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      "button",
+      {
+        className: `w-8 h-8 flex items-center justify-center rounded-full overflow-hidden ${language === "en" ? "ring-2 ring-turquoise" : "ring-1 ring-gray-300"} hover:ring-2 hover:ring-turquoise transition-all`,
+        onClick: () => setLanguage("en"),
+        "aria-label": "Switch to English",
+        children: /* @__PURE__ */ jsx("img", { src: ukFlag, alt: "UK Flag", className: "w-full h-full object-cover" })
+      }
+    )
+  ] });
+};
+function useDeviceDetect() {
+  const [deviceType, setDeviceType] = useState("desktop");
+  useEffect(() => {
+    const handleResize = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i;
+      const isMobileDevice = mobileRegex.test(userAgent.toLowerCase());
+      const width = window.innerWidth;
+      if (isMobileDevice && width < 768) {
+        setDeviceType("mobile");
+      } else if (isMobileDevice || width >= 768 && width < 1024) {
+        setDeviceType("tablet");
+      } else {
+        setDeviceType("desktop");
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  return {
+    deviceType,
+    isMobile: deviceType === "mobile",
+    isTablet: deviceType === "tablet",
+    isDesktop: deviceType === "desktop"
+  };
+}
+const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const { t, language } = useLanguage();
+  const { isMobile, isTablet } = useDeviceDetect();
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+  return /* @__PURE__ */ jsxs(
+    "header",
+    {
+      id: "navbar",
+      className: `fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300 ${isMobile ? scrolled ? "py-1.5" : "py-2" : isTablet ? scrolled ? "py-2" : "py-3" : scrolled ? "py-2.5" : "py-4"}`,
+      children: [
+        /* @__PURE__ */ jsx("div", { className: `container mx-auto ${isMobile ? "px-3" : isTablet ? "px-5" : "px-8"}`, children: /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center", children: [
+          /* @__PURE__ */ jsxs("a", { href: "#", className: "flex items-center", children: [
+            /* @__PURE__ */ jsx(
+              "img",
+              {
+                src: evaProfileImage,
+                alt: "Eva Pérez",
+                className: `rounded-full object-cover flex-shrink-0 ${isMobile ? "h-7 w-7 mr-2" : isTablet ? "h-9 w-9 mr-2.5" : "h-11 w-11 mr-3"}`
+              }
+            ),
+            /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
+              /* @__PURE__ */ jsx("span", { className: `font-playfair font-bold text-turquoise block leading-tight ${isMobile ? "text-base" : isTablet ? "text-xl" : "text-2xl"}`, children: "Eva Pérez" }),
+              /* @__PURE__ */ jsx("span", { className: `text-sage-dark font-light ${isMobile ? "text-[8px] whitespace-normal leading-tight max-w-[220px]" : "text-xs"}`, children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row md:items-center md:gap-2", children: [
+                /* @__PURE__ */ jsx("span", { children: language === "es" ? "Gerente de Proyectos SPA & Wellness" : "SPA & Wellness Project Manager" }),
+                /* @__PURE__ */ jsx("span", { className: "hidden md:inline text-turquoise/60", children: "|" }),
+                /* @__PURE__ */ jsx("span", { children: language === "es" ? "Especialista en Optimización de Ingresos" : "Revenue Optimization Specialist" })
+              ] }) })
+            ] })
+          ] }),
+          !isMobile && /* @__PURE__ */ jsxs("div", { className: "hidden md:flex items-center", children: [
+            /* @__PURE__ */ jsxs("nav", { className: "flex items-center", children: [
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#about",
+                  className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
+                  children: t("header.about")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#services",
+                  className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
+                  children: t("header.services")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#portfolio",
+                  className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
+                  children: t("header.portfolio")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#testimonials",
+                  className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
+                  children: t("header.testimonials")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#blog",
+                  className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
+                  children: t("header.blog")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#contact",
+                  "data-analytics-cta": "request_audit",
+                  "data-analytics-location": "header_desktop",
+                  className: `bg-turquoise text-white rounded hover:bg-turquoise-dark transition-colors ${isTablet ? "text-xs px-3 py-1.5 ml-1" : "text-sm px-4 py-2 ml-2"}`,
+                  children: t("header.bookAudit")
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsx("div", { className: isTablet ? "ml-2" : "ml-4", children: /* @__PURE__ */ jsx(LanguageSwitcher, {}) })
+          ] }),
+          /* @__PURE__ */ jsx(
+            "button",
+            {
+              className: "md:hidden focus:outline-none p-1.5",
+              onClick: toggleMobileMenu,
+              "aria-label": "Toggle mobile menu",
+              children: /* @__PURE__ */ jsx("i", { className: `fas ${mobileMenuOpen ? "fa-times" : "fa-bars"} ${isMobile ? "text-lg" : "text-xl"} text-charcoal` })
+            }
+          )
+        ] }) }),
+        /* @__PURE__ */ jsx(
+          "div",
+          {
+            className: `md:hidden bg-white w-full border-t border-gray-100 absolute left-0 right-0 z-[60] shadow-md transition-all duration-300 ease-in-out ${mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 overflow-hidden pointer-events-none"}`,
+            children: /* @__PURE__ */ jsxs("div", { className: `container mx-auto ${isMobile ? "px-3 py-3 space-y-2" : "px-4 py-4 space-y-3"}`, children: [
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#about",
+                  className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
+                  onClick: toggleMobileMenu,
+                  children: t("header.about")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#services",
+                  className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
+                  onClick: toggleMobileMenu,
+                  children: t("header.services")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#portfolio",
+                  className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
+                  onClick: toggleMobileMenu,
+                  children: t("header.portfolio")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#testimonials",
+                  className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
+                  onClick: toggleMobileMenu,
+                  children: t("header.testimonials")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#blog",
+                  className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
+                  onClick: toggleMobileMenu,
+                  children: t("header.blog")
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "a",
+                {
+                  href: "#contact",
+                  "data-analytics-cta": "request_audit",
+                  "data-analytics-location": "header_mobile",
+                  className: `block text-turquoise font-medium border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
+                  onClick: toggleMobileMenu,
+                  children: t("header.bookAudit")
+                }
+              ),
+              /* @__PURE__ */ jsxs("div", { className: `flex items-center justify-between ${isMobile ? "py-2" : "py-3"}`, children: [
+                /* @__PURE__ */ jsx("span", { className: `text-gray-500 ${isMobile ? "text-xs" : "text-sm"}`, children: language === "es" ? "Idioma" : "Language" }),
+                /* @__PURE__ */ jsx(LanguageSwitcher, {})
+              ] })
+            ] })
+          }
+        )
+      ]
+    }
+  );
+};
+const heroImageEs = "/assets/hero-es-kbcuNBxT.png";
+const heroImageEn = "/assets/hero-en-81kcQctz.jpg";
+const labelVariants = cva(
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+);
+const Label = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  LabelPrimitive.Root,
+  {
+    ref,
+    className: cn(labelVariants(), className),
+    ...props
+  }
+));
+Label.displayName = LabelPrimitive.Root.displayName;
+const Form = FormProvider;
+const FormFieldContext = React.createContext(
+  {}
+);
+const FormField = ({
+  ...props
+}) => {
+  return /* @__PURE__ */ jsx(FormFieldContext.Provider, { value: { name: props.name }, children: /* @__PURE__ */ jsx(Controller, { ...props }) });
+};
+const useFormField = () => {
+  const fieldContext = React.useContext(FormFieldContext);
+  const itemContext = React.useContext(FormItemContext);
+  const { getFieldState, formState } = useFormContext();
+  const fieldState = getFieldState(fieldContext.name, formState);
+  if (!fieldContext) {
+    throw new Error("useFormField should be used within <FormField>");
+  }
+  const { id } = itemContext;
+  return {
+    id,
+    name: fieldContext.name,
+    formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formMessageId: `${id}-form-item-message`,
+    ...fieldState
+  };
+};
+const FormItemContext = React.createContext(
+  {}
+);
+const FormItem = React.forwardRef(({ className, ...props }, ref) => {
+  const id = React.useId();
+  return /* @__PURE__ */ jsx(FormItemContext.Provider, { value: { id }, children: /* @__PURE__ */ jsx("div", { ref, className: cn("space-y-2", className), ...props }) });
+});
+FormItem.displayName = "FormItem";
+const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
+  const { error, formItemId } = useFormField();
+  return /* @__PURE__ */ jsx(
+    Label,
+    {
+      ref,
+      className: cn(error && "text-destructive", className),
+      htmlFor: formItemId,
+      ...props
+    }
+  );
+});
+FormLabel.displayName = "FormLabel";
+const FormControl = React.forwardRef(({ ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  return /* @__PURE__ */ jsx(
+    Slot,
+    {
+      ref,
+      id: formItemId,
+      "aria-describedby": !error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`,
+      "aria-invalid": !!error,
+      ...props
+    }
+  );
+});
+FormControl.displayName = "FormControl";
+const FormDescription = React.forwardRef(({ className, ...props }, ref) => {
+  const { formDescriptionId } = useFormField();
+  return /* @__PURE__ */ jsx(
+    "p",
+    {
+      ref,
+      id: formDescriptionId,
+      className: cn("text-sm text-muted-foreground", className),
+      ...props
+    }
+  );
+});
+FormDescription.displayName = "FormDescription";
+const FormMessage = React.forwardRef(({ className, children, ...props }, ref) => {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error == null ? void 0 : error.message) : children;
+  if (!body) {
+    return null;
+  }
+  return /* @__PURE__ */ jsx(
+    "p",
+    {
+      ref,
+      id: formMessageId,
+      className: cn("text-sm font-medium text-destructive", className),
+      ...props,
+      children: body
+    }
+  );
+});
+FormMessage.displayName = "FormMessage";
+const Input = React.forwardRef(
+  ({ className, type, ...props }, ref) => {
+    return /* @__PURE__ */ jsx(
+      "input",
+      {
+        type,
+        className: cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        ),
+        ref,
+        ...props
+      }
+    );
+  }
+);
+Input.displayName = "Input";
+const Textarea = React.forwardRef(
+  ({ className, ...props }, ref) => {
+    return /* @__PURE__ */ jsx(
+      "textarea",
+      {
+        className: cn(
+          "flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        ),
+        ref,
+        ...props
+      }
+    );
+  }
+);
+Textarea.displayName = "Textarea";
+function AuditModal({ children, source = "unknown" }) {
+  const { t } = useLanguage();
+  const { toast: toast2 } = useToast();
+  const [open, setOpen] = useState(false);
+  const formSchema2 = z.object({
+    name: z.string().min(2, "Name required"),
+    email: z.string().email("Invalid email"),
+    phone: z.string().optional(),
+    company: z.string().min(2, "Company required"),
+    // Using company field for Hotel/Spa name
+    message: z.string().min(5, "Challenge details required"),
+    // Using message for Challenge
+    service: z.string().default("Auditoría Estratégica"),
+    privacy: z.literal(true)
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      message: "",
+      service: "Auditoría Estratégica",
+      privacy: true
+    }
+  });
+  const mutation = useMutation({
+    mutationFn: async (values) => {
+      const res = await apiRequest({
+        method: "POST",
+        path: "/api/contact",
+        body: values
+      });
+      return res;
+    },
+    onSuccess: () => {
+      trackEvent("generate_lead", { lead_type: "strategic_audit" });
+      toast2({
+        title: t("audit.success"),
+        variant: "default"
+      });
+      setOpen(false);
+      form.reset();
+    },
+    onError: (error) => {
+      let errorMessage = "Something went wrong. Please try again.";
+      if (error.message) {
+        const jsonStart = error.message.indexOf("{");
+        if (jsonStart !== -1) {
+          try {
+            const jsonStr = error.message.substring(jsonStart);
+            const data = JSON.parse(jsonStr);
+            if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+              errorMessage = data.errors[0].message;
+            } else if (data.message) {
+              errorMessage = data.message;
+            }
+          } catch (e) {
+            errorMessage = error.message;
+          }
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      toast2({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    }
+  });
+  function onSubmit(values) {
+    mutation.mutate(values);
+  }
+  const handleOpenChange = (nextOpen) => {
+    if (nextOpen && !open) {
+      trackEvent("cta_click", {
+        cta_name: "strategic_audit",
+        cta_location: source
+      });
+    }
+    setOpen(nextOpen);
+  };
+  return /* @__PURE__ */ jsxs(Dialog, { open, onOpenChange: handleOpenChange, children: [
+    /* @__PURE__ */ jsx(DialogTrigger, { asChild: true, children }),
+    /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[500px] max-h-[90vh] overflow-y-auto", children: [
+      /* @__PURE__ */ jsxs(DialogHeader, { children: [
+        /* @__PURE__ */ jsx(DialogTitle, { children: t("audit.title") }),
+        /* @__PURE__ */ jsx(DialogDescription, { children: t("audit.description") })
+      ] }),
+      /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4 py-4", children: [
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "name",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.name") }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Eva Pérez", ...field }) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ jsx(
+            FormField,
+            {
+              control: form.control,
+              name: "email",
+              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                /* @__PURE__ */ jsx(FormLabel, { children: t("audit.email") }),
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "eva@example.com", ...field }) }),
+                /* @__PURE__ */ jsx(FormMessage, {})
+              ] })
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            FormField,
+            {
+              control: form.control,
+              name: "phone",
+              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                /* @__PURE__ */ jsx(FormLabel, { children: t("audit.phone") }),
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "+34 600...", ...field }) }),
+                /* @__PURE__ */ jsx(FormMessage, {})
+              ] })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "company",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.hotel") }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Grand Hotel & Spa...", ...field }) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "message",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: t("audit.challenge") }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                Textarea,
+                {
+                  placeholder: t("audit.subtitle"),
+                  className: "resize-none",
+                  ...field
+                }
+              ) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsxs(Button, { type: "submit", className: "w-full bg-turquoise hover:bg-turquoise-dark text-white", disabled: mutation.isPending, children: [
+          mutation.isPending && /* @__PURE__ */ jsx(Loader2, { className: "mr-2 h-4 w-4 animate-spin" }),
+          t("audit.submit")
+        ] })
+      ] }) })
+    ] })
+  ] });
+}
+const Hero = () => {
+  const { language, t } = useLanguage();
+  const { isMobile, isTablet } = useDeviceDetect();
+  const heroImage = language === "es" ? heroImageEs : heroImageEn;
+  return /* @__PURE__ */ jsxs("div", { className: `relative overflow-hidden ${isMobile ? "h-[100dvh] pt-0 pb-0" : isTablet ? "pt-44 pb-24" : "pt-56 pb-32"}`, children: [
+    /* @__PURE__ */ jsxs("div", { className: "absolute inset-0 z-0", children: [
+      /* @__PURE__ */ jsx("div", { className: `absolute inset-0 z-10 ${isMobile ? "bg-gradient-to-b from-transparent via-black/10 to-black/90" : "bg-gradient-to-r from-turquoise/60 to-sage/40 mix-blend-multiply"}` }),
+      /* @__PURE__ */ jsx(
+        "div",
+        {
+          className: "absolute inset-0 overflow-hidden",
+          style: {
+            minHeight: isMobile ? "100%" : isTablet ? "620px" : "650px",
+            height: "100%"
+          },
+          children: /* @__PURE__ */ jsx(
+            "img",
+            {
+              src: heroImage,
+              alt: language === "es" ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy",
+              className: `w-full h-full object-cover ${isMobile ? "object-[50%_15%]" : isTablet ? "object-[55%_-10%]" : "object-[50%_-10%]"}`
+            }
+          )
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: `container mx-auto relative z-20 h-full ${isMobile ? "px-6 flex flex-col justify-end pb-12" : isTablet ? "pl-6 pr-6" : "pl-8 pr-8"}`, children: /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        className: isMobile ? "w-full" : isTablet ? "max-w-md" : "max-w-xl",
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.6 },
+        children: [
+          /* @__PURE__ */ jsx("h1", { className: `font-playfair font-bold text-white leading-tight text-shadow ${isMobile ? "text-2xl mb-2" : isTablet ? "text-2xl md:text-3xl mb-3" : "text-3xl lg:text-4xl mb-4"}`, children: language === "es" ? "Eva Pérez: Consultora de Wellness & Spa Manager para Hoteles de Lujo" : "Eva Pérez: Wellness Consultant & Spa Manager for Luxury Hotels" }),
+          /* @__PURE__ */ jsx("p", { className: `text-white opacity-90 border-l-4 border-white/70 ${isMobile ? "text-sm mb-4 pl-3" : isTablet ? "text-base mb-3 pl-4 max-w-md" : "text-lg mb-4 pl-5 max-w-lg"}`, children: language === "es" ? "En un motor de crecimiento estratégico, rentable y alineado con la experiencia de lujo." : "Into a strategic growth engine, profitable and aligned with the luxury experience." }),
+          /* @__PURE__ */ jsxs("div", { className: isMobile ? "mb-4" : isTablet ? "mb-3" : "mb-4", children: [
+            /* @__PURE__ */ jsx("p", { className: `text-white uppercase tracking-wider font-semibold ${isMobile ? "text-xs" : "text-sm"}`, children: language === "es" ? "Experta en Estrategia de Hospitalidad y Bienestar de Lujo" : "Expert in Luxury Hospitality & Wellness Strategy" }),
+            /* @__PURE__ */ jsx("p", { className: `text-white/80 ${isMobile ? "text-xs" : "text-sm"}`, children: language === "es" ? "Gerente de Proyectos SPA & Wellness – Especialista en Optimización de Ingresos" : "SPA & Wellness Project Manager – Revenue Optimization Specialist" })
+          ] }),
+          /* @__PURE__ */ jsx("p", { className: `text-white opacity-80 ${isMobile ? "text-xs mb-6" : isTablet ? "text-sm mb-5 max-w-sm" : "text-sm mb-6 max-w-md"}`, children: language === "es" ? "Más de 20 años de experiencia optimizando operaciones, formando equipos excepcionales y elevando la satisfacción del cliente." : "Over 20 years of experience optimizing operations, training exceptional teams, and elevating customer satisfaction." }),
+          /* @__PURE__ */ jsxs("div", { className: `gap-3 ${isMobile ? "flex flex-col w-full" : "flex flex-row"}`, children: [
+            /* @__PURE__ */ jsx(AuditModal, { source: "hero_primary", children: /* @__PURE__ */ jsx(
+              "button",
+              {
+                className: `bg-turquoise hover:bg-turquoise-dark text-white font-medium rounded transition-colors inline-block text-center cursor-pointer ${isMobile ? "px-6 py-3 text-sm w-full" : isTablet ? "px-7 py-2.5 text-sm" : "px-8 py-3 text-base"}`,
+                children: t("hero.ctaPrimary")
+              }
+            ) }),
+            /* @__PURE__ */ jsx(
+              "a",
+              {
+                href: "#portfolio",
+                "data-analytics-cta": "view_success_stories",
+                "data-analytics-location": "hero_secondary",
+                className: `bg-white hover:bg-gray-100 text-turquoise-dark font-medium rounded transition-colors inline-block text-center ${isMobile ? "px-6 py-3 text-sm w-full" : isTablet ? "px-7 py-2.5 text-sm" : "px-8 py-3 text-base"}`,
+                children: t("hero.ctaSecondary")
+              }
+            )
+          ] })
+        ]
+      }
+    ) })
+  ] });
+};
+const evaSpeakingImage = "/assets/hero-en-81kcQctz.jpg";
+function Skeleton({
+  className,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    "div",
+    {
+      className: cn("animate-pulse rounded-md bg-muted", className),
+      ...props
+    }
+  );
+}
+const OptimizedImage = ({
+  src,
+  alt,
+  className = "",
+  width,
+  height,
+  objectFit = "cover",
+  priority = false
+}) => {
+  const [isLoading, setIsLoading] = useState(!priority);
+  const [imageSrc, setImageSrc] = useState(src);
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    setIsLoading(!priority);
+    setImageSrc(src);
+    setError(false);
+  }, [src, priority]);
+  const handleLoad = () => {
+    setIsLoading(false);
+  };
+  const handleError = () => {
+    setIsLoading(false);
+    setError(true);
+    setImageSrc("https://placehold.co/600x400/e2e8f0/94a3b8?text=Image+not+available");
+  };
+  useEffect(() => {
+    if (priority && src) {
+      const img = new Image();
+      img.src = src;
+      img.onload = handleLoad;
+      img.onerror = handleError;
+    }
+  }, [priority, src]);
+  return /* @__PURE__ */ jsxs(
+    "div",
+    {
+      className: `relative overflow-hidden ${className}`,
+      style: { width, height },
+      children: [
+        isLoading && /* @__PURE__ */ jsx(
+          Skeleton,
+          {
+            className: "absolute inset-0 z-10",
+            style: { width: "100%", height: "100%" }
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: imageSrc,
+            alt,
+            className: `w-full h-full transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"}`,
+            style: { objectFit },
+            onLoad: handleLoad,
+            onError: handleError,
+            loading: priority ? "eager" : "lazy"
+          }
+        )
+      ]
+    }
+  );
+};
+const AnimatedCounter = ({
+  end,
+  duration = 2,
+  label,
+  prefix = "",
+  suffix = ""
+}) => {
+  const [count2, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  useEffect(() => {
+    if (isInView && !hasAnimated) {
+      let startTimestamp;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / (duration * 1e3), 1);
+        setCount(Math.floor(progress * end));
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          setHasAnimated(true);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+  }, [isInView, end, duration, hasAnimated]);
+  return /* @__PURE__ */ jsxs(
+    motion.div,
+    {
+      ref,
+      className: "text-center",
+      initial: { opacity: 0, y: 20 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true },
+      transition: { duration: 0.5 },
+      children: [
+        /* @__PURE__ */ jsxs("div", { className: "font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-turquoise mb-2", children: [
+          prefix,
+          count2,
+          suffix
+        ] }),
+        /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm md:text-base", children: label })
+      ]
+    }
+  );
+};
+const About = () => {
+  const { t, language } = useLanguage();
+  return /* @__PURE__ */ jsx("section", { id: "about", className: "py-16 md:py-24 bg-white", children: /* @__PURE__ */ jsx("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row gap-12 items-center", children: [
+    /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        className: "md:w-1/2",
+        initial: { opacity: 0, x: -30 },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 },
+        children: /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+          /* @__PURE__ */ jsx("div", { className: "md:col-span-2", children: /* @__PURE__ */ jsx(
+            motion.div,
+            {
+              className: "rounded-lg shadow-xl overflow-hidden",
+              whileHover: { scale: 1.03 },
+              transition: { duration: 0.3 },
+              children: /* @__PURE__ */ jsx(
+                OptimizedImage,
+                {
+                  src: evaProfileImage,
+                  alt: "Eva Pérez, Expert in Luxury Hospitality & Wellness Strategy",
+                  className: "w-full h-auto rounded-lg",
+                  objectFit: "cover",
+                  priority: true
+                }
+              )
+            }
+          ) }),
+          /* @__PURE__ */ jsxs("div", { className: "md:col-span-2 mt-4", children: [
+            /* @__PURE__ */ jsx(
+              motion.div,
+              {
+                className: "rounded-lg shadow-xl overflow-hidden",
+                whileHover: { scale: 1.03 },
+                transition: { duration: 0.3 },
+                children: /* @__PURE__ */ jsx(
+                  OptimizedImage,
+                  {
+                    src: evaSpeakingImage,
+                    alt: "Eva Pérez dando una conferencia",
+                    className: "w-full h-auto rounded-lg",
+                    objectFit: "cover"
+                  }
+                )
+              }
+            ),
+            /* @__PURE__ */ jsx("p", { className: "text-sm text-center mt-2 text-charcoal-light italic", children: t("about.speakingCaption") })
+          ] })
+        ] })
+      }
+    ),
+    /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        className: "md:w-1/2",
+        initial: { opacity: 0, x: 30 },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 },
+        children: [
+          /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("about.title") }),
+          /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("about.subtitle") }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-6", children: t("about.experience") }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-6", children: t("about.approach") }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-6", children: t("about.speaker") }),
+          /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap justify-center gap-8 mb-10", children: [
+            /* @__PURE__ */ jsx(AnimatedCounter, { end: 20, suffix: "+", label: t("about.stats.years") }),
+            /* @__PURE__ */ jsx(AnimatedCounter, { end: 50, suffix: "+", label: t("about.stats.projects") }),
+            /* @__PURE__ */ jsx(AnimatedCounter, { end: 30, suffix: "+", label: t("about.stats.conferences") }),
+            /* @__PURE__ */ jsx(AnimatedCounter, { end: 200, suffix: "+", label: t("about.stats.trained") }),
+            /* @__PURE__ */ jsx(AnimatedCounter, { end: 5e3, label: t("about.stats.attendees"), prefix: "", suffix: "+" })
+          ] }),
+          /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row gap-4", children: [
+            /* @__PURE__ */ jsxs(
+              motion.a,
+              {
+                href: "#contact",
+                className: "bg-turquoise text-white px-6 py-3 rounded-lg inline-flex items-center justify-center hover:bg-turquoise-dark transition-colors",
+                whileHover: { scale: 1.05 },
+                whileTap: { scale: 0.95 },
+                children: [
+                  /* @__PURE__ */ jsx("span", { children: t("about.contact") }),
+                  /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4" })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxs(
+              motion.a,
+              {
+                href: "#portfolio",
+                className: "border border-turquoise text-turquoise px-6 py-3 rounded-lg inline-flex items-center justify-center hover:bg-turquoise hover:text-white transition-colors",
+                whileHover: { scale: 1.05 },
+                whileTap: { scale: 0.95 },
+                children: [
+                  /* @__PURE__ */ jsx("span", { children: t("about.portfolio") }),
+                  /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4" })
+                ]
+              }
+            )
+          ] })
+        ]
+      }
+    )
+  ] }) }) });
+};
+const ServiceModal = ({ isOpen, onClose, service }) => {
+  const { language } = useLanguage();
+  if (!service) return null;
+  return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[600px] max-h-[90vh] flex flex-col font-poppins p-0 gap-0 bg-white border-none shadow-2xl z-[60] overflow-hidden", children: [
+    /* @__PURE__ */ jsxs("div", { className: "bg-gradient-to-r from-turquoise/10 to-transparent p-6 md:p-8 flex items-center gap-6 border-b border-gray-100", children: [
+      /* @__PURE__ */ jsx("div", { className: "w-16 h-16 bg-white rounded-full flex items-center justify-center shrink-0 shadow-sm text-turquoise", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-2xl` }) }),
+      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-3xl font-bold text-charcoal", children: service.title[language] }) })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "flex-grow overflow-y-auto bg-white", children: /* @__PURE__ */ jsxs("div", { className: "p-6 md:p-8 space-y-6", children: [
+      /* @__PURE__ */ jsx(DialogDescription, { className: "text-base text-charcoal-light leading-relaxed", children: service.longDescription ? service.longDescription[language] : service.description[language] }),
+      /* @__PURE__ */ jsxs("div", { className: "bg-gray-50/80 p-6 rounded-xl border border-gray-100", children: [
+        /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 font-playfair text-lg", children: [
+          /* @__PURE__ */ jsx("i", { className: "fas fa-star text-turquoise" }),
+          language === "es" ? "Características Clave" : "Key Features"
+        ] }),
+        /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: service.features[language].map((feature, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
+          /* @__PURE__ */ jsx("div", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0" }),
+          /* @__PURE__ */ jsx("span", { className: "text-charcoal-light", children: feature })
+        ] }, index)) })
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsx("div", { className: "p-6 border-t border-gray-100 bg-gray-50/50", children: /* @__PURE__ */ jsx(
+      Button,
+      {
+        onClick: () => {
+          onClose();
+          const contactSection = document.getElementById("contact");
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: "smooth" });
+          }
+        },
+        className: "w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-6 text-lg shadow-lg hover:shadow-xl transition-all",
+        children: language === "es" ? "Solicitar Consultoría" : "Request Consultation"
+      }
+    ) })
+  ] }) });
+};
+const Services = () => {
+  const { t, language } = useLanguage();
+  const [selectedService, setSelectedService] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = (service) => {
+    setSelectedService(service);
+    setIsModalOpen(true);
+  };
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+  return /* @__PURE__ */ jsxs("section", { id: "services", className: "py-16 md:py-24 bg-gray-50", children: [
+    /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          className: "text-center max-w-3xl mx-auto mb-16",
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.6 },
+          children: [
+            /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("services.title") }),
+            /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("services.subtitle") }),
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: t("services.subtitle") })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8",
+          variants: containerVariants,
+          initial: "hidden",
+          whileInView: "visible",
+          viewport: { once: true },
+          children: services.map((service, index) => /* @__PURE__ */ jsxs(
+            motion.div,
+            {
+              className: "bg-white rounded-lg shadow-md p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
+              variants: itemVariants,
+              children: [
+                /* @__PURE__ */ jsx("div", { className: "w-16 h-16 bg-turquoise/10 rounded-full flex items-center justify-center mb-6", children: /* @__PURE__ */ jsx("i", { className: `fas ${service.icon} text-turquoise text-2xl` }) }),
+                /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-4", children: service.title[language] }),
+                /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-4 line-clamp-3", children: service.description[language] }),
+                /* @__PURE__ */ jsx("ul", { className: "space-y-2 mb-6", children: service.features[language].map((feature, featureIndex) => /* @__PURE__ */ jsxs("li", { className: "flex items-start", children: [
+                  /* @__PURE__ */ jsx("i", { className: "fas fa-check text-turquoise mt-1 mr-2" }),
+                  /* @__PURE__ */ jsx("span", { className: "text-sm text-charcoal-light", children: feature })
+                ] }, featureIndex)) }),
+                /* @__PURE__ */ jsxs(
+                  "button",
+                  {
+                    onClick: () => handleOpenModal(service),
+                    className: "text-turquoise hover:text-turquoise-dark font-medium text-sm flex items-center",
+                    children: [
+                      t("services.moreInfo"),
+                      " ",
+                      /* @__PURE__ */ jsx("i", { className: "fas fa-arrow-right ml-1" })
+                    ]
+                  }
+                )
+              ]
+            },
+            index
+          ))
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx(
+      ServiceModal,
+      {
+        isOpen: isModalOpen,
+        onClose: () => setIsModalOpen(false),
+        service: selectedService
+      }
+    )
+  ] });
+};
+const CallToAction = () => {
+  const { language } = useLanguage();
+  const content = {
+    es: {
+      title: "¿Listo para transformar tu negocio wellness?",
+      description: "Agenda una consulta gratuita para descubrir cómo podemos optimizar tu spa y elevar la experiencia de tus clientes.",
+      button: "Agendar consulta"
+    },
+    en: {
+      title: "Ready to transform your wellness business?",
+      description: "Schedule a free consultation to discover how we can optimize your spa and elevate your customers' experience.",
+      button: "Book consultation"
+    }
+  };
+  return /* @__PURE__ */ jsx("section", { className: "py-16 md:py-20 bg-turquoise text-white", children: /* @__PURE__ */ jsx("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs(
+    motion.div,
+    {
+      className: "flex flex-col md:flex-row items-center justify-between gap-8",
+      initial: { opacity: 0, y: 20 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true },
+      transition: { duration: 0.6 },
+      children: [
+        /* @__PURE__ */ jsxs("div", { className: "md:w-2/3", children: [
+          /* @__PURE__ */ jsx("h2", { className: "font-playfair text-2xl md:text-3xl font-bold mb-4", children: content[language].title }),
+          /* @__PURE__ */ jsx("p", { className: "text-white/90 text-lg", children: content[language].description })
+        ] }),
+        /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(AuditModal, { source: "mid_page_consultation", children: /* @__PURE__ */ jsx("button", { className: "inline-block bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-8 py-3 rounded cursor-pointer", children: content[language].button }) }) })
+      ]
+    }
+  ) }) });
+};
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default: "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground"
+      }
+    },
+    defaultVariants: {
+      variant: "default"
+    }
+  }
+);
+function Badge({ className, variant, ...props }) {
+  return /* @__PURE__ */ jsx("div", { className: cn(badgeVariants({ variant }), className), ...props });
+}
+const ProjectModal = ({ isOpen, onClose, project }) => {
+  const { language } = useLanguage();
+  if (!project) return null;
+  return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[900px] w-[95vw] h-[90vh] max-h-[90vh] flex flex-col font-poppins p-0 border-none shadow-2xl bg-white z-[60] overflow-hidden", children: [
+    /* @__PURE__ */ jsxs("div", { className: "relative h-64 md:h-80 w-full shrink-0 bg-gray-900", children: [
+      /* @__PURE__ */ jsx(
+        "img",
+        {
+          src: project.image,
+          alt: project.title[language],
+          className: "w-full h-full object-cover opacity-90"
+        }
+      ),
+      /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8", children: /* @__PURE__ */ jsxs("div", { className: "w-full relative z-10", children: [
+        /* @__PURE__ */ jsx("div", { className: "flex justify-between items-end mb-3", children: /* @__PURE__ */ jsx(Badge, { className: "bg-turquoise text-white border-none text-xs md:text-sm px-3 py-1 shadow-sm", children: project.categoryName[language] }) }),
+        /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-4xl text-white font-bold drop-shadow-md leading-tight", children: project.title[language] })
+      ] }) }),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          onClick: onClose,
+          className: "absolute top-4 right-4 bg-black/30 hover:bg-black/50 text-white p-2.5 rounded-full backdrop-blur-md transition-all border border-white/20 z-20 shadow-lg",
+          "aria-label": "Close modal",
+          children: /* @__PURE__ */ jsx("i", { className: "fas fa-times text-lg w-5 h-5 flex items-center justify-center" })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "flex-1 overflow-y-auto bg-white relative z-50", children: /* @__PURE__ */ jsxs("div", { className: "p-6 md:p-8 space-y-8 pb-10", children: [
+      /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
+        /* @__PURE__ */ jsxs("h4", { className: "font-playfair text-xl md:text-2xl font-bold text-charcoal flex items-center gap-3", children: [
+          /* @__PURE__ */ jsx("span", { className: "w-8 h-1 bg-turquoise rounded-full block" }),
+          language === "es" ? "Sobre el Proyecto" : "About the Project"
+        ] }),
+        /* @__PURE__ */ jsx(DialogDescription, { className: "text-lg md:text-xl text-charcoal-light leading-relaxed font-light", children: project.description[language] }),
+        /* @__PURE__ */ jsx("div", { className: "prose prose-lg text-charcoal-light max-w-none", children: /* @__PURE__ */ jsx("p", { className: "whitespace-pre-line leading-relaxed", children: project.longDescription[language] }) })
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
+        /* @__PURE__ */ jsxs("div", { className: "bg-gray-50 p-6 rounded-xl border border-gray-100", children: [
+          /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 text-lg", children: [
+            /* @__PURE__ */ jsx("i", { className: "fas fa-clipboard-check text-turquoise" }),
+            language === "es" ? "Desafíos & Soluciones" : "Challenges & Solutions"
+          ] }),
+          /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: project.highlights[language].map((highlight, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
+            /* @__PURE__ */ jsx("div", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-turquoise shrink-0" }),
+            /* @__PURE__ */ jsx("span", { className: "text-charcoal-light leading-relaxed", children: highlight })
+          ] }, index)) })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "bg-white p-6 rounded-xl shadow-lg border border-gray-100", children: [
+          /* @__PURE__ */ jsxs("h4", { className: "font-bold text-charcoal mb-4 flex items-center gap-2 text-lg", children: [
+            /* @__PURE__ */ jsx("i", { className: "fas fa-trophy text-gold" }),
+            language === "es" ? "Logros Destacados" : "Key Achievements"
+          ] }),
+          /* @__PURE__ */ jsx("ul", { className: "space-y-3", children: project.results[language].map((result, index) => /* @__PURE__ */ jsxs("li", { className: "flex items-start gap-3", children: [
+            /* @__PURE__ */ jsx("i", { className: "fas fa-star text-gold mt-1 shrink-0" }),
+            /* @__PURE__ */ jsx("span", { className: "text-charcoal-light leading-relaxed", children: result })
+          ] }, index)) })
+        ] })
+      ] })
+    ] }) })
+  ] }) });
+};
+const Portfolio = () => {
+  const { t, language } = useLanguage();
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+  const filteredItems = portfolioItems.filter(
+    (item) => activeFilter === "all" || item.chain === activeFilter
+  );
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+  return /* @__PURE__ */ jsxs("section", { id: "portfolio", className: "py-16 md:py-24 bg-white", children: [
+    /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          className: "text-center max-w-3xl mx-auto mb-16",
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.6 },
+          children: [
+            /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("portfolio.title") }),
+            /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("portfolio.subtitle") }),
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: t("portfolio.description") })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          className: "bg-gradient-to-r from-turquoise/10 to-turquoise/5 rounded-lg p-6 mb-10 text-center",
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.6 },
+          children: /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap justify-center gap-8", children: [
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("div", { className: "text-4xl font-bold text-turquoise mb-1", children: "40+" }),
+              /* @__PURE__ */ jsx("div", { className: "text-sm text-charcoal-light", children: language === "es" ? "Proyectos Completados" : "Completed Projects" })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("div", { className: "text-4xl font-bold text-turquoise mb-1", children: "6" }),
+              /* @__PURE__ */ jsx("div", { className: "text-sm text-charcoal-light", children: language === "es" ? "Cadenas Hoteleras" : "Hotel Chains" })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("div", { className: "text-4xl font-bold text-turquoise mb-1", children: "20+" }),
+              /* @__PURE__ */ jsx("div", { className: "text-sm text-charcoal-light", children: language === "es" ? "Años de Experiencia" : "Years of Experience" })
+            ] })
+          ] })
+        }
+      ),
+      /* @__PURE__ */ jsx("div", { className: "flex mb-10 justify-center", children: /* @__PURE__ */ jsxs("div", { className: "flex space-x-2 overflow-x-auto pb-2", children: [
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "all" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("all"),
+            children: t("portfolio.all")
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "paradores" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("paradores"),
+            children: "Paradores"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "eurostars" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("eurostars"),
+            children: "Eurostars"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "hg" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("hg"),
+            children: "HG Hotels"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "melia" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("melia"),
+            children: "Meliá"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "axel" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("axel"),
+            children: "AXEL"
+          }
+        ),
+        /* @__PURE__ */ jsx(
+          "button",
+          {
+            className: `px-4 py-2 ${activeFilter === "independientes" ? "bg-turquoise text-white" : "bg-gray-100 text-charcoal hover:bg-turquoise/10"} rounded-full text-sm font-medium transition-colors whitespace-nowrap`,
+            onClick: () => setActiveFilter("independientes"),
+            children: language === "es" ? "Independientes" : "Independent"
+          }
+        )
+      ] }) }),
+      /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
+          variants: containerVariants,
+          initial: "hidden",
+          whileInView: "visible",
+          viewport: { once: true },
+          children: filteredItems.map((item, index) => /* @__PURE__ */ jsxs(
+            motion.div,
+            {
+              className: "group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
+              variants: itemVariants,
+              children: [
+                /* @__PURE__ */ jsxs("div", { className: "relative h-64", children: [
+                  /* @__PURE__ */ jsx(
+                    "img",
+                    {
+                      src: item.image,
+                      alt: item.title[language],
+                      className: "w-full h-full object-cover"
+                    }
+                  ),
+                  /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end", children: /* @__PURE__ */ jsx("div", { className: "p-4", children: /* @__PURE__ */ jsx("span", { className: "text-xs font-medium bg-turquoise text-white px-2 py-1 rounded", children: item.categoryName[language] }) }) })
+                ] }),
+                /* @__PURE__ */ jsxs("div", { className: "p-6 bg-white", children: [
+                  /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-2", children: item.title[language] }),
+                  /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm mb-4 line-clamp-3", children: item.description[language] }),
+                  /* @__PURE__ */ jsxs(
+                    "button",
+                    {
+                      onClick: () => handleOpenModal(item),
+                      className: "text-turquoise hover:text-turquoise-dark font-medium text-sm flex items-center",
+                      children: [
+                        t("portfolio.viewCase"),
+                        " ",
+                        /* @__PURE__ */ jsx("i", { className: "fas fa-arrow-right ml-1" })
+                      ]
+                    }
+                  )
+                ] })
+              ]
+            },
+            index
+          ))
+        },
+        activeFilter
+      ),
+      /* @__PURE__ */ jsx("div", { className: "text-center mt-12", children: /* @__PURE__ */ jsx("a", { href: "#", className: "inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium", children: t("portfolio.viewMore") }) })
+    ] }),
+    /* @__PURE__ */ jsx(
+      ProjectModal,
+      {
+        isOpen: isModalOpen,
+        onClose: () => setIsModalOpen(false),
+        project: selectedProject
+      }
+    )
+  ] });
+};
+const Testimonials = () => {
+  const { t, language } = useLanguage();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slidesPerView, setSlidesPerView] = useState(3);
+  const sliderRef = useRef(null);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSlidesPerView(1);
+      } else if (window.innerWidth < 1024) {
+        setSlidesPerView(2);
+      } else {
+        setSlidesPerView(3);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const maxSlide = testimonials.length - slidesPerView;
+  const goToSlide = (slide) => {
+    const newSlide = Math.max(0, Math.min(slide, maxSlide));
+    setCurrentSlide(newSlide);
+    if (sliderRef.current) {
+      const translateX = newSlide * -100 / slidesPerView;
+      sliderRef.current.style.transform = `translateX(${translateX}%)`;
+    }
+  };
+  const goToPrev = () => goToSlide(currentSlide - 1);
+  const goToNext = () => goToSlide(currentSlide + 1);
+  return /* @__PURE__ */ jsx("section", { id: "testimonials", className: "py-16 md:py-24 bg-gray-50", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+    /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        className: "text-center max-w-3xl mx-auto mb-16",
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 },
+        children: [
+          /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("testimonials.title") }),
+          /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("testimonials.subtitle") }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: t("testimonials.description") })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs("div", { className: "relative testimonial-slider overflow-hidden", children: [
+      /* @__PURE__ */ jsx(
+        "div",
+        {
+          ref: sliderRef,
+          className: "flex transition-transform duration-500",
+          style: { transform: `translateX(${-currentSlide * 100 / slidesPerView}%)` },
+          children: testimonials.map((testimonial, index) => /* @__PURE__ */ jsx("div", { className: `w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-4`, children: /* @__PURE__ */ jsxs("div", { className: "bg-white p-8 rounded-lg shadow-md", children: [
+            /* @__PURE__ */ jsx("div", { className: "flex items-center mb-4", children: /* @__PURE__ */ jsxs("div", { className: "text-yellow-400 flex", children: [
+              /* @__PURE__ */ jsx("i", { className: "fas fa-star" }),
+              /* @__PURE__ */ jsx("i", { className: "fas fa-star" }),
+              /* @__PURE__ */ jsx("i", { className: "fas fa-star" }),
+              /* @__PURE__ */ jsx("i", { className: "fas fa-star" }),
+              /* @__PURE__ */ jsx("i", { className: "fas fa-star" })
+            ] }) }),
+            /* @__PURE__ */ jsx("blockquote", { className: "mb-6", children: /* @__PURE__ */ jsxs("p", { className: "font-cormorant text-lg italic text-charcoal", children: [
+              '"',
+              typeof testimonial.quote === "object" ? testimonial.quote[language] : testimonial.quote,
+              '"'
+            ] }) }),
+            /* @__PURE__ */ jsxs("div", { className: "flex items-center", children: [
+              /* @__PURE__ */ jsx(
+                "img",
+                {
+                  src: testimonial.avatar,
+                  alt: testimonial.name,
+                  className: "w-12 h-12 rounded-full object-cover mr-4"
+                }
+              ),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("p", { className: "font-medium text-charcoal", children: testimonial.name }),
+                /* @__PURE__ */ jsx("p", { className: "text-sm text-charcoal-light", children: typeof testimonial.position === "object" ? testimonial.position[language] : testimonial.position })
+              ] })
+            ] })
+          ] }) }, index))
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          className: "absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full w-10 h-10 flex items-center justify-center focus:outline-none z-10 ml-2 lg:ml-6 hover:bg-gray-50",
+          onClick: goToPrev,
+          disabled: currentSlide === 0,
+          children: /* @__PURE__ */ jsx("i", { className: "fas fa-chevron-left text-turquoise" })
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "button",
+        {
+          className: "absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full w-10 h-10 flex items-center justify-center focus:outline-none z-10 mr-2 lg:mr-6 hover:bg-gray-50",
+          onClick: goToNext,
+          disabled: currentSlide === maxSlide,
+          children: /* @__PURE__ */ jsx("i", { className: "fas fa-chevron-right text-turquoise" })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "flex justify-center mt-6 space-x-2", children: Array.from({ length: maxSlide + 1 }).map((_, index) => /* @__PURE__ */ jsx(
+      "button",
+      {
+        className: `w-3 h-3 rounded-full ${currentSlide === index ? "bg-turquoise" : "bg-gray-300"}`,
+        onClick: () => goToSlide(index)
+      },
+      index
+    )) })
+  ] }) });
+};
+const Blog = () => {
+  const { t, language } = useLanguage();
+  const { data: apiArticles, isLoading } = useQuery({
+    queryKey: ["/api/articles"]
+  });
+  const { latestArticles, archiveArticles } = useMemo(() => {
+    const filtered = apiArticles ? apiArticles.filter((article) => article.language === (language === "es" ? "es" : "en")) : blogPosts.map((post, index) => ({
+      id: index + 1e3,
+      slug: `post-${index}`,
+      title: post.title[language],
+      content: post.content[language].join("\n\n"),
+      excerpt: post.excerpt[language],
+      image: post.image,
+      category: post.category[language],
+      readTime: post.readTime[language],
+      date: (/* @__PURE__ */ new Date()).toISOString()
+    }));
+    const sorted = [...filtered].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const latest = sorted.filter((a) => new Date(a.date).getFullYear() >= 2026);
+    const archive = sorted.filter((a) => new Date(a.date).getFullYear() < 2026);
+    return { latestArticles: latest, archiveArticles: archive };
+  }, [apiArticles, language]);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+  if (isLoading) {
+    return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+      /* @__PURE__ */ jsxs("div", { className: "text-center max-w-3xl mx-auto mb-20", children: [
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-24 mx-auto mb-3" }),
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-12 w-3/4 mx-auto mb-6" }),
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-1/2 mx-auto" })
+      ] }),
+      /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]", children: [1, 2, 3, 4, 5, 6].map((i) => /* @__PURE__ */ jsx("div", { className: `h-full rounded-2xl overflow-hidden shadow-lg ${i === 1 ? "md:col-span-2 lg:col-span-2" : ""} ${i === 4 ? "md:col-span-2 lg:col-span-1" : ""}`, children: /* @__PURE__ */ jsx(Skeleton, { className: "h-full w-full" }) }, i)) })
+    ] }) });
+  }
+  const BlogGrid = ({ articles, delay = 0 }) => /* @__PURE__ */ jsx(
+    motion.div,
+    {
+      className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[400px]",
+      variants: containerVariants,
+      initial: "hidden",
+      whileInView: "visible",
+      viewport: { once: true },
+      children: articles.map((post, index) => /* @__PURE__ */ jsx(Link, { href: `/blog/${post.slug}`, children: /* @__PURE__ */ jsx("a", { className: `block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 && articles.length > 1 ? "md:col-span-2 lg:col-span-2" : ""} ${index === 3 && articles.length > 4 ? "md:col-span-2 lg:col-span-1" : ""}`, children: /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          className: "h-full w-full",
+          variants: itemVariants,
+          children: [
+            /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
+              /* @__PURE__ */ jsx(
+                OptimizedImage,
+                {
+                  src: post.image,
+                  alt: post.title,
+                  className: "w-full h-full transition-transform duration-700 group-hover:scale-110",
+                  objectFit: "cover",
+                  priority: index < 2
+                }
+              ),
+              /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" })
+            ] }),
+            /* @__PURE__ */ jsx("div", { className: "absolute inset-0 p-8 flex flex-col justify-end", children: /* @__PURE__ */ jsxs("div", { className: "transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500", children: [
+              /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider", children: [
+                /* @__PURE__ */ jsxs("span", { className: "bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1", children: [
+                  /* @__PURE__ */ jsx(Tag, { className: "w-3 h-3" }),
+                  post.category
+                ] }),
+                /* @__PURE__ */ jsx("span", { children: "•" }),
+                /* @__PURE__ */ jsx("span", { children: new Date(post.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US") })
+              ] }),
+              /* @__PURE__ */ jsx("h4", { className: `font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`, children: post.title }),
+              /* @__PURE__ */ jsx("p", { className: "text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100", children: post.excerpt }),
+              /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center text-white font-medium group/link", children: [
+                /* @__PURE__ */ jsx("span", { className: "border-b border-turquoise pb-1 group-hover/link:border-white transition-colors", children: t("blog.readArticle") }),
+                /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" })
+              ] })
+            ] }) })
+          ]
+        }
+      ) }) }, post.id))
+    }
+  );
+  return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+    /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        className: "text-center max-w-3xl mx-auto mb-20",
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 },
+        children: [
+          /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("blog.title") }),
+          /* @__PURE__ */ jsx("h3", { className: "font-playfair text-4xl md:text-5xl font-bold text-charcoal mb-6 leading-tight", children: t("blog.subtitle") }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-lg", children: t("blog.description") })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx("div", { className: "mb-20", children: /* @__PURE__ */ jsx(BlogGrid, { articles: latestArticles }) }),
+    archiveArticles.length > 0 && /* @__PURE__ */ jsxs("div", { className: "mt-20", children: [
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          className: "flex items-center gap-4 mb-10",
+          initial: { opacity: 0, x: -20 },
+          whileInView: { opacity: 1, x: 0 },
+          viewport: { once: true },
+          children: [
+            /* @__PURE__ */ jsxs("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal", children: [
+              "2025 ",
+              language === "es" ? "Archivo" : "Archive"
+            ] }),
+            /* @__PURE__ */ jsx("div", { className: "h-px bg-gray-200 flex-grow" })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx(BlogGrid, { articles: archiveArticles })
+    ] })
+  ] }) });
+};
+const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  CheckboxPrimitive.Root,
+  {
+    ref,
+    className: cn(
+      "peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsx(
+      CheckboxPrimitive.Indicator,
+      {
+        className: cn("flex items-center justify-center text-current"),
+        children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" })
+      }
+    )
+  }
+));
+Checkbox.displayName = CheckboxPrimitive.Root.displayName;
+const Select = SelectPrimitive.Root;
+const SelectValue = SelectPrimitive.Value;
+const SelectTrigger = React.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+  SelectPrimitive.Trigger,
+  {
+    ref,
+    className: cn(
+      "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      className
+    ),
+    ...props,
+    children: [
+      children,
+      /* @__PURE__ */ jsx(SelectPrimitive.Icon, { asChild: true, children: /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4 opacity-50" }) })
+    ]
+  }
+));
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+const SelectScrollUpButton = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.ScrollUpButton,
+  {
+    ref,
+    className: cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsx(ChevronUp, { className: "h-4 w-4" })
+  }
+));
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+const SelectScrollDownButton = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.ScrollDownButton,
+  {
+    ref,
+    className: cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsx(ChevronDown, { className: "h-4 w-4" })
+  }
+));
+SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
+const SelectContent = React.forwardRef(({ className, children, position = "popper", ...props }, ref) => /* @__PURE__ */ jsx(SelectPrimitive.Portal, { children: /* @__PURE__ */ jsxs(
+  SelectPrimitive.Content,
+  {
+    ref,
+    className: cn(
+      "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+      position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+      className
+    ),
+    position,
+    ...props,
+    children: [
+      /* @__PURE__ */ jsx(SelectScrollUpButton, {}),
+      /* @__PURE__ */ jsx(
+        SelectPrimitive.Viewport,
+        {
+          className: cn(
+            "p-1",
+            position === "popper" && "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
+          ),
+          children
+        }
+      ),
+      /* @__PURE__ */ jsx(SelectScrollDownButton, {})
+    ]
+  }
+) }));
+SelectContent.displayName = SelectPrimitive.Content.displayName;
+const SelectLabel = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.Label,
+  {
+    ref,
+    className: cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className),
+    ...props
+  }
+));
+SelectLabel.displayName = SelectPrimitive.Label.displayName;
+const SelectItem = React.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
+  SelectPrimitive.Item,
+  {
+    ref,
+    className: cn(
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    ),
+    ...props,
+    children: [
+      /* @__PURE__ */ jsx("span", { className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center", children: /* @__PURE__ */ jsx(SelectPrimitive.ItemIndicator, { children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" }) }) }),
+      /* @__PURE__ */ jsx(SelectPrimitive.ItemText, { children })
+    ]
+  }
+));
+SelectItem.displayName = SelectPrimitive.Item.displayName;
+const SelectSeparator = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  SelectPrimitive.Separator,
+  {
+    ref,
+    className: cn("-mx-1 my-1 h-px bg-muted", className),
+    ...props
+  }
+));
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+const Tabs = TabsPrimitive.Root;
+const TabsList = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  TabsPrimitive.List,
+  {
+    ref,
+    className: cn(
+      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+      className
+    ),
+    ...props
+  }
+));
+TabsList.displayName = TabsPrimitive.List.displayName;
+const TabsTrigger = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  TabsPrimitive.Trigger,
+  {
+    ref,
+    className: cn(
+      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+      className
+    ),
+    ...props
+  }
+));
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+const TabsContent = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  TabsPrimitive.Content,
+  {
+    ref,
+    className: cn(
+      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      className
+    ),
+    ...props
+  }
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
+function Calendar({
+  className,
+  classNames,
+  showOutsideDays = true,
+  ...props
+}) {
+  return /* @__PURE__ */ jsx(
+    DayPicker,
+    {
+      showOutsideDays,
+      className: cn("p-3", className),
+      classNames: {
+        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+        month: "space-y-4",
+        caption: "flex justify-center pt-1 relative items-center",
+        caption_label: "text-sm font-medium",
+        nav: "space-x-1 flex items-center",
+        nav_button: cn(
+          buttonVariants({ variant: "outline" }),
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+        ),
+        nav_button_previous: "absolute left-1",
+        nav_button_next: "absolute right-1",
+        table: "w-full border-collapse space-y-1",
+        head_row: "flex",
+        head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+        row: "flex w-full mt-2",
+        cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+        day: cn(
+          buttonVariants({ variant: "ghost" }),
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
+        ),
+        day_range_end: "day-range-end",
+        day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+        day_today: "bg-accent text-accent-foreground",
+        day_outside: "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+        day_disabled: "text-muted-foreground opacity-50",
+        day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
+        day_hidden: "invisible",
+        ...classNames
+      },
+      components: {
+        IconLeft: ({ ...props2 }) => /* @__PURE__ */ jsx(ChevronLeft, { className: "h-4 w-4" }),
+        IconRight: ({ ...props2 }) => /* @__PURE__ */ jsx(ChevronRight, { className: "h-4 w-4" })
+      },
+      ...props
+    }
+  );
+}
+Calendar.displayName = "Calendar";
+const Separator = React.forwardRef(
+  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx(
+    SeparatorPrimitive.Root,
+    {
+      ref,
+      decorative,
+      orientation,
+      className: cn(
+        "shrink-0 bg-border",
+        orientation === "horizontal" ? "h-[1px] w-full" : "h-full w-[1px]",
+        className
+      ),
+      ...props
+    }
+  )
+);
+Separator.displayName = SeparatorPrimitive.Root.displayName;
+const serviceOptions = [
+  { value: "consultoria", label: { es: "Consultoría estratégica", en: "Strategic consulting" } },
+  { value: "interim", label: { es: "Dirección interina", en: "Interim management" } },
+  { value: "formacion", label: { es: "Formación especializada", en: "Specialized training" } },
+  { value: "proyecto", label: { es: "Gestión de proyectos", en: "Project management" } }
+];
+const BookingCalendar = () => {
+  const { language, t } = useLanguage();
+  const [date, setDate] = useState(void 0);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [step, setStep] = useState("date");
+  const dateLocale = language === "es" ? es : enUS;
+  const formSchema2 = z.object({
+    name: z.string().min(2, {
+      message: t("booking.val.name")
+    }),
+    email: z.string().email({
+      message: t("booking.val.email")
+    }),
+    phone: z.string().optional(),
+    company: z.string().optional(),
+    service: z.string({
+      required_error: t("booking.val.service")
+    }),
+    message: z.string().optional(),
+    privacy: z.boolean().refine((val) => val === true, {
+      message: t("booking.val.privacy")
+    })
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      service: "",
+      message: "",
+      privacy: false
+    }
+  });
+  useEffect(() => {
+    if (!date) return;
+    const fetchAvailableSlots = async () => {
+      setIsLoading(true);
+      try {
+        const result = await apiRequest({
+          path: `/api/appointments/available?date=${date.toISOString()}`,
+          method: "GET"
+        });
+        if (result.success && result.data) {
+          const formattedSlots = result.data.map((slot) => ({
+            start: new Date(slot.start),
+            end: new Date(slot.end)
+          }));
+          setAvailableSlots(formattedSlots);
+          setStep("time");
+        } else {
+          toast({
+            title: t("booking.fetchError"),
+            description: t("booking.fetchError"),
+            variant: "destructive"
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching available slots:", error);
+        toast({
+          title: t("booking.fetchError"),
+          description: t("booking.fetchError"),
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAvailableSlots();
+  }, [date, language, t]);
+  const handleSlotSelect = (slot) => {
+    setSelectedSlot(slot);
+    setStep("form");
+  };
+  const onSubmit = async (values) => {
+    if (!selectedSlot || !date) return;
+    setSubmitLoading(true);
+    try {
+      const appointmentData = {
+        ...values,
+        date: selectedSlot.start,
+        duration: 60,
+        status: "pending"
+      };
+      const result = await apiRequest({
+        path: "/api/appointments",
+        method: "POST",
+        body: appointmentData
+      });
+      if (result.success) {
+        trackEvent("generate_lead", {
+          lead_type: "appointment",
+          service: values.service,
+          language
+        });
+        trackEvent("book_appointment", {
+          service: values.service,
+          language
+        });
+        toast({
+          title: t("booking.successTitle"),
+          description: t("booking.successDesc")
+        });
+        form.reset();
+        setDate(void 0);
+        setSelectedSlot(null);
+        setStep("date");
+      } else {
+        toast({
+          title: t("booking.errorTitle"),
+          description: t("booking.errorDesc"),
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting booking:", error);
+      toast({
+        title: t("booking.errorTitle"),
+        description: t("booking.errorDesc"),
+        variant: "destructive"
+      });
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
+  const handleBackClick = () => {
+    if (step === "time") {
+      setStep("date");
+    } else if (step === "form") {
+      setStep("time");
+    }
+  };
+  const isDateUnavailable = (date2) => {
+    const today = /* @__PURE__ */ new Date();
+    today.setHours(0, 0, 0, 0);
+    if (isBefore(date2, today)) {
+      return true;
+    }
+    const day = date2.getDay();
+    return day === 0 || day === 6;
+  };
+  return /* @__PURE__ */ jsx("div", { className: "w-full max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden", children: /* @__PURE__ */ jsxs("div", { className: "p-6", children: [
+    /* @__PURE__ */ jsx("h2", { className: "text-2xl font-bold text-gray-800 mb-2", children: t("booking.title") }),
+    /* @__PURE__ */ jsx("p", { className: "text-gray-600 mb-6", children: t("booking.subtitle") }),
+    /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 md:grid-cols-12 gap-6", children: /* @__PURE__ */ jsx("div", { className: "md:col-span-12", children: /* @__PURE__ */ jsxs(AnimatePresence, { mode: "wait", children: [
+      step === "date" && /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 10 },
+          animate: { opacity: 1, y: 0 },
+          exit: { opacity: 0, y: -10 },
+          transition: { duration: 0.3 },
+          children: /* @__PURE__ */ jsxs(Card, { children: [
+            /* @__PURE__ */ jsxs(CardHeader, { children: [
+              /* @__PURE__ */ jsx(CardTitle, { children: t("booking.selectDate") }),
+              /* @__PURE__ */ jsx(CardDescription, { children: t("booking.chooseDay") })
+            ] }),
+            /* @__PURE__ */ jsx(CardContent, { children: /* @__PURE__ */ jsx(
+              Calendar,
+              {
+                mode: "single",
+                selected: date,
+                onSelect: setDate,
+                disabled: isDateUnavailable,
+                locale: dateLocale,
+                className: "rounded-md border",
+                fromDate: /* @__PURE__ */ new Date(),
+                toDate: addDays(/* @__PURE__ */ new Date(), 60)
+              }
+            ) }),
+            /* @__PURE__ */ jsx(CardFooter, { className: "flex flex-col gap-4", children: /* @__PURE__ */ jsx("p", { className: "text-sm text-gray-500", children: t("booking.weekendUnavailable") }) })
+          ] })
+        },
+        "date-step"
+      ),
+      step === "time" && /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 10 },
+          animate: { opacity: 1, y: 0 },
+          exit: { opacity: 0, y: -10 },
+          transition: { duration: 0.3 },
+          children: /* @__PURE__ */ jsxs(Card, { children: [
+            /* @__PURE__ */ jsxs(CardHeader, { children: [
+              /* @__PURE__ */ jsx(CardTitle, { children: t("booking.selectTime") }),
+              /* @__PURE__ */ jsxs(CardDescription, { children: [
+                t("booking.availableTimes"),
+                " ",
+                format(date, "PPP", { locale: dateLocale })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsx(CardContent, { children: isLoading ? /* @__PURE__ */ jsx("div", { className: "flex justify-center py-8", children: /* @__PURE__ */ jsx("div", { className: "animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-turquoise" }) }) : availableSlots.length > 0 ? /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3", children: availableSlots.map((slot, index) => /* @__PURE__ */ jsx(
+              Button,
+              {
+                variant: "outline",
+                className: "hover:bg-turquoise/10",
+                onClick: () => handleSlotSelect(slot),
+                children: format(slot.start, "HH:mm")
+              },
+              index
+            )) }) : /* @__PURE__ */ jsx("div", { className: "text-center py-6", children: /* @__PURE__ */ jsx("p", { className: "text-gray-500", children: t("booking.noSlots") }) }) }),
+            /* @__PURE__ */ jsx(CardFooter, { className: "flex justify-between", children: /* @__PURE__ */ jsx(
+              Button,
+              {
+                variant: "outline",
+                onClick: handleBackClick,
+                children: t("booking.back")
+              }
+            ) })
+          ] })
+        },
+        "time-step"
+      ),
+      step === "form" && selectedSlot && /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 10 },
+          animate: { opacity: 1, y: 0 },
+          exit: { opacity: 0, y: -10 },
+          transition: { duration: 0.3 },
+          children: /* @__PURE__ */ jsxs(Card, { children: [
+            /* @__PURE__ */ jsxs(CardHeader, { children: [
+              /* @__PURE__ */ jsx(CardTitle, { children: t("booking.complete") }),
+              /* @__PURE__ */ jsxs(CardDescription, { children: [
+                t("booking.details"),
+                " ",
+                format(date, "PPP", { locale: dateLocale }),
+                " ",
+                language === "es" ? "a las" : "at",
+                " ",
+                format(selectedSlot.start, "HH:mm")
+              ] })
+            ] }),
+            /* @__PURE__ */ jsx(CardContent, { children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4", children: [
+              /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+                /* @__PURE__ */ jsx(
+                  FormField,
+                  {
+                    control: form.control,
+                    name: "name",
+                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                      /* @__PURE__ */ jsx(FormLabel, { children: t("booking.fullName") }),
+                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: String(t("booking.namePlaceholder")), ...field }) }),
+                      /* @__PURE__ */ jsx(FormMessage, {})
+                    ] })
+                  }
+                ),
+                /* @__PURE__ */ jsx(
+                  FormField,
+                  {
+                    control: form.control,
+                    name: "email",
+                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                      /* @__PURE__ */ jsx(FormLabel, { children: t("booking.email") }),
+                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: String(t("booking.emailPlaceholder")), type: "email", ...field }) }),
+                      /* @__PURE__ */ jsx(FormMessage, {})
+                    ] })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+                /* @__PURE__ */ jsx(
+                  FormField,
+                  {
+                    control: form.control,
+                    name: "phone",
+                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                      /* @__PURE__ */ jsx(FormLabel, { children: t("booking.phone") }),
+                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: String(t("booking.phonePlaceholder")), ...field }) }),
+                      /* @__PURE__ */ jsx(FormMessage, {})
+                    ] })
+                  }
+                ),
+                /* @__PURE__ */ jsx(
+                  FormField,
+                  {
+                    control: form.control,
+                    name: "company",
+                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                      /* @__PURE__ */ jsx(FormLabel, { children: t("booking.company") }),
+                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: String(t("booking.companyPlaceholder")), ...field }) }),
+                      /* @__PURE__ */ jsx(FormMessage, {})
+                    ] })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsx(
+                FormField,
+                {
+                  control: form.control,
+                  name: "service",
+                  render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                    /* @__PURE__ */ jsx(FormLabel, { children: t("booking.service") }),
+                    /* @__PURE__ */ jsxs(Select, { onValueChange: field.onChange, defaultValue: field.value, children: [
+                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(SelectTrigger, { children: /* @__PURE__ */ jsx(SelectValue, { placeholder: t("booking.selectService") }) }) }),
+                      /* @__PURE__ */ jsx(SelectContent, { children: serviceOptions.map((option) => /* @__PURE__ */ jsx(SelectItem, { value: option.value, children: option.label[language] }, option.value)) })
+                    ] }),
+                    /* @__PURE__ */ jsx(FormMessage, {})
+                  ] })
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                FormField,
+                {
+                  control: form.control,
+                  name: "message",
+                  render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                    /* @__PURE__ */ jsx(FormLabel, { children: t("booking.message") }),
+                    /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                      Textarea,
+                      {
+                        placeholder: String(t("booking.messagePlaceholder")),
+                        className: "resize-none",
+                        ...field
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsx(FormMessage, {})
+                  ] })
+                }
+              ),
+              /* @__PURE__ */ jsx(Separator, { className: "my-4" }),
+              /* @__PURE__ */ jsx(
+                FormField,
+                {
+                  control: form.control,
+                  name: "privacy",
+                  render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "flex flex-row items-start space-x-3 space-y-0", children: [
+                    /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                      Checkbox,
+                      {
+                        checked: field.value,
+                        onCheckedChange: field.onChange
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsxs("div", { className: "space-y-1 leading-none", children: [
+                      /* @__PURE__ */ jsx(FormLabel, { children: t("booking.privacy") }),
+                      /* @__PURE__ */ jsx(FormDescription, { children: t("booking.privacyDesc") })
+                    ] }),
+                    /* @__PURE__ */ jsx(FormMessage, {})
+                  ] })
+                }
+              ),
+              /* @__PURE__ */ jsxs("div", { className: "flex gap-2 pt-4", children: [
+                /* @__PURE__ */ jsx(
+                  Button,
+                  {
+                    type: "button",
+                    variant: "outline",
+                    onClick: handleBackClick,
+                    children: t("booking.back")
+                  }
+                ),
+                /* @__PURE__ */ jsx("div", { className: "ml-auto", children: /* @__PURE__ */ jsx(
+                  Button,
+                  {
+                    type: "submit",
+                    className: "bg-turquoise hover:bg-turquoise/90",
+                    disabled: submitLoading,
+                    children: submitLoading ? /* @__PURE__ */ jsxs(Fragment, { children: [
+                      /* @__PURE__ */ jsx("span", { className: "animate-spin mr-2", children: "⏳" }),
+                      t("booking.sending")
+                    ] }) : t("booking.confirm")
+                  }
+                ) })
+              ] })
+            ] }) }) })
+          ] })
+        },
+        "form-step"
+      )
+    ] }) }) })
+  ] }) });
+};
+const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast: toast2 } = useToast();
+  const { language, t } = useLanguage();
+  const formSchema2 = z.object({
+    name: z.string().min(2, {
+      message: language === "es" ? "El nombre debe tener al menos 2 caracteres" : "Name must have at least 2 characters"
+    }),
+    email: z.string().email({
+      message: language === "es" ? "Por favor introduce un email válido" : "Please enter a valid email address"
+    }),
+    company: z.string().optional(),
+    service: z.string({
+      required_error: language === "es" ? "Por favor selecciona un servicio" : "Please select a service"
+    }),
+    message: z.string().min(10, {
+      message: language === "es" ? "Tu mensaje debe tener al menos 10 caracteres" : "Your message must have at least 10 characters"
+    }),
+    privacy: z.boolean().refine((val) => val === true, {
+      message: language === "es" ? "Debes aceptar la política de privacidad" : "You must accept the privacy policy"
+    })
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
+      name: "",
+      email: "",
+      company: "",
+      service: "",
+      message: "",
+      privacy: false
+    }
+  });
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    try {
+      await apiRequest({
+        path: "/api/contact",
+        method: "POST",
+        body: data
+      });
+      trackEvent("generate_lead", { lead_type: "contact", service: data.service });
+      toast2({
+        title: language === "es" ? "Mensaje enviado" : "Message sent",
+        description: language === "es" ? "Gracias por contactar. Te responderé a la brevedad." : "Thank you for contacting me. I will respond shortly."
+      });
+      form.reset();
+    } catch (error) {
+      toast2({
+        title: "Error",
+        description: language === "es" ? "Hubo un problema al enviar el mensaje. Inténtalo nuevamente." : "There was a problem sending your message. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  return /* @__PURE__ */ jsx("div", { id: "contact", className: "py-16 md:py-24 bg-white", children: /* @__PURE__ */ jsx("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col lg:flex-row gap-12", children: [
+    /* @__PURE__ */ jsxs(
+      motion.div,
+      {
+        className: "lg:w-1/2",
+        initial: { opacity: 0, x: -30 },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 },
+        children: [
+          /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: language === "es" ? "Contacto" : "Contact" }),
+          /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: language === "es" ? "¿Hablamos sobre tu proyecto?" : "Let's talk about your project" }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-8", children: language === "es" ? "Completa el formulario y me pondré en contacto contigo para programar una consulta inicial gratuita donde podremos hablar sobre tus necesidades específicas." : "Fill out the form and I will contact you to schedule a free initial consultation where we can discuss your specific needs." }),
+          /* @__PURE__ */ jsxs("div", { className: "space-y-6 mb-8", children: [
+            /* @__PURE__ */ jsxs("div", { className: "flex items-start", children: [
+              /* @__PURE__ */ jsx("div", { className: "w-12 h-12 bg-turquoise/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0", children: /* @__PURE__ */ jsx("i", { className: "fas fa-envelope text-turquoise" }) }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h4", { className: "font-medium text-charcoal mb-1", children: "Email" }),
+                /* @__PURE__ */ jsx("a", { href: "mailto:epm@epmwellness.com", className: "text-turquoise hover:text-turquoise-dark", children: "epm@epmwellness.com" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "flex items-start", children: [
+              /* @__PURE__ */ jsx("div", { className: "w-12 h-12 bg-turquoise/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0", children: /* @__PURE__ */ jsx("i", { className: "fas fa-phone text-turquoise" }) }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h4", { className: "font-medium text-charcoal mb-1", children: language === "es" ? "Teléfono" : "Phone" }),
+                /* @__PURE__ */ jsx("a", { href: "tel:+34676462991", className: "text-turquoise hover:text-turquoise-dark", children: "+34 676 462 991" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "flex items-start", children: [
+              /* @__PURE__ */ jsx("div", { className: "w-12 h-12 bg-turquoise/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0", children: /* @__PURE__ */ jsx("i", { className: "fas fa-map-marker-alt text-turquoise" }) }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h4", { className: "font-medium text-charcoal mb-1", children: language === "es" ? "Ubicación" : "Location" }),
+                /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: language === "es" ? "Madrid, España (Disponible para proyectos internacionales)" : "Madrid, Spain (Available for international projects)" })
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsx("div", { className: "flex space-x-4", children: /* @__PURE__ */ jsx("a", { href: "https://www.linkedin.com/in/evaperez-spa-consultant/", target: "_blank", rel: "noopener noreferrer", className: "w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors", children: /* @__PURE__ */ jsx("i", { className: "fab fa-linkedin-in" }) }) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        className: "lg:w-1/2",
+        initial: { opacity: 0, x: 30 },
+        whileInView: { opacity: 1, x: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6, delay: 0.2 },
+        children: /* @__PURE__ */ jsxs(Tabs, { defaultValue: "message", className: "bg-white rounded-lg shadow-md", children: [
+          /* @__PURE__ */ jsx("div", { className: "p-4 border-b", children: /* @__PURE__ */ jsxs(TabsList, { className: "grid w-full grid-cols-2", children: [
+            /* @__PURE__ */ jsx(TabsTrigger, { value: "message", className: "text-base", children: language === "es" ? "Enviar mensaje" : "Send message" }),
+            /* @__PURE__ */ jsx(
+              TabsTrigger,
+              {
+                value: "booking",
+                className: "text-base",
+                "data-analytics-cta": "open_booking",
+                "data-analytics-location": "contact_tabs",
+                children: language === "es" ? "Reservar consulta" : "Book consultation"
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsx(TabsContent, { value: "message", className: "p-6", children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "bg-white", children: [
+            /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6 mb-6", children: [
+              /* @__PURE__ */ jsx(
+                FormField,
+                {
+                  control: form.control,
+                  name: "name",
+                  render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                    /* @__PURE__ */ jsx(FormLabel, { className: "block text-charcoal font-medium mb-2", children: language === "es" ? "Nombre" : "Name" }),
+                    /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                      Input,
+                      {
+                        placeholder: language === "es" ? "Tu nombre" : "Your name",
+                        className: "w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors",
+                        ...field
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsx(FormMessage, {})
+                  ] })
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                FormField,
+                {
+                  control: form.control,
+                  name: "email",
+                  render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                    /* @__PURE__ */ jsx(FormLabel, { className: "block text-charcoal font-medium mb-2", children: "Email" }),
+                    /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                      Input,
+                      {
+                        type: "email",
+                        placeholder: language === "es" ? "tu@email.com" : "your@email.com",
+                        className: "w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors",
+                        ...field
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsx(FormMessage, {})
+                  ] })
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsx(
+              FormField,
+              {
+                control: form.control,
+                name: "company",
+                render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "mb-6", children: [
+                  /* @__PURE__ */ jsx(FormLabel, { className: "block text-charcoal font-medium mb-2", children: language === "es" ? "Empresa/Organización" : "Company/Organization" }),
+                  /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                    Input,
+                    {
+                      placeholder: language === "es" ? "Nombre de tu empresa" : "Your company name",
+                      className: "w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors",
+                      ...field
+                    }
+                  ) }),
+                  /* @__PURE__ */ jsx(FormMessage, {})
+                ] })
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              FormField,
+              {
+                control: form.control,
+                name: "service",
+                render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "mb-6", children: [
+                  /* @__PURE__ */ jsx(FormLabel, { className: "block text-charcoal font-medium mb-2", children: language === "es" ? "Servicio de interés" : "Service of interest" }),
+                  /* @__PURE__ */ jsxs(Select, { onValueChange: field.onChange, defaultValue: field.value, children: [
+                    /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(SelectTrigger, { className: "w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors", children: /* @__PURE__ */ jsx(SelectValue, { placeholder: language === "es" ? "Selecciona un servicio" : "Select a service" }) }) }),
+                    /* @__PURE__ */ jsxs(SelectContent, { children: [
+                      /* @__PURE__ */ jsx(SelectItem, { value: "consultoria", children: language === "es" ? "Consultoría Estratégica" : "Strategic Consulting" }),
+                      /* @__PURE__ */ jsx(SelectItem, { value: "proyectos", children: language === "es" ? "Gestión de Proyectos" : "Project Management" }),
+                      /* @__PURE__ */ jsx(SelectItem, { value: "formacion", children: language === "es" ? "Formación y Desarrollo" : "Training and Development" }),
+                      /* @__PURE__ */ jsx(SelectItem, { value: "interim", children: language === "es" ? "Interim Management" : "Interim Management" }),
+                      /* @__PURE__ */ jsx(SelectItem, { value: "otro", children: language === "es" ? "Otro" : "Other" })
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsx(FormMessage, {})
+                ] })
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              FormField,
+              {
+                control: form.control,
+                name: "message",
+                render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "mb-6", children: [
+                  /* @__PURE__ */ jsx(FormLabel, { className: "block text-charcoal font-medium mb-2", children: language === "es" ? "Mensaje" : "Message" }),
+                  /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                    Textarea,
+                    {
+                      placeholder: language === "es" ? "Cuéntame sobre tu proyecto o necesidad" : "Tell me about your project or need",
+                      className: "w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-turquoise focus:border-turquoise outline-none transition-colors",
+                      rows: 4,
+                      ...field
+                    }
+                  ) }),
+                  /* @__PURE__ */ jsx(FormMessage, {})
+                ] })
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              FormField,
+              {
+                control: form.control,
+                name: "privacy",
+                render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "flex items-start mb-6", children: [
+                  /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                    Checkbox,
+                    {
+                      checked: field.value,
+                      onCheckedChange: field.onChange,
+                      className: "mt-1 mr-2"
+                    }
+                  ) }),
+                  /* @__PURE__ */ jsxs("div", { className: "space-y-1 leading-none", children: [
+                    /* @__PURE__ */ jsx(FormLabel, { className: "text-sm text-charcoal-light", children: language === "es" ? "Acepto la política de privacidad y el tratamiento de mis datos para recibir comunicaciones." : "I accept the privacy policy and the processing of my data to receive communications." }),
+                    /* @__PURE__ */ jsx(FormMessage, {})
+                  ] })
+                ] })
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              Button,
+              {
+                type: "submit",
+                className: "w-full bg-turquoise hover:bg-turquoise-dark text-white font-medium py-3 rounded transition-colors",
+                disabled: isSubmitting,
+                children: isSubmitting ? language === "es" ? "Enviando..." : "Sending..." : language === "es" ? "Enviar mensaje" : "Send message"
+              }
+            )
+          ] }) }) }),
+          /* @__PURE__ */ jsxs(TabsContent, { value: "booking", className: "p-0", children: [
+            /* @__PURE__ */ jsxs("div", { className: "p-4", children: [
+              /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold text-charcoal mb-2", children: language === "es" ? "Reserva una consulta personalizada" : "Book a personalized consultation" }),
+              /* @__PURE__ */ jsx("p", { className: "text-gray-600 mb-4", children: language === "es" ? "Selecciona la fecha y hora que mejor te convenga para nuestra reunión." : "Select the date and time that works best for you for our meeting." })
+            ] }),
+            /* @__PURE__ */ jsx(BookingCalendar, {})
+          ] })
+        ] })
+      }
+    )
+  ] }) }) });
+};
+const Newsletter = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast: toast2 } = useToast();
+  const { t, language } = useLanguage();
+  const formSchema2 = z.object({
+    email: z.string().email({
+      message: language === "es" ? "Por favor introduce un email válido" : "Please enter a valid email address"
+    })
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
+      email: ""
+    }
+  });
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    try {
+      await apiRequest({
+        method: "POST",
+        path: "/api/newsletter",
+        body: data
+      });
+      trackEvent("sign_up", { method: "newsletter" });
+      trackEvent("ebook_download", { resource: "guia-rentabilidad-spa" });
+      toast2({
+        title: language === "es" ? "¡Guía enviada!" : "Guide sent!",
+        description: language === "es" ? "Revisa tu email para descargar la Guía de Rentabilidad." : "Check your email to download the Profitability Guide."
+      });
+      form.reset();
+    } catch (error) {
+      toast2({
+        title: "Error",
+        description: language === "es" ? "Hubo un problema al procesar tu solicitud. Inténtalo de nuevo." : "There was a problem processing your request. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  return /* @__PURE__ */ jsx("section", { className: "py-12 md:py-16 bg-turquoise text-white", children: /* @__PURE__ */ jsx("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs(
+    motion.div,
+    {
+      className: "flex flex-col md:flex-row items-center justify-between gap-8",
+      initial: { opacity: 0, y: 20 },
+      whileInView: { opacity: 1, y: 0 },
+      viewport: { once: true },
+      transition: { duration: 0.6 },
+      children: [
+        /* @__PURE__ */ jsxs("div", { className: "md:w-1/2", children: [
+          /* @__PURE__ */ jsx("h2", { className: "font-playfair text-2xl md:text-3xl font-bold mb-4", children: t("newsletter.leadMagnetTitle") }),
+          /* @__PURE__ */ jsx("p", { className: "text-white/90", children: t("newsletter.leadMagnetSubtitle") })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "md:w-1/2", children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "flex flex-col sm:flex-row gap-3", children: [
+          /* @__PURE__ */ jsx(
+            FormField,
+            {
+              control: form.control,
+              name: "email",
+              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "flex-grow", children: [
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                  Input,
+                  {
+                    placeholder: language === "es" ? "Tu email" : "Your email",
+                    className: "flex-grow p-3 rounded border-0 focus:ring-2 focus:ring-white/50 outline-none text-gray-900 bg-white placeholder:text-gray-500",
+                    ...field
+                  }
+                ) }),
+                /* @__PURE__ */ jsx(FormMessage, {})
+              ] })
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            Button,
+            {
+              type: "submit",
+              className: "bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-6 py-3 rounded whitespace-nowrap",
+              disabled: isSubmitting,
+              children: isSubmitting ? t("newsletter.sending") : t("newsletter.downloadButton")
+            }
+          )
+        ] }) }) })
+      ]
+    }
+  ) }) });
+};
+const Footer = () => {
+  const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+  const { t, language } = useLanguage();
+  return /* @__PURE__ */ jsx("footer", { className: "bg-charcoal-dark text-white pt-16 pb-24 md:pb-8", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+    /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12", children: [
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.5 },
+          children: [
+            /* @__PURE__ */ jsx("div", { className: "font-playfair text-2xl font-bold text-white mb-4", children: "Eva Pérez" }),
+            /* @__PURE__ */ jsx("p", { className: "text-gray-400 mb-6 text-sm leading-relaxed", children: language === "es" ? "Más de 20 años transformando espacios de bienestar en experiencias memorables y rentables." : "Over 20 years transforming wellness spaces into memorable and profitable experiences." }),
+            /* @__PURE__ */ jsx("div", { className: "flex space-x-4", children: /* @__PURE__ */ jsx(
+              "a",
+              {
+                href: "https://www.linkedin.com/in/evaperez-spa-consultant/",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                className: "text-gray-400 hover:text-turquoise transition-colors w-10 h-10 flex items-center justify-center bg-charcoal rounded-full hover:bg-opacity-80",
+                "aria-label": "LinkedIn",
+                children: /* @__PURE__ */ jsx(FaLinkedinIn, { size: 18 })
+              }
+            ) })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.5, delay: 0.1 },
+          children: [
+            /* @__PURE__ */ jsx("h4", { className: "text-lg font-medium text-white mb-4", children: language === "es" ? "Enlaces rápidos" : "Quick Links" }),
+            /* @__PURE__ */ jsxs("ul", { className: "space-y-3 text-sm", children: [
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#about", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.about") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#services", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.services") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#portfolio", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.portfolio") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#testimonials", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.testimonials") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#blog", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.blog") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#contact", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.contact") }) })
+            ] })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.5, delay: 0.2 },
+          children: [
+            /* @__PURE__ */ jsx("h4", { className: "text-lg font-medium text-white mb-4", children: language === "es" ? "Contacto" : "Contact" }),
+            /* @__PURE__ */ jsxs("ul", { className: "space-y-4 text-sm", children: [
+              /* @__PURE__ */ jsxs("li", { className: "flex items-start", children: [
+                /* @__PURE__ */ jsx(FaEnvelope, { className: "text-turquoise mt-1 mr-3 flex-shrink-0" }),
+                /* @__PURE__ */ jsx("a", { href: "mailto:epm@epmwellness.com", className: "text-gray-400 hover:text-turquoise transition-colors", children: "epm@epmwellness.com" })
+              ] }),
+              /* @__PURE__ */ jsxs("li", { className: "flex items-start", children: [
+                /* @__PURE__ */ jsx(FaPhone, { className: "text-turquoise mt-1 mr-3 flex-shrink-0" }),
+                /* @__PURE__ */ jsx("a", { href: "tel:+34676462991", className: "text-gray-400 hover:text-turquoise transition-colors", children: "+34 676 462 991" })
+              ] }),
+              /* @__PURE__ */ jsxs("li", { className: "flex items-start", children: [
+                /* @__PURE__ */ jsx(FaMapMarkerAlt, { className: "text-turquoise mt-1 mr-3 flex-shrink-0" }),
+                /* @__PURE__ */ jsx("span", { className: "text-gray-400", children: language === "es" ? "Madrid, España" : "Madrid, Spain" })
+              ] })
+            ] })
+          ]
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsx("hr", { className: "border-gray-700 mb-8" }),
+    /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row justify-between items-center", children: [
+      /* @__PURE__ */ jsxs("p", { className: "text-gray-400 text-xs mb-4 md:mb-0", children: [
+        "© ",
+        currentYear,
+        " Eva Pérez. ",
+        language === "es" ? "Todos los derechos reservados." : "All rights reserved."
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "flex space-x-6", children: [
+        /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "text-gray-400 hover:text-turquoise text-xs transition-colors", children: language === "es" ? "Política de Privacidad" : "Privacy Policy" }),
+        /* @__PURE__ */ jsx(Link, { href: "/terms", className: "text-gray-400 hover:text-turquoise text-xs transition-colors", children: language === "es" ? "Términos y Condiciones" : "Terms & Conditions" }),
+        /* @__PURE__ */ jsx(Link, { href: "/cookies", className: "text-gray-400 hover:text-turquoise text-xs transition-colors", children: language === "es" ? "Cookies" : "Cookies" })
+      ] })
+    ] })
+  ] }) });
+};
+const formSchema$1 = z.object({
+  email: z.string().email({
+    message: "Por favor, introduce un email válido"
+  })
+});
+const EbookPopup = () => {
+  const { language } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const { toast: toast2 } = useToast();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const hasClosedPopup = localStorage.getItem("ebookPopupClosed");
+      if (!hasClosedPopup) {
+        setIsOpen(true);
+      }
+    }, 3e3);
+    return () => clearTimeout(timer);
+  }, []);
+  const form = useForm({
+    resolver: zodResolver(formSchema$1),
+    defaultValues: {
+      email: ""
+    }
+  });
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    try {
+      await apiRequest({
+        path: "/api/newsletter",
+        method: "POST",
+        body: { email: data.email }
+      });
+      trackEvent("sign_up", { method: "ebook_popup" });
+      trackEvent("ebook_download", { resource: "guia-rentabilidad-spa" });
+      setIsSuccess(true);
+      toast2({
+        title: language === "es" ? "¡Gracias por tu interés!" : "Thank you for your interest!",
+        description: language === "es" ? "Hemos enviado el E-Book a tu correo electrónico. Revisa tu bandeja de entrada." : "We have sent the E-Book to your email. Please check your inbox.",
+        variant: "default"
+      });
+      setTimeout(() => {
+        setIsOpen(false);
+        localStorage.setItem("ebookPopupClosed", "true");
+      }, 2e3);
+    } catch (error) {
+      console.error("Error al enviar el email:", error);
+      toast2({
+        title: language === "es" ? "Error" : "Error",
+        description: language === "es" ? "Ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo." : "An error occurred while processing your request. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  const closePopup = () => {
+    setIsOpen(false);
+    localStorage.setItem("ebookPopupClosed", "true");
+  };
+  const popupTitle = language === "es" ? "E-Book + plantilla: Cómo implementar IA en tu spa hotelero en 30 días" : "E-Book + template: How to implement AI in your hotel spa in 30 days";
+  const popupDescription = language === "es" ? "Descarga esta guía práctica con los pasos concretos para comenzar a aplicar soluciones de IA en tu spa, incluyendo una plantilla de implementación lista para usar." : "Download this practical guide with concrete steps to start applying AI solutions in your spa, including a ready-to-use implementation template.";
+  const buttonText = language === "es" ? isSubmitting ? "Enviando..." : "Descargar ahora" : isSubmitting ? "Sending..." : "Download now";
+  const emailPlaceholder = language === "es" ? "Tu email" : "Your email";
+  return /* @__PURE__ */ jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsx(
+    motion.div,
+    {
+      className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40",
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 },
+      children: /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          className: "relative bg-white w-full max-w-md rounded-xl shadow-xl overflow-hidden font-poppins",
+          initial: { scale: 0.9, opacity: 0 },
+          animate: { scale: 1, opacity: 1 },
+          exit: { scale: 0.9, opacity: 0 },
+          transition: { type: "spring", damping: 25, stiffness: 300 },
+          children: [
+            /* @__PURE__ */ jsx(
+              "button",
+              {
+                onClick: closePopup,
+                className: "absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors z-10",
+                "aria-label": "Close",
+                children: /* @__PURE__ */ jsx(X, { size: 24 })
+              }
+            ),
+            /* @__PURE__ */ jsxs("div", { className: "p-8", children: [
+              /* @__PURE__ */ jsx("h2", { className: "text-xl md:text-2xl font-playfair font-bold text-charcoal mb-4 leading-tight", children: popupTitle }),
+              /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-6 text-base opacity-90", children: popupDescription }),
+              !isSuccess ? /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4", children: [
+                /* @__PURE__ */ jsx(
+                  FormField,
+                  {
+                    control: form.control,
+                    name: "email",
+                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                        Input,
+                        {
+                          placeholder: emailPlaceholder,
+                          type: "email",
+                          ...field,
+                          className: "h-14 text-base rounded-md border border-gray-300 focus:border-turquoise focus:ring-1 focus:ring-turquoise px-4"
+                        }
+                      ) }),
+                      /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
+                    ] })
+                  }
+                ),
+                /* @__PURE__ */ jsx(
+                  Button,
+                  {
+                    type: "submit",
+                    className: "w-full bg-[#C8AD8D] hover:bg-[#BDA079] text-white h-14 font-medium text-base rounded-md transition-colors duration-300",
+                    disabled: isSubmitting,
+                    children: buttonText
+                  }
+                )
+              ] }) }) : /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center p-5 bg-green-50 rounded-md", children: /* @__PURE__ */ jsx("p", { className: "text-green-700 text-center", children: language === "es" ? "¡Gracias! Revisa tu correo electrónico para descargar el E-Book." : "Thank you! Check your email to download the E-Book." }) })
+            ] })
+          ]
+        }
+      )
+    }
+  ) });
+};
+const Home = () => {
+  const { language } = useLanguage();
+  useEffect(() => {
+    const handleAnchorClick = (e) => {
+      const target = e.target;
+      const anchor = target.closest('a[href^="#"]');
+      if (anchor) {
+        e.preventDefault();
+        const href = anchor.getAttribute("href");
+        if (href === "#") return;
+        const targetElement = document.querySelector(href || "");
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.getBoundingClientRect().top + window.scrollY - 80,
+            behavior: "smooth"
+          });
+        }
+      }
+    };
+    document.addEventListener("click", handleAnchorClick);
+    return () => {
+      document.removeEventListener("click", handleAnchorClick);
+    };
+  }, []);
+  useEffect(() => {
+    const navbar = document.getElementById("navbar");
+    const handleScroll = () => {
+      if (window.scrollY > 50 && navbar) {
+        navbar.classList.add("py-2");
+        navbar.classList.remove("py-4");
+      } else if (navbar) {
+        navbar.classList.add("py-4");
+        navbar.classList.remove("py-2");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white", children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: language === "es" ? "Eva Pérez | Consultora Wellness & Spa Manager para Hoteles de Lujo" : "Eva Pérez | Wellness Consultant & Spa Manager for Luxury Hotels",
+        description: language === "es" ? "Transforma tu hotel con estrategias de wellness rentables. Eva Pérez, experta en gestión de spas, consultoría y hospitalidad de lujo." : "Transform your hotel with profitable wellness strategies. Eva Pérez specialises in spa management, consulting and luxury hospitality.",
+        language
+      }
+    ),
+    /* @__PURE__ */ jsx(Header, {}),
+    /* @__PURE__ */ jsx("section", { id: "home", children: /* @__PURE__ */ jsx(Hero, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "about", children: /* @__PURE__ */ jsx(About, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "services", children: /* @__PURE__ */ jsx(Services, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "cta", children: /* @__PURE__ */ jsx(CallToAction, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "portfolio", children: /* @__PURE__ */ jsx(Portfolio, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "testimonials", children: /* @__PURE__ */ jsx(Testimonials, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "resources", children: /* @__PURE__ */ jsx(Resources, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "blog", children: /* @__PURE__ */ jsx(Blog, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "contact", children: /* @__PURE__ */ jsx(Contact, {}) }),
+    /* @__PURE__ */ jsx("section", { id: "newsletter", children: /* @__PURE__ */ jsx(Newsletter, {}) }),
+    /* @__PURE__ */ jsx(Footer, {}),
+    /* @__PURE__ */ jsx(ScrollToTop, {}),
+    /* @__PURE__ */ jsx(EbookPopup, {})
+  ] }) });
+};
+const Home$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Home
+}, Symbol.toStringTag, { value: "Module" }));
+const Privacy = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+    /* @__PURE__ */ jsx(Header, {}),
+    /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
+      /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Privacidad" }),
+      /* @__PURE__ */ jsx("p", { className: "lead", children: "En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016 (RGPD), y la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales, te informamos sobre el tratamiento de tus datos personales." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "1. Responsable del Tratamiento" }),
+      /* @__PURE__ */ jsxs("p", { children: [
+        /* @__PURE__ */ jsx("strong", { children: "Identidad:" }),
+        " Eva Pérez",
+        /* @__PURE__ */ jsx("br", {}),
+        /* @__PURE__ */ jsx("strong", { children: "Actividad:" }),
+        " Consultoría de Spa y Wellness",
+        /* @__PURE__ */ jsx("br", {}),
+        /* @__PURE__ */ jsx("strong", { children: "Email de contacto:" }),
+        " epm@epmwellness.com",
+        /* @__PURE__ */ jsx("br", {}),
+        /* @__PURE__ */ jsx("strong", { children: "Ubicación:" }),
+        " Madrid, España"
+      ] }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "2. Finalidad del Tratamiento" }),
+      /* @__PURE__ */ jsx("p", { children: "Tratamos la información que nos facilitas para las siguientes finalidades:" }),
+      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Formulario de Contacto:" }),
+          " Responder a tus consultas, solicitudes de auditoría o propuestas de colaboración."
+        ] }),
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Newsletter y Lead Magnets:" }),
+          " Enviarte la guía gratuita solicitada y comunicaciones periódicas (newsletter) con contenidos sobre gestión de spas, novedades y servicios, siempre que hayas dado tu consentimiento explícito."
+        ] }),
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Gestión de Servicios:" }),
+          " En caso de contratación, para la gestión administrativa, fiscal y contable de los servicios prestados."
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "3. Legitimación" }),
+      /* @__PURE__ */ jsx("p", { children: "La base legal para el tratamiento de tus datos es:" }),
+      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Consentimiento:" }),
+          " Al marcar la casilla de aceptación en nuestros formularios, nos autorizas expresamente a tratar tus datos."
+        ] }),
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Ejecución de un contrato:" }),
+          " En caso de contratar servicios de consultoría o formación."
+        ] }),
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Interés legítimo:" }),
+          " Para la respuesta a consultas pre-contractuales."
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "4. Conservación de los Datos" }),
+      /* @__PURE__ */ jsx("p", { children: "Los datos proporcionados se conservarán mientras se mantenga la relación comercial o durante los años necesarios para cumplir con las obligaciones legales. Los datos para el envío de newsletter se conservarán hasta que solicites tu baja." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "5. Destinatarios" }),
+      /* @__PURE__ */ jsx("p", { children: "Los datos no se cederán a terceros salvo en los casos en que exista una obligación legal. Utilizamos proveedores de servicios (como plataformas de email marketing o hosting) que pueden tener acceso a datos, garantizando siempre el cumplimiento del RGPD." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "6. Derechos" }),
+      /* @__PURE__ */ jsx("p", { children: "Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales y, por tanto, tienes derecho a:" }),
+      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+        /* @__PURE__ */ jsx("li", { children: "Acceder a tus datos personales." }),
+        /* @__PURE__ */ jsx("li", { children: "Rectificar los datos inexactos." }),
+        /* @__PURE__ */ jsx("li", { children: "Solicitar su supresión cuando los datos ya no sean necesarios." }),
+        /* @__PURE__ */ jsx("li", { children: "Limitar el tratamiento de tus datos." }),
+        /* @__PURE__ */ jsx("li", { children: "Oponerte al tratamiento." }),
+        /* @__PURE__ */ jsx("li", { children: "Portabilidad de tus datos." })
+      ] }),
+      /* @__PURE__ */ jsxs("p", { children: [
+        "Puedes ejercer tus derechos enviando un email a ",
+        /* @__PURE__ */ jsx("strong", { children: "epm@epmwellness.com" }),
+        "."
+      ] })
+    ] }) }),
+    /* @__PURE__ */ jsx(Footer, {})
+  ] }) });
+};
+const Privacy$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Privacy
+}, Symbol.toStringTag, { value: "Module" }));
+const Terms = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+    /* @__PURE__ */ jsx(Header, {}),
+    /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
+      /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Términos y Condiciones" }),
+      /* @__PURE__ */ jsx("p", { className: "lead", children: "Bienvenido/a a la web de Eva Pérez. Al acceder y utilizar este sitio web, aceptas cumplir con los siguientes términos y condiciones de uso." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "1. Propiedad Intelectual" }),
+      /* @__PURE__ */ jsx("p", { children: "Todo el contenido de este sitio web (textos, imágenes, diseños, logotipos, vídeos, material descargable, guías, etc.) es propiedad exclusiva de Eva Pérez o de terceros que han autorizado su uso. Está prohibida su reproducción, distribución, comunicación pública o transformación sin la autorización expresa y por escrito de la titular." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "2. Uso del Sitio Web" }),
+      /* @__PURE__ */ jsx("p", { children: "El usuario se compromete a utilizar el sitio web de conformidad con la ley, la moral, el orden público y estos Términos y Condiciones. Se prohíbe el uso del sitio web con fines ilícitos o lesivos contra Eva Pérez o terceros." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "3. Contratación de Servicios" }),
+      /* @__PURE__ */ jsx("p", { children: "Los servicios de consultoría, formación e interim management expuestos en la web están sujetos a presupuestos personalizados. La mera solicitud de información a través de los formularios no implica relación contractual hasta la firma de la propuesta de servicios correspondiente." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "4. Exención de Responsabilidad" }),
+      /* @__PURE__ */ jsx("p", { children: "Eva Pérez no se hace responsable de los daños y perjuicios de cualquier naturaleza que pudieran derivarse de la disponibilidad y continuidad técnica del funcionamiento del sitio web. Asimismo, aunque se esfuerza por mantener la información actualizada y veraz, no garantiza la inexistencia de errores en los contenidos." }),
+      /* @__PURE__ */ jsx("p", { children: 'La información proporcionada en el "Chatbot" o asistente virtual es de carácter orientativo y no sustituye una consultoría profesional personalizada.' }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "5. Enlaces Externos" }),
+      /* @__PURE__ */ jsx("p", { children: "Este sitio web puede contener enlaces a sitios web de terceros. Eva Pérez no asume responsabilidad alguna por el contenido, políticas de privacidad o prácticas de dichos sitios web." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "6. Modificaciones" }),
+      /* @__PURE__ */ jsx("p", { children: "Nos reservamos el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del sitio web, así como los presentes Términos y Condiciones." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "7. Legislación Aplicable" }),
+      /* @__PURE__ */ jsx("p", { children: "Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España)." })
+    ] }) }),
+    /* @__PURE__ */ jsx(Footer, {})
+  ] }) });
+};
+const Terms$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Terms
+}, Symbol.toStringTag, { value: "Module" }));
+const Cookies = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+    /* @__PURE__ */ jsx(Header, {}),
+    /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
+      /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Cookies" }),
+      /* @__PURE__ */ jsx("p", { className: "lead", children: "Este sitio web utiliza cookies propias y de terceros para mejorar tu experiencia de usuario, analizar el tráfico y personalizar el contenido." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "¿Qué son las cookies?" }),
+      /* @__PURE__ */ jsx("p", { children: "Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "Cookies que utilizamos" }),
+      /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "1. Cookies Técnicas (Necesarias)" }),
+      /* @__PURE__ */ jsx("p", { children: "Son aquellas que permiten al usuario la navegación a través de la página web y la utilización de las diferentes opciones o servicios que en ella existan. Por ejemplo, controlar el tráfico, identificar la sesión o recordar elementos de un pedido." }),
+      /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "2. Cookies de Análisis" }),
+      /* @__PURE__ */ jsx("p", { children: "Son aquellas que nos permiten cuantificar el número de usuarios y así realizar la medición y análisis estadístico de la utilización que hacen los usuarios del servicio. Para ello se analiza tu navegación en nuestra página web con el fin de mejorar la oferta de productos o servicios que te ofrecemos." }),
+      /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "3. Cookies de Preferencias" }),
+      /* @__PURE__ */ jsx("p", { children: "Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional." }),
+      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "Gestión de Cookies" }),
+      /* @__PURE__ */ jsx("p", { children: "Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:" }),
+      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Google Chrome:" }),
+          " Configuración → Privacidad y seguridad → Cookies y otros datos de sitios."
+        ] }),
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Mozilla Firefox:" }),
+          " Opciones → Privacidad y Seguridad."
+        ] }),
+        /* @__PURE__ */ jsxs("li", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Safari:" }),
+          " Preferencias → Privacidad."
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx("p", { children: "Ten en cuenta que, si desactivas las cookies, es posible que algunas funciones del sitio web no funcionen correctamente." })
+    ] }) }),
+    /* @__PURE__ */ jsx(Footer, {})
+  ] }) });
+};
+const Cookies$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Cookies
+}, Symbol.toStringTag, { value: "Module" }));
+const Booking = () => {
+  const { language } = useLanguage();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsx(
+    motion.div,
+    {
+      className: "min-h-screen pt-24 pb-16 px-4",
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: { duration: 0.5 },
+      children: /* @__PURE__ */ jsxs("div", { className: "max-w-5xl mx-auto", children: [
+        /* @__PURE__ */ jsxs("div", { className: "text-center mb-12", children: [
+          /* @__PURE__ */ jsx("h1", { className: "text-3xl md:text-4xl font-bold text-gray-800 mb-4", children: language === "es" ? "Reserva una Consulta" : "Book a Consultation" }),
+          /* @__PURE__ */ jsx("p", { className: "text-lg text-gray-600 max-w-2xl mx-auto", children: language === "es" ? "Agenda una sesión personalizada con Eva Pérez para discutir tu proyecto de wellness o spa" : "Schedule a personalized session with Eva Pérez to discuss your wellness or spa project" })
+        ] }),
+        /* @__PURE__ */ jsx(BookingCalendar, {}),
+        /* @__PURE__ */ jsxs("div", { className: "mt-12 bg-gray-50 rounded-xl p-6 shadow-sm", children: [
+          /* @__PURE__ */ jsx("h2", { className: "text-xl font-semibold text-gray-800 mb-4", children: language === "es" ? "¿Qué esperar de la consulta?" : "What to expect from the consultation?" }),
+          /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Antes de la reunión" : "Before the meeting" }),
+              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Recibirás un correo electrónico de confirmación con un enlace para la videollamada y un cuestionario breve para comprender mejor tus necesidades." : "You will receive a confirmation email with a video call link and a brief questionnaire to better understand your needs." })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Durante la consulta" : "During the consultation" }),
+              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Una conversación de 60 minutos donde analizaremos tu proyecto actual, identificaremos desafíos clave y exploraremos soluciones estratégicas." : "A 60-minute conversation where we will analyze your current project, identify key challenges, and explore strategic solutions." })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Después de la sesión" : "After the session" }),
+              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Recibirás un resumen con las principales ideas discutidas y recomendaciones personalizadas para implementar en tu proyecto." : "You will receive a summary with the main ideas discussed and personalized recommendations to implement in your project." })
+            ] }),
+            /* @__PURE__ */ jsxs("div", { children: [
+              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Seguimiento" : "Follow-up" }),
+              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Tendrás acceso a una sesión de seguimiento breve por email para resolver cualquier duda adicional sobre las recomendaciones." : "You will have access to a brief follow-up session by email to resolve any additional questions about the recommendations." })
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs("div", { className: "mt-8 text-center text-gray-600 text-sm", children: [
+          /* @__PURE__ */ jsx("p", { children: language === "es" ? "Para consultas sobre cancelaciones o cambios en tu reserva, por favor contacta directamente con nosotros por email." : "For inquiries about cancellations or changes to your booking, please contact us directly by email." }),
+          /* @__PURE__ */ jsx("div", { className: "mt-8 flex justify-center", children: /* @__PURE__ */ jsx(Link, { href: "/", children: /* @__PURE__ */ jsxs(
+            Button,
+            {
+              variant: "outline",
+              className: "flex items-center gap-2 px-5 py-2 text-turquoise border-turquoise hover:bg-turquoise/10",
+              children: [
+                /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx("path", { d: "m15 18-6-6 6-6" }) }),
+                language === "es" ? "Volver a la página principal" : "Return to home page"
+              ]
+            }
+          ) }) })
+        ] })
+      ] })
+    }
+  ) });
+};
+const Booking$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Booking
+}, Symbol.toStringTag, { value: "Module" }));
+const Admin = () => {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedArticle, setGeneratedArticle] = useState(null);
+  const { toast: toast2 } = useToast();
+  const formSchema2 = z.object({
+    topic: z.string().min(5, {
+      message: "El tema debe tener al menos 5 caracteres."
+    })
+  });
+  const form = useForm({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
+      topic: ""
+    }
+  });
+  const onSubmit = async (values) => {
+    setIsGenerating(true);
+    setGeneratedArticle(null);
+    try {
+      const response = await apiRequest({
+        method: "POST",
+        path: "/api/articles/generate",
+        body: { topic: values.topic }
+      });
+      setGeneratedArticle(response.data);
+      toast2({
+        title: "Artículo generado con éxito",
+        description: `El artículo "${response.data.title}" ha sido creado y publicado.`
+      });
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      toast2({
+        title: "Error",
+        description: "No se pudo generar el artículo. Verifica la configuración de OpenAI.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+  return /* @__PURE__ */ jsx("div", { className: "container mx-auto py-24 px-4", children: /* @__PURE__ */ jsxs(Card, { className: "max-w-2xl mx-auto", children: [
+    /* @__PURE__ */ jsxs(CardHeader, { children: [
+      /* @__PURE__ */ jsx(CardTitle, { className: "text-2xl font-playfair", children: "Generador de Artículos con IA" }),
+      /* @__PURE__ */ jsx(CardDescription, { children: "Introduce un tema para generar automáticamente un artículo de blog optimizado para SEO y publicarlo." })
+    ] }),
+    /* @__PURE__ */ jsxs(CardContent, { children: [
+      /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-6", children: [
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "topic",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+              /* @__PURE__ */ jsx(FormLabel, { children: "Tema del Artículo" }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Ej: Tendencias de bienestar en hoteles de lujo 2025", ...field }) }),
+              /* @__PURE__ */ jsx(FormMessage, {})
+            ] })
+          }
+        ),
+        /* @__PURE__ */ jsx(Button, { type: "submit", className: "w-full bg-turquoise hover:bg-turquoise-dark", disabled: isGenerating, children: isGenerating ? /* @__PURE__ */ jsxs(Fragment, { children: [
+          /* @__PURE__ */ jsx(Loader2, { className: "mr-2 h-4 w-4 animate-spin" }),
+          "Generando contenido..."
+        ] }) : "Generar y Publicar" })
+      ] }) }),
+      generatedArticle && /* @__PURE__ */ jsxs("div", { className: "mt-8 p-4 bg-green-50 rounded-lg border border-green-200", children: [
+        /* @__PURE__ */ jsx("h3", { className: "font-bold text-green-800 mb-2", children: "¡Artículo Publicado!" }),
+        /* @__PURE__ */ jsxs("p", { className: "text-sm text-green-700 mb-2", children: [
+          /* @__PURE__ */ jsx("strong", { children: "Título:" }),
+          " ",
+          generatedArticle.title
+        ] }),
+        /* @__PURE__ */ jsxs("p", { className: "text-sm text-green-700", children: [
+          /* @__PURE__ */ jsx("strong", { children: "Slug:" }),
+          " ",
+          generatedArticle.slug
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "mt-4", children: /* @__PURE__ */ jsx("a", { href: "/#blog", className: "text-turquoise hover:underline text-sm font-medium", children: "Ver en el blog →" }) })
+      ] })
+    ] })
+  ] }) });
+};
+const Admin$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: Admin
+}, Symbol.toStringTag, { value: "Module" }));
+const formSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required")
+});
+function AuthPage() {
+  const { user, loginMutation } = useAuth();
+  const [, setLocation] = useLocation();
+  useEffect(() => {
+    if (user) {
+      setLocation("/admin");
+    }
+  }, [user, setLocation]);
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      password: ""
+    }
+  });
+  function onSubmit(values) {
+    loginMutation.mutate(values);
+  }
+  return /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center bg-gray-50 px-4", children: /* @__PURE__ */ jsxs(Card, { className: "w-full max-w-md", children: [
+    /* @__PURE__ */ jsxs(CardHeader, { className: "space-y-1", children: [
+      /* @__PURE__ */ jsx(CardTitle, { className: "text-2xl font-bold text-center", children: "Admin Login" }),
+      /* @__PURE__ */ jsx(CardDescription, { className: "text-center", children: "Enter your credentials to access the admin panel" })
+    ] }),
+    /* @__PURE__ */ jsx(CardContent, { children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4", children: [
+      /* @__PURE__ */ jsx(
+        FormField,
+        {
+          control: form.control,
+          name: "username",
+          render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+            /* @__PURE__ */ jsx(FormLabel, { children: "Username" }),
+            /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { ...field }) }),
+            /* @__PURE__ */ jsx(FormMessage, {})
+          ] })
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        FormField,
+        {
+          control: form.control,
+          name: "password",
+          render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+            /* @__PURE__ */ jsx(FormLabel, { children: "Password" }),
+            /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { type: "password", ...field }) }),
+            /* @__PURE__ */ jsx(FormMessage, {})
+          ] })
+        }
+      ),
+      /* @__PURE__ */ jsxs(
+        Button,
+        {
+          type: "submit",
+          className: "w-full bg-turquoise hover:bg-turquoise-dark",
+          disabled: loginMutation.isPending,
+          children: [
+            loginMutation.isPending && /* @__PURE__ */ jsx(Loader2, { className: "mr-2 h-4 w-4 animate-spin" }),
+            "Sign In"
+          ]
+        }
+      )
+    ] }) }) })
+  ] }) });
+}
+const Auth = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: AuthPage
+}, Symbol.toStringTag, { value: "Module" }));
+function BlogPostPage() {
+  const [, params] = useRoute("/blog/:slug");
+  const slug = params == null ? void 0 : params.slug;
+  const { t, language } = useLanguage();
+  const { data: article, isLoading } = useQuery({
+    queryKey: [`/api/articles/${slug}`],
+    enabled: !!slug
+  });
+  const articleLanguage = (article == null ? void 0 : article.language) === "en" ? "en" : "es";
+  useEffect(() => {
+    if (!article) return;
+    document.documentElement.lang = articleLanguage;
+    return () => {
+      document.documentElement.lang = language;
+    };
+  }, [article, articleLanguage, language]);
+  if (isLoading) {
+    return /* @__PURE__ */ jsx("div", { className: "min-h-screen pt-24 pb-16 bg-background", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 max-w-4xl", children: [
+      /* @__PURE__ */ jsx(Skeleton, { className: "h-10 w-32 mb-8" }),
+      /* @__PURE__ */ jsxs("div", { className: "space-y-6", children: [
+        /* @__PURE__ */ jsx(Skeleton, { className: "aspect-video w-full rounded-2xl" }),
+        /* @__PURE__ */ jsxs("div", { className: "flex gap-4", children: [
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-24 rounded-full" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-32" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-6 w-24" })
+        ] }),
+        /* @__PURE__ */ jsx(Skeleton, { className: "h-12 w-3/4" }),
+        /* @__PURE__ */ jsxs("div", { className: "space-y-4 mt-8", children: [
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-5/6" }),
+          /* @__PURE__ */ jsx(Skeleton, { className: "h-4 w-full" })
+        ] })
+      ] })
+    ] }) });
+  }
+  if (!article) {
+    return /* @__PURE__ */ jsxs("div", { className: "min-h-screen pt-24 container mx-auto px-4 text-center", children: [
+      /* @__PURE__ */ jsx("h1", { className: "text-2xl font-bold mb-4", children: "Artículo no encontrado / Article not found" }),
+      /* @__PURE__ */ jsx(Link, { href: "/#blog", children: /* @__PURE__ */ jsxs(Button, { children: [
+        /* @__PURE__ */ jsx(ArrowLeft, { className: "mr-2 h-4 w-4" }),
+        "Volver / Back"
+      ] }) })
+    ] });
+  }
+  const siteUrl = "https://www.epmwellness.com";
+  const postUrl = `/blog/${article.slug}`;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.title,
+    "image": article.image.startsWith("http") ? article.image : `${siteUrl}${article.image}`,
+    "datePublished": article.date,
+    "author": {
+      "@type": "Person",
+      "name": "Eva Pérez"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Eva Pérez",
+      "image": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`
+      }
+    },
+    "description": article.excerpt
+  };
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: article.title,
+        description: article.excerpt,
+        image: article.image,
+        url: postUrl,
+        type: "article",
+        language: articleLanguage
+      }
+    ),
+    /* @__PURE__ */ jsx("script", { type: "application/ld+json", children: JSON.stringify(structuredData) }),
+    /* @__PURE__ */ jsx("article", { className: "min-h-screen pt-24 pb-16 bg-background", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 max-w-4xl", children: [
+      /* @__PURE__ */ jsx(Link, { href: "/#blog", children: /* @__PURE__ */ jsxs(Button, { variant: "ghost", className: "mb-8 hover:bg-transparent p-0 flex items-center text-muted-foreground hover:text-primary transition-colors", children: [
+        /* @__PURE__ */ jsx(ArrowLeft, { className: "mr-2 h-4 w-4" }),
+        language === "es" ? "Volver al Blog" : "Back to Blog"
+      ] }) }),
+      /* @__PURE__ */ jsxs("div", { className: "space-y-6", children: [
+        /* @__PURE__ */ jsx("div", { className: "relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg", children: /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: article.image,
+            alt: article.title,
+            className: "object-cover w-full h-full"
+          }
+        ) }),
+        /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-4 text-sm text-muted-foreground", children: [
+          /* @__PURE__ */ jsx("span", { className: "bg-primary/10 text-primary px-3 py-1 rounded-full font-medium", children: article.category }),
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center", children: [
+            /* @__PURE__ */ jsx(Calendar$1, { className: "h-4 w-4 mr-1" }),
+            new Date(article.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric"
+            })
+          ] }),
+          /* @__PURE__ */ jsxs("div", { className: "flex items-center", children: [
+            /* @__PURE__ */ jsx(Clock, { className: "h-4 w-4 mr-1" }),
+            article.readTime
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx("h1", { className: "text-4xl md:text-5xl font-playfair font-bold text-foreground leading-tight", children: article.title }),
+        /* @__PURE__ */ jsx("div", { className: "prose prose-lg dark:prose-invert max-w-none font-sans leading-relaxed", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: article.content }) }),
+        /* @__PURE__ */ jsx("div", { className: "mt-12 p-8 bg-muted/30 rounded-2xl border border-primary/10", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row gap-6 items-center justify-between", children: [
+          /* @__PURE__ */ jsxs("div", { className: "space-y-2 text-center md:text-left", children: [
+            /* @__PURE__ */ jsx("h3", { className: "text-xl font-playfair font-bold text-foreground", children: language === "es" ? "¿Tu Spa está alcanzando su máximo potencial?" : "Is your Spa reaching its full potential?" }),
+            /* @__PURE__ */ jsx("p", { className: "text-muted-foreground", children: language === "es" ? "Solicita una auditoría estratégica gratuita y descubre oportunidades ocultas de rentabilidad." : "Request a free strategic audit and discover hidden profitability opportunities." })
+          ] }),
+          /* @__PURE__ */ jsx(AuditModal, { source: "blog_article", children: /* @__PURE__ */ jsx(Button, { size: "lg", className: "shrink-0 bg-primary text-primary-foreground hover:bg-primary/90", children: language === "es" ? "Solicitar Auditoría" : "Request Audit" }) })
+        ] }) })
+      ] })
+    ] }) })
+  ] });
+}
+const BlogPostPage$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: BlogPostPage
+}, Symbol.toStringTag, { value: "Module" }));
 export {
-  Button as B,
-  Card as C,
-  Dialog as D,
-  Resources as R,
-  SEO as S,
-  DialogContent as a,
-  DialogTitle as b,
-  DialogDescription as c,
-  cn as d,
-  blogPosts as e,
-  useToast as f,
-  apiRequest as g,
-  trackEvent as h,
-  ScrollToTop as i,
-  buttonVariants as j,
-  CardHeader as k,
-  CardTitle as l,
-  CardDescription as m,
-  CardContent as n,
-  CardFooter as o,
-  portfolioItems as p,
-  toast as q,
-  useAuth as r,
-  render,
-  services as s,
-  testimonials as t,
-  useLanguage as u,
-  DialogTrigger as v,
-  DialogHeader as w
+  render
 };
