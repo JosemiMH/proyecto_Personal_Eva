@@ -8,7 +8,7 @@ import { PassThrough } from "node:stream";
 import { useLocation, Link, Route, Redirect, Switch, Router as Router$1, useRoute } from "wouter";
 import { QueryClient, useQuery, useMutation, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
-import React__default, { Component, createContext, useContext, useState, useEffect, useRef, Suspense, useMemo } from "react";
+import React__default, { Component, createContext, useContext, useState, useEffect, startTransition, useRef, Suspense, useMemo } from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva } from "class-variance-authority";
 import { X, AlertCircle, Loader2, ArrowRight, Tag, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ArrowLeft, Calendar as Calendar$1, Clock } from "lucide-react";
@@ -1470,11 +1470,11 @@ const LanguageProvider = ({ children }) => {
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language");
     if (savedLanguage && (savedLanguage === "es" || savedLanguage === "en")) {
-      setLanguage(savedLanguage);
+      startTransition(() => setLanguage(savedLanguage));
     } else {
       const browserLang = navigator.language.split("-")[0];
       if (browserLang === "en") {
-        setLanguage("en");
+        startTransition(() => setLanguage("en"));
       }
     }
   }, []);
@@ -4802,44 +4802,52 @@ const Blog = () => {
       initial: "hidden",
       whileInView: "visible",
       viewport: { once: true },
-      children: articles.map((post, index) => /* @__PURE__ */ jsx(Link, { href: `/blog/${post.slug}`, children: /* @__PURE__ */ jsx("a", { className: `block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 && articles.length > 1 ? "md:col-span-2 lg:col-span-2" : ""} ${index === 3 && articles.length > 4 ? "md:col-span-2 lg:col-span-1" : ""}`, children: /* @__PURE__ */ jsxs(
-        motion.div,
+      children: articles.map((post, index) => /* @__PURE__ */ jsx(
+        Link,
         {
-          className: "h-full w-full",
-          variants: itemVariants,
-          children: [
-            /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
-              /* @__PURE__ */ jsx(
-                OptimizedImage,
-                {
-                  src: post.image,
-                  alt: post.title,
-                  className: "w-full h-full transition-transform duration-700 group-hover:scale-110",
-                  objectFit: "cover",
-                  priority: index < 2
-                }
-              ),
-              /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" })
-            ] }),
-            /* @__PURE__ */ jsx("div", { className: "absolute inset-0 p-8 flex flex-col justify-end", children: /* @__PURE__ */ jsxs("div", { className: "transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500", children: [
-              /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider", children: [
-                /* @__PURE__ */ jsxs("span", { className: "bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1", children: [
-                  /* @__PURE__ */ jsx(Tag, { className: "w-3 h-3" }),
-                  post.category
+          href: `/blog/${post.slug}`,
+          className: `block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 && articles.length > 1 ? "md:col-span-2 lg:col-span-2" : ""} ${index === 3 && articles.length > 4 ? "md:col-span-2 lg:col-span-1" : ""}`,
+          children: /* @__PURE__ */ jsxs(
+            motion.div,
+            {
+              className: "h-full w-full",
+              variants: itemVariants,
+              children: [
+                /* @__PURE__ */ jsxs("div", { className: "absolute inset-0", children: [
+                  /* @__PURE__ */ jsx(
+                    OptimizedImage,
+                    {
+                      src: post.image,
+                      alt: post.title,
+                      className: "w-full h-full transition-transform duration-700 group-hover:scale-110",
+                      objectFit: "cover",
+                      priority: index < 2
+                    }
+                  ),
+                  /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" })
                 ] }),
-                /* @__PURE__ */ jsx("span", { children: "•" }),
-                /* @__PURE__ */ jsx("span", { children: new Date(post.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US") })
-              ] }),
-              /* @__PURE__ */ jsx("h4", { className: `font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`, children: post.title }),
-              /* @__PURE__ */ jsx("p", { className: "text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100", children: post.excerpt }),
-              /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center text-white font-medium group/link", children: [
-                /* @__PURE__ */ jsx("span", { className: "border-b border-turquoise pb-1 group-hover/link:border-white transition-colors", children: t("blog.readArticle") }),
-                /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" })
-              ] })
-            ] }) })
-          ]
-        }
-      ) }) }, post.id))
+                /* @__PURE__ */ jsx("div", { className: "absolute inset-0 p-8 flex flex-col justify-end", children: /* @__PURE__ */ jsxs("div", { className: "transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500", children: [
+                  /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap items-center gap-3 mb-4 text-white/80 text-xs font-medium uppercase tracking-wider", children: [
+                    /* @__PURE__ */ jsxs("span", { className: "bg-turquoise/90 text-white px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1", children: [
+                      /* @__PURE__ */ jsx(Tag, { className: "w-3 h-3" }),
+                      post.category
+                    ] }),
+                    /* @__PURE__ */ jsx("span", { children: "•" }),
+                    /* @__PURE__ */ jsx("span", { children: new Date(post.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US") })
+                  ] }),
+                  /* @__PURE__ */ jsx("h4", { className: `font-playfair font-bold text-white mb-3 leading-tight group-hover:text-turquoise-light transition-colors ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`, children: post.title }),
+                  /* @__PURE__ */ jsx("p", { className: "text-gray-200 mb-6 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100", children: post.excerpt }),
+                  /* @__PURE__ */ jsxs("div", { className: "inline-flex items-center text-white font-medium group/link", children: [
+                    /* @__PURE__ */ jsx("span", { className: "border-b border-turquoise pb-1 group-hover/link:border-white transition-colors", children: t("blog.readArticle") }),
+                    /* @__PURE__ */ jsx(ArrowRight, { className: "ml-2 h-4 w-4 transform group-hover/link:translate-x-1 transition-transform" })
+                  ] })
+                ] }) })
+              ]
+            }
+          )
+        },
+        post.id
+      ))
     }
   );
   return /* @__PURE__ */ jsx("section", { id: "blog", className: "py-20 md:py-32 bg-gray-50 relative", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [

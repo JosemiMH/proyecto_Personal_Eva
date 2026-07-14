@@ -103,9 +103,12 @@ const Blog = () => {
       viewport={{ once: true }}
     >
       {articles.map((post, index) => (
-        <Link key={post.id} href={`/blog/${post.slug}`}>
-          <a className={`block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 && articles.length > 1 ? 'md:col-span-2 lg:col-span-2' : ''
-            } ${index === 3 && articles.length > 4 ? 'md:col-span-2 lg:col-span-1' : ''}`}>
+        <Link
+          key={post.id}
+          href={`/blog/${post.slug}`}
+          className={`block h-full group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer ${index === 0 && articles.length > 1 ? 'md:col-span-2 lg:col-span-2' : ''
+            } ${index === 3 && articles.length > 4 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+        >
             <motion.div
               className="h-full w-full"
               variants={itemVariants}
@@ -153,7 +156,6 @@ const Blog = () => {
                 </div>
               </div>
             </motion.div>
-          </a>
         </Link>
       ))}
     </motion.div>

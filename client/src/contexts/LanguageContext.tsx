@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, useContext, ReactNode, startTransition } from 'react';
 import { Language, TranslationKey, translations } from '@/lib/translations';
 
 interface LanguageContextType {
@@ -28,12 +28,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     // Check if user has previously selected a language
     const savedLanguage = localStorage.getItem('language') as Language | null;
     if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
-      setLanguage(savedLanguage);
+      startTransition(() => setLanguage(savedLanguage));
     } else {
       // Get browser language preference
       const browserLang = navigator.language.split('-')[0];
       if (browserLang === 'en') {
-        setLanguage('en');
+        startTransition(() => setLanguage('en'));
       }
       // Default is already 'es'
     }
