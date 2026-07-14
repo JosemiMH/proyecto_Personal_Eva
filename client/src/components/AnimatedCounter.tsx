@@ -50,7 +50,7 @@ const AnimatedCounter = ({
       transition={{ duration: 0.5 }}
     >
       <div className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-turquoise mb-2">
-        {prefix}{count}{suffix}
+        {`${prefix}${count}${suffix}`}
       </div>
       <p className="text-charcoal-light text-sm md:text-base">{label}</p>
     </motion.div>

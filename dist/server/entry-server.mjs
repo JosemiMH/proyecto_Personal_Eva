@@ -4089,11 +4089,7 @@ const AnimatedCounter = ({
       viewport: { once: true },
       transition: { duration: 0.5 },
       children: [
-        /* @__PURE__ */ jsxs("div", { className: "font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-turquoise mb-2", children: [
-          prefix,
-          count2,
-          suffix
-        ] }),
+        /* @__PURE__ */ jsx("div", { className: "font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-turquoise mb-2", children: `${prefix}${count2}${suffix}` }),
         /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm md:text-base", children: label })
       ]
     }
