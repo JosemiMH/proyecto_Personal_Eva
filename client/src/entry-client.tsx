@@ -185,17 +185,24 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+const rootElement = document.getElementById("root")!;
+const shouldHydrate = rootElement.childElementCount > 0;
+
 seedQueryClient(queryClient, window.__INITIAL_QUERY_DATA__);
+if (shouldHydrate) {
+  // Match the anonymous user state used during prerendering so the auth query
+  // cannot update the Suspense tree before hydration has completed.
+  queryClient.setQueryData(["/api/user"], null);
+}
 initInteractionTracking();
 
-const rootElement = document.getElementById("root")!;
 const app = (
   <HelmetProvider>
     <App queryClient={queryClient} />
   </HelmetProvider>
 );
 
-if (rootElement.childElementCount > 0) {
+if (shouldHydrate) {
   hydrateRoot(rootElement, app);
 } else {
   createRoot(rootElement).render(app);
