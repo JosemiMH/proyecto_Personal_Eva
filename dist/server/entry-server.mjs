@@ -4106,6 +4106,7 @@ const OptimizedImage = ({
   objectFit = "cover",
   priority = false
 }) => {
+  const imageRef = useRef(null);
   const [isLoading, setIsLoading] = useState(!priority);
   const [imageSrc, setImageSrc] = useState(src);
   const [error, setError] = useState(false);
@@ -4123,13 +4124,14 @@ const OptimizedImage = ({
     setImageSrc("https://placehold.co/600x400/e2e8f0/94a3b8?text=Image+not+available");
   };
   useEffect(() => {
-    if (priority && src) {
-      const img = new Image();
-      img.src = src;
-      img.onload = handleLoad;
-      img.onerror = handleError;
+    const image = imageRef.current;
+    if (!(image == null ? void 0 : image.complete)) return;
+    if (image.naturalWidth > 0) {
+      handleLoad();
+    } else {
+      handleError();
     }
-  }, [priority, src]);
+  }, [imageSrc]);
   return /* @__PURE__ */ jsxs("div", { className: `relative overflow-hidden ${className}`, children: [
     isLoading && /* @__PURE__ */ jsx(
       Skeleton,
@@ -4141,6 +4143,7 @@ const OptimizedImage = ({
     /* @__PURE__ */ jsx(
       "img",
       {
+        ref: imageRef,
         src: imageSrc,
         alt,
         width,

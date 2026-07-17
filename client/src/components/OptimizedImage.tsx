@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface OptimizedImageProps {
@@ -20,6 +20,7 @@ const OptimizedImage = ({
   objectFit = 'cover',
   priority = false,
 }: OptimizedImageProps) => {
+  const imageRef = useRef<HTMLImageElement>(null);
   const [isLoading, setIsLoading] = useState(!priority);
   const [imageSrc, setImageSrc] = useState(src);
   const [error, setError] = useState(false);
@@ -43,15 +44,19 @@ const OptimizedImage = ({
     setImageSrc('https://placehold.co/600x400/e2e8f0/94a3b8?text=Image+not+available');
   };
 
-  // Cargar la imagen antes si es prioritaria
+  // Durante el SSR la imagen puede terminar de cargar antes de que React
+  // conecte onLoad. Sin esta comprobación, el esqueleto queda visible para
+  // siempre aunque el archivo ya esté en la caché del navegador.
   useEffect(() => {
-    if (priority && src) {
-      const img = new Image();
-      img.src = src;
-      img.onload = handleLoad;
-      img.onerror = handleError;
+    const image = imageRef.current;
+    if (!image?.complete) return;
+
+    if (image.naturalWidth > 0) {
+      handleLoad();
+    } else {
+      handleError();
     }
-  }, [priority, src]);
+  }, [imageSrc]);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -63,6 +68,7 @@ const OptimizedImage = ({
       )}
       
       <img
+        ref={imageRef}
         src={imageSrc}
         alt={alt}
         width={width}
