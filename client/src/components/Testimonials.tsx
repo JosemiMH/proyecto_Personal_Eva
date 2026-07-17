@@ -5,6 +5,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Testimonials = () => {
   const { t, language } = useLanguage();
+  const aiAvatarDisclosure = language === 'es'
+    ? 'Retrato ilustrativo generado con IA; no es una fotografía documental.'
+    : 'Illustrative AI-generated portrait; it is not a documentary photograph.';
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(3);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -91,7 +94,9 @@ const Testimonials = () => {
                   <div className="flex items-center">
                     <img 
                       src={testimonial.avatar} 
-                      alt={testimonial.name} 
+                      alt={`${testimonial.name}. ${aiAvatarDisclosure}`}
+                      title={aiAvatarDisclosure}
+                      data-content-origin="ai-generated"
                       width="96"
                       height="96"
                       loading="lazy"

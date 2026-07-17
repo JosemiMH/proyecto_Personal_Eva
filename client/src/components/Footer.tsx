@@ -93,9 +93,22 @@ const Footer = () => {
         <hr className="border-gray-700 mb-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-xs mb-4 md:mb-0">
-            &copy; {currentYear} Eva Pérez. {language === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.'}
-          </p>
+          <div className="text-gray-400 text-xs mb-4 md:mb-0 text-center md:text-left">
+            <p>
+              &copy; {currentYear} Eva Pérez. {language === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.'}
+            </p>
+            <p className="mt-2 max-w-xl leading-relaxed">
+              {language === 'es'
+                ? 'Este sitio utiliza Inteligencia Artificial en su asistente virtual y para elaborar determinados contenidos e imágenes. Más información en el '
+                : 'This site uses Artificial Intelligence in its virtual assistant and to create certain content and images. Learn more in the '}
+              <a
+                href="/terms#uso-inteligencia-artificial"
+                className="text-gray-300 underline underline-offset-2 hover:text-turquoise transition-colors"
+              >
+                {language === 'es' ? 'Aviso Legal' : 'Legal Notice'}
+              </a>.
+            </p>
+          </div>
           <div className="flex space-x-6">
             <Link href="/privacy" className="text-gray-400 hover:text-turquoise text-xs transition-colors">
               {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}

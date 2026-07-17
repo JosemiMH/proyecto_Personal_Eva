@@ -2577,6 +2577,20 @@ const DialogHeader = ({
   }
 );
 DialogHeader.displayName = "DialogHeader";
+const DialogFooter = ({
+  className,
+  ...props
+}) => /* @__PURE__ */ jsx(
+  "div",
+  {
+    className: cn(
+      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      className
+    ),
+    ...props
+  }
+);
+DialogFooter.displayName = "DialogFooter";
 const DialogTitle = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   DialogPrimitive.Title,
   {
@@ -3027,6 +3041,7 @@ function useChatbot() {
     sendMessage
   };
 }
+const AI_NOTICE_STORAGE_KEY = "epmAiChatNoticeAccepted";
 const ChatBot = () => {
   const { language, t } = useLanguage();
   const {
@@ -3040,12 +3055,38 @@ const ChatBot = () => {
   } = useChatbot();
   const chatContainerRef = useRef(null);
   const hasTrackedOpen = useRef(false);
-  const openChat = (source) => {
+  const pendingOpenSource = useRef("floating_button");
+  const [hasAcceptedAiNotice, setHasAcceptedAiNotice] = useState(false);
+  const [showAiNotice, setShowAiNotice] = useState(false);
+  useEffect(() => {
+    try {
+      setHasAcceptedAiNotice(localStorage.getItem(AI_NOTICE_STORAGE_KEY) === "true");
+    } catch {
+    }
+  }, []);
+  const startChat = (source) => {
     if (!hasTrackedOpen.current) {
       trackEvent("chat_start", { source, language });
       hasTrackedOpen.current = true;
     }
     setIsOpen(true);
+  };
+  const openChat = (source) => {
+    if (hasAcceptedAiNotice) {
+      startChat(source);
+      return;
+    }
+    pendingOpenSource.current = source;
+    setShowAiNotice(true);
+  };
+  const acceptAiNotice = () => {
+    try {
+      localStorage.setItem(AI_NOTICE_STORAGE_KEY, "true");
+    } catch {
+    }
+    setHasAcceptedAiNotice(true);
+    setShowAiNotice(false);
+    startChat(pendingOpenSource.current);
   };
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -3065,6 +3106,28 @@ const ChatBot = () => {
   const subtitle = t("chatbot.subtitle");
   const suggestionsText = t("chatbot.suggestions");
   return /* @__PURE__ */ jsxs("div", { id: "chatbot-container", className: "relative", children: [
+    /* @__PURE__ */ jsx(Dialog, { open: showAiNotice, onOpenChange: setShowAiNotice, children: /* @__PURE__ */ jsxs(DialogContent, { className: "max-w-md border-gray-100 bg-white font-poppins text-charcoal shadow-xl", children: [
+      /* @__PURE__ */ jsxs(DialogHeader, { children: [
+        /* @__PURE__ */ jsx(DialogTitle, { className: "pr-6 font-playfair text-2xl text-turquoise-dark", children: language === "es" ? "Asistente virtual con Inteligencia Artificial" : "Artificial Intelligence virtual assistant" }),
+        /* @__PURE__ */ jsx(DialogDescription, { className: "pt-2 text-left leading-relaxed text-gray-600", children: language === "es" ? "Estás a punto de interactuar con un asistente basado en Inteligencia Artificial. Sus respuestas son informativas, pueden contener errores y no sustituyen el asesoramiento profesional personalizado." : "You are about to interact with an Artificial Intelligence assistant. Its answers are for information only, may contain errors, and do not replace personalised professional advice." })
+      ] }),
+      /* @__PURE__ */ jsxs("p", { className: "text-sm leading-relaxed text-gray-600", children: [
+        language === "es" ? "No incluyas datos sensibles o confidenciales. Consulta cómo tratamos la conversación en la " : "Do not include sensitive or confidential data. See how we process the conversation in the ",
+        /* @__PURE__ */ jsx("a", { href: "/privacy#asistente-virtual-ia", className: "font-medium text-turquoise underline-offset-2 hover:underline", children: language === "es" ? "Política de Privacidad" : "Privacy Policy" }),
+        language === "es" ? " y el " : " and the ",
+        /* @__PURE__ */ jsx("a", { href: "/terms#uso-inteligencia-artificial", className: "font-medium text-turquoise underline-offset-2 hover:underline", children: language === "es" ? "Aviso Legal" : "Legal Notice" }),
+        "."
+      ] }),
+      /* @__PURE__ */ jsx(DialogFooter, { children: /* @__PURE__ */ jsx(
+        Button,
+        {
+          type: "button",
+          className: "w-full bg-turquoise text-white hover:bg-turquoise-dark sm:w-auto",
+          onClick: acceptAiNotice,
+          children: language === "es" ? "Aceptar y continuar" : "Accept and continue"
+        }
+      ) })
+    ] }) }),
     /* @__PURE__ */ jsxs(
       motion.div,
       {
@@ -4493,6 +4556,7 @@ function Badge({ className, variant, ...props }) {
 }
 const ProjectModal = ({ isOpen, onClose, project }) => {
   const { language } = useLanguage();
+  const aiImageDisclosure = language === "es" ? "Imagen conceptual generada con IA; no es una fotografía documental del establecimiento." : "Conceptual AI-generated image; it is not a documentary photograph of the property.";
   if (!project) return null;
   return /* @__PURE__ */ jsx(Dialog, { open: isOpen, onOpenChange: onClose, children: /* @__PURE__ */ jsxs(DialogContent, { className: "sm:max-w-[900px] w-[95vw] h-[90vh] max-h-[90vh] flex flex-col font-poppins p-0 border-none shadow-2xl bg-white z-[60] overflow-hidden", children: [
     /* @__PURE__ */ jsxs("div", { className: "relative h-64 md:h-80 w-full shrink-0 bg-gray-900", children: [
@@ -4500,7 +4564,9 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
         "img",
         {
           src: project.image,
-          alt: project.title[language],
+          alt: `${project.title[language]}. ${aiImageDisclosure}`,
+          title: aiImageDisclosure,
+          "data-content-origin": "ai-generated",
           className: "w-full h-full object-cover opacity-90"
         }
       ),
@@ -4554,6 +4620,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
 };
 const Portfolio = () => {
   const { t, language } = useLanguage();
+  const aiImageDisclosure = language === "es" ? "Imagen conceptual generada con IA; no es una fotografía documental del establecimiento." : "Conceptual AI-generated image; it is not a documentary photograph of the property.";
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -4699,7 +4766,9 @@ const Portfolio = () => {
                     "img",
                     {
                       src: item.image,
-                      alt: item.title[language],
+                      alt: `${item.title[language]}. ${aiImageDisclosure}`,
+                      title: aiImageDisclosure,
+                      "data-content-origin": "ai-generated",
                       className: "w-full h-full object-cover",
                       width: "1024",
                       height: "1024",
@@ -4755,6 +4824,7 @@ const Portfolio = () => {
 };
 const Testimonials = () => {
   const { t, language } = useLanguage();
+  const aiAvatarDisclosure = language === "es" ? "Retrato ilustrativo generado con IA; no es una fotografía documental." : "Illustrative AI-generated portrait; it is not a documentary photograph.";
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(3);
   const sliderRef = useRef(null);
@@ -4826,7 +4896,9 @@ const Testimonials = () => {
                 "img",
                 {
                   src: testimonial.avatar,
-                  alt: testimonial.name,
+                  alt: `${testimonial.name}. ${aiAvatarDisclosure}`,
+                  title: aiAvatarDisclosure,
+                  "data-content-origin": "ai-generated",
                   width: "96",
                   height: "96",
                   loading: "lazy",
@@ -6068,11 +6140,25 @@ const Footer = () => {
     ] }),
     /* @__PURE__ */ jsx("hr", { className: "border-gray-700 mb-8" }),
     /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row justify-between items-center", children: [
-      /* @__PURE__ */ jsxs("p", { className: "text-gray-400 text-xs mb-4 md:mb-0", children: [
-        "© ",
-        currentYear,
-        " Eva Pérez. ",
-        language === "es" ? "Todos los derechos reservados." : "All rights reserved."
+      /* @__PURE__ */ jsxs("div", { className: "text-gray-400 text-xs mb-4 md:mb-0 text-center md:text-left", children: [
+        /* @__PURE__ */ jsxs("p", { children: [
+          "© ",
+          currentYear,
+          " Eva Pérez. ",
+          language === "es" ? "Todos los derechos reservados." : "All rights reserved."
+        ] }),
+        /* @__PURE__ */ jsxs("p", { className: "mt-2 max-w-xl leading-relaxed", children: [
+          language === "es" ? "Este sitio utiliza Inteligencia Artificial en su asistente virtual y para elaborar determinados contenidos e imágenes. Más información en el " : "This site uses Artificial Intelligence in its virtual assistant and to create certain content and images. Learn more in the ",
+          /* @__PURE__ */ jsx(
+            "a",
+            {
+              href: "/terms#uso-inteligencia-artificial",
+              className: "text-gray-300 underline underline-offset-2 hover:text-turquoise transition-colors",
+              children: language === "es" ? "Aviso Legal" : "Legal Notice"
+            }
+          ),
+          "."
+        ] })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "flex space-x-6", children: [
         /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "text-gray-400 hover:text-turquoise text-xs transition-colors", children: language === "es" ? "Política de Privacidad" : "Privacy Policy" }),
@@ -6312,7 +6398,15 @@ const Home$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
 }, Symbol.toStringTag, { value: "Module" }));
 const Privacy = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const sectionId = window.location.hash.slice(1);
+    if (!sectionId) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      var _a2;
+      (_a2 = document.getElementById(sectionId)) == null ? void 0 : _a2.scrollIntoView({ block: "start" });
+    });
   }, []);
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(
@@ -6378,7 +6472,43 @@ const Privacy = () => {
         /* @__PURE__ */ jsx("p", { children: "Los datos proporcionados se conservarán mientras se mantenga la relación comercial o durante los años necesarios para cumplir con las obligaciones legales. Los datos para el envío de newsletter se conservarán hasta que solicites tu baja." }),
         /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "5. Destinatarios" }),
         /* @__PURE__ */ jsx("p", { children: "Los datos no se cederán a terceros salvo en los casos en que exista una obligación legal. Utilizamos proveedores de servicios (como plataformas de email marketing o hosting) que pueden tener acceso a datos, garantizando siempre el cumplimiento del RGPD." }),
-        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "6. Derechos" }),
+        /* @__PURE__ */ jsx(
+          "h2",
+          {
+            id: "asistente-virtual-ia",
+            className: "scroll-mt-24 text-xl font-bold mt-6 mb-2",
+            children: "6. Asistente virtual con Inteligencia Artificial"
+          }
+        ),
+        /* @__PURE__ */ jsx("p", { children: "Cuando utilizas el asistente virtual, tratamos el texto que introduces, las respuestas generadas y los datos técnicos imprescindibles para prestar el servicio, responder a tu consulta y protegerlo frente a usos abusivos. No utilices el chat para comunicar datos especialmente protegidos, información confidencial ni datos personales de terceras personas." }),
+        /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Finalidad:" }),
+            " generar una respuesta informativa en tiempo real y atender consultas iniciales sobre los servicios de EPM Wellness."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Base jurídica:" }),
+            " la aplicación de medidas precontractuales solicitadas por la persona usuaria y el interés legítimo en responder consultas y mantener la seguridad del servicio."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Proveedor:" }),
+            " la conversación se envía mediante API a OpenAI Ireland Ltd., que actúa como proveedor tecnológico. Cuando intervienen subencargados situados fuera del Espacio Económico Europeo, se aplican las garantías previstas en el RGPD, incluidas decisiones de adecuación o cláusulas contractuales tipo."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Conservación:" }),
+            " EPM Wellness no guarda el historial del chat en una base de datos propia. La conversación visible se mantiene temporalmente en la memoria del navegador y desaparece al recargar o cerrar la página. Con la configuración estándar de la API, OpenAI puede conservar entradas y respuestas hasta 30 días para supervisar abusos, salvo obligación legal de conservación por más tiempo. Estos datos no se utilizan para entrenar modelos por defecto, salvo adhesión expresa del titular de la cuenta a programas de compartición."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Decisiones automatizadas:" }),
+            " el asistente no adopta decisiones con efectos jurídicos o de importancia similar sobre las personas usuarias."
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxs("p", { children: [
+          "Puedes ejercer tus derechos respecto a este tratamiento escribiendo a ",
+          /* @__PURE__ */ jsx("strong", { children: "epm@epmwellness.com" }),
+          "."
+        ] }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "7. Derechos" }),
         /* @__PURE__ */ jsx("p", { children: "Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales y, por tanto, tienes derecho a:" }),
         /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
           /* @__PURE__ */ jsx("li", { children: "Acceder a tus datos personales." }),
@@ -6392,7 +6522,8 @@ const Privacy = () => {
           "Puedes ejercer tus derechos enviando un email a ",
           /* @__PURE__ */ jsx("strong", { children: "epm@epmwellness.com" }),
           "."
-        ] })
+        ] }),
+        /* @__PURE__ */ jsx("p", { className: "text-sm text-gray-500 mt-8", children: "Última actualización: 17 de julio de 2026." })
       ] }) }),
       /* @__PURE__ */ jsx(Footer, {})
     ] }) })
@@ -6404,7 +6535,15 @@ const Privacy$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
 }, Symbol.toStringTag, { value: "Module" }));
 const Terms = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const sectionId = window.location.hash.slice(1);
+    if (!sectionId) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    window.requestAnimationFrame(() => {
+      var _a2;
+      (_a2 = document.getElementById(sectionId)) == null ? void 0 : _a2.scrollIntoView({ block: "start" });
+    });
   }, []);
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(
@@ -6434,7 +6573,20 @@ const Terms = () => {
         /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "6. Modificaciones" }),
         /* @__PURE__ */ jsx("p", { children: "Nos reservamos el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del sitio web, así como los presentes Términos y Condiciones." }),
         /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "7. Legislación Aplicable" }),
-        /* @__PURE__ */ jsx("p", { children: "Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España)." })
+        /* @__PURE__ */ jsx("p", { children: "Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España)." }),
+        /* @__PURE__ */ jsx(
+          "h2",
+          {
+            id: "uso-inteligencia-artificial",
+            className: "scroll-mt-24 text-xl font-bold mt-6 mb-2",
+            children: "8. Uso de Inteligencia Artificial"
+          }
+        ),
+        /* @__PURE__ */ jsx("p", { children: "Determinados contenidos, imágenes, ilustraciones y elementos de este sitio web han sido creados o elaborados con la asistencia de herramientas de Inteligencia Artificial (IA). Los materiales publicados son revisados, validados y aprobados bajo supervisión humana por EPM Wellness, que asume la responsabilidad editorial sobre la información y los materiales ofrecidos en este sitio." }),
+        /* @__PURE__ */ jsx("p", { children: "Salvo que se indique expresamente lo contrario, las imágenes generadas con IA que acompañan casos de éxito y los retratos ilustrativos de testimonios tienen carácter conceptual: no deben interpretarse como fotografías documentales de una instalación o de la persona citada. Si se publicara contenido sintético que pudiera confundirse con una persona, lugar, entidad o acontecimiento real, se identificaría de forma específica cuando resulte legalmente exigible." }),
+        /* @__PURE__ */ jsx("p", { children: "El asistente virtual es un sistema de IA destinado a ofrecer información general sobre los servicios de Eva Pérez y EPM Wellness. Sus respuestas pueden ser inexactas o incompletas, no sustituyen el asesoramiento profesional personalizado y no adoptan decisiones que produzcan efectos jurídicos o similares sobre las personas usuarias." }),
+        /* @__PURE__ */ jsx("p", { children: "La utilización de IA tiene como finalidad apoyar la calidad, la accesibilidad y la eficiencia en la elaboración de contenidos y en la atención inicial, manteniendo supervisión humana. Antes de la primera interacción con el asistente se informa expresamente de su naturaleza artificial y del tratamiento de la conversación." }),
+        /* @__PURE__ */ jsx("p", { className: "text-sm text-gray-500 mt-8", children: "Última actualización: 17 de julio de 2026." })
       ] }) }),
       /* @__PURE__ */ jsx(Footer, {})
     ] }) })
@@ -6471,6 +6623,12 @@ const Cookies = () => {
         /* @__PURE__ */ jsx("p", { children: "Son aquellas que nos permiten cuantificar el número de usuarios y así realizar la medición y análisis estadístico de la utilización que hacen los usuarios del servicio. Para ello se analiza tu navegación en nuestra página web con el fin de mejorar la oferta de productos o servicios que te ofrecemos." }),
         /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "3. Cookies de Preferencias" }),
         /* @__PURE__ */ jsx("p", { children: "Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional." }),
+        /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "4. Almacenamiento local técnico" }),
+        /* @__PURE__ */ jsxs("p", { children: [
+          "Utilizamos el almacenamiento local del navegador para recordar que ya has recibido el aviso de transparencia del asistente virtual de IA (",
+          /* @__PURE__ */ jsx("code", { children: "epmAiChatNoticeAccepted" }),
+          "). Este dato no identifica a la persona, no se comparte con terceros y se conserva hasta que elimines los datos del sitio desde tu navegador. Su finalidad es evitar que el mismo aviso aparezca antes de cada conversación."
+        ] }),
         /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "Gestión de Cookies" }),
         /* @__PURE__ */ jsx("p", { children: "Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:" }),
         /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
@@ -6793,6 +6951,7 @@ function BlogPostPage() {
     "datePublished": article.date,
     "dateModified": article.date,
     "mainEntityOfPage": `${siteUrl2}${postUrl}`,
+    "publishingPrinciples": `${siteUrl2}/terms#uso-inteligencia-artificial`,
     "author": {
       "@type": "Person",
       "name": "Eva Pérez",

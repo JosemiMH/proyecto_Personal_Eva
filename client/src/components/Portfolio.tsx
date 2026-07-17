@@ -9,6 +9,9 @@ type FilterCategory = 'all' | 'paradores' | 'eurostars' | 'hg' | 'melia' | 'axel
 
 const Portfolio = () => {
   const { t, language } = useLanguage();
+  const aiImageDisclosure = language === 'es'
+    ? 'Imagen conceptual generada con IA; no es una fotografía documental del establecimiento.'
+    : 'Conceptual AI-generated image; it is not a documentary photograph of the property.';
   const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -149,7 +152,9 @@ const Portfolio = () => {
               <div className="relative h-64">
                 <img
                   src={item.image}
-                  alt={item.title[language]}
+                  alt={`${item.title[language]}. ${aiImageDisclosure}`}
+                  title={aiImageDisclosure}
+                  data-content-origin="ai-generated"
                   className="w-full h-full object-cover"
                   width="1024"
                   height="1024"

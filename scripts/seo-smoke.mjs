@@ -75,6 +75,17 @@ assert.ok(blogPosting, "El artículo debe incluir JSON-LD BlogPosting válido");
 assert.equal(blogPosting.headline, sample.title, "El headline estructurado debe coincidir con el artículo");
 assert.ok(blogPosting.dateModified, "BlogPosting debe incluir dateModified");
 assert.ok(blogPosting.mainEntityOfPage, "BlogPosting debe incluir mainEntityOfPage");
+assert.equal(
+  blogPosting.publishingPrinciples,
+  "https://www.epmwellness.com/terms#uso-inteligencia-artificial",
+  "BlogPosting debe enlazar la política editorial y de transparencia de IA",
+);
+
+const termsHtml = await fs.readFile(path.join(prerenderDir, manifest.routes["/terms"]), "utf8");
+assert.match(termsHtml, /id="uso-inteligencia-artificial"/i, "Falta el apartado de transparencia de IA");
+
+const privacyHtml = await fs.readFile(path.join(prerenderDir, manifest.routes["/privacy"]), "utf8");
+assert.match(privacyHtml, /id="asistente-virtual-ia"/i, "Falta la información de privacidad del asistente de IA");
 
 const relatedLinks = [...articleHtml.matchAll(/href="\/blog\/([^"]+)"/g)]
   .map((match) => match[1])

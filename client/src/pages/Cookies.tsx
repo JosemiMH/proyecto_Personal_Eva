@@ -49,6 +49,11 @@ const Cookies = () => {
               Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional.
             </p>
 
+            <h4 className="font-bold mt-4">4. Almacenamiento local técnico</h4>
+            <p>
+              Utilizamos el almacenamiento local del navegador para recordar que ya has recibido el aviso de transparencia del asistente virtual de IA (<code>epmAiChatNoticeAccepted</code>). Este dato no identifica a la persona, no se comparte con terceros y se conserva hasta que elimines los datos del sitio desde tu navegador. Su finalidad es evitar que el mismo aviso aparezca antes de cada conversación.
+            </p>
+
             <h2 className="text-xl font-bold mt-6 mb-2">Gestión de Cookies</h2>
             <p>
               Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:

@@ -1,9 +1,19 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { useChatbot } from '@/hooks/useChatbot';
 import { trackEvent } from '@/lib/analytics';
+
+const AI_NOTICE_STORAGE_KEY = 'epmAiChatNoticeAccepted';
 
 const ChatBot = () => {
   const { language, t } = useLanguage();
@@ -19,13 +29,46 @@ const ChatBot = () => {
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const hasTrackedOpen = useRef(false);
+  const pendingOpenSource = useRef<'prompt' | 'floating_button'>('floating_button');
+  const [hasAcceptedAiNotice, setHasAcceptedAiNotice] = useState(false);
+  const [showAiNotice, setShowAiNotice] = useState(false);
 
-  const openChat = (source: 'prompt' | 'floating_button') => {
+  useEffect(() => {
+    try {
+      setHasAcceptedAiNotice(localStorage.getItem(AI_NOTICE_STORAGE_KEY) === 'true');
+    } catch {
+      // If storage is unavailable, the notice is shown again on the next visit.
+    }
+  }, []);
+
+  const startChat = (source: 'prompt' | 'floating_button') => {
     if (!hasTrackedOpen.current) {
       trackEvent('chat_start', { source, language });
       hasTrackedOpen.current = true;
     }
     setIsOpen(true);
+  };
+
+  const openChat = (source: 'prompt' | 'floating_button') => {
+    if (hasAcceptedAiNotice) {
+      startChat(source);
+      return;
+    }
+
+    pendingOpenSource.current = source;
+    setShowAiNotice(true);
+  };
+
+  const acceptAiNotice = () => {
+    try {
+      localStorage.setItem(AI_NOTICE_STORAGE_KEY, 'true');
+    } catch {
+      // The acknowledgement still applies to the current session.
+    }
+
+    setHasAcceptedAiNotice(true);
+    setShowAiNotice(false);
+    startChat(pendingOpenSource.current);
   };
 
   // Auto-scroll al último mensaje
@@ -52,6 +95,46 @@ const ChatBot = () => {
 
   return (
     <div id="chatbot-container" className="relative">
+      <Dialog open={showAiNotice} onOpenChange={setShowAiNotice}>
+        <DialogContent className="max-w-md border-gray-100 bg-white font-poppins text-charcoal shadow-xl">
+          <DialogHeader>
+            <DialogTitle className="pr-6 font-playfair text-2xl text-turquoise-dark">
+              {language === 'es'
+                ? 'Asistente virtual con Inteligencia Artificial'
+                : 'Artificial Intelligence virtual assistant'}
+            </DialogTitle>
+            <DialogDescription className="pt-2 text-left leading-relaxed text-gray-600">
+              {language === 'es'
+                ? 'Estás a punto de interactuar con un asistente basado en Inteligencia Artificial. Sus respuestas son informativas, pueden contener errores y no sustituyen el asesoramiento profesional personalizado.'
+                : 'You are about to interact with an Artificial Intelligence assistant. Its answers are for information only, may contain errors, and do not replace personalised professional advice.'}
+            </DialogDescription>
+          </DialogHeader>
+
+          <p className="text-sm leading-relaxed text-gray-600">
+            {language === 'es'
+              ? 'No incluyas datos sensibles o confidenciales. Consulta cómo tratamos la conversación en la '
+              : 'Do not include sensitive or confidential data. See how we process the conversation in the '}
+            <a href="/privacy#asistente-virtual-ia" className="font-medium text-turquoise underline-offset-2 hover:underline">
+              {language === 'es' ? 'Política de Privacidad' : 'Privacy Policy'}
+            </a>
+            {language === 'es' ? ' y el ' : ' and the '}
+            <a href="/terms#uso-inteligencia-artificial" className="font-medium text-turquoise underline-offset-2 hover:underline">
+              {language === 'es' ? 'Aviso Legal' : 'Legal Notice'}
+            </a>.
+          </p>
+
+          <DialogFooter>
+            <Button
+              type="button"
+              className="w-full bg-turquoise text-white hover:bg-turquoise-dark sm:w-auto"
+              onClick={acceptAiNotice}
+            >
+              {language === 'es' ? 'Aceptar y continuar' : 'Accept and continue'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Botón para abrir el chat */}
       <motion.div
         className="fixed bottom-6 right-6 z-50 flex flex-col items-end"

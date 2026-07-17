@@ -11,6 +11,9 @@ interface ProjectModalProps {
 
 const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
     const { language } = useLanguage();
+    const aiImageDisclosure = language === 'es'
+        ? 'Imagen conceptual generada con IA; no es una fotografía documental del establecimiento.'
+        : 'Conceptual AI-generated image; it is not a documentary photograph of the property.';
 
     if (!project) return null;
 
@@ -22,7 +25,9 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                 <div className="relative h-64 md:h-80 w-full shrink-0 bg-gray-900">
                     <img
                         src={project.image}
-                        alt={project.title[language]}
+                        alt={`${project.title[language]}. ${aiImageDisclosure}`}
+                        title={aiImageDisclosure}
+                        data-content-origin="ai-generated"
                         className="w-full h-full object-cover opacity-90"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-6 md:p-8">

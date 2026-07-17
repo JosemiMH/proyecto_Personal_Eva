@@ -6,7 +6,15 @@ import SEO from "@/components/SEO";
 
 const Privacy = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const sectionId = window.location.hash.slice(1);
+    if (!sectionId) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ block: "start" });
+    });
   }, []);
 
   return (
@@ -61,7 +69,27 @@ const Privacy = () => {
               Los datos no se cederán a terceros salvo en los casos en que exista una obligación legal. Utilizamos proveedores de servicios (como plataformas de email marketing o hosting) que pueden tener acceso a datos, garantizando siempre el cumplimiento del RGPD.
             </p>
 
-            <h2 className="text-xl font-bold mt-6 mb-2">6. Derechos</h2>
+            <h2
+              id="asistente-virtual-ia"
+              className="scroll-mt-24 text-xl font-bold mt-6 mb-2"
+            >
+              6. Asistente virtual con Inteligencia Artificial
+            </h2>
+            <p>
+              Cuando utilizas el asistente virtual, tratamos el texto que introduces, las respuestas generadas y los datos técnicos imprescindibles para prestar el servicio, responder a tu consulta y protegerlo frente a usos abusivos. No utilices el chat para comunicar datos especialmente protegidos, información confidencial ni datos personales de terceras personas.
+            </p>
+            <ul className="list-disc pl-5 mb-4">
+              <li><strong>Finalidad:</strong> generar una respuesta informativa en tiempo real y atender consultas iniciales sobre los servicios de EPM Wellness.</li>
+              <li><strong>Base jurídica:</strong> la aplicación de medidas precontractuales solicitadas por la persona usuaria y el interés legítimo en responder consultas y mantener la seguridad del servicio.</li>
+              <li><strong>Proveedor:</strong> la conversación se envía mediante API a OpenAI Ireland Ltd., que actúa como proveedor tecnológico. Cuando intervienen subencargados situados fuera del Espacio Económico Europeo, se aplican las garantías previstas en el RGPD, incluidas decisiones de adecuación o cláusulas contractuales tipo.</li>
+              <li><strong>Conservación:</strong> EPM Wellness no guarda el historial del chat en una base de datos propia. La conversación visible se mantiene temporalmente en la memoria del navegador y desaparece al recargar o cerrar la página. Con la configuración estándar de la API, OpenAI puede conservar entradas y respuestas hasta 30 días para supervisar abusos, salvo obligación legal de conservación por más tiempo. Estos datos no se utilizan para entrenar modelos por defecto, salvo adhesión expresa del titular de la cuenta a programas de compartición.</li>
+              <li><strong>Decisiones automatizadas:</strong> el asistente no adopta decisiones con efectos jurídicos o de importancia similar sobre las personas usuarias.</li>
+            </ul>
+            <p>
+              Puedes ejercer tus derechos respecto a este tratamiento escribiendo a <strong>epm@epmwellness.com</strong>.
+            </p>
+
+            <h2 className="text-xl font-bold mt-6 mb-2">7. Derechos</h2>
             <p>Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales y, por tanto, tienes derecho a:</p>
             <ul className="list-disc pl-5 mb-4">
               <li>Acceder a tus datos personales.</li>
@@ -73,6 +101,10 @@ const Privacy = () => {
             </ul>
             <p>
               Puedes ejercer tus derechos enviando un email a <strong>epm@epmwellness.com</strong>.
+            </p>
+
+            <p className="text-sm text-gray-500 mt-8">
+              Última actualización: 17 de julio de 2026.
             </p>
           </div>
         </main>

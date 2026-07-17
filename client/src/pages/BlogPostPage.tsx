@@ -109,6 +109,7 @@ export default function BlogPostPage() {
         "datePublished": article.date,
         "dateModified": article.date,
         "mainEntityOfPage": `${siteUrl}${postUrl}`,
+        "publishingPrinciples": `${siteUrl}/terms#uso-inteligencia-artificial`,
         "author": {
             "@type": "Person",
             "name": "Eva Pérez",

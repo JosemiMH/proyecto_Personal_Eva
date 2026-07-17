@@ -6,7 +6,15 @@ import SEO from "@/components/SEO";
 
 const Terms = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const sectionId = window.location.hash.slice(1);
+    if (!sectionId) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ block: "start" });
+    });
   }, []);
 
   return (
@@ -63,6 +71,29 @@ const Terms = () => {
             <h2 className="text-xl font-bold mt-6 mb-2">7. Legislación Aplicable</h2>
             <p>
               Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España).
+            </p>
+
+            <h2
+              id="uso-inteligencia-artificial"
+              className="scroll-mt-24 text-xl font-bold mt-6 mb-2"
+            >
+              8. Uso de Inteligencia Artificial
+            </h2>
+            <p>
+              Determinados contenidos, imágenes, ilustraciones y elementos de este sitio web han sido creados o elaborados con la asistencia de herramientas de Inteligencia Artificial (IA). Los materiales publicados son revisados, validados y aprobados bajo supervisión humana por EPM Wellness, que asume la responsabilidad editorial sobre la información y los materiales ofrecidos en este sitio.
+            </p>
+            <p>
+              Salvo que se indique expresamente lo contrario, las imágenes generadas con IA que acompañan casos de éxito y los retratos ilustrativos de testimonios tienen carácter conceptual: no deben interpretarse como fotografías documentales de una instalación o de la persona citada. Si se publicara contenido sintético que pudiera confundirse con una persona, lugar, entidad o acontecimiento real, se identificaría de forma específica cuando resulte legalmente exigible.
+            </p>
+            <p>
+              El asistente virtual es un sistema de IA destinado a ofrecer información general sobre los servicios de Eva Pérez y EPM Wellness. Sus respuestas pueden ser inexactas o incompletas, no sustituyen el asesoramiento profesional personalizado y no adoptan decisiones que produzcan efectos jurídicos o similares sobre las personas usuarias.
+            </p>
+            <p>
+              La utilización de IA tiene como finalidad apoyar la calidad, la accesibilidad y la eficiencia en la elaboración de contenidos y en la atención inicial, manteniendo supervisión humana. Antes de la primera interacción con el asistente se informa expresamente de su naturaleza artificial y del tratamiento de la conversación.
+            </p>
+
+            <p className="text-sm text-gray-500 mt-8">
+              Última actualización: 17 de julio de 2026.
             </p>
           </div>
         </main>

@@ -1251,23 +1251,10 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   const start = Date.now();
   const requestPath = req.path;
-  let capturedJsonResponse;
-  const originalResJson = res.json;
-  res.json = function(bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
   res.on("finish", () => {
     const duration = Date.now() - start;
     if (requestPath.startsWith("/api")) {
-      let logLine = `${req.method} ${requestPath} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "\u2026";
-      }
-      log(logLine);
+      log(`${req.method} ${requestPath} ${res.statusCode} in ${duration}ms`);
     }
   });
   next();
