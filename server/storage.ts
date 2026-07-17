@@ -118,7 +118,7 @@ export class DatabaseStorage implements IStorage {
     }
 
     const [subscription] = await db.insert(newsletters)
-      .values(insertNewsletter)
+      .values({ email: insertNewsletter.email })
       .returning();
 
     return subscription;

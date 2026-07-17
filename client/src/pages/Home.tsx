@@ -14,7 +14,6 @@ import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
-import ScrollToTop from "@/components/ScrollToTop";
 import EbookPopup from "@/components/EbookPopup";
 import SEO from "@/components/SEO";
 
@@ -89,36 +88,23 @@ const Home = () => {
         <section id="home">
           <Hero />
         </section>
-        <section id="about">
-          <About />
-        </section>
-        <section id="services">
-          <Services />
-        </section>
+        <About />
+        <Services />
 
         <section id="cta">
           <CallToAction />
         </section>
-        <section id="portfolio">
-          <Portfolio />
-        </section>
-        <section id="testimonials">
-          <Testimonials />
-        </section>
+        <Portfolio />
+        <Testimonials />
         <section id="resources">
           <Resources />
         </section>
-        <section id="blog">
-          <Blog />
-        </section>
-        <section id="contact">
-          <Contact />
-        </section>
+        <Blog />
+        <Contact />
         <section id="newsletter">
           <Newsletter />
         </section>
         <Footer />
-        <ScrollToTop />
         <EbookPopup />
       </div>
     </PageTransition>

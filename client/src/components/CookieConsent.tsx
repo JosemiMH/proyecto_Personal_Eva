@@ -56,8 +56,8 @@ const CookieConsent = () => {
             <div className="mb-4 md:mb-0 md:mr-8 text-center md:text-left">
               <p className="text-charcoal text-sm md:text-base">
                 {language === 'es' 
-                  ? 'Utilizamos cookies para mejorar tu experiencia. Al continuar navegando en nuestra web, aceptas nuestra ' 
-                  : 'We use cookies to enhance your experience. By continuing to browse our site, you agree to our '}
+                  ? 'Usamos cookies analíticas y publicitarias únicamente si las aceptas. Consulta nuestra '
+                  : 'We only use analytics and advertising cookies if you accept them. See our '}
                 <Link href="/cookies" className="text-turquoise hover:underline">
                   {language === 'es' ? 'política de cookies' : 'cookie policy'}
                 </Link>.

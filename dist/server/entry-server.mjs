@@ -11,28 +11,28 @@ import * as React from "react";
 import React__default, { Component, createContext, useContext, useState, useEffect, startTransition, useRef, Suspense, useMemo } from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva } from "class-variance-authority";
-import { X, AlertCircle, Loader2, ArrowRight, Tag, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ArrowLeft, Calendar as Calendar$1, Clock } from "lucide-react";
+import { X, AlertCircle, Loader2, Check, ArrowRight, Tag, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ArrowLeft, Calendar as Calendar$1, Clock, Phone, Mail, ShieldCheck, CheckCircle2, BarChart3, Users2, Building2 } from "lucide-react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import { FaArrowUp, FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
 import { FormProvider, Controller, useFormContext, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { FaArrowUp, FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import { DayPicker } from "react-day-picker";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { addDays, format, isBefore } from "date-fns";
 import { es, enUS } from "date-fns/locale";
 import fastCompare from "react-fast-compare";
 import invariant from "invariant";
 import shallowEqual from "shallowequal";
-import { Slot } from "@radix-ui/react-slot";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { Slot } from "@radix-ui/react-slot";
 import * as LabelPrimitive from "@radix-ui/react-label";
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 async function throwIfResNotOk(res) {
   if (!res.ok) {
     const text = await res.text() || res.statusText;
@@ -1158,10 +1158,10 @@ var Helmet = (_b = class extends Component {
   prioritizeSeoTags: false
 }), _b);
 function SEO({ title, description, image, url = "/", type = "website", noIndex = false, language = "es" }) {
-  const siteUrl = "https://www.epmwellness.com";
-  const fullUrl = new URL(url, siteUrl).toString();
-  const defaultImage = `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`;
-  const metaImage = image ? new URL(image, siteUrl).toString() : defaultImage;
+  const siteUrl2 = "https://www.epmwellness.com";
+  const fullUrl = new URL(url, siteUrl2).toString();
+  const defaultImage = `${siteUrl2}/attached_assets/foto_perfil_Eva_Linkedin.PNG`;
+  const metaImage = image ? new URL(image, siteUrl2).toString() : defaultImage;
   const finalTitle = title.includes("Eva Pérez") ? title : `${title} | Eva Pérez`;
   return /* @__PURE__ */ jsxs(Helmet, { children: [
     /* @__PURE__ */ jsx("html", { lang: language }),
@@ -2620,90 +2620,108 @@ const Resources = ({ isPage = false }) => {
   };
   const TitleTag = isPage ? "h1" : "h2";
   const SubtitleTag = isPage ? "h2" : "h3";
-  return /* @__PURE__ */ jsx("section", { className: `py-16 md:py-24 bg-white ${isPage ? "pt-32" : ""}`, children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
-    /* @__PURE__ */ jsxs(
-      motion.div,
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    isPage && /* @__PURE__ */ jsx(
+      SEO,
       {
-        className: "text-center max-w-3xl mx-auto mb-16",
-        initial: { opacity: 0, y: 20 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true },
-        transition: { duration: 0.6 },
-        children: [
-          /* @__PURE__ */ jsx(TitleTag, { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("resources.title") }),
-          /* @__PURE__ */ jsx(SubtitleTag, { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("resources.subtitle") }),
-          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: language === "es" ? "Accede a guías y recursos exclusivos para optimizar la gestión de tu spa. Lectura directa y práctica." : "Access exclusive guides and resources to optimize your spa management. Direct and practical reading." })
-        ]
+        title: language === "es" ? "Recursos para la Gestión de Spas" : "Resources for Spa Management",
+        description: language === "es" ? "Guías y recursos prácticos de Eva Pérez para mejorar la gestión, la rentabilidad y la experiencia de cliente en spas hoteleros." : "Practical guides and resources by Eva Pérez to improve management, profitability and guest experience in hotel spas.",
+        url: "/resources",
+        language
       }
     ),
-    /* @__PURE__ */ jsx(
-      motion.div,
-      {
-        className: "grid grid-cols-1 md:grid-cols-3 gap-8",
-        variants: containerVariants,
-        initial: "hidden",
-        whileInView: "visible",
-        viewport: { once: true },
-        children: resources.map((resource, index) => /* @__PURE__ */ jsxs(
-          motion.div,
-          {
-            className: "bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md hover-scale flex flex-col h-full cursor-pointer group",
-            variants: itemVariants,
-            onClick: () => setSelectedResource(resource),
-            children: [
-              /* @__PURE__ */ jsxs("div", { className: "relative h-48 overflow-hidden", children: [
-                /* @__PURE__ */ jsx(
-                  "img",
-                  {
-                    src: resource.image,
-                    alt: typeof resource.title === "object" ? resource.title[language] : resource.title,
-                    className: "w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  }
-                ),
-                /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" })
-              ] }),
-              /* @__PURE__ */ jsxs("div", { className: "p-6 flex flex-col flex-grow", children: [
-                /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-2", children: typeof resource.title === "object" ? resource.title[language] : resource.title }),
-                /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm mb-4 flex-grow", children: typeof resource.description === "object" ? resource.description[language] : resource.description }),
-                /* @__PURE__ */ jsx("div", { className: "mt-auto", children: /* @__PURE__ */ jsx(
-                  "span",
-                  {
-                    className: "inline-block w-full bg-turquoise hover:bg-turquoise-dark text-white text-center font-medium py-2 rounded transition-colors",
-                    children: typeof resource.buttonText === "object" ? resource.buttonText[language] : resource.buttonText
-                  }
-                ) })
-              ] })
-            ]
-          },
-          index
-        ))
-      }
-    ),
-    /* @__PURE__ */ jsx(Dialog, { open: !!selectedResource, onOpenChange: (open) => !open && setSelectedResource(null), children: /* @__PURE__ */ jsx(DialogContent, { className: "max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0", children: selectedResource && /* @__PURE__ */ jsxs(Fragment, { children: [
-      /* @__PURE__ */ jsxs("div", { className: "relative h-64 w-full", children: [
-        /* @__PURE__ */ jsx(
-          "img",
-          {
-            src: selectedResource.image,
-            alt: "Resource header",
-            className: "w-full h-full object-cover"
-          }
-        ),
-        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/40" }),
-        /* @__PURE__ */ jsx(
-          "button",
-          {
-            onClick: () => setSelectedResource(null),
-            className: "absolute top-4 right-4 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors z-10",
-            "aria-label": "Close",
-            children: /* @__PURE__ */ jsx(X, { className: "w-5 h-5" })
-          }
-        ),
-        /* @__PURE__ */ jsx("div", { className: "absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white", children: /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-3xl font-bold leading-tight", children: typeof selectedResource.title === "object" ? selectedResource.title[language] : selectedResource.title }) })
-      ] }),
-      /* @__PURE__ */ jsx("div", { className: "p-6 md:p-8", children: /* @__PURE__ */ jsx("div", { className: "prose prose-lg prose-headings:font-playfair prose-headings:text-charcoal prose-p:text-charcoal-light prose-li:text-charcoal-light max-w-none", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: Array.isArray(selectedResource.content[language]) ? selectedResource.content[language].join("\n\n") : selectedResource.content[language] }) }) })
-    ] }) }) })
-  ] }) });
+    /* @__PURE__ */ jsx("section", { className: `py-16 md:py-24 bg-white ${isPage ? "pt-32" : ""}`, children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+      /* @__PURE__ */ jsxs(
+        motion.div,
+        {
+          className: "text-center max-w-3xl mx-auto mb-16",
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.6 },
+          children: [
+            /* @__PURE__ */ jsx(TitleTag, { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("resources.title") }),
+            /* @__PURE__ */ jsx(SubtitleTag, { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("resources.subtitle") }),
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: language === "es" ? "Accede a guías y recursos exclusivos para optimizar la gestión de tu spa. Lectura directa y práctica." : "Access exclusive guides and resources to optimize your spa management. Direct and practical reading." })
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        motion.div,
+        {
+          className: "grid grid-cols-1 md:grid-cols-3 gap-8",
+          variants: containerVariants,
+          initial: "hidden",
+          whileInView: "visible",
+          viewport: { once: true },
+          children: resources.map((resource, index) => /* @__PURE__ */ jsxs(
+            motion.div,
+            {
+              className: "bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md hover-scale flex flex-col h-full cursor-pointer group",
+              variants: itemVariants,
+              onClick: () => setSelectedResource(resource),
+              children: [
+                /* @__PURE__ */ jsxs("div", { className: "relative h-48 overflow-hidden", children: [
+                  /* @__PURE__ */ jsx(
+                    "img",
+                    {
+                      src: resource.image,
+                      alt: typeof resource.title === "object" ? resource.title[language] : resource.title,
+                      width: "1024",
+                      height: "768",
+                      loading: "lazy",
+                      decoding: "async",
+                      className: "w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    }
+                  ),
+                  /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" })
+                ] }),
+                /* @__PURE__ */ jsxs("div", { className: "p-6 flex flex-col flex-grow", children: [
+                  /* @__PURE__ */ jsx("h4", { className: "font-playfair text-xl font-bold text-charcoal mb-2", children: typeof resource.title === "object" ? resource.title[language] : resource.title }),
+                  /* @__PURE__ */ jsx("p", { className: "text-charcoal-light text-sm mb-4 flex-grow", children: typeof resource.description === "object" ? resource.description[language] : resource.description }),
+                  /* @__PURE__ */ jsx("div", { className: "mt-auto", children: /* @__PURE__ */ jsx(
+                    "span",
+                    {
+                      className: "inline-block w-full bg-turquoise hover:bg-turquoise-dark text-white text-center font-medium py-2 rounded transition-colors",
+                      children: typeof resource.buttonText === "object" ? resource.buttonText[language] : resource.buttonText
+                    }
+                  ) })
+                ] })
+              ]
+            },
+            index
+          ))
+        }
+      ),
+      /* @__PURE__ */ jsx(Dialog, { open: !!selectedResource, onOpenChange: (open) => !open && setSelectedResource(null), children: /* @__PURE__ */ jsx(DialogContent, { className: "max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0", children: selectedResource && /* @__PURE__ */ jsxs(Fragment, { children: [
+        /* @__PURE__ */ jsxs("div", { className: "relative h-64 w-full", children: [
+          /* @__PURE__ */ jsx(
+            "img",
+            {
+              src: selectedResource.image,
+              alt: "Resource header",
+              width: "1024",
+              height: "576",
+              decoding: "async",
+              className: "w-full h-full object-cover"
+            }
+          ),
+          /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/40" }),
+          /* @__PURE__ */ jsx(
+            "button",
+            {
+              onClick: () => setSelectedResource(null),
+              className: "absolute top-4 right-4 bg-black/50 p-2 rounded-full text-white hover:bg-black/70 transition-colors z-10",
+              "aria-label": "Close",
+              children: /* @__PURE__ */ jsx(X, { className: "w-5 h-5" })
+            }
+          ),
+          /* @__PURE__ */ jsx("div", { className: "absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white", children: /* @__PURE__ */ jsx(DialogTitle, { className: "font-playfair text-2xl md:text-3xl font-bold leading-tight", children: typeof selectedResource.title === "object" ? selectedResource.title[language] : selectedResource.title }) })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "p-6 md:p-8", children: /* @__PURE__ */ jsx("div", { className: "prose prose-lg prose-headings:font-playfair prose-headings:text-charcoal prose-p:text-charcoal-light prose-li:text-charcoal-light max-w-none", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: Array.isArray(selectedResource.content[language]) ? selectedResource.content[language].join("\n\n") : selectedResource.content[language] }) }) })
+      ] }) }) })
+    ] }) })
+  ] });
 };
 const AuthContext = createContext(null);
 function AuthProvider({ children }) {
@@ -2847,6 +2865,18 @@ const Button = React.forwardRef(
 );
 Button.displayName = "Button";
 const GTM_ID = "GTM-KGMBTXN2";
+const ATTRIBUTION_KEY = "epm_campaign_attribution";
+function readCampaignAttribution() {
+  if (typeof window === "undefined") return {};
+  try {
+    const stored = window.sessionStorage.getItem(ATTRIBUTION_KEY);
+    if (!stored) return {};
+    const parsed = JSON.parse(stored);
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
 function updateConsent(granted) {
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(...args) {
@@ -2874,6 +2904,7 @@ function trackEvent(event, parameters = {}) {
   window.dataLayer.push({
     event,
     page_path: window.location.pathname,
+    ...readCampaignAttribution(),
     ...parameters
   });
 }
@@ -2916,7 +2947,7 @@ const CookieConsent = () => {
       className: "fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg p-4",
       children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto flex flex-col md:flex-row items-center justify-between", children: [
         /* @__PURE__ */ jsx("div", { className: "mb-4 md:mb-0 md:mr-8 text-center md:text-left", children: /* @__PURE__ */ jsxs("p", { className: "text-charcoal text-sm md:text-base", children: [
-          language === "es" ? "Utilizamos cookies para mejorar tu experiencia. Al continuar navegando en nuestra web, aceptas nuestra " : "We use cookies to enhance your experience. By continuing to browse our site, you agree to our ",
+          language === "es" ? "Usamos cookies analíticas y publicitarias únicamente si las aceptas. Consulta nuestra " : "We only use analytics and advertising cookies if you accept them. See our ",
           /* @__PURE__ */ jsx(Link, { href: "/cookies", className: "text-turquoise hover:underline", children: language === "es" ? "política de cookies" : "cookie policy" }),
           "."
         ] }) }),
@@ -3229,6 +3260,16 @@ const ScrollToTop = () => {
     }
   ) });
 };
+function RouteAnalytics() {
+  const [location] = useLocation();
+  useEffect(() => {
+    trackEvent("page_view", {
+      page_location: window.location.href,
+      page_title: document.title
+    });
+  }, [location]);
+  return null;
+}
 function PageLoader() {
   return /* @__PURE__ */ jsx("div", { className: "min-h-screen flex items-center justify-center bg-background/80 mobile-safe-area", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center gap-4", children: [
     /* @__PURE__ */ jsx(Loader2, { className: "h-12 w-12 animate-spin text-primary" }),
@@ -3243,6 +3284,7 @@ const Booking$2 = React__default.lazy(() => Promise.resolve().then(() => Booking
 const Admin$2 = React__default.lazy(() => Promise.resolve().then(() => Admin$1));
 const AuthPage$1 = React__default.lazy(() => Promise.resolve().then(() => Auth));
 const BlogPostPage$2 = React__default.lazy(() => Promise.resolve().then(() => BlogPostPage$1));
+const AuditLanding$2 = React__default.lazy(() => Promise.resolve().then(() => AuditLanding$1));
 function Router() {
   const [location] = useLocation();
   return /* @__PURE__ */ jsx(Suspense, { fallback: /* @__PURE__ */ jsx(PageLoader, {}), children: /* @__PURE__ */ jsx(AnimatePresence, { mode: "wait", children: /* @__PURE__ */ jsxs(Switch, { location, children: [
@@ -3254,6 +3296,7 @@ function Router() {
     /* @__PURE__ */ jsx(Route, { path: "/auth", children: /* @__PURE__ */ jsx(AuthPage$1, {}) }),
     /* @__PURE__ */ jsx(ProtectedRoute, { path: "/admin", component: Admin$2 }),
     /* @__PURE__ */ jsx(Route, { path: "/resources", children: /* @__PURE__ */ jsx(Resources, { isPage: true }) }),
+    /* @__PURE__ */ jsx(Route, { path: "/auditoria-spa-hoteles", children: /* @__PURE__ */ jsx(AuditLanding$2, {}) }),
     /* @__PURE__ */ jsx(Route, { path: "/blog/:slug", component: BlogPostPage$2 }),
     /* @__PURE__ */ jsx(Route, { component: NotFound })
   ] }, location) }) });
@@ -3262,6 +3305,7 @@ function App({ queryClient: propsClient }) {
   const client = propsClient || queryClient;
   return /* @__PURE__ */ jsx(QueryClientProvider, { client, children: /* @__PURE__ */ jsx(AuthProvider, { children: /* @__PURE__ */ jsxs(LanguageProvider, { children: [
     /* @__PURE__ */ jsx(Router, {}),
+    /* @__PURE__ */ jsx(RouteAnalytics, {}),
     /* @__PURE__ */ jsx(ChatBot, {}),
     /* @__PURE__ */ jsx(CookieConsent, {}),
     /* @__PURE__ */ jsx(ScrollToTop, {}),
@@ -3277,6 +3321,12 @@ function seedQueryClient(queryClient2, initialData) {
     queryClient2.setQueryData(
       [`/api/articles/${initialData.articleSlug}`],
       initialData.article
+    );
+  }
+  if (initialData.relatedArticles && initialData.articleSlug) {
+    queryClient2.setQueryData(
+      ["/api/articles/related", initialData.articleSlug],
+      initialData.relatedArticles
     );
   }
 }
@@ -3369,7 +3419,7 @@ const PageTransition = ({ children }) => {
     }
   );
 };
-const evaProfileImage = "/assets/hero-es-kbcuNBxT.png";
+const evaProfileImage = "data:image/webp;base64,UklGRmwGAABXRUJQVlA4IGAGAACQJgCdASqAAIAAPo06mEelI6KhMnPr2KARiWUAy2CqTCBr9PPm0ETIJ4GIkwOQcfGFsao58d4UxZIpw6iP1CdKrg5XZ1JJ9XcDI/2Xc3gFjdLaNtRQa+pXatFLC33KoFISBfwul42VTu73qdUwTjgGLTXgKIFu9WW2wAG7IQAyNNB4Dag37j0/rrICk+I7tJPyPCEWQxjaQupUeBnx5b2Bhhg/HGnUerziVW/fU4fj/JchFxAxnhH3GstXXHvmIlRqqLUadNdqa/jba6T9dpIg7ZW8ltolNsuGVyDuiEVuzegP7RrvBYjmZfcFKqJbag1KUTPHOEJJBmHOP+9PjlarXaRCXuCrjaT8JtV30Y2BQ/BrOrZ1lFRCcrfGBl5lEgA4l2Kr4Xl4JutC6czZXhaXoyHm+81BJxzD2FUdAAD+9iDUKkAbrqCRnJdeMGJ9sJnxFImUCcC9nfhqEBT7JvSihEZAGQDiOcrAVKOkVlWdWIYGuvdggGr/D6p4b2juE/fGcCd0DPPvknYfNdntBAV8GcJ7SxkAD8ASn2uAv7sv1tFVp1RgD/V/GcqaNHErSKS26wUok4eDQ6pMoplbwHCKqM7rRBoI7N2IVO4FvwVuXeHSO6iGUtyCOYTFeP0kiL7fEo3OG8/Q+j45mGfiAGC98i2SPzBDcP+J+8CcqLRu6+dWDgmxcnX5LOEg5ZAnrYM3KojoU8dhx7bG9QeP0fAz6vPjcMlfWu/VMo0ALlNpGB8sV08bIXTB2pFUrjnCP5t7gv55+zjZEiamFRRqaUJEKPI9b/gvPDPIdd7I2UPEA99/1fmrto/VViw/FsyBZvgFnj79c2iBnuaARsnOzBoAIVrbTIfAByihqz0/dTTAFz1vpD6BqVDx6zgBGluceszFBXReJtEIcSg3DKqEs0WfnOj1ua3jklOCY9droYK5pTifpZLIRCjwrqGjUZqpPbIfariXamZ1Sjd+tSNpMmkuLAlsxrOKqN6wqPQCRTrsVzGfs/0tcx7PefkbeuOdhHVa1URieX+3z6yqiJHi0SQinrSeLsaiq1En/FBiBTF/S6+PJ2py3L0xCLDaMqUQ7jpjGMthmUgNpfrTMYoGkcIR9d8UkWkKxrOCm2889WTrV8Fm27JiXDeXznPEhg93mK/pSHEBrwGEBCejcfCo9jjIArcMhK3vAX+sSlScoXTiSE+Pfk7VgjcNCYHsIFQWe0adpt7vF+BLbc1Chr8ZRzBy8YEWhT/k4cACkKW1tjWAHCsINexZQud9Wtkz8mT1krcJcZMuVmvvwtHgy7kqWE555xCEdIgAkZYQv+CXQog/lcjdV5w0BKDufl5jJBxPzCwseOOdKODQj+aSUMlsrJJlpu4Cwl8q3mgzj8sRBmVpz9fftax6lf3W4NBn0CAlRHRw0Z33nwpbFNfM2jTXxqB3ZcGZcwlr8g8pyyAHofvfp99pov2nOiZsTbFPe+zRJb7jsiKiihmxjT+YKsqSwweqMz8dfPGNBx5Y3jmXsYw725N0LnySOSlt/Wl40o10nhLadqAeCgIq/66yNOwx4Ekrpakbdhsd9jFSAy556riPKNSWDTZ8HdHpYS2CWr5TvFczZQ92gE/cfrjl895q/drg+ElQUQoRyhCvGHpBP+SWjxBw3FRs0RGIWFzZe5Xypjlvb2hRJ+DY6g9MSFk9naxClD6sQDguCl47kC/jdjsrIblDZs7HmB1ZXXuJwdevLqboK8g69TsIIXbqmaSyS8k+SMpGiFZeBxUEcemd/8mo2cnJbzilfJ5QWXEXB5aEihwV+yXGcGg3LHHpDj0evU8oM5u2Mrp9lAo/kzYEkAsiA0zao8BIRvwJtqJffcEK2sNrnQlbYsU5wXiRb3j2J7jKdHXNTuMo6E0fWtA3BmNixusBS6JAIGTeDp3sP+tDkMmd6DpyGv3p//SdedqxxXvG++ZOEQvwNYLhL/yRI6UIlHn8Y7RF67Txvi1lS0yPOQgDQ9VyKxAmJ4/Q4fDB6EKP+6RV9UztkNdRaD6H6e7X8XbhvSUZsi9cre9nflQ1dEw1/7eZZDX/nPFUWlttTbciYCzDjIHFE7BPOWKs/BAhwXxP1yOeJ56ipvfKO6JUl+B1amdouAq/ljGU5KDx1eONy5I7EClPwLcspYabPEaaVe+ekEGna83gmp0v7JwAAAA=";
 const spainFlag = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3e%3crect%20width='32'%20height='32'%20fill='%23F1BF00'%20/%3e%3crect%20width='32'%20height='8'%20fill='%23AA151B'%20y='0'%20/%3e%3crect%20width='32'%20height='8'%20fill='%23AA151B'%20y='24'%20/%3e%3c/svg%3e";
 const ukFlag = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%3e%3crect%20width='32'%20height='32'%20fill='%23012169'/%3e%3cpath%20d='M0,0%20L32,32%20M32,0%20L0,32'%20stroke='%23fff'%20stroke-width='4'/%3e%3cpath%20d='M16,0%20L16,32%20M0,16%20L32,16'%20stroke='%23fff'%20stroke-width='8'/%3e%3cpath%20d='M16,0%20L16,32%20M0,16%20L32,16'%20stroke='%23C8102E'%20stroke-width='4'/%3e%3cpath%20d='M0,0%20L32,32%20M32,0%20L0,32'%20stroke='%23C8102E'%20stroke-width='2'/%3e%3c/svg%3e";
 const LanguageSwitcher = () => {
@@ -3428,7 +3478,9 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { t, language } = useLanguage();
+  const [location] = useLocation();
   const { isMobile, isTablet } = useDeviceDetect();
+  const homeAnchor = (anchor) => location === "/" ? anchor : `/${anchor}`;
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -3448,18 +3500,21 @@ const Header = () => {
       className: `fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300 ${isMobile ? scrolled ? "py-1.5" : "py-2" : isTablet ? scrolled ? "py-2" : "py-3" : scrolled ? "py-2.5" : "py-4"}`,
       children: [
         /* @__PURE__ */ jsx("div", { className: `container mx-auto ${isMobile ? "px-3" : isTablet ? "px-5" : "px-8"}`, children: /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center", children: [
-          /* @__PURE__ */ jsxs("a", { href: "#", className: "flex items-center", children: [
+          /* @__PURE__ */ jsxs(Link, { href: "/", className: "flex items-center", "aria-label": "Eva Pérez, página principal", children: [
             /* @__PURE__ */ jsx(
               "img",
               {
                 src: evaProfileImage,
                 alt: "Eva Pérez",
+                width: "128",
+                height: "128",
+                decoding: "async",
                 className: `rounded-full object-cover flex-shrink-0 ${isMobile ? "h-7 w-7 mr-2" : isTablet ? "h-9 w-9 mr-2.5" : "h-11 w-11 mr-3"}`
               }
             ),
             /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
               /* @__PURE__ */ jsx("span", { className: `font-playfair font-bold text-turquoise block leading-tight ${isMobile ? "text-base" : isTablet ? "text-xl" : "text-2xl"}`, children: "Eva Pérez" }),
-              /* @__PURE__ */ jsx("span", { className: `text-sage-dark font-light ${isMobile ? "text-[8px] whitespace-normal leading-tight max-w-[220px]" : "text-xs"}`, children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row md:items-center md:gap-2", children: [
+              /* @__PURE__ */ jsx("div", { className: `text-sage-dark font-light ${isMobile ? "text-[8px] whitespace-normal leading-tight max-w-[220px]" : "text-xs"}`, children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row md:items-center md:gap-2", children: [
                 /* @__PURE__ */ jsx("span", { children: language === "es" ? "Gerente de Proyectos SPA & Wellness" : "SPA & Wellness Project Manager" }),
                 /* @__PURE__ */ jsx("span", { className: "hidden md:inline text-turquoise/60", children: "|" }),
                 /* @__PURE__ */ jsx("span", { children: language === "es" ? "Especialista en Optimización de Ingresos" : "Revenue Optimization Specialist" })
@@ -3471,7 +3526,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#about",
+                  href: homeAnchor("#about"),
                   className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
                   children: t("header.about")
                 }
@@ -3479,7 +3534,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#services",
+                  href: homeAnchor("#services"),
                   className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
                   children: t("header.services")
                 }
@@ -3487,7 +3542,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#portfolio",
+                  href: homeAnchor("#portfolio"),
                   className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
                   children: t("header.portfolio")
                 }
@@ -3495,7 +3550,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#testimonials",
+                  href: homeAnchor("#testimonials"),
                   className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
                   children: t("header.testimonials")
                 }
@@ -3503,7 +3558,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#blog",
+                  href: homeAnchor("#blog"),
                   className: `text-charcoal hover:text-turquoise transition-colors ${isTablet ? "text-xs px-2" : "text-sm px-3"}`,
                   children: t("header.blog")
                 }
@@ -3511,7 +3566,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#contact",
+                  href: homeAnchor("#contact"),
                   "data-analytics-cta": "request_audit",
                   "data-analytics-location": "header_desktop",
                   className: `bg-turquoise text-white rounded hover:bg-turquoise-dark transition-colors ${isTablet ? "text-xs px-3 py-1.5 ml-1" : "text-sm px-4 py-2 ml-2"}`,
@@ -3539,7 +3594,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#about",
+                  href: homeAnchor("#about"),
                   className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
                   onClick: toggleMobileMenu,
                   children: t("header.about")
@@ -3548,7 +3603,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#services",
+                  href: homeAnchor("#services"),
                   className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
                   onClick: toggleMobileMenu,
                   children: t("header.services")
@@ -3557,7 +3612,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#portfolio",
+                  href: homeAnchor("#portfolio"),
                   className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
                   onClick: toggleMobileMenu,
                   children: t("header.portfolio")
@@ -3566,7 +3621,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#testimonials",
+                  href: homeAnchor("#testimonials"),
                   className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
                   onClick: toggleMobileMenu,
                   children: t("header.testimonials")
@@ -3575,7 +3630,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#blog",
+                  href: homeAnchor("#blog"),
                   className: `block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
                   onClick: toggleMobileMenu,
                   children: t("header.blog")
@@ -3584,7 +3639,7 @@ const Header = () => {
               /* @__PURE__ */ jsx(
                 "a",
                 {
-                  href: "#contact",
+                  href: homeAnchor("#contact"),
                   "data-analytics-cta": "request_audit",
                   "data-analytics-location": "header_mobile",
                   className: `block text-turquoise font-medium border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? "py-2 text-sm" : "py-3"}`,
@@ -3603,7 +3658,7 @@ const Header = () => {
     }
   );
 };
-const heroImageEs = "/assets/hero-es-kbcuNBxT.png";
+const heroImage = "/assets/hero-es-BEAzC-4e.webp";
 const heroImageEn = "/assets/hero-en-81kcQctz.jpg";
 const labelVariants = cva(
   "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -3743,8 +3798,27 @@ const Textarea = React.forwardRef(
   }
 );
 Textarea.displayName = "Textarea";
+const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+  CheckboxPrimitive.Root,
+  {
+    ref,
+    className: cn(
+      "peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
+      className
+    ),
+    ...props,
+    children: /* @__PURE__ */ jsx(
+      CheckboxPrimitive.Indicator,
+      {
+        className: cn("flex items-center justify-center text-current"),
+        children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" })
+      }
+    )
+  }
+));
+Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 function AuditModal({ children, source = "unknown" }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast: toast2 } = useToast();
   const [open, setOpen] = useState(false);
   const formSchema2 = z.object({
@@ -3756,7 +3830,9 @@ function AuditModal({ children, source = "unknown" }) {
     message: z.string().min(5, "Challenge details required"),
     // Using message for Challenge
     service: z.string().default("Auditoría Estratégica"),
-    privacy: z.literal(true)
+    privacy: z.boolean().refine((accepted) => accepted, {
+      message: language === "es" ? "Debes aceptar la política de privacidad" : "You must accept the privacy policy"
+    })
   });
   const form = useForm({
     resolver: zodResolver(formSchema2),
@@ -3767,7 +3843,7 @@ function AuditModal({ children, source = "unknown" }) {
       company: "",
       message: "",
       service: "Auditoría Estratégica",
-      privacy: true
+      privacy: false
     }
   });
   const mutation = useMutation({
@@ -3780,7 +3856,10 @@ function AuditModal({ children, source = "unknown" }) {
       return res;
     },
     onSuccess: () => {
-      trackEvent("generate_lead", { lead_type: "strategic_audit" });
+      trackEvent("generate_lead", {
+        lead_type: "strategic_audit",
+        lead_source: source
+      });
       toast2({
         title: t("audit.success"),
         variant: "default"
@@ -3842,7 +3921,7 @@ function AuditModal({ children, source = "unknown" }) {
             name: "name",
             render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
               /* @__PURE__ */ jsx(FormLabel, { children: t("audit.name") }),
-              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Eva Pérez", ...field }) }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Eva Pérez", autoComplete: "name", ...field }) }),
               /* @__PURE__ */ jsx(FormMessage, {})
             ] })
           }
@@ -3855,7 +3934,7 @@ function AuditModal({ children, source = "unknown" }) {
               name: "email",
               render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
                 /* @__PURE__ */ jsx(FormLabel, { children: t("audit.email") }),
-                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "eva@example.com", ...field }) }),
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { type: "email", placeholder: "eva@example.com", autoComplete: "email", ...field }) }),
                 /* @__PURE__ */ jsx(FormMessage, {})
               ] })
             }
@@ -3867,7 +3946,7 @@ function AuditModal({ children, source = "unknown" }) {
               name: "phone",
               render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
                 /* @__PURE__ */ jsx(FormLabel, { children: t("audit.phone") }),
-                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "+34 600...", ...field }) }),
+                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { type: "tel", placeholder: "+34 600...", autoComplete: "tel", ...field }) }),
                 /* @__PURE__ */ jsx(FormMessage, {})
               ] })
             }
@@ -3880,7 +3959,7 @@ function AuditModal({ children, source = "unknown" }) {
             name: "company",
             render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
               /* @__PURE__ */ jsx(FormLabel, { children: t("audit.hotel") }),
-              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Grand Hotel & Spa...", ...field }) }),
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(Input, { placeholder: "Grand Hotel & Spa...", autoComplete: "organization", ...field }) }),
               /* @__PURE__ */ jsx(FormMessage, {})
             ] })
           }
@@ -3904,6 +3983,31 @@ function AuditModal({ children, source = "unknown" }) {
             ] })
           }
         ),
+        /* @__PURE__ */ jsx(
+          FormField,
+          {
+            control: form.control,
+            name: "privacy",
+            render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "flex items-start gap-3 space-y-0", children: [
+              /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                Checkbox,
+                {
+                  checked: field.value,
+                  onCheckedChange: (checked) => field.onChange(checked === true),
+                  className: "mt-0.5"
+                }
+              ) }),
+              /* @__PURE__ */ jsxs("div", { className: "space-y-1", children: [
+                /* @__PURE__ */ jsxs(FormLabel, { className: "text-sm font-normal leading-relaxed text-muted-foreground", children: [
+                  language === "es" ? "He leído y acepto la " : "I have read and accept the ",
+                  /* @__PURE__ */ jsx(Link, { href: "/privacy", target: "_blank", rel: "noopener noreferrer", className: "text-turquoise underline-offset-2 hover:underline", children: language === "es" ? "política de privacidad" : "privacy policy" }),
+                  "."
+                ] }),
+                /* @__PURE__ */ jsx(FormMessage, {})
+              ] })
+            ] })
+          }
+        ),
         /* @__PURE__ */ jsxs(Button, { type: "submit", className: "w-full bg-turquoise hover:bg-turquoise-dark text-white", disabled: mutation.isPending, children: [
           mutation.isPending && /* @__PURE__ */ jsx(Loader2, { className: "mr-2 h-4 w-4 animate-spin" }),
           t("audit.submit")
@@ -3915,7 +4019,7 @@ function AuditModal({ children, source = "unknown" }) {
 const Hero = () => {
   const { language, t } = useLanguage();
   const { isMobile, isTablet } = useDeviceDetect();
-  const heroImage = language === "es" ? heroImageEs : heroImageEn;
+  const heroImage$1 = language === "es" ? heroImage : heroImageEn;
   return /* @__PURE__ */ jsxs("div", { className: `relative overflow-hidden ${isMobile ? "h-[100dvh] pt-0 pb-0" : isTablet ? "pt-44 pb-24" : "pt-56 pb-32"}`, children: [
     /* @__PURE__ */ jsxs("div", { className: "absolute inset-0 z-0", children: [
       /* @__PURE__ */ jsx("div", { className: `absolute inset-0 z-10 ${isMobile ? "bg-gradient-to-b from-transparent via-black/10 to-black/90" : "bg-gradient-to-r from-turquoise/60 to-sage/40 mix-blend-multiply"}` }),
@@ -3930,9 +4034,12 @@ const Hero = () => {
           children: /* @__PURE__ */ jsx(
             "img",
             {
-              src: heroImage,
+              src: heroImage$1,
               alt: language === "es" ? "Eva Pérez - Experta en Estrategia de Hospitalidad y Bienestar de Lujo" : "Eva Pérez - Expert in Luxury Hospitality & Wellness Strategy",
-              className: `w-full h-full object-cover ${isMobile ? "object-[50%_15%]" : isTablet ? "object-[55%_-10%]" : "object-[50%_-10%]"}`
+              className: `w-full h-full object-cover ${isMobile ? "object-[50%_15%]" : isTablet ? "object-[55%_-10%]" : "object-[50%_-10%]"}`,
+              width: language === "es" ? 689 : 1024,
+              height: language === "es" ? 398 : 768,
+              decoding: "async"
             }
           )
         }
@@ -3994,8 +4101,8 @@ const OptimizedImage = ({
   src,
   alt,
   className = "",
-  width,
-  height,
+  width = 800,
+  height = 600,
   objectFit = "cover",
   priority = false
 }) => {
@@ -4023,34 +4130,30 @@ const OptimizedImage = ({
       img.onerror = handleError;
     }
   }, [priority, src]);
-  return /* @__PURE__ */ jsxs(
-    "div",
-    {
-      className: `relative overflow-hidden ${className}`,
-      style: { width, height },
-      children: [
-        isLoading && /* @__PURE__ */ jsx(
-          Skeleton,
-          {
-            className: "absolute inset-0 z-10",
-            style: { width: "100%", height: "100%" }
-          }
-        ),
-        /* @__PURE__ */ jsx(
-          "img",
-          {
-            src: imageSrc,
-            alt,
-            className: `w-full h-full transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"}`,
-            style: { objectFit },
-            onLoad: handleLoad,
-            onError: handleError,
-            loading: priority ? "eager" : "lazy"
-          }
-        )
-      ]
-    }
-  );
+  return /* @__PURE__ */ jsxs("div", { className: `relative overflow-hidden ${className}`, children: [
+    isLoading && /* @__PURE__ */ jsx(
+      Skeleton,
+      {
+        className: "absolute inset-0 z-10",
+        style: { width: "100%", height: "100%" }
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      "img",
+      {
+        src: imageSrc,
+        alt,
+        width,
+        height,
+        className: `w-full h-full transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"}`,
+        style: { objectFit },
+        onLoad: handleLoad,
+        onError: handleError,
+        loading: priority ? "eager" : "lazy",
+        decoding: "async"
+      }
+    )
+  ] });
 };
 const AnimatedCounter = ({
   end,
@@ -4116,11 +4219,12 @@ const About = () => {
               children: /* @__PURE__ */ jsx(
                 OptimizedImage,
                 {
-                  src: evaProfileImage,
+                  src: heroImage,
                   alt: "Eva Pérez, Expert in Luxury Hospitality & Wellness Strategy",
                   className: "w-full h-auto rounded-lg",
                   objectFit: "cover",
-                  priority: true
+                  width: 689,
+                  height: 398
                 }
               )
             }
@@ -4138,7 +4242,9 @@ const About = () => {
                     src: evaSpeakingImage,
                     alt: "Eva Pérez dando una conferencia",
                     className: "w-full h-auto rounded-lg",
-                    objectFit: "cover"
+                    objectFit: "cover",
+                    width: 1024,
+                    height: 768
                   }
                 )
               }
@@ -4277,7 +4383,7 @@ const Services = () => {
           children: [
             /* @__PURE__ */ jsx("h2", { className: "text-sm uppercase tracking-wider text-turquoise font-medium mb-3", children: t("services.title") }),
             /* @__PURE__ */ jsx("h3", { className: "font-playfair text-3xl md:text-4xl font-bold text-charcoal mb-6", children: t("services.subtitle") }),
-            /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: t("services.subtitle") })
+            /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: language === "es" ? "Soluciones a medida para mejorar la rentabilidad, la operativa, el equipo y la experiencia de cliente de cada proyecto wellness." : "Tailored solutions to improve profitability, operations, teams and the guest experience across every wellness project." })
           ]
         }
       ),
@@ -4591,7 +4697,11 @@ const Portfolio = () => {
                     {
                       src: item.image,
                       alt: item.title[language],
-                      className: "w-full h-full object-cover"
+                      className: "w-full h-full object-cover",
+                      width: "1024",
+                      height: "1024",
+                      loading: "lazy",
+                      decoding: "async"
                     }
                   ),
                   /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end", children: /* @__PURE__ */ jsx("div", { className: "p-4", children: /* @__PURE__ */ jsx("span", { className: "text-xs font-medium bg-turquoise text-white px-2 py-1 rounded", children: item.categoryName[language] }) }) })
@@ -4619,7 +4729,16 @@ const Portfolio = () => {
         },
         activeFilter
       ),
-      /* @__PURE__ */ jsx("div", { className: "text-center mt-12", children: /* @__PURE__ */ jsx("a", { href: "#", className: "inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium", children: t("portfolio.viewMore") }) })
+      /* @__PURE__ */ jsx("div", { className: "text-center mt-12", children: /* @__PURE__ */ jsx(
+        "a",
+        {
+          href: "/#contact",
+          "data-analytics-cta": "request_more_case_studies",
+          "data-analytics-location": "portfolio",
+          className: "inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium",
+          children: language === "es" ? "Solicitar más casos de éxito" : "Request more case studies"
+        }
+      ) })
     ] }),
     /* @__PURE__ */ jsx(
       ProjectModal,
@@ -4705,6 +4824,10 @@ const Testimonials = () => {
                 {
                   src: testimonial.avatar,
                   alt: testimonial.name,
+                  width: "96",
+                  height: "96",
+                  loading: "lazy",
+                  decoding: "async",
                   className: "w-12 h-12 rounded-full object-cover mr-4"
                 }
               ),
@@ -4821,7 +4944,7 @@ const Blog = () => {
                       alt: post.title,
                       className: "w-full h-full transition-transform duration-700 group-hover:scale-110",
                       objectFit: "cover",
-                      priority: index < 2
+                      priority: false
                     }
                   ),
                   /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" })
@@ -4888,25 +5011,6 @@ const Blog = () => {
     ] })
   ] }) });
 };
-const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
-  CheckboxPrimitive.Root,
-  {
-    ref,
-    className: cn(
-      "peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
-      className
-    ),
-    ...props,
-    children: /* @__PURE__ */ jsx(
-      CheckboxPrimitive.Indicator,
-      {
-        className: cn("flex items-center justify-center text-current"),
-        children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" })
-      }
-    )
-  }
-));
-Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 const Select = SelectPrimitive.Root;
 const SelectValue = SelectPrimitive.Value;
 const SelectTrigger = React.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxs(
@@ -5771,12 +5875,16 @@ const Newsletter = () => {
   const formSchema2 = z.object({
     email: z.string().email({
       message: language === "es" ? "Por favor introduce un email válido" : "Please enter a valid email address"
+    }),
+    privacy: z.boolean().refine((value) => value === true, {
+      message: language === "es" ? "Debes aceptar la política de privacidad" : "You must accept the privacy policy"
     })
   });
   const form = useForm({
     resolver: zodResolver(formSchema2),
     defaultValues: {
-      email: ""
+      email: "",
+      privacy: false
     }
   });
   const onSubmit = async (data) => {
@@ -5817,32 +5925,61 @@ const Newsletter = () => {
           /* @__PURE__ */ jsx("h2", { className: "font-playfair text-2xl md:text-3xl font-bold mb-4", children: t("newsletter.leadMagnetTitle") }),
           /* @__PURE__ */ jsx("p", { className: "text-white/90", children: t("newsletter.leadMagnetSubtitle") })
         ] }),
-        /* @__PURE__ */ jsx("div", { className: "md:w-1/2", children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "flex flex-col sm:flex-row gap-3", children: [
+        /* @__PURE__ */ jsx("div", { className: "md:w-1/2", children: /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-3", children: [
+          /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row gap-3", children: [
+            /* @__PURE__ */ jsx(
+              FormField,
+              {
+                control: form.control,
+                name: "email",
+                render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "flex-grow", children: [
+                  /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                    Input,
+                    {
+                      type: "email",
+                      autoComplete: "email",
+                      placeholder: language === "es" ? "Tu email" : "Your email",
+                      className: "flex-grow p-3 rounded border-0 focus:ring-2 focus:ring-white/50 outline-none text-gray-900 bg-white placeholder:text-gray-500",
+                      ...field
+                    }
+                  ) }),
+                  /* @__PURE__ */ jsx(FormMessage, {})
+                ] })
+              }
+            ),
+            /* @__PURE__ */ jsx(
+              Button,
+              {
+                type: "submit",
+                className: "bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-6 py-3 rounded whitespace-nowrap",
+                disabled: isSubmitting,
+                children: isSubmitting ? t("newsletter.sending") : t("newsletter.downloadButton")
+              }
+            )
+          ] }),
           /* @__PURE__ */ jsx(
             FormField,
             {
               control: form.control,
-              name: "email",
-              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { className: "flex-grow", children: [
-                /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
-                  Input,
-                  {
-                    placeholder: language === "es" ? "Tu email" : "Your email",
-                    className: "flex-grow p-3 rounded border-0 focus:ring-2 focus:ring-white/50 outline-none text-gray-900 bg-white placeholder:text-gray-500",
-                    ...field
-                  }
-                ) }),
-                /* @__PURE__ */ jsx(FormMessage, {})
+              name: "privacy",
+              render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
+                  /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                    Checkbox,
+                    {
+                      checked: field.value,
+                      onCheckedChange: field.onChange,
+                      className: "mt-0.5 border-white data-[state=checked]:bg-white data-[state=checked]:text-turquoise-dark"
+                    }
+                  ) }),
+                  /* @__PURE__ */ jsxs("p", { className: "text-sm text-white/95", children: [
+                    language === "es" ? "Acepto la " : "I accept the ",
+                    /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "underline underline-offset-2 hover:text-white", children: language === "es" ? "política de privacidad" : "privacy policy" }),
+                    "."
+                  ] })
+                ] }),
+                /* @__PURE__ */ jsx(FormMessage, { className: "text-white" })
               ] })
-            }
-          ),
-          /* @__PURE__ */ jsx(
-            Button,
-            {
-              type: "submit",
-              className: "bg-white text-turquoise-dark hover:bg-gray-100 transition-colors font-medium px-6 py-3 rounded whitespace-nowrap",
-              disabled: isSubmitting,
-              children: isSubmitting ? t("newsletter.sending") : t("newsletter.downloadButton")
             }
           )
         ] }) }) })
@@ -5889,12 +6026,12 @@ const Footer = () => {
           children: [
             /* @__PURE__ */ jsx("h4", { className: "text-lg font-medium text-white mb-4", children: language === "es" ? "Enlaces rápidos" : "Quick Links" }),
             /* @__PURE__ */ jsxs("ul", { className: "space-y-3 text-sm", children: [
-              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#about", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.about") }) }),
-              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#services", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.services") }) }),
-              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#portfolio", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.portfolio") }) }),
-              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#testimonials", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.testimonials") }) }),
-              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#blog", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.blog") }) }),
-              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "#contact", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.contact") }) })
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/#about", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.about") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/#services", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.services") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/#portfolio", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.portfolio") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/#testimonials", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.testimonials") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/#blog", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.blog") }) }),
+              /* @__PURE__ */ jsx("li", { children: /* @__PURE__ */ jsx("a", { href: "/#contact", className: "text-gray-400 hover:text-turquoise transition-colors", children: t("header.contact") }) })
             ] })
           ]
         }
@@ -5945,6 +6082,9 @@ const Footer = () => {
 const formSchema$1 = z.object({
   email: z.string().email({
     message: "Por favor, introduce un email válido"
+  }),
+  privacy: z.boolean().refine((value) => value === true, {
+    message: "Debes aceptar la política de privacidad"
   })
 });
 const EbookPopup = () => {
@@ -5965,7 +6105,8 @@ const EbookPopup = () => {
   const form = useForm({
     resolver: zodResolver(formSchema$1),
     defaultValues: {
-      email: ""
+      email: "",
+      privacy: false
     }
   });
   const onSubmit = async (data) => {
@@ -5974,7 +6115,7 @@ const EbookPopup = () => {
       await apiRequest({
         path: "/api/newsletter",
         method: "POST",
-        body: { email: data.email }
+        body: data
       });
       trackEvent("sign_up", { method: "ebook_popup" });
       trackEvent("ebook_download", { resource: "guia-rentabilidad-spa" });
@@ -6047,10 +6188,36 @@ const EbookPopup = () => {
                         {
                           placeholder: emailPlaceholder,
                           type: "email",
+                          autoComplete: "email",
                           ...field,
                           className: "h-14 text-base rounded-md border border-gray-300 focus:border-turquoise focus:ring-1 focus:ring-turquoise px-4"
                         }
                       ) }),
+                      /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
+                    ] })
+                  }
+                ),
+                /* @__PURE__ */ jsx(
+                  FormField,
+                  {
+                    control: form.control,
+                    name: "privacy",
+                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                      /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
+                        /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                          Checkbox,
+                          {
+                            checked: field.value,
+                            onCheckedChange: field.onChange,
+                            className: "mt-0.5"
+                          }
+                        ) }),
+                        /* @__PURE__ */ jsxs("p", { className: "text-sm text-charcoal-light", children: [
+                          language === "es" ? "Acepto la " : "I accept the ",
+                          /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "text-turquoise underline underline-offset-2", children: language === "es" ? "política de privacidad" : "privacy policy" }),
+                          "."
+                        ] })
+                      ] }),
                       /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
                     ] })
                   }
@@ -6123,17 +6290,16 @@ const Home = () => {
     ),
     /* @__PURE__ */ jsx(Header, {}),
     /* @__PURE__ */ jsx("section", { id: "home", children: /* @__PURE__ */ jsx(Hero, {}) }),
-    /* @__PURE__ */ jsx("section", { id: "about", children: /* @__PURE__ */ jsx(About, {}) }),
-    /* @__PURE__ */ jsx("section", { id: "services", children: /* @__PURE__ */ jsx(Services, {}) }),
+    /* @__PURE__ */ jsx(About, {}),
+    /* @__PURE__ */ jsx(Services, {}),
     /* @__PURE__ */ jsx("section", { id: "cta", children: /* @__PURE__ */ jsx(CallToAction, {}) }),
-    /* @__PURE__ */ jsx("section", { id: "portfolio", children: /* @__PURE__ */ jsx(Portfolio, {}) }),
-    /* @__PURE__ */ jsx("section", { id: "testimonials", children: /* @__PURE__ */ jsx(Testimonials, {}) }),
+    /* @__PURE__ */ jsx(Portfolio, {}),
+    /* @__PURE__ */ jsx(Testimonials, {}),
     /* @__PURE__ */ jsx("section", { id: "resources", children: /* @__PURE__ */ jsx(Resources, {}) }),
-    /* @__PURE__ */ jsx("section", { id: "blog", children: /* @__PURE__ */ jsx(Blog, {}) }),
-    /* @__PURE__ */ jsx("section", { id: "contact", children: /* @__PURE__ */ jsx(Contact, {}) }),
+    /* @__PURE__ */ jsx(Blog, {}),
+    /* @__PURE__ */ jsx(Contact, {}),
     /* @__PURE__ */ jsx("section", { id: "newsletter", children: /* @__PURE__ */ jsx(Newsletter, {}) }),
     /* @__PURE__ */ jsx(Footer, {}),
-    /* @__PURE__ */ jsx(ScrollToTop, {}),
     /* @__PURE__ */ jsx(EbookPopup, {})
   ] }) });
 };
@@ -6145,79 +6311,89 @@ const Privacy = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
-    /* @__PURE__ */ jsx(Header, {}),
-    /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
-      /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Privacidad" }),
-      /* @__PURE__ */ jsx("p", { className: "lead", children: "En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016 (RGPD), y la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales, te informamos sobre el tratamiento de tus datos personales." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "1. Responsable del Tratamiento" }),
-      /* @__PURE__ */ jsxs("p", { children: [
-        /* @__PURE__ */ jsx("strong", { children: "Identidad:" }),
-        " Eva Pérez",
-        /* @__PURE__ */ jsx("br", {}),
-        /* @__PURE__ */ jsx("strong", { children: "Actividad:" }),
-        " Consultoría de Spa y Wellness",
-        /* @__PURE__ */ jsx("br", {}),
-        /* @__PURE__ */ jsx("strong", { children: "Email de contacto:" }),
-        " epm@epmwellness.com",
-        /* @__PURE__ */ jsx("br", {}),
-        /* @__PURE__ */ jsx("strong", { children: "Ubicación:" }),
-        " Madrid, España"
-      ] }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "2. Finalidad del Tratamiento" }),
-      /* @__PURE__ */ jsx("p", { children: "Tratamos la información que nos facilitas para las siguientes finalidades:" }),
-      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Formulario de Contacto:" }),
-          " Responder a tus consultas, solicitudes de auditoría o propuestas de colaboración."
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: "Política de Privacidad",
+        description: "Información sobre el tratamiento de datos personales y el ejercicio de derechos en EPM Wellness, web profesional de Eva Pérez.",
+        url: "/privacy"
+      }
+    ),
+    /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+      /* @__PURE__ */ jsx(Header, {}),
+      /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
+        /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Privacidad" }),
+        /* @__PURE__ */ jsx("p", { className: "lead", children: "En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016 (RGPD), y la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales, te informamos sobre el tratamiento de tus datos personales." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "1. Responsable del Tratamiento" }),
+        /* @__PURE__ */ jsxs("p", { children: [
+          /* @__PURE__ */ jsx("strong", { children: "Identidad:" }),
+          " Eva Pérez",
+          /* @__PURE__ */ jsx("br", {}),
+          /* @__PURE__ */ jsx("strong", { children: "Actividad:" }),
+          " Consultoría de Spa y Wellness",
+          /* @__PURE__ */ jsx("br", {}),
+          /* @__PURE__ */ jsx("strong", { children: "Email de contacto:" }),
+          " epm@epmwellness.com",
+          /* @__PURE__ */ jsx("br", {}),
+          /* @__PURE__ */ jsx("strong", { children: "Ubicación:" }),
+          " Madrid, España"
         ] }),
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Newsletter y Lead Magnets:" }),
-          " Enviarte la guía gratuita solicitada y comunicaciones periódicas (newsletter) con contenidos sobre gestión de spas, novedades y servicios, siempre que hayas dado tu consentimiento explícito."
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "2. Finalidad del Tratamiento" }),
+        /* @__PURE__ */ jsx("p", { children: "Tratamos la información que nos facilitas para las siguientes finalidades:" }),
+        /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Formulario de Contacto:" }),
+            " Responder a tus consultas, solicitudes de auditoría o propuestas de colaboración."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Newsletter y Lead Magnets:" }),
+            " Enviarte la guía gratuita solicitada y comunicaciones periódicas (newsletter) con contenidos sobre gestión de spas, novedades y servicios, siempre que hayas dado tu consentimiento explícito."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Gestión de Servicios:" }),
+            " En caso de contratación, para la gestión administrativa, fiscal y contable de los servicios prestados."
+          ] })
         ] }),
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Gestión de Servicios:" }),
-          " En caso de contratación, para la gestión administrativa, fiscal y contable de los servicios prestados."
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "3. Legitimación" }),
+        /* @__PURE__ */ jsx("p", { children: "La base legal para el tratamiento de tus datos es:" }),
+        /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Consentimiento:" }),
+            " Al marcar la casilla de aceptación en nuestros formularios, nos autorizas expresamente a tratar tus datos."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Ejecución de un contrato:" }),
+            " En caso de contratar servicios de consultoría o formación."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Interés legítimo:" }),
+            " Para la respuesta a consultas pre-contractuales."
+          ] })
+        ] }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "4. Conservación de los Datos" }),
+        /* @__PURE__ */ jsx("p", { children: "Los datos proporcionados se conservarán mientras se mantenga la relación comercial o durante los años necesarios para cumplir con las obligaciones legales. Los datos para el envío de newsletter se conservarán hasta que solicites tu baja." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "5. Destinatarios" }),
+        /* @__PURE__ */ jsx("p", { children: "Los datos no se cederán a terceros salvo en los casos en que exista una obligación legal. Utilizamos proveedores de servicios (como plataformas de email marketing o hosting) que pueden tener acceso a datos, garantizando siempre el cumplimiento del RGPD." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "6. Derechos" }),
+        /* @__PURE__ */ jsx("p", { children: "Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales y, por tanto, tienes derecho a:" }),
+        /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+          /* @__PURE__ */ jsx("li", { children: "Acceder a tus datos personales." }),
+          /* @__PURE__ */ jsx("li", { children: "Rectificar los datos inexactos." }),
+          /* @__PURE__ */ jsx("li", { children: "Solicitar su supresión cuando los datos ya no sean necesarios." }),
+          /* @__PURE__ */ jsx("li", { children: "Limitar el tratamiento de tus datos." }),
+          /* @__PURE__ */ jsx("li", { children: "Oponerte al tratamiento." }),
+          /* @__PURE__ */ jsx("li", { children: "Portabilidad de tus datos." })
+        ] }),
+        /* @__PURE__ */ jsxs("p", { children: [
+          "Puedes ejercer tus derechos enviando un email a ",
+          /* @__PURE__ */ jsx("strong", { children: "epm@epmwellness.com" }),
+          "."
         ] })
-      ] }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "3. Legitimación" }),
-      /* @__PURE__ */ jsx("p", { children: "La base legal para el tratamiento de tus datos es:" }),
-      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Consentimiento:" }),
-          " Al marcar la casilla de aceptación en nuestros formularios, nos autorizas expresamente a tratar tus datos."
-        ] }),
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Ejecución de un contrato:" }),
-          " En caso de contratar servicios de consultoría o formación."
-        ] }),
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Interés legítimo:" }),
-          " Para la respuesta a consultas pre-contractuales."
-        ] })
-      ] }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "4. Conservación de los Datos" }),
-      /* @__PURE__ */ jsx("p", { children: "Los datos proporcionados se conservarán mientras se mantenga la relación comercial o durante los años necesarios para cumplir con las obligaciones legales. Los datos para el envío de newsletter se conservarán hasta que solicites tu baja." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "5. Destinatarios" }),
-      /* @__PURE__ */ jsx("p", { children: "Los datos no se cederán a terceros salvo en los casos en que exista una obligación legal. Utilizamos proveedores de servicios (como plataformas de email marketing o hosting) que pueden tener acceso a datos, garantizando siempre el cumplimiento del RGPD." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "6. Derechos" }),
-      /* @__PURE__ */ jsx("p", { children: "Tienes derecho a obtener confirmación sobre si estamos tratando tus datos personales y, por tanto, tienes derecho a:" }),
-      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
-        /* @__PURE__ */ jsx("li", { children: "Acceder a tus datos personales." }),
-        /* @__PURE__ */ jsx("li", { children: "Rectificar los datos inexactos." }),
-        /* @__PURE__ */ jsx("li", { children: "Solicitar su supresión cuando los datos ya no sean necesarios." }),
-        /* @__PURE__ */ jsx("li", { children: "Limitar el tratamiento de tus datos." }),
-        /* @__PURE__ */ jsx("li", { children: "Oponerte al tratamiento." }),
-        /* @__PURE__ */ jsx("li", { children: "Portabilidad de tus datos." })
-      ] }),
-      /* @__PURE__ */ jsxs("p", { children: [
-        "Puedes ejercer tus derechos enviando un email a ",
-        /* @__PURE__ */ jsx("strong", { children: "epm@epmwellness.com" }),
-        "."
-      ] })
-    ] }) }),
-    /* @__PURE__ */ jsx(Footer, {})
-  ] }) });
+      ] }) }),
+      /* @__PURE__ */ jsx(Footer, {})
+    ] }) })
+  ] });
 };
 const Privacy$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -6227,29 +6403,39 @@ const Terms = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
-    /* @__PURE__ */ jsx(Header, {}),
-    /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
-      /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Términos y Condiciones" }),
-      /* @__PURE__ */ jsx("p", { className: "lead", children: "Bienvenido/a a la web de Eva Pérez. Al acceder y utilizar este sitio web, aceptas cumplir con los siguientes términos y condiciones de uso." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "1. Propiedad Intelectual" }),
-      /* @__PURE__ */ jsx("p", { children: "Todo el contenido de este sitio web (textos, imágenes, diseños, logotipos, vídeos, material descargable, guías, etc.) es propiedad exclusiva de Eva Pérez o de terceros que han autorizado su uso. Está prohibida su reproducción, distribución, comunicación pública o transformación sin la autorización expresa y por escrito de la titular." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "2. Uso del Sitio Web" }),
-      /* @__PURE__ */ jsx("p", { children: "El usuario se compromete a utilizar el sitio web de conformidad con la ley, la moral, el orden público y estos Términos y Condiciones. Se prohíbe el uso del sitio web con fines ilícitos o lesivos contra Eva Pérez o terceros." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "3. Contratación de Servicios" }),
-      /* @__PURE__ */ jsx("p", { children: "Los servicios de consultoría, formación e interim management expuestos en la web están sujetos a presupuestos personalizados. La mera solicitud de información a través de los formularios no implica relación contractual hasta la firma de la propuesta de servicios correspondiente." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "4. Exención de Responsabilidad" }),
-      /* @__PURE__ */ jsx("p", { children: "Eva Pérez no se hace responsable de los daños y perjuicios de cualquier naturaleza que pudieran derivarse de la disponibilidad y continuidad técnica del funcionamiento del sitio web. Asimismo, aunque se esfuerza por mantener la información actualizada y veraz, no garantiza la inexistencia de errores en los contenidos." }),
-      /* @__PURE__ */ jsx("p", { children: 'La información proporcionada en el "Chatbot" o asistente virtual es de carácter orientativo y no sustituye una consultoría profesional personalizada.' }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "5. Enlaces Externos" }),
-      /* @__PURE__ */ jsx("p", { children: "Este sitio web puede contener enlaces a sitios web de terceros. Eva Pérez no asume responsabilidad alguna por el contenido, políticas de privacidad o prácticas de dichos sitios web." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "6. Modificaciones" }),
-      /* @__PURE__ */ jsx("p", { children: "Nos reservamos el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del sitio web, así como los presentes Términos y Condiciones." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "7. Legislación Aplicable" }),
-      /* @__PURE__ */ jsx("p", { children: "Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España)." })
-    ] }) }),
-    /* @__PURE__ */ jsx(Footer, {})
-  ] }) });
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: "Términos y Condiciones",
+        description: "Condiciones de acceso, uso y contratación de los servicios profesionales presentados en la web de Eva Pérez.",
+        url: "/terms"
+      }
+    ),
+    /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+      /* @__PURE__ */ jsx(Header, {}),
+      /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
+        /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Términos y Condiciones" }),
+        /* @__PURE__ */ jsx("p", { className: "lead", children: "Bienvenido/a a la web de Eva Pérez. Al acceder y utilizar este sitio web, aceptas cumplir con los siguientes términos y condiciones de uso." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "1. Propiedad Intelectual" }),
+        /* @__PURE__ */ jsx("p", { children: "Todo el contenido de este sitio web (textos, imágenes, diseños, logotipos, vídeos, material descargable, guías, etc.) es propiedad exclusiva de Eva Pérez o de terceros que han autorizado su uso. Está prohibida su reproducción, distribución, comunicación pública o transformación sin la autorización expresa y por escrito de la titular." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "2. Uso del Sitio Web" }),
+        /* @__PURE__ */ jsx("p", { children: "El usuario se compromete a utilizar el sitio web de conformidad con la ley, la moral, el orden público y estos Términos y Condiciones. Se prohíbe el uso del sitio web con fines ilícitos o lesivos contra Eva Pérez o terceros." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "3. Contratación de Servicios" }),
+        /* @__PURE__ */ jsx("p", { children: "Los servicios de consultoría, formación e interim management expuestos en la web están sujetos a presupuestos personalizados. La mera solicitud de información a través de los formularios no implica relación contractual hasta la firma de la propuesta de servicios correspondiente." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "4. Exención de Responsabilidad" }),
+        /* @__PURE__ */ jsx("p", { children: "Eva Pérez no se hace responsable de los daños y perjuicios de cualquier naturaleza que pudieran derivarse de la disponibilidad y continuidad técnica del funcionamiento del sitio web. Asimismo, aunque se esfuerza por mantener la información actualizada y veraz, no garantiza la inexistencia de errores en los contenidos." }),
+        /* @__PURE__ */ jsx("p", { children: 'La información proporcionada en el "Chatbot" o asistente virtual es de carácter orientativo y no sustituye una consultoría profesional personalizada.' }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "5. Enlaces Externos" }),
+        /* @__PURE__ */ jsx("p", { children: "Este sitio web puede contener enlaces a sitios web de terceros. Eva Pérez no asume responsabilidad alguna por el contenido, políticas de privacidad o prácticas de dichos sitios web." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "6. Modificaciones" }),
+        /* @__PURE__ */ jsx("p", { children: "Nos reservamos el derecho a modificar, en cualquier momento y sin previo aviso, la presentación y configuración del sitio web, así como los presentes Términos y Condiciones." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "7. Legislación Aplicable" }),
+        /* @__PURE__ */ jsx("p", { children: "Estos términos se rigen por la legislación española. Para cualquier controversia que pudiera derivarse del acceso o uso del sitio web, las partes se someten a los juzgados y tribunales de la ciudad de Madrid (España)." })
+      ] }) }),
+      /* @__PURE__ */ jsx(Footer, {})
+    ] }) })
+  ] });
 };
 const Terms$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -6259,40 +6445,50 @@ const Cookies = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
-    /* @__PURE__ */ jsx(Header, {}),
-    /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
-      /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Cookies" }),
-      /* @__PURE__ */ jsx("p", { className: "lead", children: "Este sitio web utiliza cookies propias y de terceros para mejorar tu experiencia de usuario, analizar el tráfico y personalizar el contenido." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "¿Qué son las cookies?" }),
-      /* @__PURE__ */ jsx("p", { children: "Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "Cookies que utilizamos" }),
-      /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "1. Cookies Técnicas (Necesarias)" }),
-      /* @__PURE__ */ jsx("p", { children: "Son aquellas que permiten al usuario la navegación a través de la página web y la utilización de las diferentes opciones o servicios que en ella existan. Por ejemplo, controlar el tráfico, identificar la sesión o recordar elementos de un pedido." }),
-      /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "2. Cookies de Análisis" }),
-      /* @__PURE__ */ jsx("p", { children: "Son aquellas que nos permiten cuantificar el número de usuarios y así realizar la medición y análisis estadístico de la utilización que hacen los usuarios del servicio. Para ello se analiza tu navegación en nuestra página web con el fin de mejorar la oferta de productos o servicios que te ofrecemos." }),
-      /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "3. Cookies de Preferencias" }),
-      /* @__PURE__ */ jsx("p", { children: "Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional." }),
-      /* @__PURE__ */ jsx("h3", { className: "text-xl font-bold mt-6 mb-2", children: "Gestión de Cookies" }),
-      /* @__PURE__ */ jsx("p", { children: "Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:" }),
-      /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Google Chrome:" }),
-          " Configuración → Privacidad y seguridad → Cookies y otros datos de sitios."
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: "Política de Cookies",
+        description: "Información sobre las cookies técnicas, analíticas y de preferencias utilizadas en la web de Eva Pérez.",
+        url: "/cookies"
+      }
+    ),
+    /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsxs("div", { className: "font-poppins text-charcoal bg-white min-h-screen flex flex-col", children: [
+      /* @__PURE__ */ jsx(Header, {}),
+      /* @__PURE__ */ jsx("main", { className: "flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8", children: /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto prose prose-slate", children: [
+        /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold mb-8 text-turquoise-dark", children: "Política de Cookies" }),
+        /* @__PURE__ */ jsx("p", { className: "lead", children: "Este sitio web utiliza cookies propias y de terceros para mejorar tu experiencia de usuario, analizar el tráfico y personalizar el contenido." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "¿Qué son las cookies?" }),
+        /* @__PURE__ */ jsx("p", { children: "Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "Cookies que utilizamos" }),
+        /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "1. Cookies Técnicas (Necesarias)" }),
+        /* @__PURE__ */ jsx("p", { children: "Son aquellas que permiten al usuario la navegación a través de la página web y la utilización de las diferentes opciones o servicios que en ella existan. Por ejemplo, controlar el tráfico, identificar la sesión o recordar elementos de un pedido." }),
+        /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "2. Cookies de Análisis" }),
+        /* @__PURE__ */ jsx("p", { children: "Son aquellas que nos permiten cuantificar el número de usuarios y así realizar la medición y análisis estadístico de la utilización que hacen los usuarios del servicio. Para ello se analiza tu navegación en nuestra página web con el fin de mejorar la oferta de productos o servicios que te ofrecemos." }),
+        /* @__PURE__ */ jsx("h4", { className: "font-bold mt-4", children: "3. Cookies de Preferencias" }),
+        /* @__PURE__ */ jsx("p", { children: "Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional." }),
+        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold mt-6 mb-2", children: "Gestión de Cookies" }),
+        /* @__PURE__ */ jsx("p", { children: "Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:" }),
+        /* @__PURE__ */ jsxs("ul", { className: "list-disc pl-5 mb-4", children: [
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Google Chrome:" }),
+            " Configuración → Privacidad y seguridad → Cookies y otros datos de sitios."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Mozilla Firefox:" }),
+            " Opciones → Privacidad y Seguridad."
+          ] }),
+          /* @__PURE__ */ jsxs("li", { children: [
+            /* @__PURE__ */ jsx("strong", { children: "Safari:" }),
+            " Preferencias → Privacidad."
+          ] })
         ] }),
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Mozilla Firefox:" }),
-          " Opciones → Privacidad y Seguridad."
-        ] }),
-        /* @__PURE__ */ jsxs("li", { children: [
-          /* @__PURE__ */ jsx("strong", { children: "Safari:" }),
-          " Preferencias → Privacidad."
-        ] })
-      ] }),
-      /* @__PURE__ */ jsx("p", { children: "Ten en cuenta que, si desactivas las cookies, es posible que algunas funciones del sitio web no funcionen correctamente." })
-    ] }) }),
-    /* @__PURE__ */ jsx(Footer, {})
-  ] }) });
+        /* @__PURE__ */ jsx("p", { children: "Ten en cuenta que, si desactivas las cookies, es posible que algunas funciones del sitio web no funcionen correctamente." })
+      ] }) }),
+      /* @__PURE__ */ jsx(Footer, {})
+    ] }) })
+  ] });
 };
 const Cookies$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -6303,57 +6499,68 @@ const Booking = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsx(
-    motion.div,
-    {
-      className: "min-h-screen pt-24 pb-16 px-4",
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      transition: { duration: 0.5 },
-      children: /* @__PURE__ */ jsxs("div", { className: "max-w-5xl mx-auto", children: [
-        /* @__PURE__ */ jsxs("div", { className: "text-center mb-12", children: [
-          /* @__PURE__ */ jsx("h1", { className: "text-3xl md:text-4xl font-bold text-gray-800 mb-4", children: language === "es" ? "Reserva una Consulta" : "Book a Consultation" }),
-          /* @__PURE__ */ jsx("p", { className: "text-lg text-gray-600 max-w-2xl mx-auto", children: language === "es" ? "Agenda una sesión personalizada con Eva Pérez para discutir tu proyecto de wellness o spa" : "Schedule a personalized session with Eva Pérez to discuss your wellness or spa project" })
-        ] }),
-        /* @__PURE__ */ jsx(BookingCalendar, {}),
-        /* @__PURE__ */ jsxs("div", { className: "mt-12 bg-gray-50 rounded-xl p-6 shadow-sm", children: [
-          /* @__PURE__ */ jsx("h2", { className: "text-xl font-semibold text-gray-800 mb-4", children: language === "es" ? "¿Qué esperar de la consulta?" : "What to expect from the consultation?" }),
-          /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
-            /* @__PURE__ */ jsxs("div", { children: [
-              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Antes de la reunión" : "Before the meeting" }),
-              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Recibirás un correo electrónico de confirmación con un enlace para la videollamada y un cuestionario breve para comprender mejor tus necesidades." : "You will receive a confirmation email with a video call link and a brief questionnaire to better understand your needs." })
-            ] }),
-            /* @__PURE__ */ jsxs("div", { children: [
-              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Durante la consulta" : "During the consultation" }),
-              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Una conversación de 60 minutos donde analizaremos tu proyecto actual, identificaremos desafíos clave y exploraremos soluciones estratégicas." : "A 60-minute conversation where we will analyze your current project, identify key challenges, and explore strategic solutions." })
-            ] }),
-            /* @__PURE__ */ jsxs("div", { children: [
-              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Después de la sesión" : "After the session" }),
-              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Recibirás un resumen con las principales ideas discutidas y recomendaciones personalizadas para implementar en tu proyecto." : "You will receive a summary with the main ideas discussed and personalized recommendations to implement in your project." })
-            ] }),
-            /* @__PURE__ */ jsxs("div", { children: [
-              /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Seguimiento" : "Follow-up" }),
-              /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Tendrás acceso a una sesión de seguimiento breve por email para resolver cualquier duda adicional sobre las recomendaciones." : "You will have access to a brief follow-up session by email to resolve any additional questions about the recommendations." })
+  return /* @__PURE__ */ jsxs(Fragment, { children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: language === "es" ? "Reservar Consulta de Spa y Wellness" : "Book a Spa & Wellness Consultation",
+        description: language === "es" ? "Reserva una consulta personalizada con Eva Pérez para analizar la rentabilidad, las operaciones o el desarrollo de tu spa hotelero." : "Book a personalised consultation with Eva Pérez to review the profitability, operations or development of your hotel spa.",
+        url: "/booking",
+        language
+      }
+    ),
+    /* @__PURE__ */ jsx(PageTransition, { children: /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        className: "min-h-screen pt-24 pb-16 px-4",
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        transition: { duration: 0.5 },
+        children: /* @__PURE__ */ jsxs("div", { className: "max-w-5xl mx-auto", children: [
+          /* @__PURE__ */ jsxs("div", { className: "text-center mb-12", children: [
+            /* @__PURE__ */ jsx("h1", { className: "text-3xl md:text-4xl font-bold text-gray-800 mb-4", children: language === "es" ? "Reserva una Consulta" : "Book a Consultation" }),
+            /* @__PURE__ */ jsx("p", { className: "text-lg text-gray-600 max-w-2xl mx-auto", children: language === "es" ? "Agenda una sesión personalizada con Eva Pérez para discutir tu proyecto de wellness o spa" : "Schedule a personalized session with Eva Pérez to discuss your wellness or spa project" })
+          ] }),
+          /* @__PURE__ */ jsx(BookingCalendar, {}),
+          /* @__PURE__ */ jsxs("div", { className: "mt-12 bg-gray-50 rounded-xl p-6 shadow-sm", children: [
+            /* @__PURE__ */ jsx("h2", { className: "text-xl font-semibold text-gray-800 mb-4", children: language === "es" ? "¿Qué esperar de la consulta?" : "What to expect from the consultation?" }),
+            /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-6", children: [
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Antes de la reunión" : "Before the meeting" }),
+                /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Recibirás un correo electrónico de confirmación con un enlace para la videollamada y un cuestionario breve para comprender mejor tus necesidades." : "You will receive a confirmation email with a video call link and a brief questionnaire to better understand your needs." })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Durante la consulta" : "During the consultation" }),
+                /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Una conversación de 60 minutos donde analizaremos tu proyecto actual, identificaremos desafíos clave y exploraremos soluciones estratégicas." : "A 60-minute conversation where we will analyze your current project, identify key challenges, and explore strategic solutions." })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Después de la sesión" : "After the session" }),
+                /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Recibirás un resumen con las principales ideas discutidas y recomendaciones personalizadas para implementar en tu proyecto." : "You will receive a summary with the main ideas discussed and personalized recommendations to implement in your project." })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("h3", { className: "font-medium text-gray-700 mb-2", children: language === "es" ? "Seguimiento" : "Follow-up" }),
+                /* @__PURE__ */ jsx("p", { className: "text-gray-600", children: language === "es" ? "Tendrás acceso a una sesión de seguimiento breve por email para resolver cualquier duda adicional sobre las recomendaciones." : "You will have access to a brief follow-up session by email to resolve any additional questions about the recommendations." })
+              ] })
             ] })
+          ] }),
+          /* @__PURE__ */ jsxs("div", { className: "mt-8 text-center text-gray-600 text-sm", children: [
+            /* @__PURE__ */ jsx("p", { children: language === "es" ? "Para consultas sobre cancelaciones o cambios en tu reserva, por favor contacta directamente con nosotros por email." : "For inquiries about cancellations or changes to your booking, please contact us directly by email." }),
+            /* @__PURE__ */ jsx("div", { className: "mt-8 flex justify-center", children: /* @__PURE__ */ jsx(Link, { href: "/", children: /* @__PURE__ */ jsxs(
+              Button,
+              {
+                variant: "outline",
+                className: "flex items-center gap-2 px-5 py-2 text-turquoise border-turquoise hover:bg-turquoise/10",
+                children: [
+                  /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx("path", { d: "m15 18-6-6 6-6" }) }),
+                  language === "es" ? "Volver a la página principal" : "Return to home page"
+                ]
+              }
+            ) }) })
           ] })
-        ] }),
-        /* @__PURE__ */ jsxs("div", { className: "mt-8 text-center text-gray-600 text-sm", children: [
-          /* @__PURE__ */ jsx("p", { children: language === "es" ? "Para consultas sobre cancelaciones o cambios en tu reserva, por favor contacta directamente con nosotros por email." : "For inquiries about cancellations or changes to your booking, please contact us directly by email." }),
-          /* @__PURE__ */ jsx("div", { className: "mt-8 flex justify-center", children: /* @__PURE__ */ jsx(Link, { href: "/", children: /* @__PURE__ */ jsxs(
-            Button,
-            {
-              variant: "outline",
-              className: "flex items-center gap-2 px-5 py-2 text-turquoise border-turquoise hover:bg-turquoise/10",
-              children: [
-                /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: /* @__PURE__ */ jsx("path", { d: "m15 18-6-6 6-6" }) }),
-                language === "es" ? "Volver a la página principal" : "Return to home page"
-              ]
-            }
-          ) }) })
         ] })
-      ] })
-    }
-  ) });
+      }
+    ) })
+  ] });
 };
 const Booking$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -6519,12 +6726,23 @@ const Auth = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty
 function BlogPostPage() {
   const [, params] = useRoute("/blog/:slug");
   const slug = params == null ? void 0 : params.slug;
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const { data: article, isLoading } = useQuery({
     queryKey: [`/api/articles/${slug}`],
     enabled: !!slug
   });
+  const { data: relatedArticles = [] } = useQuery({
+    queryKey: ["/api/articles/related", slug],
+    enabled: !!slug && !!article,
+    queryFn: async () => {
+      const response = await fetch("/api/articles", { credentials: "include" });
+      if (!response.ok) throw new Error("Unable to load related articles");
+      const articles = await response.json();
+      return articles.filter((candidate) => candidate.slug !== slug && candidate.language === (article == null ? void 0 : article.language)).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3);
+    }
+  });
   const articleLanguage = (article == null ? void 0 : article.language) === "en" ? "en" : "es";
+  const isSpanishArticle = articleLanguage === "es";
   useEffect(() => {
     if (!article) return;
     document.documentElement.lang = articleLanguage;
@@ -6561,24 +6779,28 @@ function BlogPostPage() {
       ] }) })
     ] });
   }
-  const siteUrl = "https://www.epmwellness.com";
+  const siteUrl2 = "https://www.epmwellness.com";
   const postUrl = `/blog/${article.slug}`;
+  const articleBody = article.content.replace(/^\s*#\s+[^\r\n]+(?:\r?\n)+/, "");
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": article.title,
-    "image": article.image.startsWith("http") ? article.image : `${siteUrl}${article.image}`,
+    "image": article.image.startsWith("http") ? article.image : `${siteUrl2}${article.image}`,
     "datePublished": article.date,
+    "dateModified": article.date,
+    "mainEntityOfPage": `${siteUrl2}${postUrl}`,
     "author": {
       "@type": "Person",
-      "name": "Eva Pérez"
+      "name": "Eva Pérez",
+      "url": siteUrl2
     },
     "publisher": {
       "@type": "Person",
       "name": "Eva Pérez",
       "image": {
         "@type": "ImageObject",
-        "url": `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`
+        "url": `${siteUrl2}/attached_assets/foto_perfil_Eva_Linkedin.PNG`
       }
     },
     "description": article.excerpt
@@ -6595,11 +6817,19 @@ function BlogPostPage() {
         language: articleLanguage
       }
     ),
-    /* @__PURE__ */ jsx("script", { type: "application/ld+json", children: JSON.stringify(structuredData) }),
+    /* @__PURE__ */ jsx(
+      "script",
+      {
+        type: "application/ld+json",
+        dangerouslySetInnerHTML: {
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c")
+        }
+      }
+    ),
     /* @__PURE__ */ jsx("article", { className: "min-h-screen pt-24 pb-16 bg-background", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 max-w-4xl", children: [
       /* @__PURE__ */ jsx(Link, { href: "/#blog", children: /* @__PURE__ */ jsxs(Button, { variant: "ghost", className: "mb-8 hover:bg-transparent p-0 flex items-center text-muted-foreground hover:text-primary transition-colors", children: [
         /* @__PURE__ */ jsx(ArrowLeft, { className: "mr-2 h-4 w-4" }),
-        language === "es" ? "Volver al Blog" : "Back to Blog"
+        isSpanishArticle ? "Volver al Blog" : "Back to Blog"
       ] }) }),
       /* @__PURE__ */ jsxs("div", { className: "space-y-6", children: [
         /* @__PURE__ */ jsx("div", { className: "relative aspect-video w-full overflow-hidden rounded-2xl shadow-lg", children: /* @__PURE__ */ jsx(
@@ -6607,14 +6837,17 @@ function BlogPostPage() {
           {
             src: article.image,
             alt: article.title,
-            className: "object-cover w-full h-full"
+            className: "object-cover w-full h-full",
+            width: "1200",
+            height: "675",
+            decoding: "async"
           }
         ) }),
         /* @__PURE__ */ jsxs("div", { className: "flex flex-wrap gap-4 text-sm text-muted-foreground", children: [
           /* @__PURE__ */ jsx("span", { className: "bg-primary/10 text-primary px-3 py-1 rounded-full font-medium", children: article.category }),
-          /* @__PURE__ */ jsxs("div", { className: "flex items-center", children: [
+          /* @__PURE__ */ jsxs("time", { className: "flex items-center", dateTime: article.date, children: [
             /* @__PURE__ */ jsx(Calendar$1, { className: "h-4 w-4 mr-1" }),
-            new Date(article.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US", {
+            new Date(article.date).toLocaleDateString(isSpanishArticle ? "es-ES" : "en-US", {
               year: "numeric",
               month: "long",
               day: "numeric"
@@ -6623,16 +6856,36 @@ function BlogPostPage() {
           /* @__PURE__ */ jsxs("div", { className: "flex items-center", children: [
             /* @__PURE__ */ jsx(Clock, { className: "h-4 w-4 mr-1" }),
             article.readTime
-          ] })
+          ] }),
+          /* @__PURE__ */ jsx(Link, { href: "/", rel: "author", className: "font-medium text-primary hover:underline", children: isSpanishArticle ? "Por Eva Pérez" : "By Eva Pérez" })
         ] }),
         /* @__PURE__ */ jsx("h1", { className: "text-4xl md:text-5xl font-playfair font-bold text-foreground leading-tight", children: article.title }),
-        /* @__PURE__ */ jsx("div", { className: "prose prose-lg dark:prose-invert max-w-none font-sans leading-relaxed", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: article.content }) }),
+        /* @__PURE__ */ jsx("div", { className: "prose prose-lg dark:prose-invert max-w-none font-sans leading-relaxed", children: /* @__PURE__ */ jsx(ReactMarkdown, { children: articleBody }) }),
+        relatedArticles.length > 0 && /* @__PURE__ */ jsxs("section", { className: "border-t border-border pt-10", "aria-labelledby": "related-articles-title", children: [
+          /* @__PURE__ */ jsx("h2", { id: "related-articles-title", className: "font-playfair text-2xl font-bold text-foreground", children: isSpanishArticle ? "Artículos relacionados" : "Related articles" }),
+          /* @__PURE__ */ jsx("div", { className: "mt-6 grid gap-4 md:grid-cols-3", children: relatedArticles.map((related) => /* @__PURE__ */ jsxs(
+            Link,
+            {
+              href: `/blog/${related.slug}`,
+              className: "group rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-md",
+              children: [
+                /* @__PURE__ */ jsx("p", { className: "text-xs font-semibold uppercase tracking-wider text-primary", children: related.category }),
+                /* @__PURE__ */ jsx("h3", { className: "mt-2 font-playfair text-lg font-bold leading-snug text-foreground group-hover:text-primary", children: related.title }),
+                /* @__PURE__ */ jsxs("span", { className: "mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary", children: [
+                  isSpanishArticle ? "Leer artículo" : "Read article",
+                  /* @__PURE__ */ jsx(ArrowRight, { className: "h-4 w-4" })
+                ] })
+              ]
+            },
+            related.id
+          )) })
+        ] }),
         /* @__PURE__ */ jsx("div", { className: "mt-12 p-8 bg-muted/30 rounded-2xl border border-primary/10", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col md:flex-row gap-6 items-center justify-between", children: [
           /* @__PURE__ */ jsxs("div", { className: "space-y-2 text-center md:text-left", children: [
-            /* @__PURE__ */ jsx("h3", { className: "text-xl font-playfair font-bold text-foreground", children: language === "es" ? "¿Tu Spa está alcanzando su máximo potencial?" : "Is your Spa reaching its full potential?" }),
-            /* @__PURE__ */ jsx("p", { className: "text-muted-foreground", children: language === "es" ? "Solicita una auditoría estratégica gratuita y descubre oportunidades ocultas de rentabilidad." : "Request a free strategic audit and discover hidden profitability opportunities." })
+            /* @__PURE__ */ jsx("h3", { className: "text-xl font-playfair font-bold text-foreground", children: isSpanishArticle ? "¿Tu Spa está alcanzando su máximo potencial?" : "Is your Spa reaching its full potential?" }),
+            /* @__PURE__ */ jsx("p", { className: "text-muted-foreground", children: isSpanishArticle ? "Solicita una auditoría estratégica gratuita y descubre oportunidades ocultas de rentabilidad." : "Request a free strategic audit and discover hidden profitability opportunities." })
           ] }),
-          /* @__PURE__ */ jsx(AuditModal, { source: "blog_article", children: /* @__PURE__ */ jsx(Button, { size: "lg", className: "shrink-0 bg-primary text-primary-foreground hover:bg-primary/90", children: language === "es" ? "Solicitar Auditoría" : "Request Audit" }) })
+          /* @__PURE__ */ jsx(AuditModal, { source: "blog_article", children: /* @__PURE__ */ jsx(Button, { size: "lg", className: "shrink-0 bg-primary text-primary-foreground hover:bg-primary/90", children: isSpanishArticle ? "Solicitar Auditoría" : "Request Audit" }) })
         ] }) })
       ] })
     ] }) })
@@ -6641,6 +6894,271 @@ function BlogPostPage() {
 const BlogPostPage$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: BlogPostPage
+}, Symbol.toStringTag, { value: "Module" }));
+const siteUrl = "https://www.epmwellness.com";
+const pagePath = "/auditoria-spa-hoteles";
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${siteUrl}${pagePath}#service`,
+      name: "Auditoría y consultoría estratégica de spa para hoteles",
+      serviceType: "Consultoría de Spa y Wellness",
+      description: "Diagnóstico estratégico para mejorar la rentabilidad, las operaciones y la experiencia del cliente en spas hoteleros.",
+      areaServed: ["España", "Europa", "Internacional"],
+      provider: {
+        "@type": "Person",
+        "@id": `${siteUrl}/#eva-perez`,
+        name: "Eva Pérez Montes",
+        jobTitle: "Spa & Wellness Consultant",
+        url: siteUrl
+      },
+      url: `${siteUrl}${pagePath}`
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "¿Para qué tipo de establecimientos está pensada la auditoría?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Está dirigida a hoteles, resorts, cadenas hoteleras y centros wellness que quieran revisar su rentabilidad, procesos, equipo o propuesta de valor."
+          }
+        },
+        {
+          "@type": "Question",
+          name: "¿La primera conversación tiene coste?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "La llamada inicial de diagnóstico es gratuita y sirve para entender el contexto, detectar prioridades y definir si una auditoría completa puede aportar valor."
+          }
+        },
+        {
+          "@type": "Question",
+          name: "¿La consultoría puede realizarse a distancia?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sí. La fase inicial y parte del análisis pueden realizarse online. Cuando el proyecto lo requiere, se propone una visita presencial al establecimiento."
+          }
+        },
+        {
+          "@type": "Question",
+          name: "¿En qué idiomas puede desarrollarse el proyecto?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Los proyectos pueden desarrollarse en español o en inglés, tanto en España como en destinos internacionales."
+          }
+        }
+      ]
+    }
+  ]
+};
+const challenges = [
+  "Baja ocupación de cabinas o rentabilidad inferior al potencial",
+  "Procesos poco definidos y una operativa difícil de controlar",
+  "Carta de tratamientos extensa, poco diferenciada o con márgenes débiles",
+  "Equipos que necesitan formación, liderazgo y estándares claros"
+];
+const deliverables = [
+  {
+    icon: BarChart3,
+    title: "Diagnóstico económico y operativo",
+    text: "Revisión de KPIs, capacidad, precios, costes, ocupación, productividad y oportunidades de ingreso."
+  },
+  {
+    icon: Users2,
+    title: "Experiencia y equipo",
+    text: "Análisis del recorrido del cliente, protocolos, venta consultiva, organización y necesidades formativas."
+  },
+  {
+    icon: Building2,
+    title: "Plan de acción priorizado",
+    text: "Recomendaciones concretas, ordenadas por impacto y esfuerzo, para convertir el diagnóstico en decisiones."
+  }
+];
+function AuditLanding() {
+  return /* @__PURE__ */ jsxs("div", { className: "min-h-screen bg-white text-charcoal", children: [
+    /* @__PURE__ */ jsx(
+      SEO,
+      {
+        title: "Auditoría y Consultoría de Spa para Hoteles | Eva Pérez",
+        description: "Detecta oportunidades de rentabilidad, mejora operaciones y eleva la experiencia de tu spa hotelero con una consultora wellness con más de 20 años de experiencia.",
+        image: "/attached_assets/foto_perfil_Eva_Linkedin.PNG",
+        url: pagePath,
+        language: "es"
+      }
+    ),
+    /* @__PURE__ */ jsx(
+      "script",
+      {
+        type: "application/ld+json",
+        dangerouslySetInnerHTML: {
+          __html: JSON.stringify(schema).replace(/</g, "\\u003c")
+        }
+      }
+    ),
+    /* @__PURE__ */ jsx("header", { className: "border-b border-gray-100 bg-white/95 backdrop-blur-sm sticky top-0 z-40", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8", children: [
+      /* @__PURE__ */ jsxs(Link, { href: "/", className: "flex items-center gap-3", "aria-label": "Eva Pérez, página principal", children: [
+        /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: evaProfileImage,
+            alt: "Eva Pérez",
+            width: "64",
+            height: "64",
+            className: "h-11 w-11 rounded-full object-cover",
+            decoding: "async"
+          }
+        ),
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("span", { className: "block font-playfair text-xl font-bold leading-tight text-turquoise", children: "Eva Pérez" }),
+          /* @__PURE__ */ jsx("span", { className: "block text-[11px] text-sage-dark", children: "Spa & Wellness Consultant" })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxs(
+        "a",
+        {
+          href: "tel:+34676462991",
+          className: "hidden items-center gap-2 text-sm font-medium text-turquoise hover:text-turquoise-dark sm:flex",
+          children: [
+            /* @__PURE__ */ jsx(Phone, { className: "h-4 w-4" }),
+            "+34 676 462 991"
+          ]
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ jsxs("main", { children: [
+      /* @__PURE__ */ jsxs("section", { className: "relative overflow-hidden bg-charcoal-dark text-white", children: [
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 opacity-25", children: /* @__PURE__ */ jsx(
+          "img",
+          {
+            src: heroImage,
+            alt: "",
+            width: "689",
+            height: "398",
+            className: "h-full w-full object-cover object-center",
+            decoding: "async"
+          }
+        ) }),
+        /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-gradient-to-r from-charcoal-dark via-charcoal-dark/95 to-turquoise-dark/70" }),
+        /* @__PURE__ */ jsxs("div", { className: "container relative mx-auto grid gap-10 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.2fr_0.8fr] lg:px-8", children: [
+          /* @__PURE__ */ jsxs("div", { className: "max-w-3xl", children: [
+            /* @__PURE__ */ jsx("p", { className: "mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-turquoise-light", children: "Auditoría estratégica para hoteles y resorts" }),
+            /* @__PURE__ */ jsx("h1", { className: "font-playfair text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl", children: "Convierte tu spa hotelero en una unidad más rentable, eficiente y memorable" }),
+            /* @__PURE__ */ jsx("p", { className: "mt-6 max-w-2xl text-lg leading-relaxed text-gray-200", children: "Identifica dónde se pierde margen, qué procesos frenan al equipo y qué oportunidades pueden mejorar la experiencia del huésped. Con un diagnóstico claro y un plan de acción aplicable." }),
+            /* @__PURE__ */ jsxs("div", { className: "mt-8 flex flex-col gap-3 sm:flex-row", children: [
+              /* @__PURE__ */ jsx(AuditModal, { source: "sem_landing_hero", children: /* @__PURE__ */ jsxs("button", { className: "inline-flex items-center justify-center gap-2 rounded bg-turquoise px-7 py-3.5 font-semibold text-white transition-colors hover:bg-turquoise-dark", children: [
+                "Solicitar diagnóstico inicial",
+                /* @__PURE__ */ jsx(ArrowRight, { className: "h-4 w-4" })
+              ] }) }),
+              /* @__PURE__ */ jsxs(
+                "a",
+                {
+                  href: "mailto:epm@epmwellness.com",
+                  className: "inline-flex items-center justify-center gap-2 rounded border border-white/40 px-7 py-3.5 font-medium text-white transition-colors hover:bg-white/10",
+                  children: [
+                    /* @__PURE__ */ jsx(Mail, { className: "h-4 w-4" }),
+                    "Escribir a Eva"
+                  ]
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxs("p", { className: "mt-4 flex items-center gap-2 text-sm text-gray-300", children: [
+              /* @__PURE__ */ jsx(ShieldCheck, { className: "h-4 w-4 text-turquoise-light" }),
+              "Primera conversación de diagnóstico gratuita y sin compromiso."
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs("aside", { className: "self-center rounded-2xl border border-white/15 bg-white/10 p-7 shadow-2xl backdrop-blur-md", children: [
+            /* @__PURE__ */ jsx("p", { className: "font-playfair text-2xl font-bold", children: "Experiencia aplicada al negocio wellness" }),
+            /* @__PURE__ */ jsxs("dl", { className: "mt-7 grid grid-cols-2 gap-6", children: [
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("dt", { className: "text-3xl font-bold text-turquoise-light", children: "20+" }),
+                /* @__PURE__ */ jsx("dd", { className: "mt-1 text-sm text-gray-200", children: "años de experiencia" })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { children: [
+                /* @__PURE__ */ jsx("dt", { className: "text-3xl font-bold text-turquoise-light", children: "40+" }),
+                /* @__PURE__ */ jsx("dd", { className: "mt-1 text-sm text-gray-200", children: "proyectos desarrollados" })
+              ] }),
+              /* @__PURE__ */ jsxs("div", { className: "col-span-2 border-t border-white/15 pt-5", children: [
+                /* @__PURE__ */ jsx("dt", { className: "text-sm font-semibold uppercase tracking-wider text-turquoise-light", children: "Experiencia con" }),
+                /* @__PURE__ */ jsx("dd", { className: "mt-3 text-sm leading-relaxed text-gray-200", children: "Paradores, Eurostars, Meliá, HG Hotels, AXEL y proyectos independientes." })
+              ] })
+            ] })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx("section", { className: "bg-gray-50 py-16 md:py-20", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+        /* @__PURE__ */ jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+          /* @__PURE__ */ jsx("p", { className: "text-sm font-semibold uppercase tracking-wider text-turquoise", children: "Señales que conviene revisar" }),
+          /* @__PURE__ */ jsx("h2", { className: "mt-3 font-playfair text-3xl font-bold text-charcoal md:text-4xl", children: "¿Reconoces alguno de estos retos en tu spa?" })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-2", children: challenges.map((challenge) => /* @__PURE__ */ jsxs("div", { className: "flex gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow-sm", children: [
+          /* @__PURE__ */ jsx(CheckCircle2, { className: "mt-0.5 h-5 w-5 shrink-0 text-turquoise" }),
+          /* @__PURE__ */ jsx("p", { className: "text-charcoal-light", children: challenge })
+        ] }, challenge)) })
+      ] }) }),
+      /* @__PURE__ */ jsx("section", { className: "py-16 md:py-24", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto px-4 sm:px-6 lg:px-8", children: [
+        /* @__PURE__ */ jsxs("div", { className: "mx-auto max-w-3xl text-center", children: [
+          /* @__PURE__ */ jsx("p", { className: "text-sm font-semibold uppercase tracking-wider text-turquoise", children: "Qué aporta el análisis" }),
+          /* @__PURE__ */ jsx("h2", { className: "mt-3 font-playfair text-3xl font-bold text-charcoal md:text-4xl", children: "De los datos y la observación a un plan ejecutable" })
+        ] }),
+        /* @__PURE__ */ jsx("div", { className: "mt-12 grid gap-6 lg:grid-cols-3", children: deliverables.map(({ icon: Icon, title, text }) => /* @__PURE__ */ jsxs("div", { className: "rounded-2xl border border-gray-200 bg-white p-7 shadow-sm", children: [
+          /* @__PURE__ */ jsx("div", { className: "flex h-12 w-12 items-center justify-center rounded-full bg-turquoise/10 text-turquoise", children: /* @__PURE__ */ jsx(Icon, { className: "h-6 w-6" }) }),
+          /* @__PURE__ */ jsx("h3", { className: "mt-5 font-playfair text-xl font-bold text-charcoal", children: title }),
+          /* @__PURE__ */ jsx("p", { className: "mt-3 leading-relaxed text-charcoal-light", children: text })
+        ] }, title)) })
+      ] }) }),
+      /* @__PURE__ */ jsx("section", { className: "bg-turquoise-dark py-14 text-white", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto flex max-w-5xl flex-col items-center justify-between gap-7 px-4 text-center sm:px-6 md:flex-row md:text-left lg:px-8", children: [
+        /* @__PURE__ */ jsxs("div", { children: [
+          /* @__PURE__ */ jsx("h2", { className: "font-playfair text-3xl font-bold", children: "Empieza por una conversación de diagnóstico" }),
+          /* @__PURE__ */ jsx("p", { className: "mt-2 max-w-2xl text-white/85", children: "Cuéntame el contexto de tu hotel o spa y te ayudaré a identificar el siguiente paso con mayor impacto." })
+        ] }),
+        /* @__PURE__ */ jsx(AuditModal, { source: "sem_landing_mid", children: /* @__PURE__ */ jsxs("button", { className: "inline-flex shrink-0 items-center gap-2 rounded bg-white px-7 py-3.5 font-semibold text-turquoise-dark transition-colors hover:bg-gray-100", children: [
+          "Hablar con Eva",
+          /* @__PURE__ */ jsx(ArrowRight, { className: "h-4 w-4" })
+        ] }) })
+      ] }) }),
+      /* @__PURE__ */ jsx("section", { className: "py-16 md:py-20", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8", children: [
+        /* @__PURE__ */ jsx("h2", { className: "text-center font-playfair text-3xl font-bold text-charcoal md:text-4xl", children: "Preguntas frecuentes" }),
+        /* @__PURE__ */ jsxs("div", { className: "mt-10 space-y-4", children: [
+          /* @__PURE__ */ jsxs("details", { className: "rounded-xl border border-gray-200 bg-white p-5", children: [
+            /* @__PURE__ */ jsx("summary", { className: "cursor-pointer font-semibold text-charcoal", children: "¿Para qué establecimientos está pensada?" }),
+            /* @__PURE__ */ jsx("p", { className: "mt-3 text-charcoal-light", children: "Para hoteles, resorts, cadenas hoteleras y centros wellness que quieran revisar rentabilidad, procesos, equipo o propuesta de valor." })
+          ] }),
+          /* @__PURE__ */ jsxs("details", { className: "rounded-xl border border-gray-200 bg-white p-5", children: [
+            /* @__PURE__ */ jsx("summary", { className: "cursor-pointer font-semibold text-charcoal", children: "¿La primera conversación tiene coste?" }),
+            /* @__PURE__ */ jsx("p", { className: "mt-3 text-charcoal-light", children: "No. La llamada inicial de diagnóstico es gratuita y permite definir prioridades y comprobar si una auditoría completa puede aportar valor." })
+          ] }),
+          /* @__PURE__ */ jsxs("details", { className: "rounded-xl border border-gray-200 bg-white p-5", children: [
+            /* @__PURE__ */ jsx("summary", { className: "cursor-pointer font-semibold text-charcoal", children: "¿Puede realizarse a distancia?" }),
+            /* @__PURE__ */ jsx("p", { className: "mt-3 text-charcoal-light", children: "Sí. La fase inicial y parte del análisis pueden realizarse online. Si el proyecto lo requiere, se propone una visita presencial." })
+          ] }),
+          /* @__PURE__ */ jsxs("details", { className: "rounded-xl border border-gray-200 bg-white p-5", children: [
+            /* @__PURE__ */ jsx("summary", { className: "cursor-pointer font-semibold text-charcoal", children: "¿Se trabaja fuera de España?" }),
+            /* @__PURE__ */ jsx("p", { className: "mt-3 text-charcoal-light", children: "Sí. Eva está disponible para proyectos nacionales e internacionales, en español o en inglés." })
+          ] })
+        ] })
+      ] }) })
+    ] }),
+    /* @__PURE__ */ jsx("footer", { className: "border-t border-gray-200 bg-gray-50 py-8", children: /* @__PURE__ */ jsxs("div", { className: "container mx-auto flex flex-col items-center justify-between gap-4 px-4 text-sm text-charcoal-light sm:px-6 md:flex-row lg:px-8", children: [
+      /* @__PURE__ */ jsxs("p", { children: [
+        "© ",
+        (/* @__PURE__ */ new Date()).getFullYear(),
+        " Eva Pérez · Spa & Wellness Consultant"
+      ] }),
+      /* @__PURE__ */ jsxs("nav", { className: "flex flex-wrap justify-center gap-5", "aria-label": "Enlaces legales", children: [
+        /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "hover:text-turquoise", children: "Privacidad" }),
+        /* @__PURE__ */ jsx(Link, { href: "/cookies", className: "hover:text-turquoise", children: "Cookies" }),
+        /* @__PURE__ */ jsx(Link, { href: "/terms", className: "hover:text-turquoise", children: "Términos" })
+      ] })
+    ] }) })
+  ] });
+}
+const AuditLanding$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: AuditLanding
 }, Symbol.toStringTag, { value: "Module" }));
 export {
   render

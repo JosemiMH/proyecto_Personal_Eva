@@ -21,6 +21,7 @@ interface InitialQueryData {
   articles?: PublicArticle[];
   article?: PublicArticle;
   articleSlug?: string;
+  relatedArticles?: PublicArticle[];
 }
 
 interface SsrPage {
@@ -44,6 +45,7 @@ const clientRoutes = new Set([
   "/cookies",
   "/booking",
   "/resources",
+  "/auditoria-spa-hoteles",
   "/auth",
   "/admin",
 ]);
@@ -105,6 +107,10 @@ async function resolveSsrPage(pathname: string): Promise<SsrPage> {
       initialData: {
         article,
         articleSlug: slug,
+        relatedArticles: articles
+          .filter((item) => item.slug !== slug && item.language === article.language)
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 3),
       },
     };
   }

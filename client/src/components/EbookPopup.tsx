@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,10 +12,14 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { trackEvent } from '@/lib/analytics';
+import { Link } from 'wouter';
 
 const formSchema = z.object({
   email: z.string().email({
     message: 'Por favor, introduce un email válido',
+  }),
+  privacy: z.boolean().refine(value => value === true, {
+    message: 'Debes aceptar la política de privacidad',
   }),
 });
 
@@ -44,6 +49,7 @@ const EbookPopup = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
+      privacy: false,
     },
   });
 
@@ -55,7 +61,7 @@ const EbookPopup = () => {
       await apiRequest({
         path: '/api/newsletter',
         method: 'POST',
-        body: { email: data.email }
+        body: data
       });
       trackEvent('sign_up', { method: 'ebook_popup' });
       trackEvent('ebook_download', { resource: 'guia-rentabilidad-spa' });
@@ -157,10 +163,36 @@ const EbookPopup = () => {
                             <Input
                               placeholder={emailPlaceholder}
                               type="email"
+                              autoComplete="email"
                               {...field}
                               className="h-14 text-base rounded-md border border-gray-300 focus:border-turquoise focus:ring-1 focus:ring-turquoise px-4"
                             />
                           </FormControl>
+                          <FormMessage className="text-red-500 text-sm mt-1" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="privacy"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-start gap-2">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                className="mt-0.5"
+                              />
+                            </FormControl>
+                            <p className="text-sm text-charcoal-light">
+                              {language === 'es' ? 'Acepto la ' : 'I accept the '}
+                              <Link href="/privacy" className="text-turquoise underline underline-offset-2">
+                                {language === 'es' ? 'política de privacidad' : 'privacy policy'}
+                              </Link>.
+                            </p>
+                          </div>
                           <FormMessage className="text-red-500 text-sm mt-1" />
                         </FormItem>
                       )}

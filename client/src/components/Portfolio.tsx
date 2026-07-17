@@ -151,6 +151,10 @@ const Portfolio = () => {
                   src={item.image}
                   alt={item.title[language]}
                   className="w-full h-full object-cover"
+                  width="1024"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
                   <div className="p-4">
@@ -179,8 +183,13 @@ const Portfolio = () => {
         </motion.div>
 
         <div className="text-center mt-12">
-          <a href="#" className="inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium">
-            {t('portfolio.viewMore')}
+          <a
+            href="/#contact"
+            data-analytics-cta="request_more_case_studies"
+            data-analytics-location="portfolio"
+            className="inline-block px-8 py-3 border border-turquoise text-turquoise hover:bg-turquoise hover:text-white transition-colors rounded font-medium"
+          >
+            {language === 'es' ? 'Solicitar más casos de éxito' : 'Request more case studies'}
           </a>
         </div>
       </div>

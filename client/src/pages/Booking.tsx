@@ -5,6 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
+import SEO from '@/components/SEO';
 
 const Booking = () => {
   const { language } = useLanguage();
@@ -14,7 +15,16 @@ const Booking = () => {
   }, []);
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title={language === 'es' ? 'Reservar Consulta de Spa y Wellness' : 'Book a Spa & Wellness Consultation'}
+        description={language === 'es'
+          ? 'Reserva una consulta personalizada con Eva Pérez para analizar la rentabilidad, las operaciones o el desarrollo de tu spa hotelero.'
+          : 'Book a personalised consultation with Eva Pérez to review the profitability, operations or development of your hotel spa.'}
+        url="/booking"
+        language={language}
+      />
+      <PageTransition>
       <motion.div
         className="min-h-screen pt-24 pb-16 px-4"
         initial={{ opacity: 0 }}
@@ -106,7 +116,8 @@ const Booking = () => {
           </div>
         </div>
       </motion.div>
-    </PageTransition>
+      </PageTransition>
+    </>
   );
 };
 

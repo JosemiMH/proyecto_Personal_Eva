@@ -22,6 +22,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
@@ -34,7 +36,7 @@ interface AuditModalProps {
 }
 
 export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
 
@@ -45,7 +47,11 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
         company: z.string().min(2, "Company required"), // Using company field for Hotel/Spa name
         message: z.string().min(5, "Challenge details required"), // Using message for Challenge
         service: z.string().default("Auditoría Estratégica"),
-        privacy: z.literal(true),
+        privacy: z.boolean().refine((accepted) => accepted, {
+            message: language === "es"
+                ? "Debes aceptar la política de privacidad"
+                : "You must accept the privacy policy",
+        }),
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -57,7 +63,7 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
             company: "",
             message: "",
             service: "Auditoría Estratégica",
-            privacy: true,
+            privacy: false,
         },
     });
 
@@ -71,7 +77,10 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
             return res;
         },
         onSuccess: () => {
-            trackEvent('generate_lead', { lead_type: 'strategic_audit' });
+            trackEvent('generate_lead', {
+                lead_type: 'strategic_audit',
+                lead_source: source,
+            });
             toast({
                 title: t('audit.success'),
                 variant: "default",
@@ -149,7 +158,7 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
                                 <FormItem>
                                     <FormLabel>{t('audit.name')}</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Eva Pérez" {...field} />
+                                        <Input placeholder="Eva Pérez" autoComplete="name" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -164,7 +173,7 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
                                     <FormItem>
                                         <FormLabel>{t('audit.email')}</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="eva@example.com" {...field} />
+                                            <Input type="email" placeholder="eva@example.com" autoComplete="email" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -178,7 +187,7 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
                                     <FormItem>
                                         <FormLabel>{t('audit.phone')}</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="+34 600..." {...field} />
+                                            <Input type="tel" placeholder="+34 600..." autoComplete="tel" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -193,7 +202,7 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
                                 <FormItem>
                                     <FormLabel>{t('audit.hotel')}</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Grand Hotel & Spa..." {...field} />
+                                        <Input placeholder="Grand Hotel & Spa..." autoComplete="organization" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -214,6 +223,32 @@ export function AuditModal({ children, source = "unknown" }: AuditModalProps) {
                                         />
                                     </FormControl>
                                     <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="privacy"
+                            render={({ field }) => (
+                                <FormItem className="flex items-start gap-3 space-y-0">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={(checked) => field.onChange(checked === true)}
+                                            className="mt-0.5"
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1">
+                                        <FormLabel className="text-sm font-normal leading-relaxed text-muted-foreground">
+                                            {language === "es" ? "He leído y acepto la " : "I have read and accept the "}
+                                            <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-turquoise underline-offset-2 hover:underline">
+                                                {language === "es" ? "política de privacidad" : "privacy policy"}
+                                            </Link>
+                                            .
+                                        </FormLabel>
+                                        <FormMessage />
+                                    </div>
                                 </FormItem>
                             )}
                         />

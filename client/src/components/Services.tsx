@@ -49,7 +49,9 @@ const Services = () => {
             {t('services.subtitle')}
           </h3>
           <p className="text-charcoal-light">
-            {t('services.subtitle')}
+            {language === 'es'
+              ? 'Soluciones a medida para mejorar la rentabilidad, la operativa, el equipo y la experiencia de cliente de cada proyecto wellness.'
+              : 'Tailored solutions to improve profitability, operations, teams and the guest experience across every wellness project.'}
           </p>
         </motion.div>
 

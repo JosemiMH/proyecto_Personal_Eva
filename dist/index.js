@@ -90,7 +90,10 @@ var newsletters = (0, import_pg_core.pgTable)("newsletters", {
   createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow().notNull()
 });
 var newsletterSchema = import_zod.z.object({
-  email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" })
+  email: import_zod.z.string().email({ message: "Por favor introduce un email v\xE1lido" }),
+  privacy: import_zod.z.boolean().refine((val) => val === true, {
+    message: "Debes aceptar la pol\xEDtica de privacidad"
+  })
 });
 var appointments = (0, import_pg_core.pgTable)("appointments", {
   id: (0, import_pg_core.serial)("id").primaryKey(),
@@ -234,7 +237,7 @@ var DatabaseStorage = class {
     if (existingSubscription) {
       return existingSubscription;
     }
-    const [subscription] = await db.insert(newsletters).values(insertNewsletter).returning();
+    const [subscription] = await db.insert(newsletters).values({ email: insertNewsletter.email }).returning();
     return subscription;
   }
   async getAllNewsletterSubscriptions() {
@@ -994,43 +997,6 @@ https://epmwellness.com
       res.status(500).json({ message: "Error al obtener art\xEDculos" });
     }
   });
-  app2.get("/sitemap.xml", async (_req, res) => {
-    try {
-      const articles2 = await storage.getAllArticles();
-      const baseUrl = "https://www.epmwellness.com";
-      const staticPages = [
-        "",
-        "privacy",
-        "terms",
-        "cookies",
-        "resources"
-      ];
-      const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Static Pages -->
-  ${staticPages.map((page) => `
-  <url>
-    <loc>${baseUrl}/${page}</loc>
-    <changefreq>monthly</changefreq>
-    <priority>${page === "" ? "1.0" : "0.8"}</priority>
-  </url>`).join("")}
-
-  <!-- Blog Posts -->
-  ${articles2.map((article) => `
-  <url>
-    <loc>${baseUrl}/blog/${article.slug}</loc>
-    <lastmod>${new Date(article.date).toISOString().split("T")[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>`).join("")}
-</urlset>`;
-      res.header("Content-Type", "application/xml");
-      res.send(sitemap);
-    } catch (error) {
-      console.error("Sitemap generation error:", error);
-      res.status(500).send("Error generating sitemap");
-    }
-  });
   app2.get("/api/articles/:slug", async (req, res) => {
     try {
       const article = await storage.getArticleBySlug(req.params.slug);
@@ -1079,6 +1045,7 @@ var clientRoutes = /* @__PURE__ */ new Set([
   "/cookies",
   "/booking",
   "/resources",
+  "/auditoria-spa-hoteles",
   "/auth",
   "/admin"
 ]);
@@ -1129,7 +1096,8 @@ async function resolveSsrPage(pathname) {
       status: 200,
       initialData: {
         article,
-        articleSlug: slug
+        articleSlug: slug,
+        relatedArticles: articles2.filter((item) => item.slug !== slug && item.language === article.language).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 3)
       }
     };
   }

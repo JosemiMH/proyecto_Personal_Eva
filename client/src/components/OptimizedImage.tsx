@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface OptimizedImageProps {
   src: string;
-  alt: any; // Permitir que alt sea string u objeto
+  alt: string;
   className?: string;
   width?: number | string;
   height?: number | string;
@@ -15,8 +15,8 @@ const OptimizedImage = ({
   src,
   alt,
   className = '',
-  width,
-  height,
+  width = 800,
+  height = 600,
   objectFit = 'cover',
   priority = false,
 }: OptimizedImageProps) => {
@@ -54,10 +54,7 @@ const OptimizedImage = ({
   }, [priority, src]);
 
   return (
-    <div 
-      className={`relative overflow-hidden ${className}`}
-      style={{ width, height }}
-    >
+    <div className={`relative overflow-hidden ${className}`}>
       {isLoading && (
         <Skeleton 
           className="absolute inset-0 z-10" 
@@ -68,11 +65,14 @@ const OptimizedImage = ({
       <img
         src={imageSrc}
         alt={alt}
+        width={width}
+        height={height}
         className={`w-full h-full transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         style={{ objectFit }}
         onLoad={handleLoad}
         onError={handleError}
         loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
       />
     </div>
   );

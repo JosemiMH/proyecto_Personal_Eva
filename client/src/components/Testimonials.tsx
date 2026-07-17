@@ -92,6 +92,10 @@ const Testimonials = () => {
                     <img 
                       src={testimonial.avatar} 
                       alt={testimonial.name} 
+                      width="96"
+                      height="96"
+                      loading="lazy"
+                      decoding="async"
                       className="w-12 h-12 rounded-full object-cover mr-4"
                     />
                     <div>

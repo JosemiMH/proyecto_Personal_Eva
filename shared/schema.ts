@@ -52,6 +52,9 @@ export const newsletters = pgTable("newsletters", {
 
 export const newsletterSchema = z.object({
   email: z.string().email({ message: 'Por favor introduce un email válido' }),
+  privacy: z.boolean().refine(val => val === true, {
+    message: 'Debes aceptar la política de privacidad',
+  }),
 });
 
 export type InsertNewsletter = z.infer<typeof newsletterSchema>;

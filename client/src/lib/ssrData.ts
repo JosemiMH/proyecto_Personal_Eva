@@ -5,6 +5,7 @@ export interface InitialQueryData {
   articles?: Article[];
   article?: Article;
   articleSlug?: string;
+  relatedArticles?: Article[];
 }
 
 export function seedQueryClient(queryClient: QueryClient, initialData?: InitialQueryData) {
@@ -18,6 +19,13 @@ export function seedQueryClient(queryClient: QueryClient, initialData?: InitialQ
     queryClient.setQueryData(
       [`/api/articles/${initialData.articleSlug}`],
       initialData.article,
+    );
+  }
+
+  if (initialData.relatedArticles && initialData.articleSlug) {
+    queryClient.setQueryData(
+      ["/api/articles/related", initialData.articleSlug],
+      initialData.relatedArticles,
     );
   }
 }

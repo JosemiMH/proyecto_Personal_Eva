@@ -120,7 +120,7 @@ const Blog = () => {
                   alt={post.title}
                   className="w-full h-full transition-transform duration-700 group-hover:scale-110"
                   objectFit="cover"
-                  priority={index < 2}
+                  priority={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
               </div>

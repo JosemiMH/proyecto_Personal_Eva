@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import evaProfileImage from '../assets/eva-perez-profile.jpg';
+import evaProfileImage from '../assets/eva-perez-profile.webp';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useDeviceDetect } from '@/hooks/useDeviceDetect';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { t, language } = useLanguage();
+  const [location] = useLocation();
   const { isMobile, isTablet, isDesktop } = useDeviceDetect();
+  const homeAnchor = (anchor: string) => location === '/' ? anchor : `/${anchor}`;
 
   // Handle scroll event for sticky header
   useEffect(() => {
@@ -42,40 +44,43 @@ const Header = () => {
       <div className={`container mx-auto ${isMobile ? 'px-3' : isTablet ? 'px-5' : 'px-8'
         }`}>
         <div className="flex justify-between items-center">
-          <a href="#" className="flex items-center">
+          <Link href="/" className="flex items-center" aria-label="Eva Pérez, página principal">
             <img
               src={evaProfileImage}
               alt="Eva Pérez"
+              width="128"
+              height="128"
+              decoding="async"
               className={`rounded-full object-cover flex-shrink-0 ${isMobile ? 'h-7 w-7 mr-2' : isTablet ? 'h-9 w-9 mr-2.5' : 'h-11 w-11 mr-3'
                 }`}
             />
             <div className="flex flex-col">
               <span className={`font-playfair font-bold text-turquoise block leading-tight ${isMobile ? 'text-base' : isTablet ? 'text-xl' : 'text-2xl'
                 }`}>Eva Pérez</span>
-              <span className={`text-sage-dark font-light ${isMobile ? 'text-[8px] whitespace-normal leading-tight max-w-[220px]' : 'text-xs'
+              <div className={`text-sage-dark font-light ${isMobile ? 'text-[8px] whitespace-normal leading-tight max-w-[220px]' : 'text-xs'
                 }`}>
                 <div className="flex flex-col md:flex-row md:items-center md:gap-2">
                   <span>{language === 'es' ? 'Gerente de Proyectos SPA & Wellness' : 'SPA & Wellness Project Manager'}</span>
                   <span className="hidden md:inline text-turquoise/60">|</span>
                   <span>{language === 'es' ? 'Especialista en Optimización de Ingresos' : 'Revenue Optimization Specialist'}</span>
                 </div>
-              </span>
+              </div>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop/Tablet navigation */}
           {!isMobile && (
             <div className="hidden md:flex items-center">
               <nav className="flex items-center">
                 <a
-                  href="#about"
+                  href={homeAnchor("#about")}
                   className={`text-charcoal hover:text-turquoise transition-colors ${isTablet ? 'text-xs px-2' : 'text-sm px-3'
                     }`}
                 >
                   {t('header.about')}
                 </a>
                 <a
-                  href="#services"
+                  href={homeAnchor("#services")}
                   className={`text-charcoal hover:text-turquoise transition-colors ${isTablet ? 'text-xs px-2' : 'text-sm px-3'
                     }`}
                 >
@@ -83,21 +88,21 @@ const Header = () => {
                 </a>
 
                 <a
-                  href="#portfolio"
+                  href={homeAnchor("#portfolio")}
                   className={`text-charcoal hover:text-turquoise transition-colors ${isTablet ? 'text-xs px-2' : 'text-sm px-3'
                     }`}
                 >
                   {t('header.portfolio')}
                 </a>
                 <a
-                  href="#testimonials"
+                  href={homeAnchor("#testimonials")}
                   className={`text-charcoal hover:text-turquoise transition-colors ${isTablet ? 'text-xs px-2' : 'text-sm px-3'
                     }`}
                 >
                   {t('header.testimonials')}
                 </a>
                 <a
-                  href="#blog"
+                  href={homeAnchor("#blog")}
                   className={`text-charcoal hover:text-turquoise transition-colors ${isTablet ? 'text-xs px-2' : 'text-sm px-3'
                     }`}
                 >
@@ -105,7 +110,7 @@ const Header = () => {
                 </a>
 
                 <a
-                  href="#contact"
+                  href={homeAnchor("#contact")}
                   data-analytics-cta="request_audit"
                   data-analytics-location="header_desktop"
                   className={`bg-turquoise text-white rounded hover:bg-turquoise-dark transition-colors ${isTablet ? 'text-xs px-3 py-1.5 ml-1' : 'text-sm px-4 py-2 ml-2'
@@ -138,7 +143,7 @@ const Header = () => {
       >
         <div className={`container mx-auto ${isMobile ? 'px-3 py-3 space-y-2' : 'px-4 py-4 space-y-3'}`}>
           <a
-            href="#about"
+            href={homeAnchor("#about")}
             className={`block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? 'py-2 text-sm' : 'py-3'
               }`}
             onClick={toggleMobileMenu}
@@ -146,7 +151,7 @@ const Header = () => {
             {t('header.about')}
           </a>
           <a
-            href="#services"
+            href={homeAnchor("#services")}
             className={`block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? 'py-2 text-sm' : 'py-3'
               }`}
             onClick={toggleMobileMenu}
@@ -154,7 +159,7 @@ const Header = () => {
             {t('header.services')}
           </a>
           <a
-            href="#portfolio"
+            href={homeAnchor("#portfolio")}
             className={`block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? 'py-2 text-sm' : 'py-3'
               }`}
             onClick={toggleMobileMenu}
@@ -162,7 +167,7 @@ const Header = () => {
             {t('header.portfolio')}
           </a>
           <a
-            href="#testimonials"
+            href={homeAnchor("#testimonials")}
             className={`block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? 'py-2 text-sm' : 'py-3'
               }`}
             onClick={toggleMobileMenu}
@@ -170,7 +175,7 @@ const Header = () => {
             {t('header.testimonials')}
           </a>
           <a
-            href="#blog"
+            href={homeAnchor("#blog")}
             className={`block text-charcoal hover:text-turquoise border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? 'py-2 text-sm' : 'py-3'
               }`}
             onClick={toggleMobileMenu}
@@ -179,7 +184,7 @@ const Header = () => {
           </a>
 
           <a
-            href="#contact"
+            href={homeAnchor("#contact")}
             data-analytics-cta="request_audit"
             data-analytics-location="header_mobile"
             className={`block text-turquoise font-medium border-b border-gray-100 active:bg-gray-50 transition-colors ${isMobile ? 'py-2 text-sm' : 'py-3'

@@ -14,6 +14,7 @@ import { ProtectedRoute } from "./lib/protected-route";
 import CookieConsent from "@/components/CookieConsent";
 import ChatBot from "@/components/ChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
+import RouteAnalytics from "@/components/RouteAnalytics";
 
 // Lazy load heavy components
 const Home = React.lazy(() => import("@/pages/Home"));
@@ -24,6 +25,7 @@ const Booking = React.lazy(() => import("@/pages/Booking"));
 const Admin = React.lazy(() => import("@/pages/Admin"));
 const AuthPage = React.lazy(() => import("@/pages/Auth"));
 const BlogPostPage = React.lazy(() => import("@/pages/BlogPostPage"));
+const AuditLanding = React.lazy(() => import("@/pages/AuditLanding"));
 // const ResourcesPage = React.lazy(() => import("@/components/Resources")); // If using lazy, comment out check above
 
 import PageLoader from "@/components/PageLoader";
@@ -56,6 +58,9 @@ function Router() {
           <Route path="/resources">
             <ResourcesPage isPage={true} />
           </Route>
+          <Route path="/auditoria-spa-hoteles">
+            <AuditLanding />
+          </Route>
           <Route path="/blog/:slug" component={BlogPostPage} />
           {/* Fallback to 404 */}
           <Route component={NotFound} />
@@ -72,6 +77,7 @@ export default function App({ queryClient: propsClient }: { queryClient?: any })
       <AuthProvider>
         <LanguageProvider>
           <Router />
+          <RouteAnalytics />
           <ChatBot />
           <CookieConsent />
           <ScrollToTop />

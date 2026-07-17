@@ -2,6 +2,7 @@ import PageTransition from "@/components/PageTransition";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
+import SEO from "@/components/SEO";
 
 const Cookies = () => {
   useEffect(() => {
@@ -9,7 +10,13 @@ const Cookies = () => {
   }, []);
 
   return (
-    <PageTransition>
+    <>
+      <SEO
+        title="Política de Cookies"
+        description="Información sobre las cookies técnicas, analíticas y de preferencias utilizadas en la web de Eva Pérez."
+        url="/cookies"
+      />
+      <PageTransition>
       <div className="font-poppins text-charcoal bg-white min-h-screen flex flex-col">
         <Header />
         <main className="flex-grow container mx-auto px-4 py-24 sm:px-6 lg:px-8">
@@ -20,12 +27,12 @@ const Cookies = () => {
               Este sitio web utiliza cookies propias y de terceros para mejorar tu experiencia de usuario, analizar el tráfico y personalizar el contenido.
             </p>
 
-            <h3 className="text-xl font-bold mt-6 mb-2">¿Qué son las cookies?</h3>
+            <h2 className="text-xl font-bold mt-6 mb-2">¿Qué son las cookies?</h2>
             <p>
               Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página.
             </p>
 
-            <h3 className="text-xl font-bold mt-6 mb-2">Cookies que utilizamos</h3>
+            <h2 className="text-xl font-bold mt-6 mb-2">Cookies que utilizamos</h2>
 
             <h4 className="font-bold mt-4">1. Cookies Técnicas (Necesarias)</h4>
             <p>
@@ -42,7 +49,7 @@ const Cookies = () => {
               Permiten recordar información para que el usuario acceda al servicio con determinadas características que pueden diferenciar su experiencia de la de otros usuarios, como, por ejemplo, el idioma o la configuración regional.
             </p>
 
-            <h3 className="text-xl font-bold mt-6 mb-2">Gestión de Cookies</h3>
+            <h2 className="text-xl font-bold mt-6 mb-2">Gestión de Cookies</h2>
             <p>
               Puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones del navegador instalado en tu ordenador:
             </p>
@@ -58,7 +65,8 @@ const Cookies = () => {
         </main>
         <Footer />
       </div>
-    </PageTransition>
+      </PageTransition>
+    </>
   );
 };
 

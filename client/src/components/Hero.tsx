@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroImageEs from '@/assets/images/hero-es.png';
+import heroImageEs from '@/assets/images/hero-es.webp';
 import heroImageEn from '@/assets/images/hero-en.jpg';
 import { useDeviceDetect } from '@/hooks/useDeviceDetect';
 import { AuditModal } from './AuditModal';
@@ -40,6 +40,9 @@ const Hero = () => {
                 ? 'object-[55%_-10%]'
                 : 'object-[50%_-10%]'
               }`}
+            width={language === 'es' ? 689 : 1024}
+            height={language === 'es' ? 398 : 768}
+            decoding="async"
           />
         </div>
       </div>

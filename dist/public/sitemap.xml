@@ -1,43 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.epmwellness.com/</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- Privacy Policy -->
   <url>
-    <loc>https://www.epmwellness.com/privacy</loc>
-    <lastmod>2025-12-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://www.epmwellness.com/auditoria-spa-hoteles</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
-
-  <url>
-    <loc>https://www.epmwellness.com/cookies</loc>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-
   <url>
     <loc>https://www.epmwellness.com/resources</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-
-  <!-- Terms of Service -->
+  <url>
+    <loc>https://www.epmwellness.com/booking</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/privacy</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/cookies</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
   <url>
     <loc>https://www.epmwellness.com/terms</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2026-07-17</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.2</priority>
   </url>
-
+  <url>
+    <loc>https://www.epmwellness.com/blog/the-math-of-wellness-calculating-the-roi-of-a-cryotherapy-cabin</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/la-matemtica-del-wellness-calculando-el-roi-de-una-cabina-de-crioterapia</loc>
+    <lastmod>2026-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/ia-y-la-hiper-personalizacin-en-el-wellness</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/el-secreto-de-la-longevidad-cmo-los-hoteles-de-lujo-estn-innovando-en-bienestar</loc>
+    <lastmod>2025-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/wow-effect-redefining-the-luxury-spa-experience</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/efecto-wow-redefiniendo-la-experiencia-de-lujo-en-spas</loc>
+    <lastmod>2025-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/menopause-adapting-the-spa-to-hormonal-health</loc>
+    <lastmod>2025-03-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/menopausia-adaptando-el-spa-a-la-salud-hormonal</loc>
+    <lastmod>2025-03-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/mental-wellness-integrated-mindfulness</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/bienestar-mental-y-mindfulness-integrado</loc>
+    <lastmod>2025-03-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/eco-luxury-sustainability-as-a-premium-standard</loc>
+    <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/eco-lujo-sostenibilidad-como-estndar-premium</loc>
+    <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/the-longevity-revolution-biohacking</loc>
+    <lastmod>2025-02-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/la-revolucin-de-la-longevidad-y-el-biohacking</loc>
+    <lastmod>2025-02-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/ai-hyper-personalization-in-wellness</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/the-secret-of-longevity-how-luxury-hotels-are-innovating-in-wellness</loc>
+    <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/spa-trends-2026-from-pampering-to-scientific-longevity</loc>
+    <lastmod>2026-02-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/tendencias-spa-2026-del-mimo-a-la-longevidad-cientfica</loc>
+    <lastmod>2026-02-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/healthspan-el-verdadero-lujo-del-bienestar-en-los-hoteles-de-elite</loc>
+    <lastmod>2025-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/diseno-biofilico-y-neuroarquitectura-el-futuro-de-los-espacios-wellness</loc>
+    <lastmod>2025-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.epmwellness.com/blog/el-roi-del-bienestar-en-la-hoteleria-de-lujo-un-estudio-profundo</loc>
+    <lastmod>2025-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

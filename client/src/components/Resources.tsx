@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
+import SEO from '@/components/SEO';
 
 interface ResourcesProps {
   isPage?: boolean;
@@ -41,7 +42,18 @@ const Resources = ({ isPage = false }: ResourcesProps) => {
   const SubtitleTag = isPage ? 'h2' : 'h3';
 
   return (
-    <section className={`py-16 md:py-24 bg-white ${isPage ? 'pt-32' : ''}`}>
+    <>
+      {isPage && (
+        <SEO
+          title={language === 'es' ? 'Recursos para la Gestión de Spas' : 'Resources for Spa Management'}
+          description={language === 'es'
+            ? 'Guías y recursos prácticos de Eva Pérez para mejorar la gestión, la rentabilidad y la experiencia de cliente en spas hoteleros.'
+            : 'Practical guides and resources by Eva Pérez to improve management, profitability and guest experience in hotel spas.'}
+          url="/resources"
+          language={language}
+        />
+      )}
+      <section className={`py-16 md:py-24 bg-white ${isPage ? 'pt-32' : ''}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
@@ -79,6 +91,10 @@ const Resources = ({ isPage = false }: ResourcesProps) => {
                 <img
                   src={resource.image}
                   alt={typeof resource.title === 'object' ? resource.title[language] : resource.title}
+                  width="1024"
+                  height="768"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
@@ -110,6 +126,9 @@ const Resources = ({ isPage = false }: ResourcesProps) => {
                   <img
                     src={selectedResource.image}
                     alt="Resource header"
+                    width="1024"
+                    height="576"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/40" />
@@ -141,7 +160,8 @@ const Resources = ({ isPage = false }: ResourcesProps) => {
           </DialogContent>
         </Dialog>
       </div>
-    </section>
+      </section>
+    </>
   );
 };
 

@@ -16,7 +16,63 @@ const staticRoutes = {
   "/cookies": "cookies.html",
   "/booking": "booking.html",
   "/resources": "resources.html",
+  "/auditoria-spa-hoteles": "auditoria-spa-hoteles.html",
 };
+
+const sitemapRoutes = [
+  { route: "/", changefreq: "weekly", priority: "1.0" },
+  { route: "/auditoria-spa-hoteles", changefreq: "monthly", priority: "0.9" },
+  { route: "/resources", changefreq: "monthly", priority: "0.7" },
+  { route: "/booking", changefreq: "monthly", priority: "0.7" },
+  { route: "/privacy", changefreq: "yearly", priority: "0.2" },
+  { route: "/cookies", changefreq: "yearly", priority: "0.2" },
+  { route: "/terms", changefreq: "yearly", priority: "0.2" },
+];
+
+function escapeXml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function getLastModified(value, fallback) {
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? fallback : parsed.toISOString().slice(0, 10);
+}
+
+function createSitemap(articles) {
+  const buildDate = new Date().toISOString().slice(0, 10);
+  const entries = sitemapRoutes.map(({ route, changefreq, priority }) => ({
+    loc: new URL(route, "https://www.epmwellness.com").toString(),
+    lastmod: buildDate,
+    changefreq,
+    priority,
+  }));
+
+  for (const article of articles) {
+    if (!article?.slug || !/^[a-z0-9-]+$/i.test(article.slug)) continue;
+    entries.push({
+      loc: `https://www.epmwellness.com/blog/${article.slug}`,
+      lastmod: getLastModified(article.date, buildDate),
+      changefreq: "monthly",
+      priority: "0.7",
+    });
+  }
+
+  const urls = entries.map((entry) => [
+    "  <url>",
+    `    <loc>${escapeXml(entry.loc)}</loc>`,
+    `    <lastmod>${entry.lastmod}</lastmod>`,
+    `    <changefreq>${entry.changefreq}</changefreq>`,
+    `    <priority>${entry.priority}</priority>`,
+    "  </url>",
+  ].join("\n")).join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+}
 
 function serializeForInlineScript(value) {
   return JSON.stringify(value)
@@ -120,6 +176,8 @@ const [template, rendererModule, articles] = await Promise.all([
 const { render } = rendererModule;
 const blogRoutes = {};
 
+await fs.writeFile(path.join(publicDir, "sitemap.xml"), createSitemap(articles), "utf8");
+
 for (const [route, filename] of Object.entries(staticRoutes)) {
   const initialData = route === "/" ? { articles } : {};
   const rendered = await render(route, initialData);
@@ -134,7 +192,11 @@ for (const article of articles) {
 
   const route = `/blog/${article.slug}`;
   const filename = `blog/${article.slug}.html`;
-  const initialData = { article, articleSlug: article.slug };
+  const relatedArticles = articles
+    .filter((candidate) => candidate.slug !== article.slug && candidate.language === article.language)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
+  const initialData = { article, articleSlug: article.slug, relatedArticles };
   const rendered = await render(route, initialData);
   await writePage(filename, renderDocument(template, rendered, initialData));
   blogRoutes[article.slug] = filename;

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import evaProfileImage from '../assets/eva-perez-profile.jpg';
+import evaProfileImage from '../assets/images/hero-es.webp';
 import evaSpeakingImage from '../assets/eva-perez-speaking.jpg';
 import { useLanguage } from '@/contexts/LanguageContext';
 import OptimizedImage from './OptimizedImage';
@@ -31,7 +31,8 @@ const About = () => {
                     alt="Eva Pérez, Expert in Luxury Hospitality & Wellness Strategy"
                     className="w-full h-auto rounded-lg"
                     objectFit="cover"
-                    priority={true}
+                    width={689}
+                    height={398}
                   />
                 </motion.div>
               </div>
@@ -46,6 +47,8 @@ const About = () => {
                     alt="Eva Pérez dando una conferencia"
                     className="w-full h-auto rounded-lg"
                     objectFit="cover"
+                    width={1024}
+                    height={768}
                   />
                 </motion.div>
                 <p className="text-sm text-center mt-2 text-charcoal-light italic">{t('about.speakingCaption')}</p>

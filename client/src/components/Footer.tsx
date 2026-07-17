@@ -48,12 +48,12 @@ const Footer = () => {
               {language === 'es' ? 'Enlaces rápidos' : 'Quick Links'}
             </h4>
             <ul className="space-y-3 text-sm">
-              <li><a href="#about" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.about')}</a></li>
-              <li><a href="#services" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.services')}</a></li>
-              <li><a href="#portfolio" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.portfolio')}</a></li>
-              <li><a href="#testimonials" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.testimonials')}</a></li>
-              <li><a href="#blog" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.blog')}</a></li>
-              <li><a href="#contact" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.contact')}</a></li>
+              <li><a href="/#about" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.about')}</a></li>
+              <li><a href="/#services" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.services')}</a></li>
+              <li><a href="/#portfolio" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.portfolio')}</a></li>
+              <li><a href="/#testimonials" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.testimonials')}</a></li>
+              <li><a href="/#blog" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.blog')}</a></li>
+              <li><a href="/#contact" className="text-gray-400 hover:text-turquoise transition-colors">{t('header.contact')}</a></li>
             </ul>
           </motion.div>
 

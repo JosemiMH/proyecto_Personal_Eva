@@ -4,7 +4,7 @@ import "./index.css";
 import { HelmetProvider } from "react-helmet-async";
 import { queryClient } from "./lib/queryClient";
 import { seedQueryClient } from "./lib/ssrData";
-import { initInteractionTracking } from "./lib/analytics";
+import { initCampaignAttribution, initInteractionTracking } from "./lib/analytics";
 
 // Custom CSS for specific design elements - same as main.tsx
 const style = document.createElement('style');
@@ -194,6 +194,7 @@ if (shouldHydrate) {
   // cannot update the Suspense tree before hydration has completed.
   queryClient.setQueryData(["/api/user"], null);
 }
+initCampaignAttribution();
 initInteractionTracking();
 
 const app = (
