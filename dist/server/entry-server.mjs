@@ -19,6 +19,7 @@ import { FormProvider, Controller, useFormContext, useForm } from "react-hook-fo
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { createPortal } from "react-dom";
 import { DayPicker } from "react-day-picker";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
@@ -6183,14 +6184,26 @@ const EbookPopup = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const { toast: toast2 } = useToast();
   useEffect(() => {
-    const timer = setTimeout(() => {
+    try {
       const hasClosedPopup = localStorage.getItem("ebookPopupClosed");
       if (!hasClosedPopup) {
         setIsOpen(true);
       }
-    }, 3e3);
-    return () => clearTimeout(timer);
+    } catch {
+      setIsOpen(true);
+    }
   }, []);
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        localStorage.setItem("ebookPopupClosed", "true");
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
   const form = useForm({
     resolver: zodResolver(formSchema$1),
     defaultValues: {
@@ -6237,96 +6250,117 @@ const EbookPopup = () => {
   const popupDescription = language === "es" ? "Descarga esta guía práctica con los pasos concretos para comenzar a aplicar soluciones de IA en tu spa, incluyendo una plantilla de implementación lista para usar." : "Download this practical guide with concrete steps to start applying AI solutions in your spa, including a ready-to-use implementation template.";
   const buttonText = language === "es" ? isSubmitting ? "Enviando..." : "Descargar ahora" : isSubmitting ? "Sending..." : "Download now";
   const emailPlaceholder = language === "es" ? "Tu email" : "Your email";
-  return /* @__PURE__ */ jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsx(
-    motion.div,
-    {
-      className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40",
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      exit: { opacity: 0 },
-      children: /* @__PURE__ */ jsxs(
-        motion.div,
-        {
-          className: "relative bg-white w-full max-w-md rounded-xl shadow-xl overflow-hidden font-poppins",
-          initial: { scale: 0.9, opacity: 0 },
-          animate: { scale: 1, opacity: 1 },
-          exit: { scale: 0.9, opacity: 0 },
-          transition: { type: "spring", damping: 25, stiffness: 300 },
-          children: [
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                onClick: closePopup,
-                className: "absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors z-10",
-                "aria-label": "Close",
-                children: /* @__PURE__ */ jsx(X, { size: 24 })
-              }
-            ),
-            /* @__PURE__ */ jsxs("div", { className: "p-8", children: [
-              /* @__PURE__ */ jsx("h2", { className: "text-xl md:text-2xl font-playfair font-bold text-charcoal mb-4 leading-tight", children: popupTitle }),
-              /* @__PURE__ */ jsx("p", { className: "text-charcoal-light mb-6 text-base opacity-90", children: popupDescription }),
-              !isSuccess ? /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4", children: [
-                /* @__PURE__ */ jsx(
-                  FormField,
-                  {
-                    control: form.control,
-                    name: "email",
-                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-                      /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
-                        Input,
-                        {
-                          placeholder: emailPlaceholder,
-                          type: "email",
-                          autoComplete: "email",
-                          ...field,
-                          className: "h-14 text-base rounded-md border border-gray-300 focus:border-turquoise focus:ring-1 focus:ring-turquoise px-4"
-                        }
-                      ) }),
-                      /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
-                    ] })
-                  }
-                ),
-                /* @__PURE__ */ jsx(
-                  FormField,
-                  {
-                    control: form.control,
-                    name: "privacy",
-                    render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
-                      /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
+  if (typeof document === "undefined") {
+    return null;
+  }
+  return createPortal(
+    /* @__PURE__ */ jsx(AnimatePresence, { children: isOpen && /* @__PURE__ */ jsx(
+      motion.div,
+      {
+        className: "fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40",
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        onClick: closePopup,
+        children: /* @__PURE__ */ jsxs(
+          motion.div,
+          {
+            className: "relative bg-white w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-xl shadow-xl font-poppins",
+            initial: { scale: 0.9, opacity: 0 },
+            animate: { scale: 1, opacity: 1 },
+            exit: { scale: 0.9, opacity: 0 },
+            transition: { type: "spring", damping: 25, stiffness: 300 },
+            onClick: (event) => event.stopPropagation(),
+            role: "dialog",
+            "aria-modal": "true",
+            "aria-labelledby": "ebook-popup-title",
+            "aria-describedby": "ebook-popup-description",
+            children: [
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  onClick: closePopup,
+                  className: "absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors z-10",
+                  "aria-label": language === "es" ? "Cerrar" : "Close",
+                  children: /* @__PURE__ */ jsx(X, { size: 24 })
+                }
+              ),
+              /* @__PURE__ */ jsxs("div", { className: "p-8", children: [
+                /* @__PURE__ */ jsx("h2", { id: "ebook-popup-title", className: "text-xl md:text-2xl font-playfair font-bold text-charcoal mb-4 leading-tight", children: popupTitle }),
+                /* @__PURE__ */ jsx("p", { id: "ebook-popup-description", className: "text-charcoal-light mb-6 text-base opacity-90", children: popupDescription }),
+                !isSuccess ? /* @__PURE__ */ jsx(Form, { ...form, children: /* @__PURE__ */ jsxs("form", { onSubmit: form.handleSubmit(onSubmit), className: "space-y-4", children: [
+                  /* @__PURE__ */ jsx(
+                    FormField,
+                    {
+                      control: form.control,
+                      name: "email",
+                      render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
                         /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
-                          Checkbox,
+                          Input,
                           {
-                            checked: field.value,
-                            onCheckedChange: field.onChange,
-                            className: "mt-0.5"
+                            placeholder: emailPlaceholder,
+                            type: "email",
+                            autoComplete: "email",
+                            ...field,
+                            className: "h-14 text-base rounded-md border border-gray-300 focus:border-turquoise focus:ring-1 focus:ring-turquoise px-4"
                           }
                         ) }),
-                        /* @__PURE__ */ jsxs("p", { className: "text-sm text-charcoal-light", children: [
-                          language === "es" ? "Acepto la " : "I accept the ",
-                          /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "text-turquoise underline underline-offset-2", children: language === "es" ? "política de privacidad" : "privacy policy" }),
-                          "."
-                        ] })
-                      ] }),
-                      /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
-                    ] })
-                  }
-                ),
-                /* @__PURE__ */ jsx(
-                  Button,
-                  {
-                    type: "submit",
-                    className: "w-full bg-[#C8AD8D] hover:bg-[#BDA079] text-white h-14 font-medium text-base rounded-md transition-colors duration-300",
-                    disabled: isSubmitting,
-                    children: buttonText
-                  }
-                )
-              ] }) }) : /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center p-5 bg-green-50 rounded-md", children: /* @__PURE__ */ jsx("p", { className: "text-green-700 text-center", children: language === "es" ? "¡Gracias! Revisa tu correo electrónico para descargar el E-Book." : "Thank you! Check your email to download the E-Book." }) })
-            ] })
-          ]
-        }
-      )
-    }
-  ) });
+                        /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
+                      ] })
+                    }
+                  ),
+                  /* @__PURE__ */ jsx(
+                    FormField,
+                    {
+                      control: form.control,
+                      name: "privacy",
+                      render: ({ field }) => /* @__PURE__ */ jsxs(FormItem, { children: [
+                        /* @__PURE__ */ jsxs("div", { className: "flex items-start gap-2", children: [
+                          /* @__PURE__ */ jsx(FormControl, { children: /* @__PURE__ */ jsx(
+                            Checkbox,
+                            {
+                              checked: field.value,
+                              onCheckedChange: field.onChange,
+                              className: "mt-0.5"
+                            }
+                          ) }),
+                          /* @__PURE__ */ jsxs("p", { className: "text-sm text-charcoal-light", children: [
+                            language === "es" ? "Acepto la " : "I accept the ",
+                            /* @__PURE__ */ jsx(Link, { href: "/privacy", className: "text-turquoise underline underline-offset-2", children: language === "es" ? "política de privacidad" : "privacy policy" }),
+                            "."
+                          ] })
+                        ] }),
+                        /* @__PURE__ */ jsx(FormMessage, { className: "text-red-500 text-sm mt-1" })
+                      ] })
+                    }
+                  ),
+                  /* @__PURE__ */ jsx(
+                    Button,
+                    {
+                      type: "submit",
+                      className: "w-full bg-[#C8AD8D] hover:bg-[#BDA079] text-white h-14 font-medium text-base rounded-md transition-colors duration-300",
+                      disabled: isSubmitting,
+                      children: buttonText
+                    }
+                  ),
+                  /* @__PURE__ */ jsx(
+                    "button",
+                    {
+                      type: "button",
+                      onClick: closePopup,
+                      className: "w-full text-sm text-charcoal-light hover:text-charcoal underline underline-offset-4 transition-colors",
+                      children: language === "es" ? "Ahora no, continuar en la web" : "Not now, continue to the website"
+                    }
+                  )
+                ] }) }) : /* @__PURE__ */ jsx("div", { className: "flex items-center justify-center p-5 bg-green-50 rounded-md", children: /* @__PURE__ */ jsx("p", { className: "text-green-700 text-center", children: language === "es" ? "¡Gracias! Revisa tu correo electrónico para descargar el E-Book." : "Thank you! Check your email to download the E-Book." }) })
+              ] })
+            ]
+          }
+        )
+      }
+    ) }),
+    document.body
+  );
 };
 const Home = () => {
   const { language } = useLanguage();

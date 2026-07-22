@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
@@ -33,17 +34,31 @@ const EbookPopup = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Mostrar el popup después de 3 segundos
-    const timer = setTimeout(() => {
-      // Comprobar si el usuario ya ha cerrado el popup anteriormente
+    // Mostrar el popup al entrar por primera vez, sin esperar a que el usuario
+    // intente interactuar con el resto de la página.
+    try {
       const hasClosedPopup = localStorage.getItem('ebookPopupClosed');
       if (!hasClosedPopup) {
         setIsOpen(true);
       }
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    } catch {
+      setIsOpen(true);
+    }
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        localStorage.setItem('ebookPopupClosed', 'true');
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -118,7 +133,11 @@ const EbookPopup = () => {
     ? 'Tu email'
     : 'Your email';
 
-  return (
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -126,28 +145,34 @@ const EbookPopup = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          onClick={closePopup}
         >
           <motion.div
-            className="relative bg-white w-full max-w-md rounded-xl shadow-xl overflow-hidden font-poppins"
+            className="relative bg-white w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-xl shadow-xl font-poppins"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ebook-popup-title"
+            aria-describedby="ebook-popup-description"
           >
             <button
               onClick={closePopup}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors z-10"
-              aria-label="Close"
+              aria-label={language === 'es' ? 'Cerrar' : 'Close'}
             >
               <X size={24} />
             </button>
 
             <div className="p-8">
-              <h2 className="text-xl md:text-2xl font-playfair font-bold text-charcoal mb-4 leading-tight">
+              <h2 id="ebook-popup-title" className="text-xl md:text-2xl font-playfair font-bold text-charcoal mb-4 leading-tight">
                 {popupTitle}
               </h2>
 
-              <p className="text-charcoal-light mb-6 text-base opacity-90">
+              <p id="ebook-popup-description" className="text-charcoal-light mb-6 text-base opacity-90">
                 {popupDescription}
               </p>
 
@@ -205,6 +230,14 @@ const EbookPopup = () => {
                     >
                       {buttonText}
                     </Button>
+
+                    <button
+                      type="button"
+                      onClick={closePopup}
+                      className="w-full text-sm text-charcoal-light hover:text-charcoal underline underline-offset-4 transition-colors"
+                    >
+                      {language === 'es' ? 'Ahora no, continuar en la web' : 'Not now, continue to the website'}
+                    </button>
                   </form>
                 </Form>
               ) : (
@@ -220,7 +253,8 @@ const EbookPopup = () => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 };
 
