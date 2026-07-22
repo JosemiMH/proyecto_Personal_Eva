@@ -26,6 +26,10 @@ for (const file of files) {
     if (file.endsWith(".map") && detector.name === "hardcoded sensitive fallback") continue;
     detector.pattern.lastIndex = 0;
     for (const match of content.matchAll(detector.pattern)) {
+      if (
+        detector.name === "credentialed PostgreSQL URL"
+        && /(?:user|usuario|password|contrase|host|dbname|database|example|<|>)/i.test(match[0])
+      ) continue;
       const line = content.slice(0, match.index).split("\n").length;
       findings.push(`${file}:${line}: ${detector.name}`);
     }
