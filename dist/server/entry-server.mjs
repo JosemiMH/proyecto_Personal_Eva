@@ -11,7 +11,7 @@ import * as React from "react";
 import React__default, { Component, createContext, useContext, useState, useEffect, startTransition, useRef, Suspense, useMemo } from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva } from "class-variance-authority";
-import { X, AlertCircle, Loader2, Check, ArrowRight, Tag, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ArrowLeft, Calendar as Calendar$1, Clock, Phone, Mail, ShieldCheck, CheckCircle2, BarChart3, Users2, Building2 } from "lucide-react";
+import { X, AlertCircle, Loader2, Check, ArrowRight, Tag, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ArrowLeft, Calendar as Calendar$1, Clock, Phone, Mail, ShieldCheck, CheckCircle2, BarChart3, Users2, Building2 } from "lucide-react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { FaArrowUp, FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import ReactMarkdown from "react-markdown";
@@ -796,6 +796,7 @@ var HelmetData = class {
       context.helmet = server_default({
         baseTag: [],
         bodyAttributes: {},
+        encodeSpecialCharacters: true,
         htmlAttributes: {},
         linkTags: [],
         metaTags: [],
@@ -3543,7 +3544,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const { t, language } = useLanguage();
   const [location] = useLocation();
-  const { isMobile, isTablet } = useDeviceDetect();
+  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
   const homeAnchor = (anchor) => location === "/" ? anchor : `/${anchor}`;
   useEffect(() => {
     const handleScroll = () => {
@@ -4082,7 +4083,7 @@ function AuditModal({ children, source = "unknown" }) {
 }
 const Hero = () => {
   const { language, t } = useLanguage();
-  const { isMobile, isTablet } = useDeviceDetect();
+  const { isMobile, isTablet, isDesktop } = useDeviceDetect();
   const heroImage$1 = language === "es" ? heroImage : heroImageEn;
   return /* @__PURE__ */ jsxs("div", { className: `relative overflow-hidden ${isMobile ? "h-[100dvh] pt-0 pb-0" : isTablet ? "pt-44 pb-24" : "pt-56 pb-32"}`, children: [
     /* @__PURE__ */ jsxs("div", { className: "absolute inset-0 z-0", children: [
