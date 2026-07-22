@@ -15,7 +15,8 @@
     "check": "tsc",
     "test:seo": "node scripts/seo-smoke.mjs",
     "test:http": "node scripts/http-smoke.mjs",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "test:secrets": "node scripts/secret-scan.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.37.0",
