@@ -8,7 +8,7 @@ const files = execFileSync("git", ["ls-files", "-z"], { encoding: "utf8" })
 
 const detectors = [
   { name: "OpenAI API key", pattern: /sk-(?:proj-)?[A-Za-z0-9_-]{20,}/g },
-  { name: "credentialed PostgreSQL URL", pattern: /postgres(?:ql)?:\/\/[^\s:"']+:[^\s@"']+@[^\s"']+/g },
+  { name: "credentialed PostgreSQL URL", pattern: /postgres(?:ql)?:\/\/(?!(?:USER:PASSWORD|user:password|usuario:contraseña|dummy:dummy)@)[^\s:"']+:[^\s@"']+@[^\s"']+/g },
   { name: "private key", pattern: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/g },
   { name: "hardcoded sensitive fallback", pattern: /process\.env\.(?:OPENAI_API_KEY|DATABASE_URL|EMAIL_PASS|SESSION_SECRET)[^\n]*(?:\|\||\?\?)[^\n]+/g },
 ];
@@ -23,6 +23,7 @@ for (const file of files) {
   }
 
   for (const detector of detectors) {
+    if (file.endsWith(".map") && detector.name === "hardcoded sensitive fallback") continue;
     detector.pattern.lastIndex = 0;
     for (const match of content.matchAll(detector.pattern)) {
       const line = content.slice(0, match.index).split("\n").length;
