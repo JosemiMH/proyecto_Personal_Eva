@@ -1,49 +1,46 @@
-name: Prepare production artifacts
+name: Production readiness
 
 on:
   pull_request:
     branches: [main]
   push:
-    branches:
-      - agent/production-deployment-readiness-2026-07-22
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: prepare-production-artifacts
+  group: production-readiness-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    if: github.actor != 'github-actions[bot]'
+  verify:
+    name: Build, security and smoke tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref || github.ref_name }}
-      - uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm install
-      - run: npm run check
-      - run: npm run build
-      - run: npm run test:secrets
-      - run: npm run test:seo
-      - run: npm run test:http
-      - name: Commit verified production artifacts
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package-lock.json dist
-          if git diff --cached --quiet; then
-            echo "Production artifacts are already current."
-          else
-            git commit -m "build: refresh verified production artifacts"
-            git push origin HEAD:${{ github.head_ref || github.ref_name }}
-          fi
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Type-check
+        run: npm run check
+      - name: Build production artifacts
+        run: npm run build
+      - name: Scan source and build for secrets
+        run: npm run test:secrets
+      - name: Verify SEO output
+        run: npm run test:seo
+      - name: Run production HTTP smoke tests
+        run: npm run test:http
+      - name: Confirm committed artifacts are current
+        run: git diff --exit-code -- dist
