@@ -1,9 +1,12 @@
 name: Prepare production artifacts
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches:
       - agent/production-deployment-readiness-2026-07-22
+  workflow_dispatch:
 
 permissions:
   contents: write
