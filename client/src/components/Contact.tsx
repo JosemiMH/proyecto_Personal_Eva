@@ -156,7 +156,7 @@ const Contact = () => {
             </div>
 
             <div className="flex space-x-4">
-              <a href="https://www.linkedin.com/in/evaperez-spa-consultant/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors">
+              <a href="https://www.linkedin.com/in/evaperez-spa-consultant/" target="_blank" rel="noopener noreferrer" aria-label={language === 'es' ? 'Perfil de Eva Pérez en LinkedIn' : 'Eva Pérez on LinkedIn'} className="w-10 h-10 bg-turquoise/10 rounded-full flex items-center justify-center text-turquoise hover:bg-turquoise hover:text-white transition-colors">
                 <i className="fab fa-linkedin-in"></i>
               </a>
             </div>

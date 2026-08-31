@@ -10,6 +10,7 @@ import type { Article } from "@shared/schema";
 import ReactMarkdown from "react-markdown";
 import { AuditModal } from "@/components/AuditModal";
 import { useEffect } from "react";
+import { blogAlternates } from "@/lib/blogAlternates";
 
 
 export default function BlogPostPage() {
@@ -120,7 +121,7 @@ export default function BlogPostPage() {
             "name": "Eva Pérez",
             "image": {
                 "@type": "ImageObject",
-                "url": `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`
+                "url": `${siteUrl}/assets/eva-perez-profile.webp`
             }
         },
         "description": article.excerpt
@@ -135,6 +136,7 @@ export default function BlogPostPage() {
                 url={postUrl}
                 type="article"
                 language={articleLanguage}
+                alternates={blogAlternates[article.slug]}
             />
 
             {/* JSON-LD for this specific article */}

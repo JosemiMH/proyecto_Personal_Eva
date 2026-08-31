@@ -92,6 +92,15 @@ const relatedLinks = [...articleHtml.matchAll(/href="\/blog\/([^"]+)"/g)]
   .filter((slug) => slug !== sample.slug);
 assert.ok(new Set(relatedLinks).size >= 3, "El artículo debe mostrar al menos tres enlaces internos relacionados");
 
+const pairedArticle = validArticles.find((article) => article.slug === "ia-y-la-hiper-personalizacin-en-el-wellness");
+assert.ok(pairedArticle, "Falta el artículo bilingüe de control");
+const pairedHtml = await fs.readFile(path.join(prerenderDir, manifest.blogs[pairedArticle.slug]), "utf8");
+assert.match(pairedHtml, /rel="alternate" hrefLang="es" href="https:\/\/www\.epmwellness\.com\/blog\/ia-y-la-hiper-personalizacin-en-el-wellness"/i, "Falta hreflang español");
+assert.match(pairedHtml, /rel="alternate" hrefLang="en" href="https:\/\/www\.epmwellness\.com\/blog\/ai-hyper-personalization-in-wellness"/i, "Falta hreflang inglés");
+
+const homeHtml = await fs.readFile(path.join(prerenderDir, manifest.routes["/"]), "utf8");
+assert.doesNotMatch(homeHtml, />0\+<\/div>/, "Los contadores prerenderizados no deben mostrar 0+");
+
 const notFoundHtml = await fs.readFile(path.join(prerenderDir, manifest.notFound), "utf8");
 assert.match(notFoundHtml, /name="robots" content="noindex,nofollow"/i, "La página 404 debe ser noindex");
 assert.equal(count(notFoundHtml, /<link[^>]+rel="canonical"[^>]*>/gi), 0, "La página 404 no debe tener canonical");

@@ -54,6 +54,18 @@
   }
 }
 
+@layer utilities {
+  .cookie-banner-visible .chatbot-launcher {
+    bottom: 11rem;
+  }
+
+  @media (min-width: 768px) {
+    .cookie-banner-visible .chatbot-launcher {
+      bottom: 7rem;
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

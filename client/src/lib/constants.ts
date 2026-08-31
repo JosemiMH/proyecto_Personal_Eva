@@ -171,7 +171,7 @@ export const portfolioItems: Project[] = [
 
       The work included defining brand standards for the entire spa line, creating treatment menus inspired by local history, and continuous team training to ensure a consistent experience across the network.`
     },
-    image: '/assets/new_gen/parador.png',
+    image: '/assets/new_gen/parador.webp',
     chain: 'paradores',
     chainName: {
       es: 'Paradores',
@@ -212,7 +212,7 @@ export const portfolioItems: Project[] = [
 
       Additionally, I supervised the management of Eurostars Mijas, focusing on profitability optimization in a highly competitive resort environment on the Costa del Sol.`
     },
-    image: '/assets/new_gen/eurostars.png',
+    image: '/assets/new_gen/eurostars.webp',
     chain: 'eurostars',
     chainName: {
       es: 'Eurostars',
@@ -253,7 +253,7 @@ export const portfolioItems: Project[] = [
 
       We also implemented intensive training programs for temporary teams, ensuring that service quality remained high despite the natural turnover of the season.`
     },
-    image: '/assets/new_gen/hg.png',
+    image: '/assets/new_gen/hg.webp',
     chain: 'hg',
     chainName: {
       es: 'HG Hotels',
@@ -294,7 +294,7 @@ export const portfolioItems: Project[] = [
 
       Management included integrating spa booking systems with the hotel's PMS for a frictionless customer experience and better data capture.`
     },
-    image: '/assets/new_gen/melia.png',
+    image: '/assets/new_gen/melia.webp',
     chain: 'melia',
     chainName: {
       es: 'Meliá',
@@ -335,7 +335,7 @@ export const portfolioItems: Project[] = [
 
       Success lay in understanding the AXEL customer lifestyle and offering a wellness product that felt like a natural extension of their leisure experience.`
     },
-    image: '/assets/new_gen/axel.png',
+    image: '/assets/new_gen/axel.webp',
     chain: 'axel',
     chainName: {
       es: 'AXEL',
@@ -376,7 +376,7 @@ export const portfolioItems: Project[] = [
 
       My approach with independents is to create a sustainable business model that does not rely solely on hotel occupancy, thus shielding spa revenue.`
     },
-    image: '/assets/new_gen/boutique.png',
+    image: '/assets/new_gen/boutique.webp',
     chain: 'independientes',
     chainName: {
       es: 'Independientes',
@@ -411,7 +411,7 @@ export const testimonials = [
       es: "Directora, Serenity Wellness Resort",
       en: "Director, Serenity Wellness Resort"
     },
-    avatar: "/assets/new_gen/avatar_1.png"
+    avatar: "/assets/new_gen/avatar_1.webp"
   },
   {
     quote: {
@@ -423,7 +423,7 @@ export const testimonials = [
       es: "CEO, Wellness Collective",
       en: "CEO, Wellness Collective"
     },
-    avatar: "/assets/new_gen/avatar_2.png"
+    avatar: "/assets/new_gen/avatar_2.webp"
   },
   {
     quote: {
@@ -435,7 +435,7 @@ export const testimonials = [
       es: "Propietaria, Pure Bliss Day Spa",
       en: "Owner, Pure Bliss Day Spa"
     },
-    avatar: "/assets/new_gen/avatar_3.png"
+    avatar: "/assets/new_gen/avatar_3.webp"
   },
   {
     quote: {
@@ -447,7 +447,7 @@ export const testimonials = [
       es: "Director General, Luxury Spa Collection",
       en: "General Manager, Luxury Spa Collection"
     },
-    avatar: "/assets/new_gen/avatar_4.png"
+    avatar: "/assets/new_gen/avatar_4.webp"
   }
 ];
 
@@ -462,7 +462,7 @@ export const resources = [
       es: "Descubre los indicadores clave que todo spa manager debe monitorizar para asegurar el éxito de su negocio.",
       en: "Discover the key indicators that every spa manager should monitor to ensure business success."
     },
-    image: "/assets/new_gen/res_kpi.png",
+    image: "/assets/new_gen/res_kpi.webp",
     buttonText: {
       es: "Leer guía",
       en: "Read guide"
@@ -518,7 +518,7 @@ export const resources = [
       es: "Una lista exhaustiva de elementos a revisar para asegurar que tus clientes disfruten de una experiencia excepcional.",
       en: "A comprehensive list of items to review to ensure your clients enjoy an exceptional experience."
     },
-    image: "/assets/new_gen/res_checklist.png",
+    image: "/assets/new_gen/res_checklist.webp",
     buttonText: {
       es: "Ver checklist",
       en: "View checklist"
@@ -592,7 +592,7 @@ export const resources = [
       es: "Una estructura base para desarrollar programas de formación efectivos para tu equipo de spa.",
       en: "A base structure for developing effective training programs for your spa team."
     },
-    image: "/assets/new_gen/res_training.png",
+    image: "/assets/new_gen/res_training.webp",
     buttonText: {
       es: "Ver plan",
       en: "View plan"
@@ -772,7 +772,7 @@ export const blogPosts: BlogPost[] = [
       es: "Cómo el Big Data, la Inteligencia Artificial y los wearables están redefiniendo los tratamientos a medida, anticipando las necesidades del cliente antes de que las exprese.",
       en: "How Big Data, Artificial Intelligence, and wearables are redefining bespoke treatments, anticipating client needs before they are even expressed."
     },
-    image: "/assets/new_gen/blog_ai.png",
+    image: "/assets/new_gen/blog_ai.webp",
     date: {
       es: "18 Diciembre, 2025",
       en: "December 18, 2025"
@@ -866,7 +866,7 @@ export const blogPosts: BlogPost[] = [
       es: "Por qué los spas de lujo están liderando la 'Blue Beauty', eliminando plásticos y adoptando la arquitectura bioclimática para un bienestar consciente.",
       en: "Why luxury spas are leading 'Blue Beauty', eliminating plastics, and adopting bioclimatic architecture for conscious wellness."
     },
-    image: "/assets/new_gen/blog_eco.png",
+    image: "/assets/new_gen/blog_eco.webp",
     date: {
       es: "20 Febrero, 2025",
       en: "February 20, 2025"

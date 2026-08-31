@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,6 +31,7 @@ const EbookPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -49,15 +50,25 @@ const EbookPopup = () => {
   useEffect(() => {
     if (!isOpen) return;
 
+    const previouslyFocused = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsOpen(false);
-        localStorage.setItem('ebookPopupClosed', 'true');
+        closePopup();
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus();
+    };
   }, [isOpen]);
 
   const form = useForm<FormValues>({
@@ -114,7 +125,11 @@ const EbookPopup = () => {
 
   const closePopup = () => {
     setIsOpen(false);
-    localStorage.setItem('ebookPopupClosed', 'true');
+    try {
+      localStorage.setItem('ebookPopupClosed', 'true');
+    } catch {
+      // Closing the popup must never depend on storage availability.
+    }
   };
 
   const popupTitle = language === 'es'
@@ -160,6 +175,7 @@ const EbookPopup = () => {
             aria-describedby="ebook-popup-description"
           >
             <button
+              ref={closeButtonRef}
               onClick={closePopup}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors z-10"
               aria-label={language === 'es' ? 'Cerrar' : 'Close'}

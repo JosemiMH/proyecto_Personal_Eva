@@ -464,7 +464,15 @@ const BookingCalendar = () => {
                                 </FormControl>
                                 <div className="space-y-1 leading-none">
                                   <FormLabel>
-                                    {t('booking.privacy')}
+                                    {language === 'es' ? 'Acepto la ' : 'I accept the '}
+                                    <Link
+                                      href="/privacy"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-turquoise underline underline-offset-2 hover:text-turquoise-dark"
+                                    >
+                                      {language === 'es' ? 'política de privacidad' : 'privacy policy'}
+                                    </Link>
                                   </FormLabel>
                                   <FormDescription>
                                     {t('booking.privacyDesc')}

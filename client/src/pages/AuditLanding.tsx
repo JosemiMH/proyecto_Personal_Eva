@@ -108,7 +108,7 @@ export default function AuditLanding() {
       <SEO
         title="Auditoría y Consultoría de Spa para Hoteles | Eva Pérez"
         description="Detecta oportunidades de rentabilidad, mejora operaciones y eleva la experiencia de tu spa hotelero con una consultora wellness con más de 20 años de experiencia."
-        image="/attached_assets/foto_perfil_Eva_Linkedin.PNG"
+        image="/assets/eva-perez-profile.webp"
         url={pagePath}
         language="es"
       />
