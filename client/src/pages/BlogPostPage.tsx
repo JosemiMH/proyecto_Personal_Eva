@@ -177,7 +177,8 @@ export default function BlogPostPage() {
                                 {new Date(article.date).toLocaleDateString(isSpanishArticle ? 'es-ES' : 'en-US', {
                                     year: 'numeric',
                                     month: 'long',
-                                    day: 'numeric'
+                                    day: 'numeric',
+                                    timeZone: 'Europe/Madrid'
                                 })}
                             </time>
                             <div className="flex items-center">
