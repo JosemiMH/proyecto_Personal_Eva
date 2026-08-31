@@ -29,6 +29,11 @@ const CookieConsent = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle('cookie-banner-visible', showConsent);
+    return () => document.documentElement.classList.remove('cookie-banner-visible');
+  }, [showConsent]);
+
   const acceptCookies = () => {
     localStorage.setItem('cookieConsent', 'accepted');
     updateConsent(true);
@@ -51,6 +56,8 @@ const CookieConsent = () => {
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.5 }}
           className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg p-4"
+          role="region"
+          aria-label={language === 'es' ? 'Preferencias de cookies' : 'Cookie preferences'}
         >
           <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
             <div className="mb-4 md:mb-0 md:mr-8 text-center md:text-left">

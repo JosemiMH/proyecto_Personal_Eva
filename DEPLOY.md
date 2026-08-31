@@ -82,14 +82,14 @@ En la sección **"Environment"** de Render, añade las siguientes variables:
 
 | Key | Value | Descripción |
 |-----|-------|-------------|
-| `DATABASE_URL` | `postgresql://usuario:contraseña@host/database?sslmode=require` | URL de conexión a tu base de datos PostgreSQL |
+| `DATABASE_URL` | `postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require` | URL de conexión a tu base de datos PostgreSQL |
 | `NODE_ENV` | `production` | Modo de ejecución |
 | `OPENAI_API_KEY` | *(Opcional)* Tu API key de OpenAI | Solo si quieres activar el chatbot con IA |
 
 ### 📝 Ejemplo de DATABASE_URL para Neon
 
 ```
-postgresql://neondb_owner:npg_KmnsDTAe3d4o@ep-divine-field-agqlxdgy-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require
+postgresql://USER:PASSWORD@HOST:5432/DATABASE?sslmode=require
 ```
 
 > **⚠️ IMPORTANTE:** La URL de la base de datos debe incluir `sslmode=require` para Neon y otras bases de datos en la nube.

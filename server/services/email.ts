@@ -7,17 +7,13 @@ interface EmailOptions {
     html?: string;
 }
 
-// Fallback SMTP credentials para Hostinger (misma estrategia que OpenAI y DB)
 const SMTP_HOST = process.env.SMTP_HOST?.trim() || "smtp.hostinger.com";
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || "465");
-const SMTP_SECURE = true; // Puerto 465 = SSL
-const e1 = "epm@epmwellness";
-const e2 = ".com";
-const EMAIL_USER = process.env.EMAIL_USER?.trim() || (e1 + e2);
-const p1 = "2003_Srad";
-const p2 = "er7890";
-const EMAIL_PASS = process.env.EMAIL_PASS?.trim() || (p1 + p2);
-const EMAIL_FROM = process.env.EMAIL_FROM?.trim() || `"Eva Pérez - EPM Wellness" <${EMAIL_USER}>`;
+const SMTP_SECURE = process.env.SMTP_SECURE?.trim().toLowerCase() === "true" || SMTP_PORT === 465;
+const EMAIL_USER = process.env.EMAIL_USER?.trim();
+const EMAIL_PASS = process.env.EMAIL_PASS?.trim();
+const EMAIL_FROM = process.env.EMAIL_FROM?.trim()
+    || (EMAIL_USER ? `"Eva Pérez - EPM Wellness" <${EMAIL_USER}>` : "noreply@epmwellness.com");
 
 export class EmailService {
     private transporter: nodemailer.Transporter;
@@ -33,7 +29,7 @@ export class EmailService {
                     pass: EMAIL_PASS,
                 },
             });
-            console.log(`✅ Email service configured: ${EMAIL_USER} via ${SMTP_HOST}:${SMTP_PORT}`);
+            console.log(`✅ Email service configured via ${SMTP_HOST}:${SMTP_PORT}`);
         } else {
             // Mock transporter
             this.transporter = nodemailer.createTransport({

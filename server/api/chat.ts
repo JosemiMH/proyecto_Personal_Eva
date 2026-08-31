@@ -32,15 +32,9 @@ export async function handleChatRequest(req: Request, res: Response) {
       return res.status(400).json({ error: 'Se requiere un array de mensajes' });
     }
 
-    // Verificar API Key en el momento de la petición
-    // Validar fallback si Hostinger falla en leer variables de entorno
-    // NOTA: Esto es una medida de contingencia. Idealmente rotar esta key si el repositorio es público.
-    // Se divide para evitar bloqueos por detección de secretos en git push
-    const p1 = "sk-proj-Rre1yJqjblVieQSZfBT5B5xD6ObAfGvsHair7YG2ASIt_SbFsnW";
-    const p2 = "-qKsy17TeVx9zskl1ArwxuUT3BlbkFJ0NPiq01Ubj018RGqLSY82qgA6ugfXTJiVrcdBAQmk6bHw-jrLNJvviU0kKSax0rric87d0ZH4A";
-    const FALLBACK_KEY = p1 + p2;
-
-    const apiKey = process.env.OPENAI_API_KEY?.trim() || FALLBACK_KEY;
+    // Las credenciales solo se leen del entorno del servidor. Nunca deben existir
+    // claves de respaldo en el código o en los artefactos compilados.
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
     if (!apiKey) {
       console.error('❌ Error: OPENAI_API_KEY missing in environment variables');
 

@@ -6,13 +6,11 @@ import NotFound from "@/pages/not-found";
 import React, { Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 
-import ResourcesPage from "@/components/Resources"; // Ensure this is imported if used directly or lazily
 // Restore missing imports
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 import CookieConsent from "@/components/CookieConsent";
-import ChatBot from "@/components/ChatBot";
 import ScrollToTop from "@/components/ScrollToTop";
 import RouteAnalytics from "@/components/RouteAnalytics";
 
@@ -26,7 +24,8 @@ const Admin = React.lazy(() => import("@/pages/Admin"));
 const AuthPage = React.lazy(() => import("@/pages/Auth"));
 const BlogPostPage = React.lazy(() => import("@/pages/BlogPostPage"));
 const AuditLanding = React.lazy(() => import("@/pages/AuditLanding"));
-// const ResourcesPage = React.lazy(() => import("@/components/Resources")); // If using lazy, comment out check above
+const ResourcesPage = React.lazy(() => import("@/components/Resources"));
+const ChatBot = React.lazy(() => import("@/components/ChatBot"));
 
 import PageLoader from "@/components/PageLoader";
 
@@ -78,7 +77,9 @@ export default function App({ queryClient: propsClient }: { queryClient?: any })
         <LanguageProvider>
           <Router />
           <RouteAnalytics />
-          <ChatBot />
+          <Suspense fallback={null}>
+            <ChatBot />
+          </Suspense>
           <CookieConsent />
           <ScrollToTop />
           <Toaster />

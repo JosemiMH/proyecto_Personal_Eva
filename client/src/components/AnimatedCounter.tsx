@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 interface AnimatedCounterProps {
   end: number;
@@ -16,13 +16,28 @@ const AnimatedCounter = ({
   prefix = '',
   suffix = ''
 }: AnimatedCounterProps) => {
-  const [count, setCount] = useState(0);
+  // Render the real figure in SSR so search engines and no-JS users never see
+  // a misleading "0+". The animation starts only after hydration.
+  const [count, setCount] = useState(end);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
   
   useEffect(() => {
-    if (isInView && !hasAnimated) {
+    if (isHydrated && isInView && !hasAnimated) {
+      if (reduceMotion) {
+        setCount(end);
+        setHasAnimated(true);
+        return;
+      }
+
+      setCount(0);
       let startTimestamp: number;
       const step = (timestamp: number) => {
         if (!startTimestamp) startTimestamp = timestamp;
@@ -38,7 +53,7 @@ const AnimatedCounter = ({
       
       window.requestAnimationFrame(step);
     }
-  }, [isInView, end, duration, hasAnimated]);
+  }, [isHydrated, isInView, end, duration, hasAnimated, reduceMotion]);
   
   return (
     <motion.div

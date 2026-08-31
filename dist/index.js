@@ -155,19 +155,16 @@ var import_serverless = require("@neondatabase/serverless");
 var import_neon_serverless = require("drizzle-orm/neon-serverless");
 var import_ws = __toESM(require("ws"));
 import_serverless.neonConfig.webSocketConstructor = import_ws.default;
-var fb1 = "postgresql://neondb_owner:npg_KmnsDTAe3d4o@ep-divine-field-agqlxdgy-pooler";
-var fb2 = ".c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require";
-var FALLBACK_DB_URL = fb1 + fb2;
-var databaseUrl = process.env.DATABASE_URL?.trim() || FALLBACK_DB_URL;
+var databaseUrl = process.env.DATABASE_URL?.trim();
 var pool;
 var db;
 if (!databaseUrl) {
   console.warn("\u26A0\uFE0F DATABASE_URL not set - database features will be limited");
   console.warn("\u26A0\uFE0F Sessions will use memory store");
-  pool = new import_serverless.Pool({ connectionString: "postgresql://dummy:dummy@localhost:5432/dummy" });
+  pool = new import_serverless.Pool({ connectionString: "postgresql://localhost:5432/epm_unconfigured" });
   db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
 } else {
-  console.log("\u2705 Connecting to Neon PostgreSQL...");
+  console.log("\u2705 Connecting to PostgreSQL...");
   pool = new import_serverless.Pool({ connectionString: databaseUrl });
   db = (0, import_neon_serverless.drizzle)({ client: pool, schema: schema_exports });
 }
@@ -352,14 +349,10 @@ var storage = new DatabaseStorage();
 var import_nodemailer = __toESM(require("nodemailer"));
 var SMTP_HOST = process.env.SMTP_HOST?.trim() || "smtp.hostinger.com";
 var SMTP_PORT = parseInt(process.env.SMTP_PORT || "465");
-var SMTP_SECURE = true;
-var e1 = "epm@epmwellness";
-var e2 = ".com";
-var EMAIL_USER = process.env.EMAIL_USER?.trim() || e1 + e2;
-var p1 = "2003_Srad";
-var p2 = "er7890";
-var EMAIL_PASS = process.env.EMAIL_PASS?.trim() || p1 + p2;
-var EMAIL_FROM = process.env.EMAIL_FROM?.trim() || `"Eva P\xE9rez - EPM Wellness" <${EMAIL_USER}>`;
+var SMTP_SECURE = process.env.SMTP_SECURE?.trim().toLowerCase() === "true" || SMTP_PORT === 465;
+var EMAIL_USER = process.env.EMAIL_USER?.trim();
+var EMAIL_PASS = process.env.EMAIL_PASS?.trim();
+var EMAIL_FROM = process.env.EMAIL_FROM?.trim() || (EMAIL_USER ? `"Eva P\xE9rez - EPM Wellness" <${EMAIL_USER}>` : "noreply@epmwellness.com");
 var EmailService = class {
   transporter;
   constructor() {
@@ -373,7 +366,7 @@ var EmailService = class {
           pass: EMAIL_PASS
         }
       });
-      console.log(`\u2705 Email service configured: ${EMAIL_USER} via ${SMTP_HOST}:${SMTP_PORT}`);
+      console.log(`\u2705 Email service configured via ${SMTP_HOST}:${SMTP_PORT}`);
     } else {
       this.transporter = import_nodemailer.default.createTransport({
         jsonTransport: true
@@ -432,10 +425,7 @@ async function handleChatRequest(req, res) {
     if (!messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: "Se requiere un array de mensajes" });
     }
-    const p12 = "sk-proj-Rre1yJqjblVieQSZfBT5B5xD6ObAfGvsHair7YG2ASIt_SbFsnW";
-    const p22 = "-qKsy17TeVx9zskl1ArwxuUT3BlbkFJ0NPiq01Ubj018RGqLSY82qgA6ugfXTJiVrcdBAQmk6bHw-jrLNJvviU0kKSax0rric87d0ZH4A";
-    const FALLBACK_KEY = p12 + p22;
-    const apiKey = process.env.OPENAI_API_KEY?.trim() || FALLBACK_KEY;
+    const apiKey = process.env.OPENAI_API_KEY?.trim();
     if (!apiKey) {
       console.error("\u274C Error: OPENAI_API_KEY missing in environment variables");
       return res.status(503).json({
@@ -1269,9 +1259,10 @@ app.use((req, res, next) => {
     console.log(`Node: ${process.version}`);
     console.log(`Platform: ${process.platform}`);
     console.log("");
-    const dbEnabled = !!(process.env.DATABASE_URL?.trim() || true);
-    console.log(`\u2705 Database: ${dbEnabled ? "CONNECTED (Neon PostgreSQL)" : "DISABLED (memory only)"}`);
-    console.log("\u2705 Email: ENABLED (epm@epmwellness.com via Hostinger SMTP)");
+    const dbEnabled = !!process.env.DATABASE_URL?.trim();
+    console.log(`\u2705 Database: ${dbEnabled ? "CONFIGURED (PostgreSQL)" : "DISABLED"}`);
+    const emailEnabled = !!(process.env.EMAIL_USER?.trim() && process.env.EMAIL_PASS?.trim());
+    console.log(`\u2705 Email: ${emailEnabled ? "CONFIGURED" : "DISABLED (mock mode)"}`);
     const openAIEnabled = !!process.env.OPENAI_API_KEY;
     console.log(`\u2705 OpenAI: ${openAIEnabled ? "ENABLED" : "DISABLED"}`);
     console.log("");

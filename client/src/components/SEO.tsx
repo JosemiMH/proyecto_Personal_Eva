@@ -8,12 +8,13 @@ interface SEOProps {
     type?: 'website' | 'article';
     noIndex?: boolean;
     language?: 'es' | 'en';
+    alternates?: Partial<Record<'es' | 'en', string>>;
 }
 
-export default function SEO({ title, description, image, url = '/', type = 'website', noIndex = false, language = 'es' }: SEOProps) {
+export default function SEO({ title, description, image, url = '/', type = 'website', noIndex = false, language = 'es', alternates }: SEOProps) {
     const siteUrl = 'https://www.epmwellness.com';
     const fullUrl = new URL(url, siteUrl).toString();
-    const defaultImage = `${siteUrl}/attached_assets/foto_perfil_Eva_Linkedin.PNG`;
+    const defaultImage = `${siteUrl}/assets/eva-perez-profile.webp`;
     const metaImage = image ? new URL(image, siteUrl).toString() : defaultImage;
     const finalTitle = title.includes('Eva Pérez') ? title : `${title} | Eva Pérez`;
 
@@ -24,6 +25,14 @@ export default function SEO({ title, description, image, url = '/', type = 'webs
             <meta name="description" content={description} />
             <meta name="robots" content={noIndex ? 'noindex,nofollow' : 'index,follow,max-image-preview:large'} />
             {!noIndex && <link rel="canonical" href={fullUrl} />}
+            {!noIndex && alternates && Object.entries(alternates).map(([alternateLanguage, alternateUrl]) => (
+                <link
+                    key={alternateLanguage}
+                    rel="alternate"
+                    hrefLang={alternateLanguage}
+                    href={new URL(alternateUrl, siteUrl).toString()}
+                />
+            ))}
 
             {/* Open Graph / Facebook */}
             <meta property="og:type" content={type} />

@@ -14,6 +14,10 @@ export default defineConfig(({ isSsrBuild }) => ({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
+  server: {
+    host: "0.0.0.0",
+    allowedHosts: ["terminal.local"],
+  },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,

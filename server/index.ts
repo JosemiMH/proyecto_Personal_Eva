@@ -62,9 +62,10 @@ app.use((req, res, next) => {
     console.log(`Node: ${process.version}`);
     console.log(`Platform: ${process.platform}`);
     console.log('');
-    const dbEnabled = !!(process.env.DATABASE_URL?.trim() || true);
-    console.log(`✅ Database: ${dbEnabled ? 'CONNECTED (Neon PostgreSQL)' : 'DISABLED (memory only)'}`);
-    console.log('✅ Email: ENABLED (epm@epmwellness.com via Hostinger SMTP)');
+    const dbEnabled = !!process.env.DATABASE_URL?.trim();
+    console.log(`✅ Database: ${dbEnabled ? 'CONFIGURED (PostgreSQL)' : 'DISABLED'}`);
+    const emailEnabled = !!(process.env.EMAIL_USER?.trim() && process.env.EMAIL_PASS?.trim());
+    console.log(`✅ Email: ${emailEnabled ? 'CONFIGURED' : 'DISABLED (mock mode)'}`);
     const openAIEnabled = !!process.env.OPENAI_API_KEY;
     console.log(`✅ OpenAI: ${openAIEnabled ? 'ENABLED' : 'DISABLED'}`);
     console.log('');

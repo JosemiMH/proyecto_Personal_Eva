@@ -67,7 +67,8 @@ const Testimonials = () => {
         </motion.div>
         
         <div className="relative testimonial-slider overflow-hidden">
-          <div 
+          <div
+            id="testimonial-slides"
             ref={sliderRef}
             className="flex transition-transform duration-500"
             style={{ transform: `translateX(${-currentSlide * 100 / slidesPerView}%)` }}
@@ -119,6 +120,8 @@ const Testimonials = () => {
             className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full w-10 h-10 flex items-center justify-center focus:outline-none z-10 ml-2 lg:ml-6 hover:bg-gray-50"
             onClick={goToPrev}
             disabled={currentSlide === 0}
+            aria-label={language === 'es' ? 'Mostrar testimonios anteriores' : 'Show previous testimonials'}
+            aria-controls="testimonial-slides"
           >
             <i className="fas fa-chevron-left text-turquoise"></i>
           </button>
@@ -127,6 +130,8 @@ const Testimonials = () => {
             className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md rounded-full w-10 h-10 flex items-center justify-center focus:outline-none z-10 mr-2 lg:mr-6 hover:bg-gray-50"
             onClick={goToNext}
             disabled={currentSlide === maxSlide}
+            aria-label={language === 'es' ? 'Mostrar testimonios siguientes' : 'Show next testimonials'}
+            aria-controls="testimonial-slides"
           >
             <i className="fas fa-chevron-right text-turquoise"></i>
           </button>
@@ -138,6 +143,8 @@ const Testimonials = () => {
               key={index}
               className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-turquoise' : 'bg-gray-300'}`}
               onClick={() => goToSlide(index)}
+              aria-label={language === 'es' ? `Ir al grupo de testimonios ${index + 1}` : `Go to testimonial group ${index + 1}`}
+              aria-current={currentSlide === index ? 'true' : undefined}
             ></button>
           ))}
         </div>
